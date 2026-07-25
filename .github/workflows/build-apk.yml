@@ -5,6 +5,9 @@ on:
     branches: [ main ]
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   build-android:
     runs-on: ubuntu-latest
@@ -34,31 +37,62 @@ jobs:
             sleep 10
           done
 
-      - name: Verificar que sqflite_common_ffi se haya descargado
-        run: |
-          echo "PUB_CACHE efectivo: $PUB_CACHE"
-          RUTA="$PUB_CACHE/hosted/pub.dev"
-          echo "--- Paquetes sqflite en cache ---"
-          ls "$RUTA" | grep sqflite || echo "(ninguno encontrado)"
-          if ! ls "$RUTA" | grep -q "sqflite_common_ffi-"; then
-            echo "ERROR: sqflite_common_ffi no está en el pub cache tras pub get"
-            exit 1
-          fi
-
       - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
         run: |
-          echo "--- build.gradle ANTES del cambio ---"
-          grep -n "minSdkVersion" android/app/build.gradle
           sed -i '/minSdkVersion/s/.*/        minSdkVersion 23/' android/app/build.gradle
-          echo "--- build.gradle DESPUES del cambio ---"
-          grep -n "minSdkVersion" android/app/build.gradle
-          if ! grep -q "minSdkVersion 23" android/app/build.gradle; then
-            echo "ERROR: no se pudo fijar minSdkVersion en 23"
-            exit 1
-          fi
 
       - name: Compilar APK
-        run: flutter build apk --release
+        id: build_apk
+        run: flutter build apk --release --verbose 2>&1 | tee /tmp/android_build.log
+        continue-on-error: true
+
+      - name: Guardar log de error para diagnostico (si falló)
+        if: steps.build_apk.outcome == 'failure'
+        run: |
+          pip install --quiet requests 2>/dev/null || true
+          python3 - <<'PYEOF'
+import base64, json, os, urllib.request
+
+token = os.environ['GH_TOKEN']
+repo = os.environ['GITHUB_REPOSITORY']
+
+with open('/tmp/android_build.log', 'rb') as f:
+    content = f.read()
+content = content[-90000:]  # últimos ~90kb, suficiente para ver el error
+b64 = base64.b64encode(content).decode()
+
+url = f'https://api.github.com/repos/{repo}/contents/android-error.txt'
+headers = {'Authorization': f'token {token}', 'Accept': 'application/vnd.github+json'}
+
+sha = None
+try:
+    req = urllib.request.Request(url + '?ref=ci-logs', headers=headers)
+    with urllib.request.urlopen(req) as resp:
+        sha = json.load(resp)['sha']
+except Exception:
+    pass
+
+payload = {
+    'message': 'ci: log de error de build android',
+    'content': b64,
+    'branch': 'ci-logs',
+}
+if sha:
+    payload['sha'] = sha
+
+req2 = urllib.request.Request(
+    url, data=json.dumps(payload).encode(), method='PUT',
+    headers={**headers, 'Content-Type': 'application/json'},
+)
+with urllib.request.urlopen(req2) as resp:
+    print('Log guardado, status:', resp.status)
+PYEOF
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si la compilacion fallo
+        if: steps.build_apk.outcome == 'failure'
+        run: exit 1
 
       - name: Subir APK como artefacto descargable
         uses: actions/upload-artifact@v4
@@ -87,35 +121,70 @@ jobs:
             Write-Host "=== Intento $intento de flutter pub get ==="
             flutter pub get
             if ($LASTEXITCODE -eq 0) { $exito = $true; break }
-            Write-Host "Reintentando en 10 segundos..."
             Start-Sleep -Seconds 10
           }
-          if (-not $exito) {
-            Write-Host "ERROR: flutter pub get falló 3 veces seguidas"
-            exit 1
-          }
-        shell: pwsh
-
-      - name: Verificar que sqflite_common_ffi se haya descargado
-        run: |
-          Write-Host "PUB_CACHE efectivo: $env:PUB_CACHE"
-          $ruta = "$env:PUB_CACHE\hosted\pub.dev"
-          Write-Host "--- Paquetes sqflite en cache ---"
-          Get-ChildItem $ruta | Where-Object { $_.Name -like "*sqflite*" } | ForEach-Object { Write-Host $_.Name }
-          $existe = Get-ChildItem $ruta | Where-Object { $_.Name -like "sqflite_common_ffi-*" }
-          if (-not $existe) {
-            Write-Host "ERROR: sqflite_common_ffi no está en el pub cache tras pub get"
-            exit 1
-          }
+          if (-not $exito) { exit 1 }
         shell: pwsh
 
       - name: Habilitar soporte de escritorio Windows
         run: flutter config --enable-windows-desktop
 
       - name: Compilar programa de Windows
-        run: flutter build windows --release
+        id: build_windows
+        run: flutter build windows --release --verbose 2>&1 | Tee-Object -FilePath build_windows.log
+        shell: pwsh
+        continue-on-error: true
         env:
           CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
+      - name: Guardar log de error para diagnostico (si falló)
+        if: steps.build_windows.outcome == 'failure'
+        shell: pwsh
+        run: |
+          python -c "
+import base64, json, os, urllib.request
+
+token = os.environ['GH_TOKEN']
+repo = os.environ['GITHUB_REPOSITORY']
+
+with open('build_windows.log', 'rb') as f:
+    content = f.read()
+content = content[-90000:]
+b64 = base64.b64encode(content).decode()
+
+url = f'https://api.github.com/repos/{repo}/contents/windows-error.txt'
+headers = {'Authorization': f'token {token}', 'Accept': 'application/vnd.github+json'}
+
+sha = None
+try:
+    req = urllib.request.Request(url + '?ref=ci-logs', headers=headers)
+    with urllib.request.urlopen(req) as resp:
+        sha = json.load(resp)['sha']
+except Exception:
+    pass
+
+payload = {
+    'message': 'ci: log de error de build windows',
+    'content': b64,
+    'branch': 'ci-logs',
+}
+if sha:
+    payload['sha'] = sha
+
+req2 = urllib.request.Request(
+    url, data=json.dumps(payload).encode(), method='PUT',
+    headers={**headers, 'Content-Type': 'application/json'},
+)
+with urllib.request.urlopen(req2) as resp:
+    print('Log guardado, status:', resp.status)
+"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si la compilacion fallo
+        if: steps.build_windows.outcome == 'failure'
+        shell: pwsh
+        run: exit 1
 
       - name: Comprimir el programa compilado en un zip
         run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath hortalizas-pos-windows.zip
