@@ -16,14 +16,31 @@ jobs:
           flutter-version: '3.22.0'
           channel: 'stable'
 
-      - name: Instalar dependencias
-        run: flutter pub get
-
       - name: Generar carpetas nativas (android/ios/etc)
         run: flutter create . --platforms=android --project-name hortalizas_pos
 
-      - name: Reinstalar dependencias (flutter create puede desincronizarlas)
-        run: flutter pub get
+      - name: Instalar dependencias (con reintentos por si falla la red)
+        run: |
+          for intento in 1 2 3; do
+            echo "=== Intento $intento de flutter pub get ==="
+            flutter pub get && break
+            if [ "$intento" = "3" ]; then
+              echo "ERROR: flutter pub get falló 3 veces seguidas"
+              exit 1
+            fi
+            echo "Reintentando en 10 segundos..."
+            sleep 10
+          done
+
+      - name: Verificar que sqflite_common_ffi se haya descargado
+        run: |
+          RUTA="$HOME/.pub-cache/hosted/pub.dev"
+          echo "--- Paquetes sqflite en cache ---"
+          ls "$RUTA" | grep sqflite || echo "(ninguno encontrado)"
+          if ! ls "$RUTA" | grep -q "sqflite_common_ffi-"; then
+            echo "ERROR: sqflite_common_ffi no está en el pub cache tras pub get"
+            exit 1
+          fi
 
       - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
         run: |
@@ -55,20 +72,32 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Instalar dependencias
-        run: flutter pub get
-
       - name: Generar carpetas nativas (windows)
         run: flutter create . --platforms=windows --project-name hortalizas_pos
 
-      - name: Reinstalar dependencias (flutter create puede desincronizarlas)
-        run: flutter pub get
+      - name: Instalar dependencias (con reintentos por si falla la red)
+        run: |
+          $exito = $false
+          for ($intento = 1; $intento -le 3; $intento++) {
+            Write-Host "=== Intento $intento de flutter pub get ==="
+            flutter pub get
+            if ($LASTEXITCODE -eq 0) { $exito = $true; break }
+            Write-Host "Reintentando en 10 segundos..."
+            Start-Sleep -Seconds 10
+          }
+          if (-not $exito) {
+            Write-Host "ERROR: flutter pub get falló 3 veces seguidas"
+            exit 1
+          }
+        shell: pwsh
 
       - name: Habilitar soporte de escritorio Windows
         run: flutter config --enable-windows-desktop
 
       - name: Compilar programa de Windows
         run: flutter build windows --release
+        env:
+          CMAKE_POLICY_VERSION_MINIMUM: "3.5"
 
       - name: Comprimir el programa compilado en un zip
         run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath hortalizas-pos-windows.zip
