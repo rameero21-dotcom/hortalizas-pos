@@ -1,32 +1,28 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 import '../../domain/entities/venta.dart';
 import '../errors/exceptions.dart';
 import '../utils/formatters.dart';
 import 'qr_service.dart';
 
-/// Impresora térmica Bluetooth ya emparejada por el sistema operativo.
 class ImpresoraDisponible {
   final String nombre;
   final String direccionMac;
   ImpresoraDisponible(this.nombre, this.direccionMac);
 }
 
-/// Servicio de impresión de tickets en impresoras térmicas 58mm / 80mm
-/// (Bluetooth), usando esc_pos_utils_plus para armar el ticket y
-/// print_bluetooth_thermal para mandarlo por Bluetooth.
-///
-/// NOTA: los nombres exactos de métodos de estos paquetes pueden variar
-/// levemente entre versiones. Si al compilar aparece un error de "método
-/// no encontrado" en este archivo, revisar la documentación de la versión
-/// instalada (`flutter pub deps` o pub.dev) y ajustar el nombre puntual;
-/// la lógica general (conectar -> generar bytes -> escribir) no cambia.
+bool get _esDesktop =>
+    !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
+
 class PrintService {
   final QrService _qrService;
   PrintService(this._qrService);
 
-  /// Lista las impresoras Bluetooth ya emparejadas desde la configuración
-  /// del celular (emparejalas ahí antes de buscarlas acá).
   Future<List<ImpresoraDisponible>> buscarImpresorasDisponibles() async {
     final pareadas = await PrintBluetoothThermal.pairedBluetooths;
     return pareadas.map((d) => ImpresoraDisponible(d.name, d.macAdress)).toList();
@@ -40,12 +36,22 @@ class PrintService {
 
   Future<void> desconectar() => PrintBluetoothThermal.disconnect;
 
-  /// Imprime el ticket de una venta ya cobrada.
-  /// [ancho58mm]: true para papel de 58mm, false para 80mm.
   Future<void> imprimirTicket({
     required Venta venta,
     required String nombreComercio,
     bool ancho58mm = false,
+  }) async {
+    if (_esDesktop) {
+      await _imprimirTicketDesktop(venta: venta, nombreComercio: nombreComercio);
+    } else {
+      await _imprimirTicketBluetooth(venta: venta, nombreComercio: nombreComercio, ancho58mm: ancho58mm);
+    }
+  }
+
+  Future<void> _imprimirTicketBluetooth({
+    required Venta venta,
+    required String nombreComercio,
+    required bool ancho58mm,
   }) async {
     final conectado = await hayImpresoraConectada();
     if (!conectado) {
@@ -97,6 +103,58 @@ class PrintService {
     final enviado = await PrintBluetoothThermal.writeBytes(bytes);
     if (!enviado) {
       throw PrinterException('La impresora no aceptó el ticket. Revisá que tenga papel y esté encendida.');
+    }
+  }
+
+  Future<void> _imprimirTicketDesktop({
+    required Venta venta,
+    required String nombreComercio,
+  }) async {
+    final qrPayload = _qrService.generarPayload(venta);
+
+    final doc = pw.Document();
+    doc.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.roll80,
+        build: (context) {
+          return pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.center,
+            children: [
+              pw.Text(nombreComercio,
+                  style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
+              pw.Text('Venta #${venta.numero}'),
+              pw.Text(Formatters.formatearFechaHora(venta.fecha)),
+              pw.Divider(),
+              ...venta.detalle.map((item) => pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Expanded(child: pw.Text(item.nombreProducto)),
+                      pw.Text('${item.cantidad}'),
+                      pw.SizedBox(width: 8),
+                      pw.Text(Formatters.formatearMoneda(item.precioTotal)),
+                    ],
+                  )),
+              pw.Divider(),
+              pw.Text('TOTAL: ${Formatters.formatearMoneda(venta.total)}',
+                  style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold)),
+              if (venta.metodoPago != null) pw.Text('Pago: ${venta.metodoPago!.name}'),
+              pw.SizedBox(height: 12),
+              pw.BarcodeWidget(
+                barcode: pw.Barcode.qrCode(),
+                data: qrPayload,
+                width: 120,
+                height: 120,
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    final huboImpresora = await Printing.layoutPdf(onLayout: (_) => doc.save());
+    if (!huboImpresora) {
+      throw PrinterException(
+          'No se completó la impresión (se canceló el diálogo o no hay impresora configurada en Windows).');
     }
   }
 }

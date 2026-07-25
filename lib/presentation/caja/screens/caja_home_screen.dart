@@ -1,22 +1,39 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
 import 'venta_detalle_screen.dart';
 import 'qr_scanner_screen.dart';
+import 'qr_texto_screen.dart';
 
-/// Stream en tiempo real de ventas pendientes directo desde Firestore.
-/// Esto es lo que hace que, apenas el vendedor toca "Finalizar venta"
-/// en otro celular, esta pantalla la muestre sola (sin tocar nada).
+bool get _tieneCamaraDeQr => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+
 final ventasPendientesStreamProvider = StreamProvider((ref) {
   return ref.watch(ventaRemoteDsProvider).observarPendientes();
 });
 
-/// Pantalla principal de caja: lista de ventas pendientes recibidas
-/// automáticamente por Firebase, con opción de escanear QR como
-/// respaldo si falla la red (Fase 3).
 class CajaHomeScreen extends ConsumerWidget {
   const CajaHomeScreen({super.key});
+
+  Future<void> _procesarQr(BuildContext context, WidgetRef ref, String? raw) async {
+    if (raw == null || !context.mounted) return;
+    try {
+      final venta = await ref.read(reconstruirVentaQrUseCaseProvider).call(raw);
+      if (!context.mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => VentaDetalleScreen(ventaDesdeQr: venta)),
+      );
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('QR inválido o dañado: $e')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,28 +44,21 @@ class CajaHomeScreen extends ConsumerWidget {
         title: const Text('Ventas pendientes'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.qr_code_scanner),
-            tooltip: 'Escanear QR (respaldo sin conexión)',
+            icon: Icon(_tieneCamaraDeQr ? Icons.qr_code_scanner : Icons.qr_code),
+            tooltip: _tieneCamaraDeQr
+                ? 'Escanear QR (respaldo sin conexión)'
+                : 'Pegar código QR (respaldo sin conexión)',
             onPressed: () async {
-              final raw = await Navigator.push<String>(
-                context,
-                MaterialPageRoute(builder: (_) => const QrScannerScreen()),
-              );
-              if (raw == null || !context.mounted) return;
-              try {
-                final venta = await ref.read(reconstruirVentaQrUseCaseProvider).call(raw);
-                if (!context.mounted) return;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => VentaDetalleScreen(ventaDesdeQr: venta)),
-                );
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('QR inválido o dañado: $e')),
-                  );
-                }
-              }
+              final raw = _tieneCamaraDeQr
+                  ? await Navigator.push<String>(
+                      context,
+                      MaterialPageRoute(builder: (_) => const QrScannerScreen()),
+                    )
+                  : await Navigator.push<String>(
+                      context,
+                      MaterialPageRoute(builder: (_) => const QrTextoScreen()),
+                    );
+              if (context.mounted) await _procesarQr(context, ref, raw);
             },
           ),
         ],
