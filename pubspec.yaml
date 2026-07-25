@@ -32,7 +32,6 @@ dependencies:
 
   # Impresión térmica (58mm / 80mm, Bluetooth/USB)
   esc_pos_utils_plus: ^2.0.4
-  esc_pos_bluetooth: ^0.4.1
   print_bluetooth_thermal: ^1.1.5
 
   # Gráficos para estadísticas
