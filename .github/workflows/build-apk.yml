@@ -19,6 +19,9 @@ jobs:
       - name: Instalar dependencias
         run: flutter pub get
 
+      - name: Generar carpetas nativas (android/ios/etc)
+        run: flutter create . --platforms=android
+
       - name: Compilar APK
         run: flutter build apk --release
 
