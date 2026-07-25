@@ -57,7 +57,6 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_animate: ^4.5.0
   vibration: ^2.0.0
-  audioplayers: ^6.0.0
 
 dev_dependencies:
   flutter_test:
