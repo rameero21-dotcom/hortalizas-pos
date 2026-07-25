@@ -22,6 +22,9 @@ jobs:
       - name: Generar carpetas nativas (android/ios/etc)
         run: flutter create . --platforms=android --project-name hortalizas_pos
 
+      - name: Reinstalar dependencias (flutter create puede desincronizarlas)
+        run: flutter pub get
+
       - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
         run: |
           echo "--- build.gradle ANTES del cambio ---"
@@ -50,7 +53,6 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0'
           channel: 'stable'
 
       - name: Instalar dependencias
@@ -58,6 +60,9 @@ jobs:
 
       - name: Generar carpetas nativas (windows)
         run: flutter create . --platforms=windows --project-name hortalizas_pos
+
+      - name: Reinstalar dependencias (flutter create puede desincronizarlas)
+        run: flutter pub get
 
       - name: Habilitar soporte de escritorio Windows
         run: flutter config --enable-windows-desktop

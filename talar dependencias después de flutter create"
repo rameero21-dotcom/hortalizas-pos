@@ -1,0 +1,13 @@
+[33mcommit e3a209b6f6552bc61d646e581b8b83dd72a6e707[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: rameero21-dotcom <rameero21@gmail.com>
+Date:   Sat Jul 25 22:28:36 2026 +0000
+
+    Agregar soporte para PC (Windows desktop)
+
+ .github/workflows/build-apk.yml                     | 38 [32m+++++++++++++++++++++++++++++++++++[m[31m---[m
+ lib/core/services/print_service.dart                | 88 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m---------------[m
+ lib/main.dart                                       | 21 [32m+++++++++++[m[31m----------[m
+ lib/presentation/caja/screens/caja_home_screen.dart | 66 [32m++++++++++++++++++++++++++++++++++++++[m[31m----------------------------[m
+ lib/presentation/caja/screens/qr_texto_screen.dart  | 55 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ pubspec.yaml                                        |  1 [32m+[m
+ 6 files changed, 213 insertions(+), 56 deletions(-)
