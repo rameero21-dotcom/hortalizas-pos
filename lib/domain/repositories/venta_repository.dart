@@ -1,0 +1,19 @@
+import '../entities/venta.dart';
+
+/// Contrato del repositorio de Ventas.
+abstract class VentaRepository {
+  Future<Venta> crearVenta(Venta venta);
+  Future<Venta?> obtenerPorId(String id);
+  Future<List<Venta>> obtenerPendientes();
+  Future<List<Venta>> obtenerPorRangoFecha(DateTime desde, DateTime hasta);
+
+  /// A diferencia de `obtenerPorRangoFecha` (que consulta el SQLite de
+  /// este dispositivo), este trae las ventas de TODO el negocio desde
+  /// Firestore, sin importar en qué celular se originaron. Lo usan
+  /// Estadísticas e Historial (Fase 4), que necesitan ver el panorama
+  /// completo. Requiere conexión.
+  Future<List<Venta>> obtenerPorRangoFechaGlobal(DateTime desde, DateTime hasta);
+  Future<void> finalizarCobro(Venta venta);
+  Stream<List<Venta>> observarPendientes();
+  Future<Venta> reconstruirDesdeQr(String qrPayload);
+}

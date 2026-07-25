@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function estaLogueado() {
+      return request.auth != null;
+    }
+
+    function miUsuario() {
+      return get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data;
+    }
+
+    function miRol() {
+      return miUsuario().rol;
+    }
+
+    // Cada usuario puede leer su propio perfil; solo un administrador
+    // puede crear/editar perfiles (la creación real de usuarios se hace
+    // con una Cloud Function, ver README).
+    match /usuarios/{usuarioId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && miRol() == 'administrador';
+    }
+
+    // Productos: cualquier usuario logueado puede leer; solo admin escribe.
+    match /productos/{productoId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && miRol() == 'administrador';
+    }
+
+    // Ventas: vendedor y admin pueden crear; cajero y admin pueden
+    // actualizar (cobrar). Todos los logueados pueden leer (necesario
+    // para el stream de "ventas pendientes" en caja).
+    match /ventas/{ventaId} {
+      allow read: if estaLogueado();
+      allow create: if estaLogueado() && (miRol() == 'vendedor' || miRol() == 'administrador');
+      allow update: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
+      allow delete: if estaLogueado() && miRol() == 'administrador';
+    }
+
+    // Stock y movimientos: lectura para todos los logueados, escritura
+    // para cajero (descuenta al cobrar) y administrador (ingresos/ajustes).
+    match /stock/{productoId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
+    }
+
+    match /movimientos_stock/{movimientoId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
+    }
+
+    // Clientes: por ahora, lectura/escritura para todos los logueados.
+    match /clientes/{clienteId} {
+      allow read, write: if estaLogueado();
+    }
+  }
+}
