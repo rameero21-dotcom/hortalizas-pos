@@ -3,7 +3,7 @@ name: Compilar APK
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: {} # permite tocar "Run workflow" a mano desde GitHub
+  workflow_dispatch: {}
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       - name: Generar carpetas nativas (android/ios/etc)
         run: flutter create . --platforms=android --project-name hortalizas_pos
 
-        -name: Subir minSdkVersion a 23 (lo pide firebase_auth)
+      - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
         run: |
           echo "--- build.gradle ANTES del cambio ---"
           grep -n "minSdkVersion" android/app/build.gradle
@@ -30,7 +30,7 @@ jobs:
           echo "--- build.gradle DESPUES del cambio ---"
           grep -n "minSdkVersion" android/app/build.gradle
           if ! grep -q "minSdkVersion 23" android/app/build.gradle; then
-            echo "ERROR: no se pudo fijar minSdkVersion en 23. Revisar el formato de build.gradle."
+            echo "ERROR: no se pudo fijar minSdkVersion en 23"
             exit 1
           fi
 
