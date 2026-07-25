@@ -22,10 +22,17 @@ jobs:
       - name: Generar carpetas nativas (android/ios/etc)
         run: flutter create . --platforms=android --project-name hortalizas_pos
 
-      - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
+        -name: Subir minSdkVersion a 23 (lo pide firebase_auth)
         run: |
-          sed -i 's/minSdkVersion[[:space:]]*flutter\.minSdkVersion/minSdkVersion 23/' android/app/build.gradle
+          echo "--- build.gradle ANTES del cambio ---"
           grep -n "minSdkVersion" android/app/build.gradle
+          sed -i '/minSdkVersion/s/.*/        minSdkVersion 23/' android/app/build.gradle
+          echo "--- build.gradle DESPUES del cambio ---"
+          grep -n "minSdkVersion" android/app/build.gradle
+          if ! grep -q "minSdkVersion 23" android/app/build.gradle; then
+            echo "ERROR: no se pudo fijar minSdkVersion en 23. Revisar el formato de build.gradle."
+            exit 1
+          fi
 
       - name: Compilar APK
         run: flutter build apk --release
