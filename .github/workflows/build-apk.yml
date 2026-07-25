@@ -8,6 +8,8 @@ on:
 jobs:
   build-android:
     runs-on: ubuntu-latest
+    env:
+      PUB_CACHE: ${{ github.workspace }}/.pub-cache
     steps:
       - uses: actions/checkout@v4
 
@@ -34,7 +36,8 @@ jobs:
 
       - name: Verificar que sqflite_common_ffi se haya descargado
         run: |
-          RUTA="$HOME/.pub-cache/hosted/pub.dev"
+          echo "PUB_CACHE efectivo: $PUB_CACHE"
+          RUTA="$PUB_CACHE/hosted/pub.dev"
           echo "--- Paquetes sqflite en cache ---"
           ls "$RUTA" | grep sqflite || echo "(ninguno encontrado)"
           if ! ls "$RUTA" | grep -q "sqflite_common_ffi-"; then
@@ -65,6 +68,8 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
+    env:
+      PUB_CACHE: ${{ github.workspace }}\.pub-cache
     steps:
       - uses: actions/checkout@v4
 
@@ -87,6 +92,19 @@ jobs:
           }
           if (-not $exito) {
             Write-Host "ERROR: flutter pub get falló 3 veces seguidas"
+            exit 1
+          }
+        shell: pwsh
+
+      - name: Verificar que sqflite_common_ffi se haya descargado
+        run: |
+          Write-Host "PUB_CACHE efectivo: $env:PUB_CACHE"
+          $ruta = "$env:PUB_CACHE\hosted\pub.dev"
+          Write-Host "--- Paquetes sqflite en cache ---"
+          Get-ChildItem $ruta | Where-Object { $_.Name -like "*sqflite*" } | ForEach-Object { Write-Host $_.Name }
+          $existe = Get-ChildItem $ruta | Where-Object { $_.Name -like "sqflite_common_ffi-*" }
+          if (-not $existe) {
+            Write-Host "ERROR: sqflite_common_ffi no está en el pub cache tras pub get"
             exit 1
           }
         shell: pwsh
