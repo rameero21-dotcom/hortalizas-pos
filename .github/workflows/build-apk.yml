@@ -30,63 +30,22 @@ jobs:
             echo "=== Intento $intento de flutter pub get ==="
             flutter pub get && break
             if [ "$intento" = "3" ]; then
-              echo "ERROR: flutter pub get falló 3 veces seguidas"
               exit 1
             fi
-            echo "Reintentando en 10 segundos..."
             sleep 10
           done
 
       - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
-        run: |
-          sed -i '/minSdkVersion/s/.*/        minSdkVersion 23/' android/app/build.gradle
+        run: sed -i '/minSdkVersion/s/.*/        minSdkVersion 23/' android/app/build.gradle
 
       - name: Compilar APK
         id: build_apk
         run: flutter build apk --release --verbose 2>&1 | tee /tmp/android_build.log
         continue-on-error: true
 
-      - name: Guardar log de error para diagnostico (si falló)
+      - name: Guardar log de error para diagnostico (si fallo)
         if: steps.build_apk.outcome == 'failure'
-        run: |
-          pip install --quiet requests 2>/dev/null || true
-          python3 - <<'PYEOF'
-import base64, json, os, urllib.request
-
-token = os.environ['GH_TOKEN']
-repo = os.environ['GITHUB_REPOSITORY']
-
-with open('/tmp/android_build.log', 'rb') as f:
-    content = f.read()
-content = content[-90000:]  # últimos ~90kb, suficiente para ver el error
-b64 = base64.b64encode(content).decode()
-
-url = f'https://api.github.com/repos/{repo}/contents/android-error.txt'
-headers = {'Authorization': f'token {token}', 'Accept': 'application/vnd.github+json'}
-
-sha = None
-try:
-    req = urllib.request.Request(url + '?ref=ci-logs', headers=headers)
-    with urllib.request.urlopen(req) as resp:
-        sha = json.load(resp)['sha']
-except Exception:
-    pass
-
-payload = {
-    'message': 'ci: log de error de build android',
-    'content': b64,
-    'branch': 'ci-logs',
-}
-if sha:
-    payload['sha'] = sha
-
-req2 = urllib.request.Request(
-    url, data=json.dumps(payload).encode(), method='PUT',
-    headers={**headers, 'Content-Type': 'application/json'},
-)
-with urllib.request.urlopen(req2) as resp:
-    print('Log guardado, status:', resp.status)
-PYEOF
+        run: python3 .github/scripts/upload_log.py android-error.txt /tmp/android_build.log
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -118,7 +77,6 @@ PYEOF
         run: |
           $exito = $false
           for ($intento = 1; $intento -le 3; $intento++) {
-            Write-Host "=== Intento $intento de flutter pub get ==="
             flutter pub get
             if ($LASTEXITCODE -eq 0) { $exito = $true; break }
             Start-Sleep -Seconds 10
@@ -137,47 +95,10 @@ PYEOF
         env:
           CMAKE_POLICY_VERSION_MINIMUM: "3.5"
 
-      - name: Guardar log de error para diagnostico (si falló)
+      - name: Guardar log de error para diagnostico (si fallo)
         if: steps.build_windows.outcome == 'failure'
         shell: pwsh
-        run: |
-          python -c "
-import base64, json, os, urllib.request
-
-token = os.environ['GH_TOKEN']
-repo = os.environ['GITHUB_REPOSITORY']
-
-with open('build_windows.log', 'rb') as f:
-    content = f.read()
-content = content[-90000:]
-b64 = base64.b64encode(content).decode()
-
-url = f'https://api.github.com/repos/{repo}/contents/windows-error.txt'
-headers = {'Authorization': f'token {token}', 'Accept': 'application/vnd.github+json'}
-
-sha = None
-try:
-    req = urllib.request.Request(url + '?ref=ci-logs', headers=headers)
-    with urllib.request.urlopen(req) as resp:
-        sha = json.load(resp)['sha']
-except Exception:
-    pass
-
-payload = {
-    'message': 'ci: log de error de build windows',
-    'content': b64,
-    'branch': 'ci-logs',
-}
-if sha:
-    payload['sha'] = sha
-
-req2 = urllib.request.Request(
-    url, data=json.dumps(payload).encode(), method='PUT',
-    headers={**headers, 'Content-Type': 'application/json'},
-)
-with urllib.request.urlopen(req2) as resp:
-    print('Log guardado, status:', resp.status)
-"
+        run: python .github/scripts/upload_log.py windows-error.txt build_windows.log
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
