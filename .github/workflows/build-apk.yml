@@ -20,7 +20,7 @@ jobs:
         run: flutter pub get
 
       - name: Generar carpetas nativas (android/ios/etc)
-        run: flutter create . --platforms=android
+        run: flutter create . --platforms=android --project-name hortalizas_pos
 
       - name: Compilar APK
         run: flutter build apk --release
