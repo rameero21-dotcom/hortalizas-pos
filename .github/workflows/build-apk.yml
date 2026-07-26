@@ -77,11 +77,20 @@ jobs:
         if: steps.build_apk.outcome == 'failure'
         run: exit 1
 
+      - name: Listar contenido real de la carpeta de salida (diagnostico)
+        run: find build/app/outputs -type f 2>&1 | tee /tmp/listado_outputs.log
+
+      - name: Guardar listado de diagnostico
+        run: python3 .github/scripts/upload_log.py listado-outputs-android.txt /tmp/listado_outputs.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Subir APK como artefacto descargable
         uses: actions/upload-artifact@v4
         with:
           name: hortalizas-pos-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
 
   build-windows:
     runs-on: windows-latest
