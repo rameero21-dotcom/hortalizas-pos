@@ -115,6 +115,70 @@ class _ContenidoEstadisticas extends StatelessWidget {
           valor: Formatters.formatearMoneda(stats.promedioPorVenta),
         ),
         const SizedBox(height: 24),
+        const Text('Costo, impuestos y utilidad', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _TarjetaMetrica(
+                titulo: 'Costo total',
+                valor: Formatters.formatearMoneda(stats.costoTotalGeneral),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _TarjetaMetrica(
+                titulo: 'Utilidad',
+                valor: Formatters.formatearMoneda(stats.utilidadTotalGeneral),
+                destacado: true,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _TarjetaMetrica(
+                titulo: 'IIBB',
+                valor: Formatters.formatearMoneda(stats.iibbTotalGeneral),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _TarjetaMetrica(
+                titulo: 'TSH',
+                valor: Formatters.formatearMoneda(stats.tshTotalGeneral),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        const Text('Detalle por producto', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 8),
+        if (stats.resumenPorProducto.isEmpty)
+          const Text('Sin datos en este período.')
+        else
+          ...stats.resumenPorProducto.values.map(
+            (r) => Card(
+              child: ListTile(
+                title: Text(r.nombreProducto),
+                subtitle: Text(
+                  'Cant: ${r.cantidadVendida.toStringAsFixed(0)} · '
+                  'Costo: ${Formatters.formatearMoneda(r.costoTotal)} · '
+                  'Imp: ${Formatters.formatearMoneda(r.iibbTotal + r.tshTotal)}',
+                ),
+                trailing: Text(
+                  Formatters.formatearMoneda(r.utilidad),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: r.utilidad >= 0 ? Colors.green.shade700 : Colors.red.shade700,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        const SizedBox(height: 24),
         const Text('Productos más vendidos', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         const SizedBox(height: 12),
         if (masVendidos.isEmpty)
@@ -175,11 +239,13 @@ class _ContenidoEstadisticas extends StatelessWidget {
 class _TarjetaMetrica extends StatelessWidget {
   final String titulo;
   final String valor;
-  const _TarjetaMetrica({required this.titulo, required this.valor});
+  final bool destacado;
+  const _TarjetaMetrica({required this.titulo, required this.valor, this.destacado = false});
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: destacado ? Colors.green.shade50 : null,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

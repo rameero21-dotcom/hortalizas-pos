@@ -129,8 +129,8 @@ final finalizarCobroUseCaseProvider = Provider((ref) => FinalizarCobroUseCase(
     ref.watch(ventaRepositoryProvider), ref.watch(stockRepositoryProvider)));
 final reconstruirVentaQrUseCaseProvider =
     Provider((ref) => ReconstruirVentaQrUseCase(ref.watch(ventaRepositoryProvider)));
-final obtenerEstadisticasUseCaseProvider =
-    Provider((ref) => ObtenerEstadisticasUseCase(ref.watch(ventaRepositoryProvider)));
+final obtenerEstadisticasUseCaseProvider = Provider((ref) => ObtenerEstadisticasUseCase(
+    ref.watch(ventaRepositoryProvider), ref.watch(productoRepositoryProvider)));
 final ingresarMercaderiaUseCaseProvider =
     Provider((ref) => IngresarMercaderiaUseCase(ref.watch(stockRepositoryProvider)));
 final ajusteManualStockUseCaseProvider =
