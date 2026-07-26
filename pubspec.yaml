@@ -83,3 +83,13 @@ dependency_overrides:
   # La 2.4.1 es una version anterior sin esa dependencia, y como no
   # usamos esta implementacion en ningun target real, es seguro fijarla.
   path_provider_foundation: 2.4.1
+
+  # sqlite3 (dependencia transitiva de sqflite_common_ffi): el codigo
+  # INTERNO de sqflite_common_ffi 2.3.3 (lib/src/windows/setup.dart)
+  # importa "package:sqlite3/open.dart", un archivo que sqlite3 elimino
+  # a partir de su version 3.0.0 en una reorganizacion interna. Esto es
+  # una incompatibilidad real entre ambos paquetes (aunque el pubspec de
+  # sqflite_common_ffi 2.3.3 declara aceptar sqlite3 >=3.1.2, su propio
+  # codigo no compila con ninguna version >=3.0.0). La 2.9.4 es la
+  # ultima version de sqlite3 que todavia tiene ese archivo.
+  sqlite3: 2.9.4
