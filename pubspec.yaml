@@ -14,9 +14,12 @@ dependencies:
   flutter_riverpod: ^2.5.1
 
   # Firebase
-  firebase_core: ^3.1.0
-  cloud_firestore: ^5.0.1
-  firebase_auth: ^5.1.0
+  # Version exacta (piso del rango que veniamos usando): las versiones mas
+  # nuevas de estos plugins arrastran jni/objective_c (native assets hooks)
+  # que rompen la compilacion de Windows en CI.
+  firebase_core: 3.1.0
+  cloud_firestore: 5.0.1
+  firebase_auth: 5.1.0
 
   # Base de datos local
   sqflite: ^2.3.3
