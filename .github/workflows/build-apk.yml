@@ -37,15 +37,27 @@ jobs:
         run: exit 1
 
       - name: Instalar dependencias (con reintentos por si falla la red)
+        id: pub_get_android
         run: |
           for intento in 1 2 3; do
             echo "=== Intento $intento de flutter pub get ==="
-            flutter pub get && break
+            flutter pub get 2>&1 | tee /tmp/pubget_android.log && break
             if [ "$intento" = "3" ]; then
               exit 1
             fi
             sleep 10
           done
+        continue-on-error: true
+
+      - name: Guardar log si fallo pub get (android)
+        if: steps.pub_get_android.outcome == 'failure'
+        run: python3 .github/scripts/upload_log.py pubget-android-error.txt /tmp/pubget_android.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si pub get fallo (android)
+        if: steps.pub_get_android.outcome == 'failure'
+        run: exit 1
 
       - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
         run: sed -i '/minSdkVersion/s/.*/        minSdkVersion 23/' android/app/build.gradle
