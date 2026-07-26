@@ -14,12 +14,9 @@ dependencies:
   flutter_riverpod: ^2.5.1
 
   # Firebase
-  # Version exacta (piso del rango que veniamos usando): las versiones mas
-  # nuevas de estos plugins arrastran jni/objective_c (native assets hooks)
-  # que rompen la compilacion de Windows en CI.
-  firebase_core: 3.1.0
-  cloud_firestore: 5.0.1
-  firebase_auth: 5.1.0
+  firebase_core: ^3.1.0
+  cloud_firestore: ^5.0.1
+  firebase_auth: ^5.1.0
 
   # Base de datos local
   sqflite: ^2.3.3
@@ -86,3 +83,11 @@ dependency_overrides:
   # La 2.4.1 es una version anterior sin esa dependencia, y como no
   # usamos esta implementacion en ningun target real, es seguro fijarla.
   path_provider_foundation: 2.4.1
+
+  # sqlite3 (dependencia transitiva de sqflite_common_ffi) tiene su PROPIO
+  # mecanismo de native assets hooks desde la version 3.0.0 (descarga una
+  # DLL nativa en tiempo de build). Ese hook tambien rompe la compilacion
+  # de Windows en este entorno de CI. La 2.9.4 es la ultima version sin
+  # ese mecanismo. sqflite_common_ffi pide sqlite3 >=3.1.2, pero funciona
+  # igual con esta version mas vieja para nuestro uso (SQLite basico).
+  sqlite3: 2.9.4
