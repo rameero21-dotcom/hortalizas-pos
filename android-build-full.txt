@@ -1,19 +1,18 @@
-       ] The input changes require a full rebuild for incremental task ':printing:mergeReleaseJavaResource'.
-[        ] Resolve mutations for :printing:syncReleaseLibJars (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :printing:syncReleaseLibJars (Thread[Execution worker Thread 2,5,main]) started.
-[        ] > Task :share_plus:checkReleaseAarMetadata
+luded builds Thread 2,5,main]) started.
+[        ] :printing:syncReleaseLibJars (Thread[included builds Thread 2,5,main]) started.
+[   +2 ms] > Task :share_plus:checkReleaseAarMetadata
 [        ] Caching disabled for task ':share_plus:checkReleaseAarMetadata' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
 [        ] Task ':share_plus:checkReleaseAarMetadata' is not up-to-date because:
 [        ]   No history is available.
-[  +80 ms] > Task :printing:syncReleaseLibJars
+[        ] > Task :printing:syncReleaseLibJars
 [        ] Caching disabled for task ':printing:syncReleaseLibJars' because:
 [        ]   Build cache is disabled
 [        ] Task ':printing:syncReleaseLibJars' is not up-to-date because:
-[        ]   No history is available.
-[        ] Resolve mutations for :printing:bundleReleaseLocalLintAar (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :printing:bundleReleaseLocalLintAar (Thread[Execution worker Thread 2,5,main]) started.
+[   +1 ms]   No history is available.
+[   +2 ms] Resolve mutations for :printing:bundleReleaseLocalLintAar (Thread[included builds Thread 2,5,main]) started.
+[        ] :printing:bundleReleaseLocalLintAar (Thread[included builds Thread 2,5,main]) started.
 [        ] > Task :printing:bundleReleaseLocalLintAar
 [        ] Caching disabled for task ':printing:bundleReleaseLocalLintAar' because:
 [        ]   Build cache is disabled
@@ -23,39 +22,39 @@
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/public_res/release/packageReleaseResources/public.txt', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/navigation_json_for_aar/release/extractDeepLinksForAarRelease/navigation.json', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/annotations_zip/release/extractReleaseAnnotations/annotations.zip', not found
-[   +2 ms] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/merged_consumer_proguard_file/release/mergeReleaseConsumerProguardFiles/proguard.txt', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/merged_consumer_proguard_file/release/mergeReleaseConsumerProguardFiles/proguard.txt', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/lint_publish_jar/global/prepareLintJarForPublish/lint.jar', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/library_art_profile/release/prepareReleaseArtProfile/baseline-prof.txt', not found
-[        ] work action resolve out.aar (project :printing) (Thread[Execution worker Thread 2,5,main]) started.
-[        ] work action resolve out.aar (project :printing) (Thread[Execution worker Thread 2,5,main]) started.
-[        ] ExtractAarTransform (Thread[Execution worker Thread 2,5,main]) started.
-[        ] Resolve mutations for :share_plus:stripReleaseDebugSymbols (Thread[Execution worker,5,main]) started.
-[        ] :share_plus:stripReleaseDebugSymbols (Thread[Execution worker,5,main]) started.
+[        ] work action resolve out.aar (project :printing) (Thread[included builds Thread 2,5,main]) started.
+[        ] work action resolve out.aar (project :printing) (Thread[included builds Thread 2,5,main]) started.
+[        ] ExtractAarTransform (Thread[included builds Thread 2,5,main]) started.
+[        ] Resolve mutations for :share_plus:stripReleaseDebugSymbols (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :share_plus:stripReleaseDebugSymbols (Thread[Execution worker Thread 3,5,main]) started.
 [        ] > Task :share_plus:stripReleaseDebugSymbols NO-SOURCE
 [        ] Skipping task ':share_plus:stripReleaseDebugSymbols' as it has no source files and no previous output files.
-[        ] Resolve mutations for :share_plus:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker,5,main]) started.
-[        ] :share_plus:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker,5,main]) started.
+[   +2 ms] Resolve mutations for :share_plus:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :share_plus:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker Thread 3,5,main]) started.
 [        ] > Task :share_plus:copyReleaseJniLibsProjectAndLocalJars
-[   +2 ms] Caching disabled for task ':share_plus:copyReleaseJniLibsProjectAndLocalJars' because:
+[        ] Caching disabled for task ':share_plus:copyReleaseJniLibsProjectAndLocalJars' because:
 [        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
+[   +2 ms]   Caching has been disabled for the task
 [        ] Task ':share_plus:copyReleaseJniLibsProjectAndLocalJars' is not up-to-date because:
 [        ]   No history is available.
-[        ] Resolve mutations for :share_plus:extractDeepLinksForAarRelease (Thread[Execution worker,5,main]) started.
-[        ] :share_plus:extractDeepLinksForAarRelease (Thread[Execution worker,5,main]) started.
+[        ] Resolve mutations for :share_plus:extractDeepLinksForAarRelease (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :share_plus:extractDeepLinksForAarRelease (Thread[Execution worker Thread 3,5,main]) started.
 [        ] > Task :share_plus:extractDeepLinksForAarRelease
 [        ] Caching disabled for task ':share_plus:extractDeepLinksForAarRelease' because:
 [        ]   Build cache is disabled
 [        ] Task ':share_plus:extractDeepLinksForAarRelease' is not up-to-date because:
 [        ]   No history is available.
-[        ] Resolve mutations for :share_plus:extractReleaseAnnotations (Thread[Execution worker,5,main]) started.
-[        ] :share_plus:extractReleaseAnnotations (Thread[Execution worker,5,main]) started.
+[        ] Resolve mutations for :share_plus:extractReleaseAnnotations (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :share_plus:extractReleaseAnnotations (Thread[Execution worker Thread 3,5,main]) started.
 [        ] > Transform out.aar (project :printing) with ExtractAarTransform
 [        ] Caching disabled for ExtractAarTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/local_aar_for_lint/release/out.aar because:
 [        ]   Build cache is disabled
 [        ]   Caching not enabled.
-[        ] ExtractAarTransform (Thread[Execution worker Thread 2,5,main]) started.
-[ +393 ms] > Task :share_plus:extractReleaseAnnotations
+[        ] ExtractAarTransform (Thread[included builds Thread 2,5,main]) started.
+[ +277 ms] > Task :share_plus:extractReleaseAnnotations
 [        ] Caching disabled for task ':share_plus:extractReleaseAnnotations' because:
 [        ]   Build cache is disabled
 [        ] Task ':share_plus:extractReleaseAnnotations' is not up-to-date because:
@@ -63,18 +62,18 @@
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
-[        ] Resolve mutations for :share_plus:mergeReleaseConsumerProguardFiles (Thread[Execution worker,5,main]) started.
-[        ] :share_plus:mergeReleaseConsumerProguardFiles (Thread[Execution worker,5,main]) started.
+[        ] Resolve mutations for :share_plus:mergeReleaseConsumerProguardFiles (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :share_plus:mergeReleaseConsumerProguardFiles (Thread[Execution worker Thread 3,5,main]) started.
 [        ] > Task :share_plus:mergeReleaseConsumerProguardFiles
 [        ] Caching disabled for task ':share_plus:mergeReleaseConsumerProguardFiles' because:
 [        ]   Build cache is disabled
 [        ]   Simple merging task
 [        ] Task ':share_plus:mergeReleaseConsumerProguardFiles' is not up-to-date because:
-[        ]   No history is available.
-[        ] Resolve mutations for :share_plus:mergeReleaseJavaResource (Thread[Execution worker,5,main]) started.
-[        ] :share_plus:mergeReleaseJavaResource (Thread[Execution worker,5,main]) started.
-[        ] Resolve mutations for :sqflite_android:checkReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :sqflite_android:checkReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
+[   +2 ms]   No history is available.
+[        ] Resolve mutations for :share_plus:mergeReleaseJavaResource (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :share_plus:mergeReleaseJavaResource (Thread[Execution worker Thread 3,5,main]) started.
+[        ] Resolve mutations for :sqflite_android:checkReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
+[        ] :sqflite_android:checkReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
 [        ] > Task :share_plus:mergeReleaseJavaResource
 [        ] Caching disabled for task ':share_plus:mergeReleaseJavaResource' because:
 [        ]   Build cache is disabled
@@ -82,21 +81,21 @@
 [        ] Task ':share_plus:mergeReleaseJavaResource' is not up-to-date because:
 [        ]   No history is available.
 [        ] The input changes require a full rebuild for incremental task ':share_plus:mergeReleaseJavaResource'.
-[        ] Resolve mutations for :share_plus:syncReleaseLibJars (Thread[Execution worker,5,main]) started.
-[        ] :share_plus:syncReleaseLibJars (Thread[Execution worker,5,main]) started.
+[        ] Resolve mutations for :share_plus:syncReleaseLibJars (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :share_plus:syncReleaseLibJars (Thread[Execution worker Thread 3,5,main]) started.
 [        ] > Task :sqflite_android:checkReleaseAarMetadata
 [        ] Caching disabled for task ':sqflite_android:checkReleaseAarMetadata' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
 [        ] Task ':sqflite_android:checkReleaseAarMetadata' is not up-to-date because:
-[        ]   No history is available.
+[   +3 ms]   No history is available.
 [        ] > Task :share_plus:syncReleaseLibJars
 [        ] Caching disabled for task ':share_plus:syncReleaseLibJars' because:
 [        ]   Build cache is disabled
 [        ] Task ':share_plus:syncReleaseLibJars' is not up-to-date because:
 [        ]   No history is available.
-[        ] Resolve mutations for :share_plus:bundleReleaseLocalLintAar (Thread[Execution worker,5,main]) started.
-[        ] :share_plus:bundleReleaseLocalLintAar (Thread[Execution worker,5,main]) started.
+[        ] Resolve mutations for :share_plus:bundleReleaseLocalLintAar (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :share_plus:bundleReleaseLocalLintAar (Thread[Execution worker Thread 3,5,main]) started.
 [        ] > Task :share_plus:bundleReleaseLocalLintAar
 [        ] Caching disabled for task ':share_plus:bundleReleaseLocalLintAar' because:
 [        ]   Build cache is disabled
@@ -109,76 +108,76 @@
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/merged_consumer_proguard_file/release/mergeReleaseConsumerProguardFiles/proguard.txt', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/lint_publish_jar/global/prepareLintJarForPublish/lint.jar', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/library_art_profile/release/prepareReleaseArtProfile/baseline-prof.txt', not found
-[   +5 ms] work action resolve out.aar (project :share_plus) (Thread[Execution worker,5,main]) started.
-[        ] work action resolve out.aar (project :share_plus) (Thread[Execution worker,5,main]) started.
-[        ] ExtractAarTransform (Thread[Execution worker,5,main]) started.
-[        ] Resolve mutations for :sqflite_android:stripReleaseDebugSymbols (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :sqflite_android:stripReleaseDebugSymbols (Thread[Execution worker Thread 2,5,main]) started.
+[        ] work action resolve out.aar (project :share_plus) (Thread[Execution worker Thread 3,5,main]) started.
+[        ] work action resolve out.aar (project :share_plus) (Thread[Execution worker Thread 3,5,main]) started.
+[        ] ExtractAarTransform (Thread[included builds Thread 2,5,main]) started.
+[        ] Resolve mutations for :sqflite_android:stripReleaseDebugSymbols (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :sqflite_android:stripReleaseDebugSymbols (Thread[Execution worker Thread 3,5,main]) started.
 [        ] > Task :sqflite_android:stripReleaseDebugSymbols NO-SOURCE
 [        ] Skipping task ':sqflite_android:stripReleaseDebugSymbols' as it has no source files and no previous output files.
-[        ] Resolve mutations for :sqflite_android:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :sqflite_android:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker Thread 2,5,main]) started.
+[        ] Resolve mutations for :sqflite_android:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :sqflite_android:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker Thread 3,5,main]) started.
 [        ] > Task :sqflite_android:copyReleaseJniLibsProjectAndLocalJars
 [        ] Caching disabled for task ':sqflite_android:copyReleaseJniLibsProjectAndLocalJars' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
 [        ] Task ':sqflite_android:copyReleaseJniLibsProjectAndLocalJars' is not up-to-date because:
 [        ]   No history is available.
-[  +89 ms] Resolve mutations for :sqflite_android:extractDeepLinksForAarRelease (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :sqflite_android:extractDeepLinksForAarRelease (Thread[Execution worker Thread 2,5,main]) started.
+[        ] Resolve mutations for :sqflite_android:extractDeepLinksForAarRelease (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :sqflite_android:extractDeepLinksForAarRelease (Thread[Execution worker Thread 3,5,main]) started.
+[        ] > Transform out.aar (project :share_plus) with ExtractAarTransform
+[        ] Caching disabled for ExtractAarTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/local_aar_for_lint/release/out.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] ExtractAarTransform (Thread[included builds Thread 2,5,main]) started.
 [        ] > Task :sqflite_android:extractDeepLinksForAarRelease
 [        ] Caching disabled for task ':sqflite_android:extractDeepLinksForAarRelease' because:
 [        ]   Build cache is disabled
 [        ] Task ':sqflite_android:extractDeepLinksForAarRelease' is not up-to-date because:
 [        ]   No history is available.
-[        ] Resolve mutations for :sqflite_android:extractReleaseAnnotations (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :sqflite_android:extractReleaseAnnotations (Thread[Execution worker Thread 2,5,main]) started.
-[        ] > Transform out.aar (project :share_plus) with ExtractAarTransform
-[        ] Caching disabled for ExtractAarTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/local_aar_for_lint/release/out.aar because:
-[   +4 ms]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] ExtractAarTransform (Thread[Execution worker,5,main]) started.
-[        ] > Task :sqflite_android:extractReleaseAnnotations
+[        ] Resolve mutations for :sqflite_android:extractReleaseAnnotations (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :sqflite_android:extractReleaseAnnotations (Thread[Execution worker Thread 3,5,main]) started.
+[  +89 ms] > Task :sqflite_android:extractReleaseAnnotations
 [        ] Caching disabled for task ':sqflite_android:extractReleaseAnnotations' because:
-[        ]   Build cache is disabled
+[   +2 ms]   Build cache is disabled
 [        ] Task ':sqflite_android:extractReleaseAnnotations' is not up-to-date because:
 [        ]   No history is available.
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/sqflite_android-2.4.3/android/src/release/java', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/sqflite_android-2.4.3/android/src/main/kotlin', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/sqflite_android-2.4.3/android/src/release/kotlin', not found
-[        ] Resolve mutations for :sqflite_android:mergeReleaseConsumerProguardFiles (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :sqflite_android:mergeReleaseConsumerProguardFiles (Thread[Execution worker Thread 2,5,main]) started.
+[        ] Resolve mutations for :sqflite_android:mergeReleaseConsumerProguardFiles (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :sqflite_android:mergeReleaseConsumerProguardFiles (Thread[included builds Thread 2,5,main]) started.
 [        ] > Task :sqflite_android:mergeReleaseConsumerProguardFiles
 [        ] Caching disabled for task ':sqflite_android:mergeReleaseConsumerProguardFiles' because:
 [        ]   Build cache is disabled
 [        ]   Simple merging task
 [        ] Task ':sqflite_android:mergeReleaseConsumerProguardFiles' is not up-to-date because:
 [        ]   No history is available.
-[        ] Resolve mutations for :sqflite_android:mergeReleaseJavaResource (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :sqflite_android:mergeReleaseJavaResource (Thread[Execution worker Thread 2,5,main]) started.
-[        ] Resolve mutations for :vibration:checkReleaseAarMetadata (Thread[Execution worker,5,main]) started.
-[        ] :vibration:checkReleaseAarMetadata (Thread[Execution worker,5,main]) started.
+[        ] Resolve mutations for :sqflite_android:mergeReleaseJavaResource (Thread[included builds Thread 2,5,main]) started.
+[        ] :sqflite_android:mergeReleaseJavaResource (Thread[included builds Thread 2,5,main]) started.
+[        ] Resolve mutations for :vibration:checkReleaseAarMetadata (Thread[Execution worker Thread 3,5,main]) started.
+[        ] :vibration:checkReleaseAarMetadata (Thread[Execution worker Thread 3,5,main]) started.
 [        ] > Task :sqflite_android:mergeReleaseJavaResource
 [        ] Caching disabled for task ':sqflite_android:mergeReleaseJavaResource' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
 [        ] Task ':sqflite_android:mergeReleaseJavaResource' is not up-to-date because:
 [        ]   No history is available.
-[        ] The input changes require a full rebuild for incremental task ':sqflite_android:mergeReleaseJavaResource'.
-[        ] Resolve mutations for :sqflite_android:syncReleaseLibJars (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :sqflite_android:syncReleaseLibJars (Thread[Execution worker Thread 2,5,main]) started.
+[   +3 ms] The input changes require a full rebuild for incremental task ':sqflite_android:mergeReleaseJavaResource'.
+[        ] Resolve mutations for :sqflite_android:syncReleaseLibJars (Thread[included builds Thread 2,5,main]) started.
+[        ] :sqflite_android:syncReleaseLibJars (Thread[included builds Thread 2,5,main]) started.
 [        ] > Task :vibration:checkReleaseAarMetadata FAILED
 [        ] Caching disabled for task ':vibration:checkReleaseAarMetadata' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
 [        ] Task ':vibration:checkReleaseAarMetadata' is not up-to-date because:
 [        ]   No history is available.
-[  +95 ms] > Task :sqflite_android:syncReleaseLibJars
+[        ] > Task :sqflite_android:syncReleaseLibJars
 [        ] Caching disabled for task ':sqflite_android:syncReleaseLibJars' because:
 [        ]   Build cache is disabled
 [        ] Task ':sqflite_android:syncReleaseLibJars' is not up-to-date because:
 [        ]   No history is available.
-[ +696 ms] > Task :mobile_scanner:extractReleaseAnnotations
+[ +991 ms] > Task :mobile_scanner:extractReleaseAnnotations
 [        ] Caching disabled for task ':mobile_scanner:extractReleaseAnnotations' because:
 [        ]   Build cache is disabled
 [        ] Task ':mobile_scanner:extractReleaseAnnotations' is not up-to-date because:
@@ -187,10 +186,10 @@
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/mobile_scanner-5.2.3/android/src/release/java', not found
 [        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/mobile_scanner-5.2.3/android/src/release/kotlin', not found
 [        ] Android Lint: Creating lint class loader 32.0.1_true
-[+9999 ms] Extracted 1 Annotations:
+[+12499 ms] Extracted 1 Annotations:
 [        ]  @IntDef: 1
 [        ] Annotations written to /home/runner/work/hortalizas-pos/hortalizas-pos/build/mobile_scanner/intermediates/annotations_zip/release/extractReleaseAnnotations/annotations.zip
-[+1899 ms] > Task :app:minifyReleaseWithR8
+[+1399 ms] > Task :app:minifyReleaseWithR8
 [        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:21:1-22:1: R8: Proguard configuration rule does not match anything: `-keep public class com.google.vending.licensing.ILicensingService`
 [        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:22:1-23:1: R8: Proguard configuration rule does not match anything: `-keep public class com.android.vending.licensing.ILicensingService`
 [        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:23:1-24:1: R8: Proguard configuration rule does not match anything: `-keep public class com.google.android.vending.licensing.ILicensingService`
@@ -253,25 +252,31 @@
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/928e8ae81ce064a297f329171815798f/transformed/shrink-rules/lib/META-INF/proguard/androidx-annotations.pro:12:1-14:2: R8: Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
 [        ]   @androidx.annotation.Keep <init>(...);
 [        ] }`
-[ +195 ms] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/util/AbstractSet<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzanc.
+[ +195 ms] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzpr<TKeyT;TPrimitiveT;>;' for class com.google.android.gms.internal.firebase-auth-api.zzpu.
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzanc.iterator().
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TKeyT;)TPrimitiveT;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzpu.zza(com.google.android.gms.internal.firebase-auth-api.zzbm).
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzns<TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zznv.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzaj<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzaw.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/lang/Object;Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzamy.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzamy.zza().
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for field java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzamy.zzb.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[  +97 ms] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzns<TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zznv.
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TSerializationT;Lcom/google/android/gms/internal/firebase-auth-api/zzck;)Lcom/google/android/gms/internal/firebase-auth-api/zzbm;' for method com.google.android.gms.internal.firebase-auth-api.zzbm com.google.android.gms.internal.firebase-auth-api.zznv.zza(com.google.android.gms.internal.firebase-auth-api.zzqi, com.google.android.gms.internal.firebase-auth-api.zzck).
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzaj<TE;>;' for class com.google.android.gms.internal.firebase-auth-api.zzao.
-[        ] Validation error: A type variable is not in scope.
-[        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(II)Lcom/google/android/gms/internal/firebase-auth-api/zzaj<TE;>;' for method com.google.android.gms.internal.firebase-auth-api.zzaj com.google.android.gms.internal.firebase-auth-api.zzao.zza(int, int).
-[        ] Validation error: A type variable is not in scope.
-[        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(I)TE;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzao.get(int).
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzamw<TFieldDescriptorT;Ljava/lang/Object;>;' for class com.google.android.gms.internal.firebase-auth-api.zzamz.
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/lang/Object;Ljava/lang/Comparable<Lcom/google/android/gms/internal/firebase-auth-api/zzana;>;Ljava/util/Map$Entry<TK;TV;>;' for class com.google.android.gms.internal.firebase-auth-api.zzana.
@@ -286,7 +291,7 @@
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()TV;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzana.getValue().
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[   +1 ms] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TV;)TV;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzana.setValue(java.lang.Object).
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TV;)TV;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzana.setValue(java.lang.Object).
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'TK;' for field java.lang.Comparable com.google.android.gms.internal.firebase-auth-api.zzana.zza.
@@ -295,10 +300,10 @@
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'TV;' for field java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzana.zzb.
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzpk<TParametersT;TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zzpj.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/util/AbstractSet<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzanc.
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TParametersT;)TSerializationT;' for method com.google.android.gms.internal.firebase-auth-api.zzqi com.google.android.gms.internal.firebase-auth-api.zzpj.zza(com.google.android.gms.internal.firebase-auth-api.zzce).
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzanc.iterator().
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/lang/Object;Ljava/lang/Iterable<TP;>;' for class com.google.android.gms.internal.firebase-auth-api.zzpn.
@@ -307,10 +312,10 @@
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<TP;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzpn.iterator().
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzpr<TKeyT;TPrimitiveT;>;' for class com.google.android.gms.internal.firebase-auth-api.zzpu.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzpk<TParametersT;TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zzpj.
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TKeyT;)TPrimitiveT;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzpu.zza(com.google.android.gms.internal.firebase-auth-api.zzbm).
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TParametersT;)TSerializationT;' for method com.google.android.gms.internal.firebase-auth-api.zzqi com.google.android.gms.internal.firebase-auth-api.zzpj.zza(com.google.android.gms.internal.firebase-auth-api.zzce).
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/lang/Object;Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzand.
@@ -322,7 +327,10 @@
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for field java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzand.zzc.
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[  +94 ms] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzaj<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzaw.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zznw<TKeyT;TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zznz.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TKeyT;Lcom/google/android/gms/internal/firebase-auth-api/zzck;)TSerializationT;' for method com.google.android.gms.internal.firebase-auth-api.zzqi com.google.android.gms.internal.firebase-auth-api.zznz.zza(com.google.android.gms.internal.firebase-auth-api.zzbm, com.google.android.gms.internal.firebase-auth-api.zzck).
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzpg<TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zzpf.
@@ -331,28 +339,19 @@
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TSerializationT;)Lcom/google/android/gms/internal/firebase-auth-api/zzce;' for method com.google.android.gms.internal.firebase-auth-api.zzce com.google.android.gms.internal.firebase-auth-api.zzpf.zza(com.google.android.gms.internal.firebase-auth-api.zzqi).
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzanb.iterator().
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzaj<TE;>;' for class com.google.android.gms.internal.firebase-auth-api.zzao.
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/lang/Object;Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzamy.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(II)Lcom/google/android/gms/internal/firebase-auth-api/zzaj<TE;>;' for method com.google.android.gms.internal.firebase-auth-api.zzaj com.google.android.gms.internal.firebase-auth-api.zzao.zza(int, int).
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzamy.zza().
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(I)TE;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzao.get(int).
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for field java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzamy.zzb.
+[  +92 ms] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzanb.iterator().
 [        ] Validation error: A type variable is not in scope.
 [        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzamw<TFieldDescriptorT;Ljava/lang/Object;>;' for class com.google.android.gms.internal.firebase-auth-api.zzamz.
-[        ] Validation error: A type variable is not in scope.
-[        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zznw<TKeyT;TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zznz.
-[        ] Validation error: A type variable is not in scope.
-[        ] Signature is ignored and will not be present in the output.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TKeyT;Lcom/google/android/gms/internal/firebase-auth-api/zzck;)TSerializationT;' for method com.google.android.gms.internal.firebase-auth-api.zzqi com.google.android.gms.internal.firebase-auth-api.zznz.zza(com.google.android.gms.internal.firebase-auth-api.zzbm, com.google.android.gms.internal.firebase-auth-api.zzck).
-[        ] Validation error: A type variable is not in scope.
-[        ] Signature is ignored and will not be present in the output.
-[+66098 ms] INFO: R8: InnerClasses attribute has entries missing a corresponding EnclosingMethod attribute. Such InnerClasses attribute entries are ignored.
+[+68099 ms] INFO: R8: InnerClasses attribute has entries missing a corresponding EnclosingMethod attribute. Such InnerClasses attribute entries are ignored.
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zza
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zzb
 [        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zzc
@@ -367,8 +366,8 @@
 [        ] AAPT2 aapt2-9.0.1-14304508-linux Daemon #1: shutdown
 [        ] AAPT2 aapt2-9.0.1-14304508-linux Daemon #2: shutdown
 [        ] Android Lint: Disposing Uast application environment in lint classloader [32.0.1_true]
-[  +99 ms] [Incubating] Problems report is available at: file:///home/runner/work/hortalizas-pos/hortalizas-pos/build/reports/problems/problems-report.html
-[ +102 ms] FAILURE: Build failed with an exception.
+[        ] [Incubating] Problems report is available at: file:///home/runner/work/hortalizas-pos/hortalizas-pos/build/reports/problems/problems-report.html
+[ +100 ms] FAILURE: Build failed with an exception.
 [        ] * What went wrong:
 [        ] Execution failed for task ':vibration:checkReleaseAarMetadata'.
 [        ] > A failure occurred while executing com.android.build.gradle.internal.tasks.CheckAarMetadataWorkAction
@@ -404,12 +403,12 @@
 [        ]            Note that updating a library or application's compileSdk (which
 [        ]            allows newer APIs to be used) can be done separately from updating
 [        ]            targetSdk (which opts the app in to new runtime behavior) and
-[   +3 ms]            minSdk (which determines which devices the app can be installed
+[        ]            minSdk (which determines which devices the app can be installed
 [        ]            on).
 [        ]        4.  Dependency 'androidx.activity:activity:1.8.1' requires libraries and applications that
 [        ]            depend on it to compile against version 34 or later of the
 [        ]            Android APIs.
-[        ]            :vibration is currently compiled against android-33.
+[   +2 ms]            :vibration is currently compiled against android-33.
 [        ]            Recommended action: Update this project to use a newer compileSdk
 [        ]            of at least 34, for example 36.
 [        ]            Note that updating a library or application's compileSdk (which
@@ -467,7 +466,7 @@
 [        ]            :vibration is currently compiled against android-33.
 [        ]            Recommended action: Update this project to use a newer compileSdk
 [        ]            of at least 34, for example 36.
-[   +3 ms]            Note that updating a library or application's compileSdk (which
+[        ]            Note that updating a library or application's compileSdk (which
 [        ]            allows newer APIs to be used) can be done separately from updating
 [        ]            targetSdk (which opts the app in to new runtime behavior) and
 [        ]            minSdk (which determines which devices the app can be installed
@@ -525,7 +524,7 @@
 [        ]            Note that updating a library or application's compileSdk (which
 [        ]            allows newer APIs to be used) can be done separately from updating
 [        ]            targetSdk (which opts the app in to new runtime behavior) and
-[   +3 ms]            minSdk (which determines which devices the app can be installed
+[        ]            minSdk (which determines which devices the app can be installed
 [        ]            on).
 [        ]       15.  Dependency 'androidx.exifinterface:exifinterface:1.4.1' requires libraries and applications that
 [        ]            depend on it to compile against version 34 or later of the
@@ -554,7 +553,7 @@
 [        ] 	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
 [        ] 	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
 [        ] 	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
-[   +2 ms] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+[        ] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
 [        ] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
 [        ] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
 [        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
@@ -591,7 +590,7 @@
 [        ] 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForAll(DefaultAsyncWorkTracker.java:78)
 [        ] 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForCompletion(DefaultAsyncWorkTracker.java:66)
 [        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:260)
-[   +2 ms] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)
 [        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:26)
 [        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
 [        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
@@ -601,7 +600,7 @@
 [        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:237)
 [        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:220)
 [        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:203)
-[   +1 ms] 	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:170)
+[        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:170)
 [        ] 	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:105)
 [        ] 	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
 [        ] 	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)
@@ -650,7 +649,7 @@
 [        ] 	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:64)
 [        ] 	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:35)
 [        ] 	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:62)
-[   +2 ms] 	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:40)
+[        ] 	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:40)
 [        ] 	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:76)
 [        ] 	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:45)
 [        ] 	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:136)
@@ -875,14 +874,14 @@
 [        ] 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
 [        ] 	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
 [        ] 	... 5 more
-[        ] BUILD FAILED in 6m 19s
+[        ] BUILD FAILED in 6m 13s
 [        ] Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
 [        ] You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
 [        ] For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 [        ] 450 actionable tasks: 449 executed, 1 up-to-date
 [        ] Gradle was unable to watch the file system for changes. Unable to watch same file twice via different paths: Already watching path: /home/runner/work/hortalizas-pos/hortalizas-pos/android.
-[ +309 ms] Running Gradle task 'assembleRelease'... (completed in 380.0s)
-[   +2 ms] "flutter apk" took 380,588ms.
+[ +327 ms] Running Gradle task 'assembleRelease'... (completed in 373.9s)
+[   +2 ms] "flutter apk" took 374,403ms.
 [   +8 ms] Gradle task assembleRelease failed with exit code 1
 [        ] 
            #0      throwToolExit (package:flutter_tools/src/base/common.dart:34:3)
