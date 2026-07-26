@@ -69,6 +69,8 @@ jobs:
 
       - name: Compilar programa de Windows
         run: flutter build windows --release
+        env:
+          CMAKE_POLICY_VERSION_MINIMUM: "3.5"
 
       - name: Comprimir el programa compilado en un zip
         run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath hortalizas-pos-windows.zip
