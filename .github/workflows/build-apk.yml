@@ -62,9 +62,17 @@ jobs:
       - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
         run: sed -i '/minSdkVersion/s/.*/        minSdkVersion 23/' android/app/build.gradle
 
+      - name: Definir compileSdkVersion legacy (lo pide share_plus)
+        run: |
+          sed -i '/allprojects {/a\    ext {\n        compileSdkVersion = 35\n        targetSdkVersion = 35\n    }' android/build.gradle
+          echo "--- android/build.gradle resultante ---"
+          cat android/build.gradle
+
       - name: Compilar APK
         id: build_apk
-        run: flutter build apk --release --verbose 2>&1 | tee /tmp/android_build.log
+        run: |
+          set -o pipefail
+          flutter build apk --release --verbose 2>&1 | tee /tmp/android_build.log
         continue-on-error: true
 
       - name: Guardar log de compilacion siempre (diagnostico)
