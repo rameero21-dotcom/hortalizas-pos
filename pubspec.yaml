@@ -72,3 +72,14 @@ flutter:
     - assets/images/
     - assets/sounds/
     - assets/icons/
+
+dependency_overrides:
+  # path_provider_foundation (implementacion de path_provider solo para
+  # iOS/macOS, no la usamos ni en Android ni en Windows) empezo en su
+  # version 2.6.0 a depender de "objective_c", un paquete que usa el
+  # mecanismo experimental de "native assets hooks" de Dart. Ese hook se
+  # intenta ejecutar igual durante la compilacion de Windows (aunque sea
+  # irrelevante para esa plataforma) y rompe la compilacion completa.
+  # La 2.4.1 es una version anterior sin esa dependencia, y como no
+  # usamos esta implementacion en ningun target real, es seguro fijarla.
+  path_provider_foundation: 2.4.1
