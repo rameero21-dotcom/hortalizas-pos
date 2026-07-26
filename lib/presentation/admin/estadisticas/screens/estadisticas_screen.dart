@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../domain/entities/venta.dart';
 import '../../../../domain/usecases/estadisticas/obtener_estadisticas_usecase.dart';
 
 enum _Periodo { dia, semana, mes }
@@ -220,6 +221,18 @@ class _ContenidoEstadisticas extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 24),
+        const Text('Ventas por método de pago', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 8),
+        if (stats.facturacionPorMetodoPago.isEmpty)
+          const Text('Sin datos en este período.')
+        else
+          ...stats.facturacionPorMetodoPago.entries.map(
+            (e) => ListTile(
+              title: Text(_labelMetodoPago(e.key)),
+              trailing: Text(Formatters.formatearMoneda(e.value)),
+            ),
+          ),
+        const SizedBox(height: 24),
         const Text('Ventas por vendedor', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         const SizedBox(height: 8),
         if (stats.facturacionPorVendedor.isEmpty)
@@ -235,6 +248,14 @@ class _ContenidoEstadisticas extends StatelessWidget {
     );
   }
 }
+
+String _labelMetodoPago(MetodoPago m) => switch (m) {
+      MetodoPago.efectivo => 'Efectivo',
+      MetodoPago.transferencia => 'Transferencia',
+      MetodoPago.debito => 'Débito',
+      MetodoPago.credito => 'Crédito',
+      MetodoPago.cuentaCorriente => 'Cuenta corriente (fiado)',
+    };
 
 class _TarjetaMetrica extends StatelessWidget {
   final String titulo;

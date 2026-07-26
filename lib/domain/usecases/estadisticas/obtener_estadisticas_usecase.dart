@@ -33,6 +33,7 @@ class EstadisticasResumen {
   final Map<String, double> cantidadVendidaPorProducto; // nombreProducto -> cantidad
   final Map<String, double> facturacionPorVendedor; // vendedorId -> total
   final Map<String, ResumenProducto> resumenPorProducto; // productoId -> resumen
+  final Map<MetodoPago, double> facturacionPorMetodoPago;
 
   const EstadisticasResumen({
     required this.facturacionTotal,
@@ -41,6 +42,7 @@ class EstadisticasResumen {
     required this.cantidadVendidaPorProducto,
     required this.facturacionPorVendedor,
     required this.resumenPorProducto,
+    required this.facturacionPorMetodoPago,
   });
 
   /// Top N productos por cantidad vendida, de mayor a menor.
@@ -84,6 +86,7 @@ class ObtenerEstadisticasUseCase {
     final cantidadPorProducto = <String, double>{};
     final facturacionPorVendedor = <String, double>{};
     final resumenPorProducto = <String, ResumenProducto>{};
+    final facturacionPorMetodoPago = <MetodoPago, double>{};
 
     for (final venta in cobradas) {
       facturacionTotal += venta.total;
@@ -92,6 +95,13 @@ class ObtenerEstadisticasUseCase {
         (actual) => actual + venta.total,
         ifAbsent: () => venta.total,
       );
+      if (venta.metodoPago != null) {
+        facturacionPorMetodoPago.update(
+          venta.metodoPago!,
+          (actual) => actual + venta.total,
+          ifAbsent: () => venta.total,
+        );
+      }
       for (final item in venta.detalle) {
         cantidadPorProducto.update(
           item.nombreProducto,
@@ -123,6 +133,7 @@ class ObtenerEstadisticasUseCase {
       cantidadVendidaPorProducto: cantidadPorProducto,
       facturacionPorVendedor: facturacionPorVendedor,
       resumenPorProducto: resumenPorProducto,
+      facturacionPorMetodoPago: facturacionPorMetodoPago,
     );
   }
 }
