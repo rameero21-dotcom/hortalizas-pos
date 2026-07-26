@@ -65,8 +65,10 @@ jobs:
       - name: Definir compileSdkVersion legacy (lo pide share_plus)
         run: |
           sed -i '/allprojects {/a\    ext {\n        compileSdkVersion = 35\n        targetSdkVersion = 35\n    }' android/build.gradle
-          echo "--- android/build.gradle resultante ---"
-          cat android/build.gradle
+          cat android/build.gradle > /tmp/build_gradle_root.log
+          python3 .github/scripts/upload_log.py build-gradle-root.txt /tmp/build_gradle_root.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compilar APK
         id: build_apk
