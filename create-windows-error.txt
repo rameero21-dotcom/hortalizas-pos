@@ -1,0 +1,36 @@
+Building flutter tool... 
+Running pub upgrade... 
+Resolving dependencies...
+Downloading packages...
+Got dependencies.
+Recreating project ....
+  .idea\libraries\Dart_SDK.xml (created)
+  .idea\libraries\KotlinJavaRuntime.xml (created)
+  .idea\modules.xml (created)
+  .idea\runConfigurations\main_dart.xml (created)
+  .idea\workspace.xml (created)
+  hortalizas_pos.iml (created)
+  windows\.gitignore (created)
+  windows\CMakeLists.txt (created)
+  windows\flutter\CMakeLists.txt (created)
+  windows\runner\CMakeLists.txt (created)
+  windows\runner\flutter_window.cpp (created)
+  windows\runner\flutter_window.h (created)
+  windows\runner\main.cpp (created)
+  windows\runner\resource.h (created)
+  windows\runner\resources\app_icon.ico (created)
+  windows\runner\runner.exe.manifest (created)
+  windows\runner\Runner.rc (created)
+  windows\runner\utils.cpp (created)
+  windows\runner\utils.h (created)
+  windows\runner\win32_window.cpp (created)
+  windows\runner\win32_window.h (created)
+  test\widget_test.dart (created)
+Resolving dependencies...
+Because sqlite3 >=2.4.6 <3.3.0 depends on web ^1.0.0 and share_plus >=8.0.1 <10.0.1 depends on web ^0.5.0, sqlite3 >=2.4.6 <3.3.0 is incompatible with share_plus >=8.0.1 <10.0.1.
+So, because hortalizas_pos depends on both share_plus ^9.0.0 and sqlite3 2.9.4, version solving failed.
+
+
+You can try the following suggestion to make the pubspec resolve:
+* Try upgrading your constraint on share_plus: flutter pub add share_plus:^12.0.2
+Failed to update packages.
