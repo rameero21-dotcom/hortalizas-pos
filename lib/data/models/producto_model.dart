@@ -10,6 +10,9 @@ class ProductoModel extends Producto {
     required super.categoria,
     required super.activo,
     super.favorito,
+    super.costoUnitario,
+    super.tasaIIBB,
+    super.tasaTSH,
   });
 
   /// Acepta tanto filas de SQLite (booleanos como 0/1) como futuros
@@ -21,6 +24,9 @@ class ProductoModel extends Producto {
         categoria: map['categoria'] as String,
         activo: _parseBool(map['activo'], porDefecto: true),
         favorito: _parseBool(map['favorito'], porDefecto: false),
+        costoUnitario: (map['costoUnitario'] as num?)?.toDouble() ?? 0,
+        tasaIIBB: (map['tasaIIBB'] as num?)?.toDouble() ?? 0,
+        tasaTSH: (map['tasaTSH'] as num?)?.toDouble() ?? 0,
       );
 
   static bool _parseBool(dynamic valor, {required bool porDefecto}) {
@@ -37,6 +43,9 @@ class ProductoModel extends Producto {
         'categoria': categoria,
         'activo': activo ? 1 : 0,
         'favorito': favorito ? 1 : 0,
+        'costoUnitario': costoUnitario,
+        'tasaIIBB': tasaIIBB,
+        'tasaTSH': tasaTSH,
       };
 
   factory ProductoModel.fromEntity(Producto p) => ProductoModel(
@@ -46,5 +55,8 @@ class ProductoModel extends Producto {
         categoria: p.categoria,
         activo: p.activo,
         favorito: p.favorito,
+        costoUnitario: p.costoUnitario,
+        tasaIIBB: p.tasaIIBB,
+        tasaTSH: p.tasaTSH,
       );
 }

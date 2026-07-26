@@ -21,9 +21,46 @@ class DatabaseHelper {
     final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
     return openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
+  }
+
+  /// Migra instalaciones existentes (version 1 -> 2): agrega columnas de
+  /// costo/impuestos a productos y las tablas nuevas de caja (movimientos
+  /// manuales y cierres con conteo de billetes).
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN costoUnitario REAL NOT NULL DEFAULT 0');
+      await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN tasaIIBB REAL NOT NULL DEFAULT 0');
+      await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN tasaTSH REAL NOT NULL DEFAULT 0');
+      await _crearTablasCaja(db);
+    }
+  }
+
+  Future<void> _crearTablasCaja(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS movimientos_caja (
+        id TEXT PRIMARY KEY,
+        tipo TEXT NOT NULL,
+        monto REAL NOT NULL,
+        detalle TEXT NOT NULL,
+        fecha TEXT NOT NULL,
+        usuarioId TEXT NOT NULL
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS cierres_caja (
+        id TEXT PRIMARY KEY,
+        fecha TEXT NOT NULL,
+        cajaInicio REAL NOT NULL DEFAULT 0,
+        billetesJson TEXT NOT NULL,
+        usuarioId TEXT NOT NULL,
+        nota TEXT
+      )
+    ''');
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -34,7 +71,10 @@ class DatabaseHelper {
         precioSugerido REAL NOT NULL DEFAULT 0,
         categoria TEXT NOT NULL DEFAULT '',
         activo INTEGER NOT NULL DEFAULT 1,
-        favorito INTEGER NOT NULL DEFAULT 0
+        favorito INTEGER NOT NULL DEFAULT 0,
+        costoUnitario REAL NOT NULL DEFAULT 0,
+        tasaIIBB REAL NOT NULL DEFAULT 0,
+        tasaTSH REAL NOT NULL DEFAULT 0
       )
     ''');
 
@@ -116,6 +156,8 @@ class DatabaseHelper {
         intentos INTEGER NOT NULL DEFAULT 0
       )
     ''');
+
+    await _crearTablasCaja(db);
 
     await _seedDatosIniciales(db);
   }

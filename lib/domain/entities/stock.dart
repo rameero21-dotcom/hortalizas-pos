@@ -13,7 +13,7 @@ class Stock {
   bool get stockBajo => cantidadDisponible <= umbralStockBajo;
 }
 
-enum TipoMovimientoStock { ingreso, ventaDescuento, ajusteManual }
+enum TipoMovimientoStock { ingreso, ventaDescuento, ajusteManual, merma }
 
 /// Registro histórico de movimientos de stock (para el historial/auditoría).
 class MovimientoStock {

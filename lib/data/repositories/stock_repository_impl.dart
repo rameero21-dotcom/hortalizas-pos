@@ -91,6 +91,25 @@ class StockRepositoryImpl implements StockRepository {
   }
 
   @override
+  Future<void> registrarMerma(String productoId, double cantidad, String usuarioId, {String? nota}) async {
+    final actual = await _local.obtenerPorProducto(productoId);
+    final cantidadActual = actual?.cantidadDisponible ?? 0;
+    final nuevaCantidad = cantidadActual - cantidad;
+    await _local.actualizarCantidad(productoId, nuevaCantidad);
+    final movimiento = MovimientoStockModel(
+      id: _uuid.v4(),
+      productoId: productoId,
+      tipo: TipoMovimientoStock.merma,
+      cantidad: -cantidad,
+      fecha: DateTime.now(),
+      usuarioId: usuarioId,
+      nota: nota,
+    );
+    await _local.registrarMovimiento(movimiento);
+    await _encolarStockYMovimiento(productoId, nuevaCantidad, movimiento);
+  }
+
+  @override
   Future<List<MovimientoStock>> obtenerHistorial(String productoId) {
     return _local.obtenerHistorial(productoId);
   }
