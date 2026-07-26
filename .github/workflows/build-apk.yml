@@ -137,18 +137,12 @@ jobs:
       - name: Verificar fisicamente si el archivo existe en el disco
         shell: pwsh
         run: |
-          $ruta = "$env:PUB_CACHE\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\sqflite_common_ffi.dart"
-          "Buscando: $ruta" | Tee-Object -FilePath verificacion.log
-          if (Test-Path $ruta) {
-            "EXISTE. Contenido:" | Tee-Object -FilePath verificacion.log -Append
-            Get-Content $ruta | Select-Object -First 15 | Tee-Object -FilePath verificacion.log -Append
-          } else {
-            "NO EXISTE en esa ruta exacta." | Tee-Object -FilePath verificacion.log -Append
-            "Contenido real de la carpeta lib del paquete:" | Tee-Object -FilePath verificacion.log -Append
-            Get-ChildItem "$env:PUB_CACHE\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib" -Recurse | ForEach-Object { $_.FullName | Tee-Object -FilePath verificacion.log -Append }
+          "--- Contenido de lib/ de sqlite3 (version resuelta) ---" | Tee-Object -FilePath verificacion.log
+          $sqlite3dir = Get-ChildItem "$env:PUB_CACHE\hosted\pub.dev" -Directory | Where-Object { $_.Name -like "sqlite3-*" }
+          foreach ($d in $sqlite3dir) {
+            "Carpeta: $($d.FullName)" | Tee-Object -FilePath verificacion.log -Append
+            Get-ChildItem "$($d.FullName)\lib" -Recurse -File | ForEach-Object { $_.FullName | Tee-Object -FilePath verificacion.log -Append }
           }
-          "--- package_config.json para sqflite_common_ffi ---" | Tee-Object -FilePath verificacion.log -Append
-          Get-Content "$(Get-Location)\.dart_tool\package_config.json" | Select-String "sqflite_common_ffi" -Context 0,3 | Tee-Object -FilePath verificacion.log -Append
           python .github/scripts/upload_log.py verificacion-windows.txt verificacion.log
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
