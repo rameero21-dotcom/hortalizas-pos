@@ -6,6 +6,7 @@ import '../../data/datasources/local/venta_local_datasource.dart';
 import '../../data/datasources/local/stock_local_datasource.dart';
 import '../../data/datasources/local/usuario_local_datasource.dart';
 import '../../data/datasources/local/cliente_local_datasource.dart';
+import '../../data/datasources/local/caja_local_datasource.dart';
 import '../../data/datasources/local/sync_queue_local_datasource.dart';
 
 import '../../data/datasources/remote/firestore_service.dart';
@@ -17,12 +18,14 @@ import '../../data/repositories/venta_repository_impl.dart';
 import '../../data/repositories/stock_repository_impl.dart';
 import '../../data/repositories/usuario_repository_impl.dart';
 import '../../data/repositories/cliente_repository_impl.dart';
+import '../../data/repositories/caja_repository_impl.dart';
 
 import '../../domain/repositories/producto_repository.dart';
 import '../../domain/repositories/venta_repository.dart';
 import '../../domain/repositories/stock_repository.dart';
 import '../../domain/repositories/usuario_repository.dart';
 import '../../domain/repositories/cliente_repository.dart';
+import '../../domain/repositories/caja_repository.dart';
 
 import '../../domain/usecases/venta/crear_venta_usecase.dart';
 import '../../domain/usecases/venta/finalizar_cobro_usecase.dart';
@@ -87,6 +90,8 @@ final usuarioLocalDsProvider =
     Provider((ref) => UsuarioLocalDatasource(ref.watch(databaseHelperProvider)));
 final clienteLocalDsProvider =
     Provider((ref) => ClienteLocalDatasource(ref.watch(databaseHelperProvider)));
+final cajaLocalDsProvider =
+    Provider((ref) => CajaLocalDatasource(ref.watch(databaseHelperProvider)));
 final syncQueueLocalDsProvider =
     Provider((ref) => SyncQueueLocalDatasource(ref.watch(databaseHelperProvider)));
 
@@ -119,6 +124,10 @@ final usuarioRepositoryProvider = Provider<UsuarioRepository>((ref) => UsuarioRe
     ));
 final clienteRepositoryProvider = Provider<ClienteRepository>((ref) => ClienteRepositoryImpl(
       ref.watch(clienteLocalDsProvider),
+      ref.watch(syncQueueLocalDsProvider),
+    ));
+final cajaRepositoryProvider = Provider<CajaRepository>((ref) => CajaRepositoryImpl(
+      ref.watch(cajaLocalDsProvider),
       ref.watch(syncQueueLocalDsProvider),
     ));
 
