@@ -1,1 +1,5 @@
-find: ‘build/app/outputs’: No such file or directory
+--- Buscando cualquier .apk en todo el proyecto ---
+--- Contenido de build/ (si existe) ---
+find: ‘build’: No such file or directory
+--- Contenido de android/app/build/ (si existe) ---
+find: ‘android/app/build’: No such file or directory
