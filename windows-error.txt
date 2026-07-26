@@ -1,4 +1,4 @@
-[  +33 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[  +25 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
 [   +6 ms] Artifact Instance of 'GradleWrapper' is not required, skipping update.
 [        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
@@ -21,13 +21,13 @@
 [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
-[  +15 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[  +17 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
 [        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
 [        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
-[   +3 ms] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[   +2 ms] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
@@ -57,39 +57,39 @@
 [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
 [        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
-[  +16 ms] Skipping pub get: version match.
-[ +139 ms] Found plugin vibration at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\vibration-2.1.0\
-[  +10 ms] Found plugin device_info_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\device_info_plus-11.5.0\
-[  +21 ms] Found plugin sqflite at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite-2.4.2+1\
+[  +15 ms] Skipping pub get: version match.
+[ +142 ms] Found plugin vibration at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\vibration-2.1.0\
+[   +9 ms] Found plugin device_info_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\device_info_plus-11.5.0\
+[  +22 ms] Found plugin sqflite at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite-2.4.2+1\
 [   +5 ms] Found plugin sqflite_darwin at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_darwin-2.4.2\
 [   +2 ms] Found plugin sqflite_android at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_android-2.4.2+3\
-[   +3 ms] Found plugin share_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\share_plus-12.0.2\
+[   +2 ms] Found plugin share_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\share_plus-12.0.2\
 [   +2 ms] Found plugin url_launcher_windows at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\url_launcher_windows-3.1.5\
 [   +3 ms] Found plugin url_launcher_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\url_launcher_web-2.4.3\
 [   +1 ms] Found plugin url_launcher_linux at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\url_launcher_linux-3.2.2\
 [   +3 ms] Found plugin path_provider at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\path_provider-2.1.6\
 [   +1 ms] Found plugin path_provider_windows at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\path_provider_windows-2.3.0\
-[   +3 ms] Found plugin path_provider_linux at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\path_provider_linux-2.2.2\
-[   +3 ms] Found plugin path_provider_foundation at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\path_provider_foundation-2.4.1\
-[   +1 ms] Found plugin path_provider_android at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\path_provider_android-2.3.1\
-[   +1 ms] Found plugin jni_flutter at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\jni_flutter-1.0.1\
-[   +1 ms] Found plugin jni at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\jni-1.0.0\
-[   +8 ms] Found plugin printing at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\printing-5.14.3\
-[  +16 ms] Found plugin print_bluetooth_thermal at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\print_bluetooth_thermal-1.2.1\
+[   +2 ms] Found plugin path_provider_linux at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\path_provider_linux-2.2.2\
+[   +2 ms] Found plugin path_provider_foundation at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\path_provider_foundation-2.4.1\
+[   +2 ms] Found plugin path_provider_android at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\path_provider_android-2.3.1\
+[   +2 ms] Found plugin jni_flutter at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\jni_flutter-1.0.1\
+[   +2 ms] Found plugin jni at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\jni-1.0.0\
+[   +7 ms] Found plugin printing at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\printing-5.14.3\
+[  +19 ms] Found plugin print_bluetooth_thermal at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\print_bluetooth_thermal-1.2.1\
 [   +4 ms] Found plugin mobile_scanner at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\mobile_scanner-5.2.3\
-[  +11 ms] Found plugin flutter_local_notifications at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\flutter_local_notifications-17.2.4\
+[   +7 ms] Found plugin flutter_local_notifications at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\flutter_local_notifications-17.2.4\
 [   +4 ms] Found plugin flutter_local_notifications_linux at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\flutter_local_notifications_linux-4.0.1\
-[  +11 ms] Found plugin firebase_core at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_core-3.15.2\
-[   +1 ms] Found plugin firebase_core_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_core_web-2.24.1\
-[   +4 ms] Found plugin firebase_auth at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_auth-5.7.0\
-[   +2 ms] Found plugin firebase_auth_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_auth_web-5.15.3\
-[  +12 ms] Found plugin connectivity_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\connectivity_plus-6.1.5\
+[  +14 ms] Found plugin firebase_core at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_core-3.15.2\
+[   +2 ms] Found plugin firebase_core_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_core_web-2.24.1\
+[   +3 ms] Found plugin firebase_auth at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_auth-5.7.0\
+[   +1 ms] Found plugin firebase_auth_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_auth_web-5.15.3\
+[  +11 ms] Found plugin connectivity_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\connectivity_plus-6.1.5\
 [   +4 ms] Found plugin cloud_firestore at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\cloud_firestore-5.6.12\
-[   +1 ms] Found plugin cloud_firestore_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\cloud_firestore_web-4.4.12\
-[ +120 ms] Found plugin vibration at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\vibration-2.1.0\
-[   +3 ms] Found plugin device_info_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\device_info_plus-11.5.0\
+[   +2 ms] Found plugin cloud_firestore_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\cloud_firestore_web-4.4.12\
+[ +116 ms] Found plugin vibration at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\vibration-2.1.0\
+[   +2 ms] Found plugin device_info_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\device_info_plus-11.5.0\
 [   +9 ms] Found plugin sqflite at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite-2.4.2+1\
-[   +3 ms] Found plugin sqflite_darwin at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_darwin-2.4.2\
+[   +2 ms] Found plugin sqflite_darwin at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_darwin-2.4.2\
 [   +1 ms] Found plugin sqflite_android at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_android-2.4.2+3\
 [   +1 ms] Found plugin share_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\share_plus-12.0.2\
 [   +1 ms] Found plugin url_launcher_windows at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\url_launcher_windows-3.1.5\
@@ -103,11 +103,11 @@
 [   +1 ms] Found plugin jni_flutter at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\jni_flutter-1.0.1\
 [   +1 ms] Found plugin jni at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\jni-1.0.0\
 [   +3 ms] Found plugin printing at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\printing-5.14.3\
-[   +8 ms] Found plugin print_bluetooth_thermal at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\print_bluetooth_thermal-1.2.1\
-[   +2 ms] Found plugin mobile_scanner at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\mobile_scanner-5.2.3\
+[   +7 ms] Found plugin print_bluetooth_thermal at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\print_bluetooth_thermal-1.2.1\
+[   +1 ms] Found plugin mobile_scanner at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\mobile_scanner-5.2.3\
 [   +4 ms] Found plugin flutter_local_notifications at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\flutter_local_notifications-17.2.4\
 [   +2 ms] Found plugin flutter_local_notifications_linux at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\flutter_local_notifications_linux-4.0.1\
-[   +5 ms] Found plugin firebase_core at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_core-3.15.2\
+[   +4 ms] Found plugin firebase_core at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_core-3.15.2\
 [   +1 ms] Found plugin firebase_core_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_core_web-2.24.1\
 [   +1 ms] Found plugin firebase_auth at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_auth-5.7.0\
 [   +1 ms] Found plugin firebase_auth_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_auth_web-5.15.3\
@@ -115,10 +115,10 @@
 [   +2 ms] Found plugin cloud_firestore at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\cloud_firestore-5.6.12\
 [   +1 ms] Found plugin cloud_firestore_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\cloud_firestore_web-4.4.12\
 [  +14 ms] Skipping generating generated_plugin_registrant.h because it is up-to-date.
-[   +5 ms] Skipping generating generated_plugin_registrant.cc because it is up-to-date.
+[   +4 ms] Skipping generating generated_plugin_registrant.cc because it is up-to-date.
 [   +1 ms] Skipping generating generated_plugins.cmake because it is up-to-date.
-[  +30 ms] executing: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe -format json -products * -utf8 -latest -version 16 -requires Microsoft.VisualStudio.Workload.NativeDesktop Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.CMake.Project
-[ +440 ms] Exit code 0 from: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe -format json -products * -utf8 -latest -version 16 -requires Microsoft.VisualStudio.Workload.NativeDesktop Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.CMake.Project
+[  +32 ms] executing: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe -format json -products * -utf8 -latest -version 16 -requires Microsoft.VisualStudio.Workload.NativeDesktop Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.CMake.Project
+[ +351 ms] Exit code 0 from: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe -format json -products * -utf8 -latest -version 16 -requires Microsoft.VisualStudio.Workload.NativeDesktop Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.CMake.Project
 [        ] [
              {
                "instanceId": "ece786fa",
@@ -177,161 +177,161 @@
                }
              }
            ]
-[  +20 ms] Building Windows application...
-[   +4 ms] executing: C:\Program Files\Microsoft Visual Studio\18\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe -S D:\a\hortalizas-pos\hortalizas-pos\windows -B D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64 -G Visual Studio 18 2026 -A x64 -DFLUTTER_TARGET_PLATFORM=windows-x64
-[+10683 ms] -- The CXX compiler identification is MSVC 19.51.36248.0
-[ +161 ms] -- Detecting CXX compiler ABI info
-[+1203 ms] -- Detecting CXX compiler ABI info - done
-[  +35 ms] -- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+[  +19 ms] Building Windows application...
+[   +3 ms] executing: C:\Program Files\Microsoft Visual Studio\18\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe -S D:\a\hortalizas-pos\hortalizas-pos\windows -B D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64 -G Visual Studio 18 2026 -A x64 -DFLUTTER_TARGET_PLATFORM=windows-x64
+[+9705 ms] -- The CXX compiler identification is MSVC 19.51.36248.0
+[ +160 ms] -- Detecting CXX compiler ABI info
+[+1068 ms] -- Detecting CXX compiler ABI info - done
+[  +33 ms] -- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
 [   +1 ms] -- Detecting CXX compile features
 [   +5 ms] -- Detecting CXX compile features - done
-[ +267 ms] -- [download 0% complete]
-[  +29 ms] -- [download 1% complete]
-[  +23 ms] -- [download 2% complete]
-[  +27 ms] -- [download 3% complete]
-[  +22 ms] -- [download 4% complete]
-[  +18 ms] -- [download 5% complete]
-[  +17 ms] -- [download 6% complete]
-[  +26 ms] -- [download 7% complete]
-[  +26 ms] -- [download 8% complete]
-[  +24 ms] -- [download 9% complete]
-[  +24 ms] -- [download 10% complete]
-[  +25 ms] -- [download 11% complete]
-[  +22 ms] -- [download 12% complete]
-[  +19 ms] -- [download 13% complete]
-[  +20 ms] -- [download 14% complete]
-[  +30 ms] -- [download 15% complete]
-[  +36 ms] -- [download 16% complete]
-[  +20 ms] -- [download 17% complete]
-[  +25 ms] -- [download 18% complete]
-[  +29 ms] -- [download 19% complete]
-[  +34 ms] -- [download 20% complete]
-[  +28 ms] -- [download 21% complete]
-[  +19 ms] -- [download 22% complete]
-[  +26 ms] -- [download 23% complete]
+[ +300 ms] -- [download 0% complete]
+[  +99 ms] -- [download 1% complete]
+[  +29 ms] -- [download 2% complete]
+[  +28 ms] -- [download 3% complete]
+[  +24 ms] -- [download 4% complete]
+[  +21 ms] -- [download 5% complete]
+[  +28 ms] -- [download 6% complete]
+[  +21 ms] -- [download 7% complete]
+[  +17 ms] -- [download 8% complete]
+[  +17 ms] -- [download 9% complete]
+[  +18 ms] -- [download 10% complete]
+[  +24 ms] -- [download 11% complete]
+[  +26 ms] -- [download 12% complete]
+[  +28 ms] -- [download 13% complete]
+[  +21 ms] -- [download 14% complete]
+[  +19 ms] -- [download 15% complete]
+[  +18 ms] -- [download 16% complete]
+[  +29 ms] -- [download 17% complete]
+[  +19 ms] -- [download 18% complete]
+[  +21 ms] -- [download 19% complete]
+[  +19 ms] -- [download 20% complete]
+[  +29 ms] -- [download 21% complete]
+[  +24 ms] -- [download 22% complete]
+[  +23 ms] -- [download 23% complete]
 [  +26 ms] -- [download 24% complete]
-[  +19 ms] -- [download 25% complete]
-[  +18 ms] -- [download 26% complete]
-[  +30 ms] -- [download 27% complete]
-[  +20 ms] -- [download 28% complete]
-[  +23 ms] -- [download 29% complete]
-[  +23 ms] -- [download 30% complete]
-[  +19 ms] -- [download 31% complete]
-[  +19 ms] -- [download 32% complete]
-[  +19 ms] -- [download 33% complete]
-[  +19 ms] -- [download 34% complete]
-[  +20 ms] -- [download 35% complete]
-[  +22 ms] -- [download 36% complete]
-[  +25 ms] -- [download 37% complete]
-[  +21 ms] -- [download 38% complete]
-[  +23 ms] -- [download 39% complete]
-[  +19 ms] -- [download 40% complete]
-[  +24 ms] -- [download 41% complete]
-[  +21 ms] -- [download 42% complete]
-[  +20 ms] -- [download 43% complete]
-[  +25 ms] -- [download 44% complete]
-[  +23 ms] -- [download 45% complete]
-[  +27 ms] -- [download 46% complete]
-[  +25 ms] -- [download 47% complete]
-[  +23 ms] -- [download 48% complete]
-[  +26 ms] -- [download 49% complete]
-[  +25 ms] -- [download 50% complete]
-[  +26 ms] -- [download 51% complete]
-[  +25 ms] -- [download 52% complete]
-[  +26 ms] -- [download 53% complete]
-[  +25 ms] -- [download 54% complete]
-[  +20 ms] -- [download 55% complete]
-[  +28 ms] -- [download 56% complete]
-[  +27 ms] -- [download 57% complete]
-[  +29 ms] -- [download 58% complete]
-[  +23 ms] -- [download 59% complete]
-[  +27 ms] -- [download 60% complete]
-[  +22 ms] -- [download 61% complete]
+[  +20 ms] -- [download 25% complete]
+[  +19 ms] -- [download 26% complete]
+[  +19 ms] -- [download 27% complete]
+[  +19 ms] -- [download 28% complete]
+[  +19 ms] -- [download 29% complete]
+[  +19 ms] -- [download 30% complete]
+[  +22 ms] -- [download 31% complete]
+[  +20 ms] -- [download 32% complete]
+[  +20 ms] -- [download 33% complete]
+[  +20 ms] -- [download 34% complete]
+[  +19 ms] -- [download 35% complete]
+[  +23 ms] -- [download 36% complete]
+[  +28 ms] -- [download 37% complete]
+[  +27 ms] -- [download 38% complete]
+[  +24 ms] -- [download 39% complete]
+[  +20 ms] -- [download 40% complete]
+[  +30 ms] -- [download 41% complete]
+[  +20 ms] -- [download 42% complete]
+[  +19 ms] -- [download 43% complete]
+[  +18 ms] -- [download 44% complete]
+[  +19 ms] -- [download 45% complete]
+[  +20 ms] -- [download 46% complete]
+[  +20 ms] -- [download 47% complete]
+[  +19 ms] -- [download 48% complete]
+[  +20 ms] -- [download 49% complete]
+[  +20 ms] -- [download 50% complete]
+[  +23 ms] -- [download 51% complete]
+[  +19 ms] -- [download 52% complete]
+[  +20 ms] -- [download 53% complete]
+[  +20 ms] -- [download 54% complete]
+[  +31 ms] -- [download 55% complete]
+[  +20 ms] -- [download 56% complete]
+[  +21 ms] -- [download 57% complete]
+[  +22 ms] -- [download 58% complete]
+[  +20 ms] -- [download 59% complete]
+[  +29 ms] -- [download 60% complete]
+[  +20 ms] -- [download 61% complete]
 [  +20 ms] -- [download 62% complete]
-[  +20 ms] -- [download 63% complete]
-[  +20 ms] -- [download 64% complete]
+[  +30 ms] -- [download 63% complete]
+[  +21 ms] -- [download 64% complete]
 [  +20 ms] -- [download 65% complete]
-[  +21 ms] -- [download 66% complete]
-[  +21 ms] -- [download 67% complete]
+[  +20 ms] -- [download 66% complete]
+[  +20 ms] -- [download 67% complete]
 [  +20 ms] -- [download 68% complete]
-[  +20 ms] -- [download 69% complete]
-[  +23 ms] -- [download 70% complete]
-[  +24 ms] -- [download 71% complete]
-[  +24 ms] -- [download 72% complete]
-[  +20 ms] -- [download 73% complete]
-[  +23 ms] -- [download 74% complete]
-[  +23 ms] -- [download 75% complete]
-[  +23 ms] -- [download 76% complete]
-[  +23 ms] -- [download 77% complete]
-[  +24 ms] -- [download 78% complete]
-[  +24 ms] -- [download 79% complete]
-[  +23 ms] -- [download 80% complete]
-[  +23 ms] -- [download 81% complete]
-[  +24 ms] -- [download 82% complete]
-[  +20 ms] -- [download 83% complete]
-[  +25 ms] -- [download 84% complete]
-[  +19 ms] -- [download 85% complete]
-[  +20 ms] -- [download 86% complete]
-[  +20 ms] -- [download 87% complete]
-[  +20 ms] -- [download 88% complete]
-[  +25 ms] -- [download 89% complete]
-[  +21 ms] -- [download 90% complete]
-[  +20 ms] -- [download 91% complete]
-[  +21 ms] -- [download 92% complete]
-[  +24 ms] -- [download 93% complete]
-[  +21 ms] -- [download 94% complete]
-[  +20 ms] -- [download 95% complete]
-[  +19 ms] -- [download 96% complete]
-[  +21 ms] -- [download 97% complete]
+[  +25 ms] -- [download 69% complete]
+[  +19 ms] -- [download 70% complete]
+[  +25 ms] -- [download 71% complete]
+[  +32 ms] -- [download 72% complete]
+[  +27 ms] -- [download 73% complete]
+[  +22 ms] -- [download 74% complete]
+[  +24 ms] -- [download 75% complete]
+[  +26 ms] -- [download 76% complete]
+[  +25 ms] -- [download 77% complete]
+[  +23 ms] -- [download 78% complete]
+[  +20 ms] -- [download 79% complete]
+[  +21 ms] -- [download 80% complete]
+[  +20 ms] -- [download 81% complete]
+[  +20 ms] -- [download 82% complete]
+[  +19 ms] -- [download 83% complete]
+[  +19 ms] -- [download 84% complete]
+[  +20 ms] -- [download 85% complete]
+[  +19 ms] -- [download 86% complete]
+[  +29 ms] -- [download 87% complete]
+[  +21 ms] -- [download 88% complete]
+[  +21 ms] -- [download 89% complete]
+[  +19 ms] -- [download 90% complete]
+[  +19 ms] -- [download 91% complete]
+[  +19 ms] -- [download 92% complete]
+[  +19 ms] -- [download 93% complete]
+[  +20 ms] -- [download 94% complete]
+[  +28 ms] -- [download 95% complete]
+[  +23 ms] -- [download 96% complete]
+[  +25 ms] -- [download 97% complete]
 [  +22 ms] -- [download 98% complete]
-[  +25 ms] -- [download 99% complete]
-[  +22 ms] -- [download 100% complete]
-[+23321 ms] CMake Deprecation Warning at D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/extracted/firebase_cpp_sdk_windows/CMakeLists.txt:17 (cmake_minimum_required):
+[  +28 ms] -- [download 99% complete]
+[  +23 ms] -- [download 100% complete]
+[+23706 ms] CMake Deprecation Warning at D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/extracted/firebase_cpp_sdk_windows/CMakeLists.txt:17 (cmake_minimum_required):
 [   +1 ms]   Compatibility with CMake < 3.10 will be removed from a future version of
 [        ]   CMake.
 [        ]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
 [        ]   to tell CMake that the project requires at least <min> but has been updated
 [        ]   to work with policies introduced by <max> or earlier.
-[+1455 ms] -- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
-[  +20 ms] -- Downloading/updating pdfium
-[ +519 ms] -- Configuring done (0.5s)
+[+1226 ms] -- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+[ +539 ms] -- Downloading/updating pdfium
+[ +547 ms] -- Configuring done (0.5s)
 [  +29 ms] -- Generating done (0.0s)
-[   +1 ms] -- Build files have been written to: D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-download
-[ +134 ms] MSBuild version 18.7.8+1ac568fee for .NET Framework
-[ +343 ms]   1>Checking Build System
-[ +198 ms]   Creating directories for 'pdfium-download'
-[  +51 ms]   Building Custom Rule D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-download/CMakeLists.txt
+[        ] -- Build files have been written to: D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-download
+[ +132 ms] MSBuild version 18.7.8+1ac568fee for .NET Framework
+[ +379 ms]   1>Checking Build System
+[ +171 ms]   Creating directories for 'pdfium-download'
+[  +52 ms]   Building Custom Rule D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-download/CMakeLists.txt
 [  +29 ms]   Performing download step (download, verify and extract) for 'pdfium-download'
 [  +22 ms]   -- Downloading...
 [        ]      dst='D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-download/pdfium-download-prefix/src/pdfium-win-x64.tgz'
 [        ]      timeout='none'
 [        ]      inactivity timeout='none'
 [        ]   -- Using src='https://github.com/bblanchon/pdfium-binaries/releases/download/chromium/5200/pdfium-win-x64.tgz'
-[ +251 ms]   -- [download 0% complete]
-[        ]   -- [download 1% complete]
-[   +8 ms]   -- [download 2% complete]
-[   +3 ms]   -- [download 3% complete]
-[   +1 ms]   -- [download 4% complete]
-[   +1 ms]   -- [download 5% complete]
+[ +563 ms]   -- [download 0% complete]
+[   +4 ms]   -- [download 1% complete]
+[  +11 ms]   -- [download 2% complete]
+[   +9 ms]   -- [download 3% complete]
+[   +2 ms]   -- [download 4% complete]
+[  +12 ms]   -- [download 5% complete]
 [   +1 ms]   -- [download 6% complete]
-[   +1 ms]   -- [download 7% complete]
+[   +3 ms]   -- [download 7% complete]
 [   +1 ms]   -- [download 8% complete]
-[        ]   -- [download 9% complete]
-[        ]   -- [download 10% complete]
+[   +3 ms]   -- [download 9% complete]
+[   +8 ms]   -- [download 10% complete]
 [        ]   -- [download 11% complete]
-[        ]   -- [download 12% complete]
+[   +1 ms]   -- [download 12% complete]
 [   +1 ms]   -- [download 13% complete]
 [        ]   -- [download 14% complete]
-[        ]   -- [download 15% complete]
+[   +1 ms]   -- [download 15% complete]
 [        ]   -- [download 16% complete]
 [        ]   -- [download 17% complete]
 [        ]   -- [download 18% complete]
-[        ]   -- [download 19% complete]
-[        ]   -- [download 20% complete]
+[   +8 ms]   -- [download 19% complete]
+[   +1 ms]   -- [download 20% complete]
 [        ]   -- [download 21% complete]
 [        ]   -- [download 22% complete]
 [        ]   -- [download 23% complete]
-[        ]   -- [download 24% complete]
+[   +1 ms]   -- [download 24% complete]
 [        ]   -- [download 25% complete]
 [        ]   -- [download 26% complete]
 [        ]   -- [download 27% complete]
@@ -345,9 +345,9 @@
 [        ]   -- [download 35% complete]
 [        ]   -- [download 36% complete]
 [        ]   -- [download 37% complete]
-[        ]   -- [download 38% complete]
+[   +6 ms]   -- [download 38% complete]
 [        ]   -- [download 39% complete]
-[        ]   -- [download 40% complete]
+[   +1 ms]   -- [download 40% complete]
 [        ]   -- [download 41% complete]
 [        ]   -- [download 42% complete]
 [        ]   -- [download 43% complete]
@@ -383,9 +383,9 @@
 [        ]   -- [download 73% complete]
 [        ]   -- [download 74% complete]
 [        ]   -- [download 75% complete]
-[        ]   -- [download 76% complete]
+[   +5 ms]   -- [download 76% complete]
 [        ]   -- [download 77% complete]
-[        ]   -- [download 78% complete]
+[   +1 ms]   -- [download 78% complete]
 [        ]   -- [download 79% complete]
 [        ]   -- [download 80% complete]
 [        ]   -- [download 81% complete]
@@ -394,7 +394,7 @@
 [        ]   -- [download 84% complete]
 [        ]   -- [download 85% complete]
 [        ]   -- [download 86% complete]
-[   +1 ms]   -- [download 87% complete]
+[        ]   -- [download 87% complete]
 [        ]   -- [download 88% complete]
 [        ]   -- [download 89% complete]
 [        ]   -- [download 90% complete]
@@ -408,39 +408,39 @@
 [        ]   -- [download 98% complete]
 [        ]   -- [download 99% complete]
 [        ]   -- [download 100% complete]
-[        ]   -- Downloading... done
+[   +1 ms]   -- Downloading... done
 [  +49 ms]   -- extracting...
 [        ]        src='D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-download/pdfium-download-prefix/src/pdfium-win-x64.tgz'
 [        ]        dst='D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-src'
-[   +1 ms]   -- extracting... [tar xf]
-[ +153 ms]   -- extracting... [analysis]
+[        ]   -- extracting... [tar xf]
+[ +152 ms]   -- extracting... [analysis]
 [        ]   -- extracting... [rename]
 [        ]   -- extracting... [clean up]
 [        ]   -- extracting... done
 [  +30 ms]   No update step for 'pdfium-download'
-[  +50 ms]   No patch step for 'pdfium-download'
-[  +49 ms]   No configure step for 'pdfium-download'
-[  +51 ms]   No build step for 'pdfium-download'
-[  +52 ms]   No install step for 'pdfium-download'
-[  +51 ms]   No test step for 'pdfium-download'
+[  +49 ms]   No patch step for 'pdfium-download'
+[  +50 ms]   No configure step for 'pdfium-download'
+[  +54 ms]   No build step for 'pdfium-download'
+[  +50 ms]   No install step for 'pdfium-download'
+[  +50 ms]   No test step for 'pdfium-download'
 [  +50 ms]   Completed 'pdfium-download'
-[ +158 ms]   Building Custom Rule D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-download/CMakeLists.txt
-[ +115 ms] -- Found PDFium: D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-src/bin/pdfium.dll (found version "106.0.5200.0")
-[+1126 ms] -- The C compiler identification is MSVC 19.51.36248.0
-[  +23 ms] -- Detecting C compiler ABI info
-[ +754 ms] -- Detecting C compiler ABI info - done
+[ +152 ms]   Building Custom Rule D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-download/CMakeLists.txt
+[ +116 ms] -- Found PDFium: D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/pdfium-src/bin/pdfium.dll (found version "106.0.5200.0")
+[ +990 ms] -- The C compiler identification is MSVC 19.51.36248.0
+[  +22 ms] -- Detecting C compiler ABI info
+[ +717 ms] -- Detecting C compiler ABI info - done
 [  +20 ms] -- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
 [        ] -- Detecting C compile features
-[   +1 ms] -- Detecting C compile features - done
-[+1726 ms] -- Found JNI: C:/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/17.0.19-10/x64/include  found components: JVM
-[  +29 ms] -- Configuring done (44.8s)
-[ +248 ms] -- Generating done (0.2s)
+[        ] -- Detecting C compile features - done
+[+1527 ms] -- Found JNI: C:/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/17.0.19-10/x64/include  found components: JVM
+[  +26 ms] -- Configuring done (44.6s)
+[ +257 ms] -- Generating done (0.3s)
 [   +1 ms] -- Build files have been written to: D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64
-[  +20 ms] executing: C:\Program Files\Microsoft Visual Studio\18\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe --build D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64 --config Release --target INSTALL --verbose
+[  +18 ms] executing: C:\Program Files\Microsoft Visual Studio\18\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe --build D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64 --config Release --target INSTALL --verbose
 [  +60 ms] Change Dir: 'D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64'
 [        ] Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" INSTALL.vcxproj /p:Configuration=Release /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
 [  +75 ms] MSBuild version 18.7.8+1ac568fee for .NET Framework
-[  +42 ms] Build started 7/26/2026 1:32:23 AM.
+[  +38 ms] Build started 7/26/2026 1:40:54 AM.
 [ +190 ms] Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\INSTALL.vcxproj" on node 1 (default targets).
 [        ] Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\INSTALL.vcxproj" (1) is building "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\ZERO_CHECK.vcxproj" (2) on node 1 (default targets).
 [        ] PrepareForBuild:
@@ -450,13 +450,13 @@
 [   +3 ms] InitializeBuildStatus:
 [        ]   Creating "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
 [        ]   Touching "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\unsuccessfulbuild".
-[  +85 ms] CustomBuild:
+[  +82 ms] CustomBuild:
 [        ]   1>Checking Build System
-[  +79 ms] FinalizeBuildStatus:
+[  +78 ms] FinalizeBuildStatus:
 [        ]   Deleting file "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\unsuccessfulbuild".
 [        ]   Touching "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\ZERO_CHECK.lastbuildstate".
-[   +8 ms] Done Building Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\ZERO_CHECK.vcxproj" (default targets).
-[ +103 ms] Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\INSTALL.vcxproj" (1) is building "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\ALL_BUILD.vcxproj" (3) on node 1 (default targets).
+[   +7 ms] Done Building Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\ZERO_CHECK.vcxproj" (default targets).
+[  +99 ms] Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\INSTALL.vcxproj" (1) is building "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\ALL_BUILD.vcxproj" (3) on node 1 (default targets).
 [        ] Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\ALL_BUILD.vcxproj" (3) is building "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\cloud_firestore\cloud_firestore_plugin.vcxproj" (4) on node 1 (default targets).
 [        ] Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\cloud_firestore\cloud_firestore_plugin.vcxproj" (4) is building "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj" (5) on node 1 (default targets).
 [        ] PrepareForBuild:
@@ -466,12 +466,12 @@
 [   +2 ms] InitializeBuildStatus:
 [        ]   Creating "x64\Release\flutter_assemble\flutter_assemble.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
 [        ]   Touching "x64\Release\flutter_assemble\flutter_assemble.tlog\unsuccessfulbuild".
-[   +1 ms] ComputeCustomBuildOutput:
+[        ] ComputeCustomBuildOutput:
 [        ]   Creating directory "D:\a\hortalizas-pos\hortalizas-pos\windows\flutter\ephemeral\cpp_client_wrapper\".
-[   +1 ms] CustomBuild:
+[   +2 ms] CustomBuild:
 [        ]   "The build of 'D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\CMakeFiles\194c79f9b8db60161dbfea32570eccb4\flutter_assemble.rule' depends on 'D:\A\HORTALIZAS-POS\HORTALIZAS-POS\WINDOWS\FLUTTER\EPHEMERAL\FLUTTER_WINDOWS.DLL' which is produced by the build of 'D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\CMakeFiles\54d4c08b86b8bf8b2f8800da5a936208\flutter_windows.dll.rule'. The items cannot be built in parallel."
 [  +26 ms]   Generating D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/flutter_windows.dll, D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/flutter_export.h, D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/flutter_windows.h, D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/flutter_messenger.h, D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/flutter_plugin_registrar.h, D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/flutter_texture_registrar.h, D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/cpp_client_wrapper/core_implementations.cc, D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/cpp_client_wrapper/standard_codec.cc, D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/cpp_client_wrapper/plugin_registrar.cc, D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/cpp_client_wrapper/flutter_engine.cc, D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/cpp_client_wrapper/flutter_view_controller.cc, _phony_
-[+1591 ms]   [  +30 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[+1529 ms]   [  +32 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
 [        ]   [   +6 ms] Artifact Instance of 'GradleWrapper' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
@@ -494,20 +494,20 @@
 [        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
-[   +7 ms]   [  +15 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[   +6 ms]   [  +14 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
-[   +2 ms]   [   +2 ms] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[   +1 ms]   [   +2 ms] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
-[  +72 ms]   [  +72 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[  +70 ms]   [  +69 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'GradleWrapper' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
@@ -526,25 +526,25 @@
 [        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
-[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[   +2 ms]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
 [        ]   [        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
-[  +14 ms]   [  +15 ms] Initializing file store
-[  +31 ms]   [  +31 ms] dart_build: Starting due to {}
-[   +1 ms]   [   +2 ms] Skipping target: gen_localizations
+[  +13 ms]   [  +15 ms] Initializing file store
+[  +30 ms]   [  +30 ms] dart_build: Starting due to {}
+[   +1 ms]   [   +1 ms] Skipping target: gen_localizations
 [   +3 ms]   [   +3 ms] gen_dart_plugin_registrant: Starting due to {InvalidatedReasonKind.inputChanged: The following inputs have updated contents: D:\a\hortalizas-pos\hortalizas-pos\.dart_tool\package_config.json}
-[   +5 ms]   [   +5 ms] unpack_windows: Starting due to {}
-[ +177 ms]   [ +176 ms] unpack_windows: Complete
-[+2684 ms]   [+2684 ms] No packages with native assets. Skipping native assets compilation.
-[   +2 ms]   [   +3 ms] dart_build: Complete
-[   +3 ms]   [   +2 ms] install_code_assets: Starting due to {}
-[  +11 ms]   [  +11 ms] Writing native assets json to file:///D:/a/hortalizas-pos/hortalizas-pos/.dart_tool/flutter_build/092ecc272c842af879181e19e1e02143/native_assets.json.
-[   +5 ms]   [   +5 ms] Writing D:\a\hortalizas-pos\hortalizas-pos\.dart_tool\flutter_build\092ecc272c842af879181e19e1e02143\native_assets.json done.
-[        ]   [   +1 ms] install_code_assets: Complete
-[  +57 ms]   [  +57 ms] Found plugin vibration at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\vibration-2.1.0\
-[   +7 ms]   [   +7 ms] Found plugin device_info_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\device_info_plus-11.5.0\
-[  +18 ms]   [  +18 ms] Found plugin sqflite at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite-2.4.2+1\
+[   +4 ms]   [   +4 ms] unpack_windows: Starting due to {}
+[ +151 ms]   [ +150 ms] unpack_windows: Complete
+[+2686 ms]   [+2687 ms] No packages with native assets. Skipping native assets compilation.
+[   +2 ms]   [   +2 ms] dart_build: Complete
+[   +2 ms]   [   +2 ms] install_code_assets: Starting due to {}
+[  +10 ms]   [  +10 ms] Writing native assets json to file:///D:/a/hortalizas-pos/hortalizas-pos/.dart_tool/flutter_build/092ecc272c842af879181e19e1e02143/native_assets.json.
+[   +3 ms]   [   +4 ms] Writing D:\a\hortalizas-pos\hortalizas-pos\.dart_tool\flutter_build\092ecc272c842af879181e19e1e02143\native_assets.json done.
+[   +1 ms]   [   +1 ms] install_code_assets: Complete
+[  +61 ms]   [  +60 ms] Found plugin vibration at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\vibration-2.1.0\
+[   +8 ms]   [   +8 ms] Found plugin device_info_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\device_info_plus-11.5.0\
+[  +19 ms]   [  +19 ms] Found plugin sqflite at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite-2.4.2+1\
 [   +4 ms]   [   +4 ms] Found plugin sqflite_darwin at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_darwin-2.4.2\
 [   +2 ms]   [   +2 ms] Found plugin sqflite_android at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_android-2.4.2+3\
 [   +2 ms]   [   +2 ms] Found plugin share_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\share_plus-12.0.2\
@@ -559,24 +559,24 @@
 [   +1 ms]   [   +1 ms] Found plugin jni_flutter at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\jni_flutter-1.0.1\
 [   +1 ms]   [   +1 ms] Found plugin jni at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\jni-1.0.0\
 [   +5 ms]   [   +4 ms] Found plugin printing at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\printing-5.14.3\
-[  +12 ms]   [  +12 ms] Found plugin print_bluetooth_thermal at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\print_bluetooth_thermal-1.2.1\
-[   +2 ms]   [   +3 ms] Found plugin mobile_scanner at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\mobile_scanner-5.2.3\
+[  +14 ms]   [  +14 ms] Found plugin print_bluetooth_thermal at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\print_bluetooth_thermal-1.2.1\
+[   +3 ms]   [   +3 ms] Found plugin mobile_scanner at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\mobile_scanner-5.2.3\
 [   +7 ms]   [   +7 ms] Found plugin flutter_local_notifications at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\flutter_local_notifications-17.2.4\
 [   +3 ms]   [   +3 ms] Found plugin flutter_local_notifications_linux at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\flutter_local_notifications_linux-4.0.1\
 [  +10 ms]   [   +9 ms] Found plugin firebase_core at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_core-3.15.2\
-[   +1 ms]   [   +2 ms] Found plugin firebase_core_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_core_web-2.24.1\
+[   +1 ms]   [   +1 ms] Found plugin firebase_core_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_core_web-2.24.1\
 [   +3 ms]   [   +3 ms] Found plugin firebase_auth at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_auth-5.7.0\
 [   +2 ms]   [   +2 ms] Found plugin firebase_auth_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\firebase_auth_web-5.15.3\
 [  +10 ms]   [   +9 ms] Found plugin connectivity_plus at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\connectivity_plus-6.1.5\
-[   +3 ms]   [   +4 ms] Found plugin cloud_firestore at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\cloud_firestore-5.6.12\
+[   +4 ms]   [   +4 ms] Found plugin cloud_firestore at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\cloud_firestore-5.6.12\
 [   +1 ms]   [   +1 ms] Found plugin cloud_firestore_web at D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\cloud_firestore_web-4.4.12\
-[  +26 ms]   [  +26 ms] gen_dart_plugin_registrant: Complete
+[  +24 ms]   [  +24 ms] gen_dart_plugin_registrant: Complete
 [   +3 ms]   [   +3 ms] kernel_snapshot_program: Starting due to {}
-[  +12 ms]   [  +12 ms] C:\hostedtoolcache\windows\flutter\stable-3.41.0-x64\flutter\bin\cache\dart-sdk\bin\dartaotruntime.exe C:\hostedtoolcache\windows\flutter\stable-3.41.0-x64\flutter\bin\cache\dart-sdk\bin\snapshots\frontend_server_aot.dart.snapshot --sdk-root C:\hostedtoolcache\windows\flutter\stable-3.41.0-x64\flutter\bin\cache\artifacts\engine\common\flutter_patched_sdk_product/ --target=flutter --no-print-incremental-dependencies -DFLUTTER_VERSION=3.41.0 -DFLUTTER_CHANNEL=stable -DFLUTTER_GIT_URL=https://github.com/flutter/flutter.git -DFLUTTER_FRAMEWORK_REVISION=44a626f4f0 -DFLUTTER_ENGINE_REVISION=3452d735bd -DFLUTTER_DART_VERSION=3.11.0 -Ddart.vm.profile=false -Ddart.vm.product=true --delete-tostring-package-uri=dart:ui --delete-tostring-package-uri=package:flutter --aot --tfa --target-os windows --packages D:\a\hortalizas-pos\hortalizas-pos\.dart_tool\package_config.json --output-dill D:\a\hortalizas-pos\hortalizas-pos\.dart_tool\flutter_build\092ecc272c842af879181e19e1e02143\app.dill --depfile D:\a\hortalizas-pos\hortalizas-pos\.dart_tool\flutter_build\092ecc272c842af879181e19e1e02143\kernel_snapshot_program.d --source file:///D:/a/hortalizas-pos/hortalizas-pos/.dart_tool/flutter_build/dart_plugin_registrant.dart --source package:flutter/src/dart_plugin_registrant.dart -Dflutter.dart_plugin_registrant=file:///D:/a/hortalizas-pos/hortalizas-pos/.dart_tool/flutter_build/dart_plugin_registrant.dart --verbosity=error package:hortalizas_pos/main.dart
-[ +108 ms] [ +105 ms] lib/main.dart(6,8): error GFAA2A68C: Error when reading '.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.3.3/lib/sqflite_common_ffi.dart': The system cannot find the file specified [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
+[  +12 ms]   [  +11 ms] C:\hostedtoolcache\windows\flutter\stable-3.41.0-x64\flutter\bin\cache\dart-sdk\bin\dartaotruntime.exe C:\hostedtoolcache\windows\flutter\stable-3.41.0-x64\flutter\bin\cache\dart-sdk\bin\snapshots\frontend_server_aot.dart.snapshot --sdk-root C:\hostedtoolcache\windows\flutter\stable-3.41.0-x64\flutter\bin\cache\artifacts\engine\common\flutter_patched_sdk_product/ --target=flutter --no-print-incremental-dependencies -DFLUTTER_VERSION=3.41.0 -DFLUTTER_CHANNEL=stable -DFLUTTER_GIT_URL=https://github.com/flutter/flutter.git -DFLUTTER_FRAMEWORK_REVISION=44a626f4f0 -DFLUTTER_ENGINE_REVISION=3452d735bd -DFLUTTER_DART_VERSION=3.11.0 -Ddart.vm.profile=false -Ddart.vm.product=true --delete-tostring-package-uri=dart:ui --delete-tostring-package-uri=package:flutter --aot --tfa --target-os windows --packages D:\a\hortalizas-pos\hortalizas-pos\.dart_tool\package_config.json --output-dill D:\a\hortalizas-pos\hortalizas-pos\.dart_tool\flutter_build\092ecc272c842af879181e19e1e02143\app.dill --depfile D:\a\hortalizas-pos\hortalizas-pos\.dart_tool\flutter_build\092ecc272c842af879181e19e1e02143\kernel_snapshot_program.d --source file:///D:/a/hortalizas-pos/hortalizas-pos/.dart_tool/flutter_build/dart_plugin_registrant.dart --source package:flutter/src/dart_plugin_registrant.dart -Dflutter.dart_plugin_registrant=file:///D:/a/hortalizas-pos/hortalizas-pos/.dart_tool/flutter_build/dart_plugin_registrant.dart --verbosity=error package:hortalizas_pos/main.dart
+[  +79 ms] [  +77 ms] lib/main.dart(6,8): error GFAA2A68C: Error when reading '.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.3.3/lib/sqflite_common_ffi.dart': The system cannot find the file specified [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
 [        ]   [   +1 ms] import 'package:sqflite_common_ffi/sqflite_common_ffi.dart';
 [        ]   [        ]        ^
-[+4692 ms] [+4693 ms] lib/main.dart(17,5): error G311314CC: Method not found: 'sqfliteFfiInit'. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
+[+4874 ms] [+4875 ms] lib/main.dart(17,5): error G311314CC: Method not found: 'sqfliteFfiInit'. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
 [        ]   [        ]     sqfliteFfiInit();
 [        ]   [        ]     ^^^^^^^^^^^^^^
 [        ] [        ] lib/main.dart(18,23): error GC9768DF9: Undefined name 'databaseFactoryFfi'. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
@@ -585,7 +585,7 @@
 [        ] [        ] lib/main.dart(18,5): error GC3CEBF4A: Setter not found: 'databaseFactory'. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
 [        ]   [        ]     databaseFactory = databaseFactoryFfi;
 [        ]   [        ]     ^^^^^^^^^^^^^^^
-[+10023 ms]   [+10023 ms] Persisting file store
+[+9805 ms]   [+9806 ms] Persisting file store
 [   +5 ms]   [   +5 ms] Done persisting file store
 [   +4 ms]   [   +4 ms] Target kernel_snapshot_program failed: Exception
 [        ]              #0      KernelSnapshot.build (package:flutter_tools/src/build_system/targets/common.dart:289:7)
@@ -628,8 +628,8 @@
 [        ]              <asynchronous suspension>
 [        ]              #19     main (package:flutter_tools/executable.dart:103:3)
 [        ]              <asynchronous suspension>
-[   +4 ms]   [  +11 ms] "flutter assemble" took 18,098ms.
-[  +10 ms]   [  +10 ms] 
+[   +4 ms]   [  +11 ms] "flutter assemble" took 18,004ms.
+[   +9 ms]   [   +8 ms] 
 [        ]              #0      throwToolExit (package:flutter_tools/src/base/common.dart:34:3)
 [        ]              #1      AssembleCommand.runCommand (package:flutter_tools/src/commands/assemble.dart:383:7)
 [        ]              <asynchronous suspension>
@@ -650,16 +650,16 @@
 [        ]              #9      run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:104:11)
 [        ]              <asynchronous suspension>
 [        ]              #10     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
-[        ]   [        ] Running 1 shutdown hook
 [        ]              <asynchronous suspension>
 [        ]              #11     main (package:flutter_tools/executable.dart:103:3)
 [        ]              <asynchronous suspension>
-[        ]   [        ] Shutdown hooks complete
+[        ]   [        ] Running 1 shutdown hook
+[        ]   [   +1 ms] Shutdown hooks complete
 [        ]   [        ] exiting with code 1
-[  +57 ms] C:\Program Files\Microsoft Visual Studio\18\Enterprise\MSBuild\Microsoft\VC\v180\Microsoft.CppCommon.targets(254,5): error MSB8066: Custom build for 'D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\CMakeFiles\54d4c08b86b8bf8b2f8800da5a936208\flutter_windows.dll.rule;D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\CMakeFiles\194c79f9b8db60161dbfea32570eccb4\flutter_assemble.rule;D:\a\hortalizas-pos\hortalizas-pos\windows\flutter\CMakeLists.txt' exited with code 1. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
+[  +60 ms] C:\Program Files\Microsoft Visual Studio\18\Enterprise\MSBuild\Microsoft\VC\v180\Microsoft.CppCommon.targets(254,5): error MSB8066: Custom build for 'D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\CMakeFiles\54d4c08b86b8bf8b2f8800da5a936208\flutter_windows.dll.rule;D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\CMakeFiles\194c79f9b8db60161dbfea32570eccb4\flutter_assemble.rule;D:\a\hortalizas-pos\hortalizas-pos\windows\flutter\CMakeLists.txt' exited with code 1. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
 [   +1 ms] Done Building Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj" (default targets) -- FAILED.
 [   +1 ms] Done Building Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\cloud_firestore\cloud_firestore_plugin.vcxproj" (default targets) -- FAILED.
-[ +177 ms] Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\ALL_BUILD.vcxproj" (3) is building "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\jni\shared\jni.vcxproj" (12) on node 1 (default targets).
+[ +175 ms] Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\ALL_BUILD.vcxproj" (3) is building "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\jni\shared\jni.vcxproj" (12) on node 1 (default targets).
 [        ] PrepareForBuild:
 [        ]   Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
 [        ]   Creating directory "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\jni\shared\Release\".
@@ -667,25 +667,25 @@
 [   +1 ms] InitializeBuildStatus:
 [        ]   Creating "jni.dir\Release\jni.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
 [        ]   Touching "jni.dir\Release\jni.tlog\unsuccessfulbuild".
-[  +27 ms] CustomBuild:
+[  +26 ms] CustomBuild:
 [        ]   Building Custom Rule D:/a/hortalizas-pos/hortalizas-pos/windows/flutter/ephemeral/.plugin_symlinks/jni/src/CMakeLists.txt
-[  +97 ms] ClCompile:
+[  +93 ms] ClCompile:
 [        ]   C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64\CL.exe /c /I"C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.19-10\x64\include" /I"C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.19-10\x64\include\win32" /nologo /W3 /WX- /diagnostics:column /O2 /Ob2 /D _WINDLL /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D DART_SHARED_LIB /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /D jni_EXPORTS /MD /Fo"jni.dir\Release\\" /Fd"jni.dir\Release\vc145.pdb" /external:W3 /TC /errorReport:queue "D:\a\hortalizas-pos\hortalizas-pos\windows\flutter\ephemeral\.plugin_symlinks\jni\src\dartjni.c" "D:\a\hortalizas-pos\hortalizas-pos\windows\flutter\ephemeral\.plugin_symlinks\jni\src\third_party\global_jni_env.c" "D:\a\hortalizas-pos\hortalizas-pos\windows\flutter\ephemeral\.plugin_symlinks\jni\src\include\dart_api_dl.c"
-[  +42 ms]   dartjni.c
-[+2071 ms]   global_jni_env.c
-[ +241 ms]   dart_api_dl.c
-[  +27 ms]   Generating Code...
-[ +536 ms] Link:
+[  +44 ms]   dartjni.c
+[+1705 ms]   global_jni_env.c
+[ +235 ms]   dart_api_dl.c
+[  +26 ms]   Generating Code...
+[ +514 ms] Link:
 [        ]   C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64\link.exe /OUT:"D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\jni\shared\Release\dartjni.dll" /INCREMENTAL:NO /NOLOGO "C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.19-10\x64\lib\jvm.lib" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/plugins/jni/shared/Release/dartjni.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/plugins/jni/shared/Release/dartjni.lib" /MACHINE:X64  /machine:x64 /DLL jni.dir\Release\dartjni.obj
 [        ]   jni.dir\Release\global_jni_env.obj
 [        ]   jni.dir\Release\dart_api_dl.obj
-[ +291 ms]      Creating library D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/plugins/jni/shared/Release/dartjni.lib and object D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/plugins/jni/shared/Release/dartjni.exp
-[  +87 ms]   jni.vcxproj -> D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\jni\shared\Release\dartjni.dll
-[  +13 ms] FinalizeBuildStatus:
+[ +235 ms]      Creating library D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/plugins/jni/shared/Release/dartjni.lib and object D:/a/hortalizas-pos/hortalizas-pos/build/windows/x64/plugins/jni/shared/Release/dartjni.exp
+[  +88 ms]   jni.vcxproj -> D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\jni\shared\Release\dartjni.dll
+[  +12 ms] FinalizeBuildStatus:
 [        ]   Deleting file "jni.dir\Release\jni.tlog\unsuccessfulbuild".
 [        ]   Touching "jni.dir\Release\jni.tlog\jni.lastbuildstate".
 [        ] Done Building Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\jni\shared\jni.vcxproj" (default targets).
-[  +97 ms] Done Building Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\ALL_BUILD.vcxproj" (default targets) -- FAILED.
+[  +95 ms] Done Building Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\ALL_BUILD.vcxproj" (default targets) -- FAILED.
 [   +1 ms] Done Building Project "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\INSTALL.vcxproj" (default targets) -- FAILED.
 [   +7 ms] Build FAILED.
 [        ] "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\INSTALL.vcxproj" (default target) (1) ->
@@ -693,17 +693,17 @@
 [        ] "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\plugins\cloud_firestore\cloud_firestore_plugin.vcxproj" (default target) (4) ->
 [        ] "D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj" (default target) (5) ->
 [        ] (CustomBuild target) -> 
-[        ]   [ +105 ms] lib/main.dart(6,8): error GFAA2A68C: Error when reading '.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.3.3/lib/sqflite_common_ffi.dart': The system cannot find the file specified [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
-[        ]   [+4693 ms] lib/main.dart(17,5): error G311314CC: Method not found: 'sqfliteFfiInit'. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
+[        ]   [  +77 ms] lib/main.dart(6,8): error GFAA2A68C: Error when reading '.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.3.3/lib/sqflite_common_ffi.dart': The system cannot find the file specified [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
+[        ]   [+4875 ms] lib/main.dart(17,5): error G311314CC: Method not found: 'sqfliteFfiInit'. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
 [        ]   [        ] lib/main.dart(18,23): error GC9768DF9: Undefined name 'databaseFactoryFfi'. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
 [        ]   [        ] lib/main.dart(18,5): error GC3CEBF4A: Setter not found: 'databaseFactory'. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
 [        ]   C:\Program Files\Microsoft Visual Studio\18\Enterprise\MSBuild\Microsoft\VC\v180\Microsoft.CppCommon.targets(254,5): error MSB8066: Custom build for 'D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\CMakeFiles\54d4c08b86b8bf8b2f8800da5a936208\flutter_windows.dll.rule;D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\CMakeFiles\194c79f9b8db60161dbfea32570eccb4\flutter_assemble.rule;D:\a\hortalizas-pos\hortalizas-pos\windows\flutter\CMakeLists.txt' exited with code 1. [D:\a\hortalizas-pos\hortalizas-pos\build\windows\x64\flutter\flutter_assemble.vcxproj]
 [        ]     0 Warning(s)
 [        ]     5 Error(s)
-[        ] Time Elapsed 00:00:24.01
-[  +38 ms] Building Windows application... (completed in 70.1s)
-[   +1 ms] "flutter windows" took 71,243ms.
-[   +9 ms] Build process failed.
+[        ] Time Elapsed 00:00:23.39
+[  +34 ms] Building Windows application... (completed in 69.1s)
+[   +1 ms] "flutter windows" took 70,132ms.
+[  +12 ms] Build process failed.
 [        ] 
            #0      throwToolExit (package:flutter_tools/src/base/common.dart:34:3)
            #1      _runBuild (package:flutter_tools/src/windows/build_windows.dart:262:5)
