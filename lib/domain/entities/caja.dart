@@ -7,7 +7,7 @@ class ConteoBillete {
 
   const ConteoBillete({required this.denominacion, required this.cantidad});
 
-  double get subtotal => denominacion * cantidad;
+  double get subtotal => (denominacion * cantidad).toDouble();
 }
 
 /// Un movimiento manual de efectivo dentro de la caja del día (ingreso

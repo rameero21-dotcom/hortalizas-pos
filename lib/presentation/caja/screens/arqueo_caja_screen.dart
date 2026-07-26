@@ -17,7 +17,7 @@ final _ventasEfectivoHoyProvider = FutureProvider.autoDispose<double>((ref) asyn
   final ventas = await ref.watch(ventaRepositoryProvider).obtenerPorRangoFechaGlobal(inicio, fin);
   return ventas
       .where((v) => v.estado == EstadoVenta.cobrada && v.metodoPago == MetodoPago.efectivo)
-      .fold(0.0, (acc, v) => acc + v.total);
+      .fold<double>(0.0, (acc, v) => acc + v.total);
 });
 
 /// Movimientos manuales de caja de hoy (ingresos/egresos aparte de ventas).
