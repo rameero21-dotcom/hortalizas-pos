@@ -5,9 +5,14 @@ on:
     branches: [ main ]
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   build-android:
     runs-on: ubuntu-latest
+    env:
+      PUB_CACHE: ${{ github.workspace }}/.pub-cache
     steps:
       - uses: actions/checkout@v4
 
@@ -16,29 +21,61 @@ jobs:
           flutter-version: '3.22.0'
           channel: 'stable'
 
-      - name: Instalar dependencias
-        run: flutter pub get
-
       - name: Generar carpetas nativas (android/ios/etc)
-        run: flutter create . --platforms=android --project-name hortalizas_pos
+        id: create_android
+        run: flutter create . --platforms=android --project-name hortalizas_pos 2>&1 | tee /tmp/create_android.log
+        continue-on-error: true
 
-      - name: Reinstalar dependencias (flutter create puede desincronizarlas)
-        run: flutter pub get
+      - name: Guardar log si fallo flutter create (android)
+        if: steps.create_android.outcome == 'failure'
+        run: python3 .github/scripts/upload_log.py create-android-error.txt /tmp/create_android.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si flutter create fallo (android)
+        if: steps.create_android.outcome == 'failure'
+        run: exit 1
+
+      - name: Instalar dependencias (con reintentos por si falla la red)
+        id: pub_get_android
+        run: |
+          for intento in 1 2 3; do
+            echo "=== Intento $intento de flutter pub get ==="
+            flutter pub get 2>&1 | tee /tmp/pubget_android.log && break
+            if [ "$intento" = "3" ]; then
+              exit 1
+            fi
+            sleep 10
+          done
+        continue-on-error: true
+
+      - name: Guardar log si fallo pub get (android)
+        if: steps.pub_get_android.outcome == 'failure'
+        run: python3 .github/scripts/upload_log.py pubget-android-error.txt /tmp/pubget_android.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si pub get fallo (android)
+        if: steps.pub_get_android.outcome == 'failure'
+        run: exit 1
 
       - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
-        run: |
-          echo "--- build.gradle ANTES del cambio ---"
-          grep -n "minSdkVersion" android/app/build.gradle
-          sed -i '/minSdkVersion/s/.*/        minSdkVersion 23/' android/app/build.gradle
-          echo "--- build.gradle DESPUES del cambio ---"
-          grep -n "minSdkVersion" android/app/build.gradle
-          if ! grep -q "minSdkVersion 23" android/app/build.gradle; then
-            echo "ERROR: no se pudo fijar minSdkVersion en 23"
-            exit 1
-          fi
+        run: sed -i '/minSdkVersion/s/.*/        minSdkVersion 23/' android/app/build.gradle
 
       - name: Compilar APK
-        run: flutter build apk --release
+        id: build_apk
+        run: flutter build apk --release --verbose 2>&1 | tee /tmp/android_build.log
+        continue-on-error: true
+
+      - name: Guardar log de error para diagnostico (si fallo)
+        if: steps.build_apk.outcome == 'failure'
+        run: python3 .github/scripts/upload_log.py android-error.txt /tmp/android_build.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si la compilacion fallo
+        if: steps.build_apk.outcome == 'failure'
+        run: exit 1
 
       - name: Subir APK como artefacto descargable
         uses: actions/upload-artifact@v4
@@ -48,29 +85,87 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
+    env:
+      PUB_CACHE: ${{ github.workspace }}\.pub-cache
     steps:
       - uses: actions/checkout@v4
 
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.41.0'
           channel: 'stable'
 
-      - name: Instalar dependencias
-        run: flutter pub get
-
       - name: Generar carpetas nativas (windows)
-        run: flutter create . --platforms=windows --project-name hortalizas_pos
+        id: create_windows
+        run: flutter create . --platforms=windows --project-name hortalizas_pos 2>&1 | Tee-Object -FilePath create_windows.log
+        shell: pwsh
+        continue-on-error: true
 
-      - name: Reinstalar dependencias (flutter create puede desincronizarlas)
-        run: flutter pub get
+      - name: Guardar log si fallo flutter create (windows)
+        if: steps.create_windows.outcome == 'failure'
+        shell: pwsh
+        run: python .github/scripts/upload_log.py create-windows-error.txt create_windows.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si flutter create fallo (windows)
+        if: steps.create_windows.outcome == 'failure'
+        shell: pwsh
+        run: exit 1
+
+      - name: Instalar dependencias (con reintentos por si falla la red)
+        run: |
+          $exito = $false
+          for ($intento = 1; $intento -le 3; $intento++) {
+            flutter pub get
+            if ($LASTEXITCODE -eq 0) { $exito = $true; break }
+            Start-Sleep -Seconds 10
+          }
+          if (-not $exito) { exit 1 }
+        shell: pwsh
 
       - name: Habilitar soporte de escritorio Windows
         run: flutter config --enable-windows-desktop
 
+      - name: Precachear artefactos de Windows
+        run: flutter precache --windows
+
+      - name: Reinstalar dependencias justo antes de compilar (ultima sincronizacion)
+        run: flutter pub get
+        shell: pwsh
+
+      - name: Verificar fisicamente si el archivo existe en el disco
+        shell: pwsh
+        run: |
+          "--- Contenido de lib/ de sqlite3 (version resuelta) ---" | Tee-Object -FilePath verificacion.log
+          $sqlite3dir = Get-ChildItem "$env:PUB_CACHE\hosted\pub.dev" -Directory | Where-Object { $_.Name -like "sqlite3-*" }
+          foreach ($d in $sqlite3dir) {
+            "Carpeta: $($d.FullName)" | Tee-Object -FilePath verificacion.log -Append
+            Get-ChildItem "$($d.FullName)\lib" -Recurse -File | ForEach-Object { $_.FullName | Tee-Object -FilePath verificacion.log -Append }
+          }
+          python .github/scripts/upload_log.py verificacion-windows.txt verificacion.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Compilar programa de Windows
-        run: flutter build windows --release
+        id: build_windows
+        run: flutter build windows --release --verbose 2>&1 | Tee-Object -FilePath build_windows.log
+        shell: pwsh
+        continue-on-error: true
         env:
           CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
+      - name: Guardar log de error para diagnostico (si fallo)
+        if: steps.build_windows.outcome == 'failure'
+        shell: pwsh
+        run: python .github/scripts/upload_log.py windows-error.txt build_windows.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si la compilacion fallo
+        if: steps.build_windows.outcome == 'failure'
+        shell: pwsh
+        run: exit 1
 
       - name: Comprimir el programa compilado en un zip
         run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath hortalizas-pos-windows.zip
