@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../../domain/entities/detalle_venta.dart';
 import '../../../domain/entities/producto.dart';
 import '../../../core/di/providers.dart';
 import '../providers/carrito_provider.dart';
 
-/// Buscador de productos con lista desplegable + campos de cantidad
-/// y precio TOTAL (no unitario) + botón Agregar.
+/// Cómo se interpreta el número que carga el vendedor en el campo de precio.
+enum _ModoPrecio { total, unitario }
+
+/// Buscador de productos con lista desplegable + campos de cantidad y
+/// precio (total o por unidad, con cálculo automático) + botón Agregar.
+/// Si el producto buscado no existe, permite darlo de alta al toque sin
+/// salir de la pantalla de venta.
 ///
 /// Carga el catálogo completo de productos activos una sola vez
 /// (catálogo chico, típico de un comercio de hortalizas) y filtra
@@ -29,6 +35,7 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
   Producto? _productoSeleccionado;
   bool _cargando = true;
   String? _error;
+  _ModoPrecio _modoPrecio = _ModoPrecio.total;
 
   @override
   void initState() {
@@ -71,12 +78,26 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
     _busquedaFocus.unfocus();
   }
 
+  /// Calcula el precio TOTAL a partir de lo que cargó el vendedor, según el
+  /// modo elegido: si es "unitario", multiplica por la cantidad.
+  double? _calcularPrecioTotal(double cantidad) {
+    final valor = double.tryParse(_precioCtrl.text.replaceAll(',', '.'));
+    if (valor == null) return null;
+    return _modoPrecio == _ModoPrecio.unitario ? valor * cantidad : valor;
+  }
+
   void _agregar() {
     final cantidad = double.tryParse(_cantidadCtrl.text.replaceAll(',', '.'));
-    final precio = double.tryParse(_precioCtrl.text.replaceAll(',', '.'));
-    if (_productoSeleccionado == null || cantidad == null || precio == null) {
+    if (_productoSeleccionado == null || cantidad == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Elegí un producto, cantidad y precio válidos')),
+        const SnackBar(content: Text('Elegí un producto y una cantidad válida')),
+      );
+      return;
+    }
+    final precioTotal = _calcularPrecioTotal(cantidad);
+    if (precioTotal == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Ingresá un precio válido')),
       );
       return;
     }
@@ -85,7 +106,7 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
           productoId: _productoSeleccionado!.id,
           nombreProducto: _productoSeleccionado!.nombre,
           cantidad: cantidad,
-          precioTotal: precio,
+          precioTotal: precioTotal,
         ));
 
     setState(() {
@@ -94,6 +115,68 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
       _cantidadCtrl.clear();
       _precioCtrl.clear();
     });
+  }
+
+  /// Alta rápida de un producto nuevo, sin salir de la pantalla de venta.
+  /// Útil cuando el vendedor busca algo que todavía no está cargado en el
+  /// inventario. Una vez creado, queda seleccionado listo para agregar a
+  /// la venta.
+  Future<void> _altaRapidaProducto() async {
+    final nombreInicial = _busquedaCtrl.text.trim();
+    final nombreCtrl = TextEditingController(text: nombreInicial);
+    final categoriaCtrl = TextEditingController(text: 'Verduras');
+
+    final confirmado = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Agregar producto nuevo'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nombreCtrl,
+              autofocus: true,
+              decoration: const InputDecoration(labelText: 'Nombre', border: OutlineInputBorder()),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: categoriaCtrl,
+              decoration: const InputDecoration(labelText: 'Categoría', border: OutlineInputBorder()),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
+          ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Crear')),
+        ],
+      ),
+    );
+
+    if (confirmado != true || nombreCtrl.text.trim().isEmpty) return;
+
+    final nuevoProducto = Producto(
+      id: const Uuid().v4(),
+      nombre: nombreCtrl.text.trim(),
+      precioSugerido: 0,
+      categoria: categoriaCtrl.text.trim().isEmpty ? 'General' : categoriaCtrl.text.trim(),
+      activo: true,
+    );
+
+    try {
+      await ref.read(gestionarProductosUseCaseProvider).crear(nuevoProducto);
+      await _cargarProductos();
+      if (!mounted) return;
+      _seleccionar(nuevoProducto);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('"${nuevoProducto.nombre}" agregado al inventario')),
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No se pudo crear el producto: $e')),
+        );
+      }
+    }
   }
 
   @override
@@ -133,28 +216,41 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
         if (_error != null) Padding(padding: const EdgeInsets.only(top: 4), child: Text(_error!)),
         if (mostrarDropdown && !_cargando)
           Container(
-            constraints: const BoxConstraints(maxHeight: 200),
+            constraints: const BoxConstraints(maxHeight: 220),
             decoration: BoxDecoration(
               border: Border.all(color: Theme.of(context).dividerColor),
               borderRadius: const BorderRadius.vertical(bottom: Radius.circular(8)),
             ),
-            child: _filtrados.isEmpty
-                ? const Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Text('Sin resultados. Podés cargarlo en Admin > Productos.'),
-                  )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _filtrados.length,
-                    itemBuilder: (context, i) {
-                      final p = _filtrados[i];
-                      return ListTile(
-                        title: Text(p.nombre),
-                        subtitle: Text(p.categoria),
-                        onTap: () => _seleccionar(p),
-                      );
-                    },
-                  ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: _filtrados.isEmpty
+                      ? const Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Text('Sin resultados.'),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _filtrados.length,
+                          itemBuilder: (context, i) {
+                            final p = _filtrados[i];
+                            return ListTile(
+                              title: Text(p.nombre),
+                              subtitle: Text(p.categoria),
+                              onTap: () => _seleccionar(p),
+                            );
+                          },
+                        ),
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: const Icon(Icons.add_circle_outline),
+                  title: const Text('Agregar producto nuevo al inventario'),
+                  onTap: _altaRapidaProducto,
+                ),
+              ],
+            ),
           ),
         const SizedBox(height: 8),
         Row(
@@ -164,6 +260,7 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
                 controller: _cantidadCtrl,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(labelText: 'Cantidad', border: OutlineInputBorder()),
+                onChanged: (_) => setState(() {}),
               ),
             ),
             const SizedBox(width: 8),
@@ -171,11 +268,39 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
               child: TextField(
                 controller: _precioCtrl,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(labelText: 'Precio total', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  labelText: _modoPrecio == _ModoPrecio.total ? 'Precio total' : 'Precio por unidad',
+                  border: const OutlineInputBorder(),
+                ),
+                onChanged: (_) => setState(() {}),
               ),
             ),
           ],
         ),
+        const SizedBox(height: 8),
+        SegmentedButton<_ModoPrecio>(
+          segments: const [
+            ButtonSegment(value: _ModoPrecio.total, label: Text('Precio total')),
+            ButtonSegment(value: _ModoPrecio.unitario, label: Text('Precio por unidad')),
+          ],
+          selected: {_modoPrecio},
+          onSelectionChanged: (nuevo) => setState(() => _modoPrecio = nuevo.first),
+        ),
+        if (_modoPrecio == _ModoPrecio.unitario)
+          Builder(builder: (context) {
+            final cantidad = double.tryParse(_cantidadCtrl.text.replaceAll(',', '.'));
+            final total = cantidad != null ? _calcularPrecioTotal(cantidad) : null;
+            return Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  total != null ? 'Total calculado: \$${total.toStringAsFixed(0)}' : 'Total calculado: —',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            );
+          }),
         const SizedBox(height: 8),
         ElevatedButton.icon(
           onPressed: _agregar,
