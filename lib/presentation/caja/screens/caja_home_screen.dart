@@ -7,6 +7,7 @@ import '../../../core/utils/formatters.dart';
 import 'venta_detalle_screen.dart';
 import 'qr_scanner_screen.dart';
 import 'qr_texto_screen.dart';
+import 'arqueo_caja_screen.dart';
 
 bool get _tieneCamaraDeQr => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
@@ -43,6 +44,14 @@ class CajaHomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Ventas pendientes'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.point_of_sale),
+            tooltip: 'Arqueo de caja',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ArqueoCajaScreen()),
+            ),
+          ),
           IconButton(
             icon: Icon(_tieneCamaraDeQr ? Icons.qr_code_scanner : Icons.qr_code),
             tooltip: _tieneCamaraDeQr
