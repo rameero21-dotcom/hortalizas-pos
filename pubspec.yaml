@@ -56,7 +56,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_fonts: ^6.2.1
   flutter_animate: ^4.5.0
-  vibration: ^2.0.0
+  # vibration: ^2.0.0 # No usado todavia (Fase 5); su propio build.gradle interno pide compileSdk 34+, se agrega cuando se implemente
 
 dev_dependencies:
   flutter_test:
