@@ -50,7 +50,7 @@ dependencies:
   equatable: ^2.0.5
   freezed_annotation: ^2.4.4
   json_annotation: ^4.9.0
-  flutter_local_notifications: ^17.1.2
+  # flutter_local_notifications: ^17.1.2 # No usado todavia (Fase 5); pide "core library desugaring" en Android, se agrega cuando se implemente
 
   # UI / UX
   cupertino_icons: ^1.0.6
