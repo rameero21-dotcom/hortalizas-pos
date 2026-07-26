@@ -78,7 +78,13 @@ jobs:
         run: exit 1
 
       - name: Listar contenido real de la carpeta de salida (diagnostico)
-        run: find build/app/outputs -type f 2>&1 | tee /tmp/listado_outputs.log
+        run: |
+          echo "--- Buscando cualquier .apk en todo el proyecto ---" | tee /tmp/listado_outputs.log
+          find . -iname "*.apk" 2>&1 | tee -a /tmp/listado_outputs.log
+          echo "--- Contenido de build/ (si existe) ---" | tee -a /tmp/listado_outputs.log
+          find build -maxdepth 4 2>&1 | tee -a /tmp/listado_outputs.log
+          echo "--- Contenido de android/app/build/ (si existe) ---" | tee -a /tmp/listado_outputs.log
+          find android/app/build -maxdepth 4 2>&1 | tee -a /tmp/listado_outputs.log
 
       - name: Guardar listado de diagnostico
         run: python3 .github/scripts/upload_log.py listado-outputs-android.txt /tmp/listado_outputs.log
