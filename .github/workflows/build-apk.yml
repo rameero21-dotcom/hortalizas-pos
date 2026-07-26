@@ -89,7 +89,7 @@ jobs:
 
       - name: Compilar programa de Windows
         id: build_windows
-        run: flutter build windows --release --verbose 2>&1 | Tee-Object -FilePath build_windows.log
+        run: flutter build windows --release --verbose --no-native-assets 2>&1 | Tee-Object -FilePath build_windows.log
         shell: pwsh
         continue-on-error: true
         env:
