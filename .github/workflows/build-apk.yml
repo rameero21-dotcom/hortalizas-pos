@@ -22,7 +22,19 @@ jobs:
           channel: 'stable'
 
       - name: Generar carpetas nativas (android/ios/etc)
-        run: flutter create . --platforms=android --project-name hortalizas_pos
+        id: create_android
+        run: flutter create . --platforms=android --project-name hortalizas_pos 2>&1 | tee /tmp/create_android.log
+        continue-on-error: true
+
+      - name: Guardar log si fallo flutter create (android)
+        if: steps.create_android.outcome == 'failure'
+        run: python3 .github/scripts/upload_log.py create-android-error.txt /tmp/create_android.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si flutter create fallo (android)
+        if: steps.create_android.outcome == 'failure'
+        run: exit 1
 
       - name: Instalar dependencias (con reintentos por si falla la red)
         run: |
@@ -71,7 +83,22 @@ jobs:
           channel: 'stable'
 
       - name: Generar carpetas nativas (windows)
-        run: flutter create . --platforms=windows --project-name hortalizas_pos
+        id: create_windows
+        run: flutter create . --platforms=windows --project-name hortalizas_pos 2>&1 | Tee-Object -FilePath create_windows.log
+        shell: pwsh
+        continue-on-error: true
+
+      - name: Guardar log si fallo flutter create (windows)
+        if: steps.create_windows.outcome == 'failure'
+        shell: pwsh
+        run: python .github/scripts/upload_log.py create-windows-error.txt create_windows.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si flutter create fallo (windows)
+        if: steps.create_windows.outcome == 'failure'
+        shell: pwsh
+        run: exit 1
 
       - name: Instalar dependencias (con reintentos por si falla la red)
         run: |
