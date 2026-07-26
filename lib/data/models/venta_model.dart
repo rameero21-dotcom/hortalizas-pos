@@ -14,6 +14,7 @@ class VentaModel extends Venta {
     super.metodoPago,
     super.cajeroId,
     super.fechaCobro,
+    super.clienteId,
   });
 
   factory VentaModel.fromMap(Map<String, dynamic> map, List<DetalleVenta> detalle) => VentaModel(
@@ -29,6 +30,7 @@ class VentaModel extends Venta {
             : null,
         cajeroId: map['cajeroId'] as String?,
         fechaCobro: map['fechaCobro'] != null ? DateTime.parse(map['fechaCobro'] as String) : null,
+        clienteId: map['clienteId'] as String?,
       );
 
   /// Reconstruye la venta a partir de un documento de Firestore, donde
@@ -56,6 +58,7 @@ class VentaModel extends Venta {
         'metodoPago': metodoPago?.name,
         'cajeroId': cajeroId,
         'fechaCobro': fechaCobro?.toIso8601String(),
+        'clienteId': clienteId,
       };
 
   /// Para Firestore: a diferencia de SQLite (donde el detalle vive en su

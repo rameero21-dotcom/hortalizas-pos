@@ -1,6 +1,6 @@
 import 'detalle_venta.dart';
 
-enum MetodoPago { efectivo, transferencia, debito, credito }
+enum MetodoPago { efectivo, transferencia, debito, credito, cuentaCorriente }
 
 enum EstadoVenta { pendiente, cobrada, cancelada }
 
@@ -18,6 +18,10 @@ class Venta {
   final String? cajeroId;
   final DateTime? fechaCobro;
 
+  /// Cliente al que se le carga la venta (solo cuando metodoPago es
+  /// cuentaCorriente, ej. "fiado").
+  final String? clienteId;
+
   const Venta({
     required this.id,
     required this.numero,
@@ -29,6 +33,7 @@ class Venta {
     this.metodoPago,
     this.cajeroId,
     this.fechaCobro,
+    this.clienteId,
   });
 
   Venta copyWith({
@@ -36,6 +41,7 @@ class Venta {
     MetodoPago? metodoPago,
     String? cajeroId,
     DateTime? fechaCobro,
+    String? clienteId,
   }) {
     return Venta(
       id: id,
@@ -48,6 +54,7 @@ class Venta {
       metodoPago: metodoPago ?? this.metodoPago,
       cajeroId: cajeroId ?? this.cajeroId,
       fechaCobro: fechaCobro ?? this.fechaCobro,
+      clienteId: clienteId ?? this.clienteId,
     );
   }
 }

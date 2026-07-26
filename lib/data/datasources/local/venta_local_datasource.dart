@@ -141,6 +141,7 @@ class VentaLocalDatasource {
         'metodoPago': venta.metodoPago?.name,
         'cajeroId': venta.cajeroId,
         'fechaCobro': venta.fechaCobro?.toIso8601String(),
+        'clienteId': venta.clienteId,
       },
       where: 'id = ?',
       whereArgs: [venta.id],

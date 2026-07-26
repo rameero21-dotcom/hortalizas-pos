@@ -135,7 +135,7 @@ final cajaRepositoryProvider = Provider<CajaRepository>((ref) => CajaRepositoryI
 final crearVentaUseCaseProvider =
     Provider((ref) => CrearVentaUseCase(ref.watch(ventaRepositoryProvider)));
 final finalizarCobroUseCaseProvider = Provider((ref) => FinalizarCobroUseCase(
-    ref.watch(ventaRepositoryProvider), ref.watch(stockRepositoryProvider)));
+    ref.watch(ventaRepositoryProvider), ref.watch(stockRepositoryProvider), ref.watch(clienteRepositoryProvider)));
 final reconstruirVentaQrUseCaseProvider =
     Provider((ref) => ReconstruirVentaQrUseCase(ref.watch(ventaRepositoryProvider)));
 final obtenerEstadisticasUseCaseProvider = Provider((ref) => ObtenerEstadisticasUseCase(

@@ -35,6 +35,7 @@ class DatabaseHelper {
       await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN costoUnitario REAL NOT NULL DEFAULT 0');
       await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN tasaIIBB REAL NOT NULL DEFAULT 0');
       await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN tasaTSH REAL NOT NULL DEFAULT 0');
+      await db.execute('ALTER TABLE ${AppConstants.tablaVentas} ADD COLUMN clienteId TEXT');
       await _crearTablasCaja(db);
     }
   }
@@ -100,7 +101,8 @@ class DatabaseHelper {
         estado TEXT NOT NULL DEFAULT 'pendiente',
         metodoPago TEXT,
         cajeroId TEXT,
-        fechaCobro TEXT
+        fechaCobro TEXT,
+        clienteId TEXT
       )
     ''');
 

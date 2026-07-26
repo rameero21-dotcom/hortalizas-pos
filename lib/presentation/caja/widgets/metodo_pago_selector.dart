@@ -27,5 +27,6 @@ class MetodoPagoSelector extends StatelessWidget {
         MetodoPago.transferencia => 'Transferencia',
         MetodoPago.debito => 'Débito',
         MetodoPago.credito => 'Crédito',
+        MetodoPago.cuentaCorriente => 'Cuenta corriente (fiado)',
       };
 }

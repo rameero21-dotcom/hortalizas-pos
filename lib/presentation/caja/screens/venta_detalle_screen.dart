@@ -5,12 +5,14 @@ import '../../../core/di/providers.dart';
 import '../../../core/errors/exceptions.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/entities/venta.dart';
+import '../../../domain/entities/cliente.dart';
 import '../widgets/metodo_pago_selector.dart';
 import 'caja_home_screen.dart';
 
 /// Detalle de una venta pendiente y flujo de cobro completo:
 /// método de pago -> descuento automático de stock -> impresión de
-/// ticket térmico.
+/// ticket térmico. Si se paga a "cuenta corriente", pide elegir el
+/// cliente y genera el cargo (fiado) automáticamente.
 ///
 /// Se puede abrir de dos formas:
 /// - `ventaId`: la venta viene del stream en tiempo real de Firestore
@@ -30,7 +32,35 @@ class VentaDetalleScreen extends ConsumerStatefulWidget {
 
 class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
   MetodoPago? _metodoSeleccionado;
+  Cliente? _clienteSeleccionado;
   bool _cobrando = false;
+
+  Future<void> _elegirCliente() async {
+    final clientes = await ref.read(clienteRepositoryProvider).obtenerTodos();
+    if (!mounted) return;
+    if (clientes.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No hay clientes cargados. Creá uno primero en Admin > Clientes.')),
+      );
+      return;
+    }
+    final elegido = await showModalBottomSheet<Cliente>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: clientes
+              .map((c) => ListTile(
+                    title: Text(c.nombre),
+                    subtitle: Text(Formatters.formatearMoneda(c.saldoCuentaCorriente)),
+                    onTap: () => Navigator.pop(context, c),
+                  ))
+              .toList(),
+        ),
+      ),
+    );
+    if (elegido != null) setState(() => _clienteSeleccionado = elegido);
+  }
 
   Future<void> _cobrar(Venta venta) async {
     if (_metodoSeleccionado == null) {
@@ -39,13 +69,22 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
       );
       return;
     }
+    if (_metodoSeleccionado == MetodoPago.cuentaCorriente && _clienteSeleccionado == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Elegí a qué cliente cargarle la venta')),
+      );
+      return;
+    }
 
     setState(() => _cobrando = true);
     try {
       final cajeroId = ref.read(currentUserIdProvider);
-      final ventaCobrada = await ref
-          .read(finalizarCobroUseCaseProvider)
-          .call(venta, cajeroId, _metodoSeleccionado!);
+      final ventaCobrada = await ref.read(finalizarCobroUseCaseProvider).call(
+            venta,
+            cajeroId,
+            _metodoSeleccionado!,
+            clienteId: _clienteSeleccionado?.id,
+          );
 
       // La impresión no bloquea el cobro: si falla, la venta ya quedó
       // cobrada y con stock descontado; el cajero puede reimprimir después
@@ -108,6 +147,14 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
                       seleccionado: _metodoSeleccionado,
                       onChanged: (m) => setState(() => _metodoSeleccionado = m),
                     ),
+                    if (_metodoSeleccionado == MetodoPago.cuentaCorriente) ...[
+                      const SizedBox(height: 12),
+                      OutlinedButton.icon(
+                        onPressed: _elegirCliente,
+                        icon: const Icon(Icons.person),
+                        label: Text(_clienteSeleccionado?.nombre ?? 'Elegir cliente'),
+                      ),
+                    ],
                   ],
                 ),
               ),
