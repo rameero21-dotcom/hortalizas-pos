@@ -1,42 +1,59 @@
-Buscando: D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\sqflite_common_ffi.dart
-NO EXISTE en esa ruta exacta.
-Contenido real de la carpeta lib del paquete:
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\windows
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\sqflite_ffi.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\mixin
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\constant.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\database_factory_ffi_io.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\database_factory_ffi_web.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\database_factory_ffi.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\database_tracker_web.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\database_tracker.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\env_utils.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\import.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\isolate.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\method_call.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_exception.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_handler.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_impl_io.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_impl_web.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_impl.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_io.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_web.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_import.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\mixin\handler_mixin.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows\setup_impl.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows\setup.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows\sqlite3_info.dart
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows\sqlite3_info.json
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows\sqlite3.dll
-D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\windows\sqflite_ffi_setup.dart
---- package_config.json para sqflite_common_ffi ---
-
->       "name": "sqflite_common_ffi",
->       "rootUri": "file:///D:/a/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.3.3",
-        "packageUri": "lib/",
-        "languageVersion": "3.3"
-      },
-
+--- Contenido de lib/ de sqlite3 (version resuelta) ---
+Carpeta: D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\common.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\sqlite3.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\wasm.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\compile_options.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\constants.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\database.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\exception.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\functions.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\in_memory_vfs.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\jsonb.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\result_set.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\session.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\sqlite3.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\statement.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\utils.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\vfs.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\ffi\api.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\ffi\bindings.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\ffi\implementation.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\ffi\libsqlite3.g.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\ffi\memory.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\hook\asset_hashes.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\hook\assets.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\hook\utils.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\hook\compile\description.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\hook\compile\used_symbols.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\implementation\bindings.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\implementation\database.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\implementation\exception.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\implementation\session.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\implementation\sqlite3.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\implementation\statement.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\implementation\utils.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\platform\fallback.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\platform\platform.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\platform\web.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\async.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\bindings.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\injected_values.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\js_interop.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\loader.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\sqlite3_wasm.g.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\sqlite3.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\wasm_interop.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\js_interop\atomics.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\js_interop\core.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\js_interop\fetch.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\js_interop\file_system_access.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\js_interop\indexed_db.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\js_interop\new_file_system_access.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\js_interop\typed_data.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\vfs\indexed_db.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\vfs\simple_opfs.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\vfs\async_opfs\client.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\vfs\async_opfs\sync_channel.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\src\wasm\vfs\async_opfs\worker.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqlite3-3.5.0\lib\unstable\ffi_bindings.dart
