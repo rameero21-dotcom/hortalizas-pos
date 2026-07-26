@@ -1,749 +1,549 @@
-caf57d480e6cf45cc4b5257ba054db3/transformed/core-ktx-1.16.0 because:
+       ] The input changes require a full rebuild for incremental task ':printing:mergeReleaseJavaResource'.
+[        ] Resolve mutations for :printing:syncReleaseLibJars (Thread[Execution worker Thread 2,5,main]) started.
+[        ] :printing:syncReleaseLibJars (Thread[Execution worker Thread 2,5,main]) started.
+[        ] > Task :share_plus:checkReleaseAarMetadata
+[        ] Caching disabled for task ':share_plus:checkReleaseAarMetadata' because:
+[        ]   Build cache is disabled
+[        ]   Caching has been disabled for the task
+[        ] Task ':share_plus:checkReleaseAarMetadata' is not up-to-date because:
+[        ]   No history is available.
+[  +80 ms] > Task :printing:syncReleaseLibJars
+[        ] Caching disabled for task ':printing:syncReleaseLibJars' because:
+[        ]   Build cache is disabled
+[        ] Task ':printing:syncReleaseLibJars' is not up-to-date because:
+[        ]   No history is available.
+[        ] Resolve mutations for :printing:bundleReleaseLocalLintAar (Thread[Execution worker Thread 2,5,main]) started.
+[        ] :printing:bundleReleaseLocalLintAar (Thread[Execution worker Thread 2,5,main]) started.
+[        ] > Task :printing:bundleReleaseLocalLintAar
+[        ] Caching disabled for task ':printing:bundleReleaseLocalLintAar' because:
+[        ]   Build cache is disabled
+[        ]   Caching has been disabled for the task
+[        ] Task ':printing:bundleReleaseLocalLintAar' is not up-to-date because:
+[        ]   No history is available.
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/public_res/release/packageReleaseResources/public.txt', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/navigation_json_for_aar/release/extractDeepLinksForAarRelease/navigation.json', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/annotations_zip/release/extractReleaseAnnotations/annotations.zip', not found
+[   +2 ms] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/merged_consumer_proguard_file/release/mergeReleaseConsumerProguardFiles/proguard.txt', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/lint_publish_jar/global/prepareLintJarForPublish/lint.jar', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/library_art_profile/release/prepareReleaseArtProfile/baseline-prof.txt', not found
+[        ] work action resolve out.aar (project :printing) (Thread[Execution worker Thread 2,5,main]) started.
+[        ] work action resolve out.aar (project :printing) (Thread[Execution worker Thread 2,5,main]) started.
+[        ] ExtractAarTransform (Thread[Execution worker Thread 2,5,main]) started.
+[        ] Resolve mutations for :share_plus:stripReleaseDebugSymbols (Thread[Execution worker,5,main]) started.
+[        ] :share_plus:stripReleaseDebugSymbols (Thread[Execution worker,5,main]) started.
+[        ] > Task :share_plus:stripReleaseDebugSymbols NO-SOURCE
+[        ] Skipping task ':share_plus:stripReleaseDebugSymbols' as it has no source files and no previous output files.
+[        ] Resolve mutations for :share_plus:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker,5,main]) started.
+[        ] :share_plus:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker,5,main]) started.
+[        ] > Task :share_plus:copyReleaseJniLibsProjectAndLocalJars
+[   +2 ms] Caching disabled for task ':share_plus:copyReleaseJniLibsProjectAndLocalJars' because:
+[        ]   Build cache is disabled
+[        ]   Caching has been disabled for the task
+[        ] Task ':share_plus:copyReleaseJniLibsProjectAndLocalJars' is not up-to-date because:
+[        ]   No history is available.
+[        ] Resolve mutations for :share_plus:extractDeepLinksForAarRelease (Thread[Execution worker,5,main]) started.
+[        ] :share_plus:extractDeepLinksForAarRelease (Thread[Execution worker,5,main]) started.
+[        ] > Task :share_plus:extractDeepLinksForAarRelease
+[        ] Caching disabled for task ':share_plus:extractDeepLinksForAarRelease' because:
+[        ]   Build cache is disabled
+[        ] Task ':share_plus:extractDeepLinksForAarRelease' is not up-to-date because:
+[        ]   No history is available.
+[        ] Resolve mutations for :share_plus:extractReleaseAnnotations (Thread[Execution worker,5,main]) started.
+[        ] :share_plus:extractReleaseAnnotations (Thread[Execution worker,5,main]) started.
+[        ] > Transform out.aar (project :printing) with ExtractAarTransform
+[        ] Caching disabled for ExtractAarTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/local_aar_for_lint/release/out.aar because:
 [        ]   Build cache is disabled
 [        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/7bfbc0a6d96fb94cb1083e44b9fc61af/transformed/profileinstaller-1.3.1 because:
+[        ] ExtractAarTransform (Thread[Execution worker Thread 2,5,main]) started.
+[ +393 ms] > Task :share_plus:extractReleaseAnnotations
+[        ] Caching disabled for task ':share_plus:extractReleaseAnnotations' because:
 [        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/b03fc031bb6ef85bd45a7688be1867c9/transformed/startup-runtime-1.1.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/83467fc23af0be66515e9eaffac918e3/transformed/tracing-1.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/8d2fa8aaaad66ff9164a3363794a21de/transformed/exifinterface-1.4.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/5043bba5a6bb573abdb99760d0ed38e4/transformed/localbroadcastmanager-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/de7db6ab66c415e5ffd0b22187ae40d2/transformed/firebase-components-18.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/84daf7adb04f9d83c2b03e9fd30c468b/transformed/transport-backend-cct-2.3.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/e6a6c45173c51c0a8b7a4ab66352c204/transformed/core-runtime-2.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6d25334d330dc6110a6c3cf8fcf84fa5/transformed/transport-runtime-2.2.6 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/48df3916aea37f9d996487f95a027ce5/transformed/transport-api-2.2.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/8d7be0138b64cba2fbf033b4bca7486d/transformed/firebase-encoders-json-17.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/757fc34cc02492d1d3dc54119dc37677/transformed/interpolator-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/09955278bfe9088e0183d7da700c550a/transformed/versionedparcelable-1.1.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/1ce2d391fdbf5a6c64c6122c4152f17e/transformed/core-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/37adc7677a36487db635faac89177e28/transformed/annotation-experimental-1.4.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/77d75b0d4488089748e7cf87db601490/transformed/core-viewtree-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/99a89e4dfe5768d657dfeb4afaf04064/transformed/googleid-1.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/093151f5241d58fc1740a6dd97542cae/transformed/grpc-android-1.62.2 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/cc442230e4168bbeab7f34b0610f5559/transformed/relinker-1.4.5 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/ea2a2149e5cbd817e1ea5ad0d7240e12/transformed/protolite-well-known-types-18.0.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/fde60fadf4e897b7cbb3acad35f61831/transformed/image-1.0.0-beta1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/9543529698258999cc5adaade4707ce6/transformed/core-common-2.0.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/d5cdc260e168894371de5e01e6741922/transformed/firebase-firestore-25.1.4 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for task ':app:mergeReleaseArtProfile' because:
+[        ] Task ':share_plus:extractReleaseAnnotations' is not up-to-date because:
+[        ]   No history is available.
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] Resolve mutations for :share_plus:mergeReleaseConsumerProguardFiles (Thread[Execution worker,5,main]) started.
+[        ] :share_plus:mergeReleaseConsumerProguardFiles (Thread[Execution worker,5,main]) started.
+[        ] > Task :share_plus:mergeReleaseConsumerProguardFiles
+[        ] Caching disabled for task ':share_plus:mergeReleaseConsumerProguardFiles' because:
 [        ]   Build cache is disabled
 [        ]   Simple merging task
-[        ] Task ':app:mergeReleaseArtProfile' is not up-to-date because:
+[        ] Task ':share_plus:mergeReleaseConsumerProguardFiles' is not up-to-date because:
 [        ]   No history is available.
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/main/baselineProfiles', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/baselineProfiles', not found
-[        ] Resolve mutations for :connectivity_plus:writeReleaseAarMetadata (Thread[Execution worker Thread 3,5,main]) started.
-[        ] :connectivity_plus:writeReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
-[  +90 ms] > Task :cloud_firestore:writeReleaseAarMetadata
-[   +1 ms] Caching disabled for task ':cloud_firestore:writeReleaseAarMetadata' because:
+[        ] Resolve mutations for :share_plus:mergeReleaseJavaResource (Thread[Execution worker,5,main]) started.
+[        ] :share_plus:mergeReleaseJavaResource (Thread[Execution worker,5,main]) started.
+[        ] Resolve mutations for :sqflite_android:checkReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
+[        ] :sqflite_android:checkReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
+[        ] > Task :share_plus:mergeReleaseJavaResource
+[        ] Caching disabled for task ':share_plus:mergeReleaseJavaResource' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
-[        ] Task ':cloud_firestore:writeReleaseAarMetadata' is not up-to-date because:
+[        ] Task ':share_plus:mergeReleaseJavaResource' is not up-to-date because:
 [        ]   No history is available.
-[        ] work action resolve aar-metadata.properties (project :cloud_firestore) (Thread[included builds Thread 2,5,main]) started.
-[        ] Resolve mutations for :device_info_plus:writeReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] :device_info_plus:writeReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] > Task :connectivity_plus:writeReleaseAarMetadata
-[        ] Caching disabled for task ':connectivity_plus:writeReleaseAarMetadata' because:
+[        ] The input changes require a full rebuild for incremental task ':share_plus:mergeReleaseJavaResource'.
+[        ] Resolve mutations for :share_plus:syncReleaseLibJars (Thread[Execution worker,5,main]) started.
+[        ] :share_plus:syncReleaseLibJars (Thread[Execution worker,5,main]) started.
+[        ] > Task :sqflite_android:checkReleaseAarMetadata
+[        ] Caching disabled for task ':sqflite_android:checkReleaseAarMetadata' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
-[        ] Task ':connectivity_plus:writeReleaseAarMetadata' is not up-to-date because:
+[        ] Task ':sqflite_android:checkReleaseAarMetadata' is not up-to-date because:
 [        ]   No history is available.
-[        ] work action resolve aar-metadata.properties (project :connectivity_plus) (Thread[Execution worker Thread 2,5,main]) started.
-[        ] Resolve mutations for :firebase_auth:writeReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :firebase_auth:writeReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
-[        ] > Task :device_info_plus:writeReleaseAarMetadata
-[        ] Caching disabled for task ':device_info_plus:writeReleaseAarMetadata' because:
+[        ] > Task :share_plus:syncReleaseLibJars
+[        ] Caching disabled for task ':share_plus:syncReleaseLibJars' because:
+[        ]   Build cache is disabled
+[        ] Task ':share_plus:syncReleaseLibJars' is not up-to-date because:
+[        ]   No history is available.
+[        ] Resolve mutations for :share_plus:bundleReleaseLocalLintAar (Thread[Execution worker,5,main]) started.
+[        ] :share_plus:bundleReleaseLocalLintAar (Thread[Execution worker,5,main]) started.
+[        ] > Task :share_plus:bundleReleaseLocalLintAar
+[        ] Caching disabled for task ':share_plus:bundleReleaseLocalLintAar' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
-[        ] Task ':device_info_plus:writeReleaseAarMetadata' is not up-to-date because:
+[        ] Task ':share_plus:bundleReleaseLocalLintAar' is not up-to-date because:
 [        ]   No history is available.
-[        ] work action resolve aar-metadata.properties (project :device_info_plus) (Thread[included builds Thread 2,5,main]) started.
-[        ] Resolve mutations for :firebase_core:writeReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] :firebase_core:writeReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] > Task :firebase_auth:writeReleaseAarMetadata
-[        ] Caching disabled for task ':firebase_auth:writeReleaseAarMetadata' because:
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/public_res/release/packageReleaseResources/public.txt', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/navigation_json_for_aar/release/extractDeepLinksForAarRelease/navigation.json', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/annotations_zip/release/extractReleaseAnnotations/annotations.zip', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/merged_consumer_proguard_file/release/mergeReleaseConsumerProguardFiles/proguard.txt', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/lint_publish_jar/global/prepareLintJarForPublish/lint.jar', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/library_art_profile/release/prepareReleaseArtProfile/baseline-prof.txt', not found
+[   +5 ms] work action resolve out.aar (project :share_plus) (Thread[Execution worker,5,main]) started.
+[        ] work action resolve out.aar (project :share_plus) (Thread[Execution worker,5,main]) started.
+[        ] ExtractAarTransform (Thread[Execution worker,5,main]) started.
+[        ] Resolve mutations for :sqflite_android:stripReleaseDebugSymbols (Thread[Execution worker Thread 2,5,main]) started.
+[        ] :sqflite_android:stripReleaseDebugSymbols (Thread[Execution worker Thread 2,5,main]) started.
+[        ] > Task :sqflite_android:stripReleaseDebugSymbols NO-SOURCE
+[        ] Skipping task ':sqflite_android:stripReleaseDebugSymbols' as it has no source files and no previous output files.
+[        ] Resolve mutations for :sqflite_android:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker Thread 2,5,main]) started.
+[        ] :sqflite_android:copyReleaseJniLibsProjectAndLocalJars (Thread[Execution worker Thread 2,5,main]) started.
+[        ] > Task :sqflite_android:copyReleaseJniLibsProjectAndLocalJars
+[        ] Caching disabled for task ':sqflite_android:copyReleaseJniLibsProjectAndLocalJars' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
-[        ] Task ':firebase_auth:writeReleaseAarMetadata' is not up-to-date because:
+[        ] Task ':sqflite_android:copyReleaseJniLibsProjectAndLocalJars' is not up-to-date because:
 [        ]   No history is available.
-[        ] work action resolve aar-metadata.properties (project :firebase_auth) (Thread[Execution worker Thread 2,5,main]) started.
-[        ] Resolve mutations for :flutter_local_notifications:writeReleaseAarMetadata (Thread[Execution worker Thread 3,5,main]) started.
-[        ] :flutter_local_notifications:writeReleaseAarMetadata (Thread[Execution worker Thread 3,5,main]) started.
-[        ] > Task :firebase_core:writeReleaseAarMetadata
-[        ] Caching disabled for task ':firebase_core:writeReleaseAarMetadata' because:
+[  +89 ms] Resolve mutations for :sqflite_android:extractDeepLinksForAarRelease (Thread[Execution worker Thread 2,5,main]) started.
+[        ] :sqflite_android:extractDeepLinksForAarRelease (Thread[Execution worker Thread 2,5,main]) started.
+[        ] > Task :sqflite_android:extractDeepLinksForAarRelease
+[        ] Caching disabled for task ':sqflite_android:extractDeepLinksForAarRelease' because:
+[        ]   Build cache is disabled
+[        ] Task ':sqflite_android:extractDeepLinksForAarRelease' is not up-to-date because:
+[        ]   No history is available.
+[        ] Resolve mutations for :sqflite_android:extractReleaseAnnotations (Thread[Execution worker Thread 2,5,main]) started.
+[        ] :sqflite_android:extractReleaseAnnotations (Thread[Execution worker Thread 2,5,main]) started.
+[        ] > Transform out.aar (project :share_plus) with ExtractAarTransform
+[        ] Caching disabled for ExtractAarTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/local_aar_for_lint/release/out.aar because:
+[   +4 ms]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] ExtractAarTransform (Thread[Execution worker,5,main]) started.
+[        ] > Task :sqflite_android:extractReleaseAnnotations
+[        ] Caching disabled for task ':sqflite_android:extractReleaseAnnotations' because:
+[        ]   Build cache is disabled
+[        ] Task ':sqflite_android:extractReleaseAnnotations' is not up-to-date because:
+[        ]   No history is available.
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/sqflite_android-2.4.3/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/sqflite_android-2.4.3/android/src/main/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/sqflite_android-2.4.3/android/src/release/kotlin', not found
+[        ] Resolve mutations for :sqflite_android:mergeReleaseConsumerProguardFiles (Thread[Execution worker Thread 2,5,main]) started.
+[        ] :sqflite_android:mergeReleaseConsumerProguardFiles (Thread[Execution worker Thread 2,5,main]) started.
+[        ] > Task :sqflite_android:mergeReleaseConsumerProguardFiles
+[        ] Caching disabled for task ':sqflite_android:mergeReleaseConsumerProguardFiles' because:
+[        ]   Build cache is disabled
+[        ]   Simple merging task
+[        ] Task ':sqflite_android:mergeReleaseConsumerProguardFiles' is not up-to-date because:
+[        ]   No history is available.
+[        ] Resolve mutations for :sqflite_android:mergeReleaseJavaResource (Thread[Execution worker Thread 2,5,main]) started.
+[        ] :sqflite_android:mergeReleaseJavaResource (Thread[Execution worker Thread 2,5,main]) started.
+[        ] Resolve mutations for :vibration:checkReleaseAarMetadata (Thread[Execution worker,5,main]) started.
+[        ] :vibration:checkReleaseAarMetadata (Thread[Execution worker,5,main]) started.
+[        ] > Task :sqflite_android:mergeReleaseJavaResource
+[        ] Caching disabled for task ':sqflite_android:mergeReleaseJavaResource' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
-[        ] Task ':firebase_core:writeReleaseAarMetadata' is not up-to-date because:
+[        ] Task ':sqflite_android:mergeReleaseJavaResource' is not up-to-date because:
 [        ]   No history is available.
-[ +195 ms] work action resolve aar-metadata.properties (project :firebase_core) (Thread[included builds Thread 2,5,main]) started.
-[        ] Resolve mutations for :jni:writeReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] :jni:writeReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] Resolve mutations for :jni_flutter:writeReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :jni_flutter:writeReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
-[        ] > Task :flutter_local_notifications:writeReleaseAarMetadata
-[        ] Downloading https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs/1.2.2/desugar_jdk_libs-1.2.2.pom to /home/runner/.gradle/.tmp/gradle_download4488199304112011277bin
-[        ] Downloading https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_configuration/1.2.2/desugar_jdk_libs_configuration-1.2.2.pom to /home/runner/.gradle/.tmp/gradle_download1163837713373959397bin
-[        ] Caching disabled for task ':flutter_local_notifications:writeReleaseAarMetadata' because:
+[        ] The input changes require a full rebuild for incremental task ':sqflite_android:mergeReleaseJavaResource'.
+[        ] Resolve mutations for :sqflite_android:syncReleaseLibJars (Thread[Execution worker Thread 2,5,main]) started.
+[        ] :sqflite_android:syncReleaseLibJars (Thread[Execution worker Thread 2,5,main]) started.
+[        ] > Task :vibration:checkReleaseAarMetadata FAILED
+[        ] Caching disabled for task ':vibration:checkReleaseAarMetadata' because:
 [        ]   Build cache is disabled
 [        ]   Caching has been disabled for the task
-[        ] Task ':flutter_local_notifications:writeReleaseAarMetadata' is not up-to-date because:
+[        ] Task ':vibration:checkReleaseAarMetadata' is not up-to-date because:
 [        ]   No history is available.
-[        ] work action resolve aar-metadata.properties (project :flutter_local_notifications) (Thread[Execution worker Thread 3,5,main]) started.
-[        ] Resolve mutations for :mobile_scanner:writeReleaseAarMetadata (Thread[Execution worker Thread 3,5,main]) started.
-[        ] :mobile_scanner:writeReleaseAarMetadata (Thread[Execution worker Thread 3,5,main]) started.
-[        ] > Task :jni:writeReleaseAarMetadata
-[        ] Caching disabled for task ':jni:writeReleaseAarMetadata' because:
+[  +95 ms] > Task :sqflite_android:syncReleaseLibJars
+[        ] Caching disabled for task ':sqflite_android:syncReleaseLibJars' because:
 [        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':jni:writeReleaseAarMetadata' is not up-to-date because:
+[        ] Task ':sqflite_android:syncReleaseLibJars' is not up-to-date because:
 [        ]   No history is available.
-[        ] > Task :jni_flutter:writeReleaseAarMetadata
-[        ] Caching disabled for task ':jni_flutter:writeReleaseAarMetadata' because:
+[ +696 ms] > Task :mobile_scanner:extractReleaseAnnotations
+[        ] Caching disabled for task ':mobile_scanner:extractReleaseAnnotations' because:
 [        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':jni_flutter:writeReleaseAarMetadata' is not up-to-date because:
+[        ] Task ':mobile_scanner:extractReleaseAnnotations' is not up-to-date because:
 [        ]   No history is available.
-[        ] work action resolve aar-metadata.properties (project :jni) (Thread[Execution worker Thread 2,5,main]) started.
-[        ] work action resolve aar-metadata.properties (project :jni_flutter) (Thread[included builds Thread 2,5,main]) started.
-[        ] Resolve mutations for :print_bluetooth_thermal:writeReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] :print_bluetooth_thermal:writeReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] Resolve mutations for :printing:writeReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :printing:writeReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
-[        ] > Task :mobile_scanner:writeReleaseAarMetadata
-[        ] Caching disabled for task ':mobile_scanner:writeReleaseAarMetadata' because:
-[        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':mobile_scanner:writeReleaseAarMetadata' is not up-to-date because:
-[        ]   No history is available.
-[        ] work action resolve aar-metadata.properties (project :mobile_scanner) (Thread[Execution worker Thread 3,5,main]) started.
-[        ] Resolve mutations for :share_plus:writeReleaseAarMetadata (Thread[Execution worker Thread 3,5,main]) started.
-[        ] :share_plus:writeReleaseAarMetadata (Thread[Execution worker Thread 3,5,main]) started.
-[        ] > Task :print_bluetooth_thermal:writeReleaseAarMetadata
-[        ] Caching disabled for task ':print_bluetooth_thermal:writeReleaseAarMetadata' because:
-[        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':print_bluetooth_thermal:writeReleaseAarMetadata' is not up-to-date because:
-[        ]   No history is available.
-[        ] > Task :printing:writeReleaseAarMetadata
-[        ] Caching disabled for task ':printing:writeReleaseAarMetadata' because:
-[        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':printing:writeReleaseAarMetadata' is not up-to-date because:
-[        ]   No history is available.
-[        ] work action resolve aar-metadata.properties (project :printing) (Thread[Execution worker Thread 2,5,main]) started.
-[        ] work action resolve aar-metadata.properties (project :print_bluetooth_thermal) (Thread[Execution worker Thread 2,5,main]) started.
-[        ] Resolve mutations for :sqflite_android:writeReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :sqflite_android:writeReleaseAarMetadata (Thread[Execution worker Thread 2,5,main]) started.
-[        ] Resolve mutations for :vibration:writeReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] :vibration:writeReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] > Task :sqflite_android:writeReleaseAarMetadata
-[        ] Caching disabled for task ':sqflite_android:writeReleaseAarMetadata' because:
-[        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':sqflite_android:writeReleaseAarMetadata' is not up-to-date because:
-[        ]   No history is available.
-[        ] work action resolve aar-metadata.properties (project :sqflite_android) (Thread[Execution worker Thread 2,5,main]) started.
-[        ] Resolve mutations for :app:compileReleaseNavigationResources (Thread[Execution worker Thread 2,5,main]) started.
-[        ] :app:compileReleaseNavigationResources (Thread[Execution worker Thread 2,5,main]) started.
-[        ] > Task :share_plus:writeReleaseAarMetadata
-[        ] Caching disabled for task ':share_plus:writeReleaseAarMetadata' because:
-[        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':share_plus:writeReleaseAarMetadata' is not up-to-date because:
-[        ]   No history is available.
-[        ] > Task :vibration:writeReleaseAarMetadata
-[        ] Caching disabled for task ':vibration:writeReleaseAarMetadata' because:
-[        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':vibration:writeReleaseAarMetadata' is not up-to-date because:
-[        ]   No history is available.
-[ +394 ms] work action resolve aar-metadata.properties (project :vibration) (Thread[included builds Thread 2,5,main]) started.
-[   +2 ms] work action resolve aar-metadata.properties (project :share_plus) (Thread[included builds Thread 2,5,main]) started.
-[        ] Resolve mutations for :app:checkReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] :app:checkReleaseAarMetadata (Thread[included builds Thread 2,5,main]) started.
-[        ] > Task :app:compileReleaseNavigationResources
-[        ] Caching disabled for task ':app:compileReleaseNavigationResources' because:
-[        ]   Build cache is disabled
-[        ] Task ':app:compileReleaseNavigationResources' is not up-to-date because:
-[        ]   No history is available.
-[        ] The input changes require a full rebuild for incremental task ':app:compileReleaseNavigationResources'.
-[        ] Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2/9.0.1-14304508/aapt2-9.0.1-14304508.pom to /home/runner/.gradle/.tmp/gradle_download6573381637861357201bin
-[        ] Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2/9.0.1-14304508/aapt2-9.0.1-14304508-linux.jar to /home/runner/.gradle/.tmp/gradle_download3556264265310981373bin
-[        ] Caching disabled for Aapt2Extractor: /home/runner/.gradle/caches/modules-2/files-2.1/com.android.tools.build/aapt2/9.0.1-14304508/ebaf8ea0051e6e61f9cd82d16f3c2bef107cf0d/aapt2-9.0.1-14304508-linux.jar because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[ +197 ms] Resolve mutations for :app:mapReleaseSourceSetPaths (Thread[Execution worker Thread 2,5,main]) started.
-[   +2 ms] :app:mapReleaseSourceSetPaths (Thread[Execution worker Thread 2,5,main]) started.
-[        ] > Task :app:checkReleaseAarMetadata FAILED
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/7f0b00efd409771cb70d5d9671479cb2/transformed/firebase-auth-23.2.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/d13f62dd48b27e7ac5934851d9f30d90/transformed/barcode-scanning-17.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/c84a89731f345f112faa8c02306fd3ef/transformed/firebase-auth-interop-20.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/133a285c2abe6311b7fcc644a3bbf243/transformed/firebase-common-ktx-21.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/dc9b6e7cb018027d97517c53b737f986/transformed/firebase-common-21.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/2167aebc625264d61de43238ad9bea8e/transformed/play-services-mlkit-barcode-scanning-18.3.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/1836d0ad84c5360533cf15520ce07a99/transformed/barcode-scanning-common-17.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/1a5fe5a0b4a18a93d16d7d180b70caad/transformed/vision-common-17.3.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/94e741cdf04d8bc55029a186a1bd3e7d/transformed/common-18.9.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/24706a1b7f5903a5966de826ec2200c0/transformed/credentials-1.2.0-rc01 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/b6eb927d1ba687b190aa7f9225eb9569/transformed/credentials-play-services-auth-1.2.0-rc01 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/f31568cd606f4bb51ceebcb77d1296bb/transformed/play-services-auth-20.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/57277caa8ada3e278acf1276b49988d4/transformed/play-services-auth-api-phone-18.0.2 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/97f794a9129b9139c663a31c97088084/transformed/recaptcha-18.6.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/b54078468eb1bbc467cc2f11934b0894/transformed/integrity-1.3.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/527da59c943757568e32fd8b729e6346/transformed/firebase-appcheck-interop-17.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/9a702e772007ca4705ff0e5b9d5652c5/transformed/firebase-database-collection-18.0.1 because:
-[        ]   Build cache is disabled
-[   +2 ms]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/8e6dc5a94ecccfaf26ab158cd06b742b/transformed/play-services-fido-20.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/f10e2e57c3bfe341705bd4cded1493eb/transformed/play-services-auth-base-18.0.4 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/311a35d9e88bedcd6da901b1785b6ee0/transformed/play-services-base-18.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/2f1ec2fa19805cbe2d0442e8cbbe7b38/transformed/vision-interfaces-16.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/58ba330704c9ac277f0cf737bd34aff3/transformed/camera-core-1.3.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/a285acb48ca6d50e174e41485889cad3/transformed/camera-camera2-1.3.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/c6a41d25bcf5211d3d0040325ac73d41/transformed/camera-lifecycle-1.3.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6ed89ec3fd6316fcb0c2e7cdeb1ef538/transformed/media-1.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/f545985eb0b16189f23b141b02b35f52/transformed/window-1.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6100984f7f80bfbb9fe8490f40522528/transformed/window-java-1.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6c80dc7bc987cfc317ee74d0db423e8c/transformed/browser-1.4.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/9ecf0825eea37ee26df7f12080ec06ac/transformed/viewpager-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/e3df6c825e57b1af341ecb6e9a5c2167/transformed/activity-1.8.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/48e61bb86e809b4c462898dd42e50855/transformed/loader-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[   +1 ms] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/217d2b85e410cc340c4454118071986f/transformed/customview-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/9e6f014ad031effa41979a9e4fa0c912/transformed/core-1.16.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/1ce82df59ecea17b0a73880e18a1d4d5/transformed/lifecycle-livedata-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/789aabcd73636aed0b525866e7103495/transformed/lifecycle-livedata-core-ktx-2.7.0 because:
-[   +1 ms]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/7310eb6bdeb9cfa412502280069d931f/transformed/lifecycle-viewmodel-savedstate-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/213e5a58e996ddd1359056ca7b5461fb/transformed/lifecycle-viewmodel-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/96f7a36756fcd253ad799cec5dbed00d/transformed/lifecycle-livedata-core-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/a3b8cd2534b300099ed0cc36b57adeb7/transformed/lifecycle-runtime-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/667a5e1cebdc6e3fb84035cc09c28c2f/transformed/lifecycle-process-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/cc5c9a7c53dd43ea1d13620385062aeb/transformed/play-services-tasks-18.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6e31df51682f893681c49f52bddcf033/transformed/savedstate-1.2.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/037e99667e36befa7788f83638f3f262/transformed/play-services-basement-18.4.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/a9e240647d11c031e169ac7cd9f27267/transformed/fragment-1.7.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/8caf57d480e6cf45cc4b5257ba054db3/transformed/core-ktx-1.16.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/7bfbc0a6d96fb94cb1083e44b9fc61af/transformed/profileinstaller-1.3.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/b03fc031bb6ef85bd45a7688be1867c9/transformed/startup-runtime-1.1.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/8d2fa8aaaad66ff9164a3363794a21de/transformed/exifinterface-1.4.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/83467fc23af0be66515e9eaffac918e3/transformed/tracing-1.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[   +2 ms] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/5043bba5a6bb573abdb99760d0ed38e4/transformed/localbroadcastmanager-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/de7db6ab66c415e5ffd0b22187ae40d2/transformed/firebase-components-18.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/e6a6c45173c51c0a8b7a4ab66352c204/transformed/core-runtime-2.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/84daf7adb04f9d83c2b03e9fd30c468b/transformed/transport-backend-cct-2.3.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6d25334d330dc6110a6c3cf8fcf84fa5/transformed/transport-runtime-2.2.6 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/48df3916aea37f9d996487f95a027ce5/transformed/transport-api-2.2.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/8d7be0138b64cba2fbf033b4bca7486d/transformed/firebase-encoders-json-17.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/757fc34cc02492d1d3dc54119dc37677/transformed/interpolator-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/1ce2d391fdbf5a6c64c6122c4152f17e/transformed/core-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/09955278bfe9088e0183d7da700c550a/transformed/versionedparcelable-1.1.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/77d75b0d4488089748e7cf87db601490/transformed/core-viewtree-1.0.0 because:
-[        ]   Build cache is disabled
-[   +2 ms]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/37adc7677a36487db635faac89177e28/transformed/annotation-experimental-1.4.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/99a89e4dfe5768d657dfeb4afaf04064/transformed/googleid-1.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/cc442230e4168bbeab7f34b0610f5559/transformed/relinker-1.4.5 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/093151f5241d58fc1740a6dd97542cae/transformed/grpc-android-1.62.2 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/ea2a2149e5cbd817e1ea5ad0d7240e12/transformed/protolite-well-known-types-18.0.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/fde60fadf4e897b7cbb3acad35f61831/transformed/image-1.0.0-beta1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/9543529698258999cc5adaade4707ce6/transformed/core-common-2.0.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/d5cdc260e168894371de5e01e6741922/transformed/firebase-firestore-25.1.4 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for task ':app:checkReleaseAarMetadata' because:
-[        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':app:checkReleaseAarMetadata' is not up-to-date because:
-[        ]   No history is available.
-[  +75 ms] > Task :app:compileReleaseKotlin
-[   +1 ms] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/compile_r_class_jar/release/generateReleaseRFile/R.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/cloud_firestore/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/connectivity_plus/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/firebase_auth/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/firebase_core/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/flutter_local_notifications/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/jni/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/jni_flutter/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/mobile_scanner/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/print_bluetooth_thermal/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/printing/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/sqflite_android/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/vibration/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/device_info_plus/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/io.flutter/armeabi_v7a_release/1.0.0-0cd610717bde95fd88343c64f81c11ba4e5c0010/f2bba27157d4defb956d92d4fc87161c5778afc2/armeabi_v7a_release-1.0.0-0cd610717bde95fd88343c64f81c11ba4e5c0010.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/compile_library_classes_jar/release/bundleLibCompileToJarRelease/classes.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/io.flutter/x86_64_release/1.0.0-0cd610717bde95fd88343c64f81c11ba4e5c0010/ab8be5aaf891373daa7a20af6c94d4d97d2a4d4d/x86_64_release-1.0.0-0cd610717bde95fd88343c64f81c11ba4e5c0010.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/io.flutter/arm64_v8a_release/1.0.0-0cd610717bde95fd88343c64f81c11ba4e5c0010/323af0919c29c14930456781a320edb99fff7611/arm64_v8a_release-1.0.0-0cd610717bde95fd88343c64f81c11ba4e5c0010.jar because:
-[        ]   Build cache is disabled
-[        ] Caching disabled for task ':app:compileReleaseKotlin' because:
-[        ]   Build cache is disabled
-[        ] Task ':app:compileReleaseKotlin' is not up-to-date because:
-[        ]   No history is available.
-[        ] The input changes require a full rebuild for incremental task ':app:compileReleaseKotlin'.
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/java', not found
-[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/release/kotlin', not found
-[        ] Kotlin source files: /home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/main/kotlin/com/example/hortalizas_pos/MainActivity.kt
-[        ] Java source files: /home/runner/work/hortalizas-pos/hortalizas-pos/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
-[        ] Script source files: 
-[        ] Script file extensions: 
-[        ] Using Kotlin/JVM incremental compilation
-[        ] [KOTLIN] Kotlin compilation 'jdkHome' argument: null
-[        ] i: Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[], generateCompilerRefIndex=false), sourceChanges=org.jetbrains.kotlin.buildtools.api.SourcesChanges$Unknown@2edcd54c, classpathChanges=NotAvailableDueToMissingClasspathSnapshot, workingDir=/home/runner/work/hortalizas-pos/hortalizas-pos/build/app/kotlin/compileReleaseKotlin/cacheable, multiModuleICSettings=null, icFeatures=IncrementalCompilationFeatures(usePreciseJavaTracking=true, withAbiSnapshot=false, preciseCompilationResultsBackup=true, keepIncrementalCompilationCachesInMemory=true, enableUnsafeIncrementalCompilationForMultiplatform=false, enableMonotonousIncrementalCompileSetExpansion=true), outputFiles=[/home/runner/work/hortalizas-pos/hortalizas-pos/build/app/tmp/kotlin-classes/release, /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/kotlin/compileReleaseKotlin/cacheable, /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/kotlin/compileReleaseKotlin/local-state])
-[        ] i: Finished executing kotlin compiler using DAEMON strategy
-[        ] > Task :app:mapReleaseSourceSetPaths
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/c84a89731f345f112faa8c02306fd3ef/transformed/firebase-auth-interop-20.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/d13f62dd48b27e7ac5934851d9f30d90/transformed/barcode-scanning-17.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/133a285c2abe6311b7fcc644a3bbf243/transformed/firebase-common-ktx-21.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/7f0b00efd409771cb70d5d9671479cb2/transformed/firebase-auth-23.2.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/dc9b6e7cb018027d97517c53b737f986/transformed/firebase-common-21.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/1836d0ad84c5360533cf15520ce07a99/transformed/barcode-scanning-common-17.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/2167aebc625264d61de43238ad9bea8e/transformed/play-services-mlkit-barcode-scanning-18.3.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/1a5fe5a0b4a18a93d16d7d180b70caad/transformed/vision-common-17.3.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/94e741cdf04d8bc55029a186a1bd3e7d/transformed/common-18.9.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/24706a1b7f5903a5966de826ec2200c0/transformed/credentials-1.2.0-rc01 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/b6eb927d1ba687b190aa7f9225eb9569/transformed/credentials-play-services-auth-1.2.0-rc01 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/57277caa8ada3e278acf1276b49988d4/transformed/play-services-auth-api-phone-18.0.2 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/f31568cd606f4bb51ceebcb77d1296bb/transformed/play-services-auth-20.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/b54078468eb1bbc467cc2f11934b0894/transformed/integrity-1.3.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/97f794a9129b9139c663a31c97088084/transformed/recaptcha-18.6.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/527da59c943757568e32fd8b729e6346/transformed/firebase-appcheck-interop-17.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/9a702e772007ca4705ff0e5b9d5652c5/transformed/firebase-database-collection-18.0.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/8e6dc5a94ecccfaf26ab158cd06b742b/transformed/play-services-fido-20.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/f10e2e57c3bfe341705bd4cded1493eb/transformed/play-services-auth-base-18.0.4 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/311a35d9e88bedcd6da901b1785b6ee0/transformed/play-services-base-18.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/58ba330704c9ac277f0cf737bd34aff3/transformed/camera-core-1.3.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/2f1ec2fa19805cbe2d0442e8cbbe7b38/transformed/vision-interfaces-16.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/c6a41d25bcf5211d3d0040325ac73d41/transformed/camera-lifecycle-1.3.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/a285acb48ca6d50e174e41485889cad3/transformed/camera-camera2-1.3.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6ed89ec3fd6316fcb0c2e7cdeb1ef538/transformed/media-1.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6100984f7f80bfbb9fe8490f40522528/transformed/window-java-1.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/f545985eb0b16189f23b141b02b35f52/transformed/window-1.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6c80dc7bc987cfc317ee74d0db423e8c/transformed/browser-1.4.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/e3df6c825e57b1af341ecb6e9a5c2167/transformed/activity-1.8.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/48e61bb86e809b4c462898dd42e50855/transformed/loader-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/9ecf0825eea37ee26df7f12080ec06ac/transformed/viewpager-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/217d2b85e410cc340c4454118071986f/transformed/customview-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/9e6f014ad031effa41979a9e4fa0c912/transformed/core-1.16.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/789aabcd73636aed0b525866e7103495/transformed/lifecycle-livedata-core-ktx-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/1ce82df59ecea17b0a73880e18a1d4d5/transformed/lifecycle-livedata-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/7310eb6bdeb9cfa412502280069d931f/transformed/lifecycle-viewmodel-savedstate-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/213e5a58e996ddd1359056ca7b5461fb/transformed/lifecycle-viewmodel-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/96f7a36756fcd253ad799cec5dbed00d/transformed/lifecycle-livedata-core-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/a3b8cd2534b300099ed0cc36b57adeb7/transformed/lifecycle-runtime-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/667a5e1cebdc6e3fb84035cc09c28c2f/transformed/lifecycle-process-2.7.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6e31df51682f893681c49f52bddcf033/transformed/savedstate-1.2.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/cc5c9a7c53dd43ea1d13620385062aeb/transformed/play-services-tasks-18.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/037e99667e36befa7788f83638f3f262/transformed/play-services-basement-18.4.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/a9e240647d11c031e169ac7cd9f27267/transformed/fragment-1.7.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/8caf57d480e6cf45cc4b5257ba054db3/transformed/core-ktx-1.16.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/7bfbc0a6d96fb94cb1083e44b9fc61af/transformed/profileinstaller-1.3.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/b03fc031bb6ef85bd45a7688be1867c9/transformed/startup-runtime-1.1.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/83467fc23af0be66515e9eaffac918e3/transformed/tracing-1.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/8d2fa8aaaad66ff9164a3363794a21de/transformed/exifinterface-1.4.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/5043bba5a6bb573abdb99760d0ed38e4/transformed/localbroadcastmanager-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/de7db6ab66c415e5ffd0b22187ae40d2/transformed/firebase-components-18.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/e6a6c45173c51c0a8b7a4ab66352c204/transformed/core-runtime-2.2.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/84daf7adb04f9d83c2b03e9fd30c468b/transformed/transport-backend-cct-2.3.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/6d25334d330dc6110a6c3cf8fcf84fa5/transformed/transport-runtime-2.2.6 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/48df3916aea37f9d996487f95a027ce5/transformed/transport-api-2.2.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/8d7be0138b64cba2fbf033b4bca7486d/transformed/firebase-encoders-json-17.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/757fc34cc02492d1d3dc54119dc37677/transformed/interpolator-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/09955278bfe9088e0183d7da700c550a/transformed/versionedparcelable-1.1.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/1ce2d391fdbf5a6c64c6122c4152f17e/transformed/core-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/37adc7677a36487db635faac89177e28/transformed/annotation-experimental-1.4.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/77d75b0d4488089748e7cf87db601490/transformed/core-viewtree-1.0.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/093151f5241d58fc1740a6dd97542cae/transformed/grpc-android-1.62.2 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/99a89e4dfe5768d657dfeb4afaf04064/transformed/googleid-1.1.0 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/ea2a2149e5cbd817e1ea5ad0d7240e12/transformed/protolite-well-known-types-18.0.1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/cc442230e4168bbeab7f34b0610f5559/transformed/relinker-1.4.5 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/fde60fadf4e897b7cbb3acad35f61831/transformed/image-1.0.0-beta1 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/d5cdc260e168894371de5e01e6741922/transformed/firebase-firestore-25.1.4 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for AarTransform: /home/runner/.gradle/caches/9.1.0/transforms/9543529698258999cc5adaade4707ce6/transformed/core-common-2.0.3 because:
-[        ]   Build cache is disabled
-[        ]   Caching not enabled.
-[        ] Caching disabled for task ':app:mapReleaseSourceSetPaths' because:
-[        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':app:mapReleaseSourceSetPaths' is not up-to-date because:
-[        ]   No history is available.
-[  +79 ms] [Incubating] Problems report is available at: file:///home/runner/work/hortalizas-pos/hortalizas-pos/build/reports/problems/problems-report.html
-[        ] FAILURE: Build failed with an exception.
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/mobile_scanner-5.2.3/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/mobile_scanner-5.2.3/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/mobile_scanner-5.2.3/android/src/release/kotlin', not found
+[        ] Android Lint: Creating lint class loader 32.0.1_true
+[+9999 ms] Extracted 1 Annotations:
+[        ]  @IntDef: 1
+[        ] Annotations written to /home/runner/work/hortalizas-pos/hortalizas-pos/build/mobile_scanner/intermediates/annotations_zip/release/extractReleaseAnnotations/annotations.zip
+[+1899 ms] > Task :app:minifyReleaseWithR8
+[        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:21:1-22:1: R8: Proguard configuration rule does not match anything: `-keep public class com.google.vending.licensing.ILicensingService`
+[        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:22:1-23:1: R8: Proguard configuration rule does not match anything: `-keep public class com.android.vending.licensing.ILicensingService`
+[        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:23:1-24:1: R8: Proguard configuration rule does not match anything: `-keep public class com.google.android.vending.licensing.ILicensingService`
+[        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:68:1-70:1: R8: Proguard configuration rule does not match anything: `-keep class android.support.annotation.Keep`
+[        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:70:1-52: R8: Proguard configuration rule does not match anything: `-keep @android.support.annotation.Keep class * {
+[        ]   *;
+[        ] }`
+[        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:72:1-74:2: R8: Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+[        ]   @android.support.annotation.Keep <methods>;
+[        ] }`
+[        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:76:1-78:2: R8: Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+[        ]   @android.support.annotation.Keep <fields>;
+[        ] }`
+[        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.0.1:80:1-82:2: R8: Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+[        ]   @android.support.annotation.Keep <init>(...);
+[        ] }`
+[        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/mobile_scanner/intermediates/consumer_proguard_dir/release/exportReleaseConsumerProguardFiles/lib0/proguard.txt:1:1-38: R8: Proguard configuration rule does not match anything: `-keep class com.google.mlkit.* {
+[        ]   *;
+[        ] }`
+[        ] INFO: /home/runner/work/hortalizas-pos/hortalizas-pos/build/mobile_scanner/intermediates/consumer_proguard_dir/release/exportReleaseConsumerProguardFiles/lib0/proguard.txt:3:1-39: R8: Proguard configuration rule does not match anything: `-keep class com.google.photos.* {
+[        ]   *;
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/7f0b00efd409771cb70d5d9671479cb2/transformed/firebase-auth-23.2.1/proguard.txt:13:1-15:2: R8: Proguard configuration rule does not match anything: `-keepclasseswithmembers,allowshrinking interface * {
+[        ]   @retrofit.http.* <methods>;
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/94e741cdf04d8bc55029a186a1bd3e7d/transformed/common-18.9.0/proguard.txt:10:1-15:1: R8: Proguard configuration rule does not match anything: `-keep class com.google.android.apps.common.proguard.UsedBy*`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/b6eb927d1ba687b190aa7f9225eb9569/transformed/credentials-play-services-auth-1.2.0-rc01/proguard.txt:1:1-4:2: R8: Proguard configuration rule does not match anything: `-if class androidx.credentials.CredentialManager
+[        ] -keep class androidx.credentials.playservices.** {
+[        ]   *;
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/97f794a9129b9139c663a31c97088084/transformed/recaptcha-18.6.1/proguard.txt:27:1-41: R8: Proguard configuration rule does not match anything: `-keep class com.squareup.okhttp3.* {
+[        ]   *;
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/97f794a9129b9139c663a31c97088084/transformed/recaptcha-18.6.1/proguard.txt:28:1-32:1: R8: Proguard configuration rule does not match anything: `-keep class okhttp3.**`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/311a35d9e88bedcd6da901b1785b6ee0/transformed/play-services-base-18.1.0/proguard.txt:2:1-4:2: R8: Proguard configuration rule does not match anything: `-keepclassmembers class com.google.android.gms.common.api.internal.BasePendingResult {
+[        ]   com.google.android.gms.common.api.internal.BasePendingResult$ReleasableResultGuardian mResultGuardian;
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/7310eb6bdeb9cfa412502280069d931f/transformed/lifecycle-viewmodel-savedstate-2.7.0/proguard.txt:1:1-3:2: R8: Proguard configuration rule does not match anything: `-keepclassmembers,allowrepackaging,allowobfuscation class * extends androidx.lifecycle.ViewModel {
+[        ]   <init>(androidx.lifecycle.SavedStateHandle);
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/7310eb6bdeb9cfa412502280069d931f/transformed/lifecycle-viewmodel-savedstate-2.7.0/proguard.txt:5:1-7:2: R8: Proguard configuration rule does not match anything: `-keepclassmembers,allowrepackaging,allowobfuscation class * extends androidx.lifecycle.AndroidViewModel {
+[        ]   <init>(android.app.Application,androidx.lifecycle.SavedStateHandle);
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/213e5a58e996ddd1359056ca7b5461fb/transformed/lifecycle-viewmodel-2.7.0/proguard.txt:5:1-7:2: R8: Proguard configuration rule does not match anything: `-keepclassmembers,allowrepackaging,allowobfuscation class * extends androidx.lifecycle.AndroidViewModel {
+[        ]   <init>(android.app.Application);
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/a3b8cd2534b300099ed0cc36b57adeb7/transformed/lifecycle-runtime-2.7.0/proguard.txt:10:1-12:2: R8: Proguard configuration rule does not match anything: `-keep class * implements androidx.lifecycle.GeneratedAdapter {
+[        ]   <init>(...);
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/037e99667e36befa7788f83638f3f262/transformed/play-services-basement-18.4.0/proguard.txt:43:1-44:1: R8: Proguard configuration rule does not match anything: `-keep @interface android.support.annotation.Keep`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/037e99667e36befa7788f83638f3f262/transformed/play-services-basement-18.4.0/proguard.txt:45:1-47:2: R8: Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+[        ]   @androidx.annotation.Keep <fields>;
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/a9e240647d11c031e169ac7cd9f27267/transformed/fragment-1.7.1/proguard.txt:24:1-29:2: R8: Proguard configuration rule does not match anything: `-if class androidx.fragment.app.FragmentTransition {
+[        ]   private static androidx.fragment.app.FragmentTransitionImpl resolveSupportImpl();
+[        ] }
+[        ] -keep class androidx.transition.FragmentTransitionSupport {
+[        ]   public <init>();
+[        ] }`
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/928e8ae81ce064a297f329171815798f/transformed/shrink-rules/lib/META-INF/proguard/androidx-annotations.pro:12:1-14:2: R8: Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+[        ]   @androidx.annotation.Keep <init>(...);
+[        ] }`
+[ +195 ms] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/util/AbstractSet<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzanc.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzanc.iterator().
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzns<TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zznv.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TSerializationT;Lcom/google/android/gms/internal/firebase-auth-api/zzck;)Lcom/google/android/gms/internal/firebase-auth-api/zzbm;' for method com.google.android.gms.internal.firebase-auth-api.zzbm com.google.android.gms.internal.firebase-auth-api.zznv.zza(com.google.android.gms.internal.firebase-auth-api.zzqi, com.google.android.gms.internal.firebase-auth-api.zzck).
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzaj<TE;>;' for class com.google.android.gms.internal.firebase-auth-api.zzao.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(II)Lcom/google/android/gms/internal/firebase-auth-api/zzaj<TE;>;' for method com.google.android.gms.internal.firebase-auth-api.zzaj com.google.android.gms.internal.firebase-auth-api.zzao.zza(int, int).
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(I)TE;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzao.get(int).
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/lang/Object;Ljava/lang/Comparable<Lcom/google/android/gms/internal/firebase-auth-api/zzana;>;Ljava/util/Map$Entry<TK;TV;>;' for class com.google.android.gms.internal.firebase-auth-api.zzana.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(Ljava/util/Map$Entry<TK;TV;>;)V' for method void com.google.android.gms.internal.firebase-auth-api.zzana.<init>(com.google.android.gms.internal.firebase-auth-api.zzamw, java.util.Map$Entry).
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TK;TV;)V' for method void com.google.android.gms.internal.firebase-auth-api.zzana.<init>(com.google.android.gms.internal.firebase-auth-api.zzamw, java.lang.Comparable, java.lang.Object).
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()TV;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzana.getValue().
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[   +1 ms] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TV;)TV;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzana.setValue(java.lang.Object).
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'TK;' for field java.lang.Comparable com.google.android.gms.internal.firebase-auth-api.zzana.zza.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'TV;' for field java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzana.zzb.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzpk<TParametersT;TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zzpj.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TParametersT;)TSerializationT;' for method com.google.android.gms.internal.firebase-auth-api.zzqi com.google.android.gms.internal.firebase-auth-api.zzpj.zza(com.google.android.gms.internal.firebase-auth-api.zzce).
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/lang/Object;Ljava/lang/Iterable<TP;>;' for class com.google.android.gms.internal.firebase-auth-api.zzpn.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<TP;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzpn.iterator().
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzpr<TKeyT;TPrimitiveT;>;' for class com.google.android.gms.internal.firebase-auth-api.zzpu.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TKeyT;)TPrimitiveT;' for method java.lang.Object com.google.android.gms.internal.firebase-auth-api.zzpu.zza(com.google.android.gms.internal.firebase-auth-api.zzbm).
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/lang/Object;Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzand.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzand.zza().
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for field java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzand.zzc.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[  +94 ms] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzaj<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzaw.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzpg<TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zzpf.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TSerializationT;)Lcom/google/android/gms/internal/firebase-auth-api/zzce;' for method com.google.android.gms.internal.firebase-auth-api.zzce com.google.android.gms.internal.firebase-auth-api.zzpf.zza(com.google.android.gms.internal.firebase-auth-api.zzqi).
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzanb.iterator().
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/lang/Object;Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for class com.google.android.gms.internal.firebase-auth-api.zzamy.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '()Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for method java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzamy.zza().
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Ljava/util/Iterator<Ljava/util/Map$Entry<TK;TV;>;>;' for field java.util.Iterator com.google.android.gms.internal.firebase-auth-api.zzamy.zzb.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zzamw<TFieldDescriptorT;Ljava/lang/Object;>;' for class com.google.android.gms.internal.firebase-auth-api.zzamz.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature 'Lcom/google/android/gms/internal/firebase-auth-api/zznw<TKeyT;TSerializationT;>;' for class com.google.android.gms.internal.firebase-auth-api.zznz.
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/ef337d12b0635879dc87f006a7aa76b7/transformed/firebase-auth-23.2.1-runtime.jar: R8: Invalid signature '(TKeyT;Lcom/google/android/gms/internal/firebase-auth-api/zzck;)TSerializationT;' for method com.google.android.gms.internal.firebase-auth-api.zzqi com.google.android.gms.internal.firebase-auth-api.zznz.zza(com.google.android.gms.internal.firebase-auth-api.zzbm, com.google.android.gms.internal.firebase-auth-api.zzck).
+[        ] Validation error: A type variable is not in scope.
+[        ] Signature is ignored and will not be present in the output.
+[+66098 ms] INFO: R8: InnerClasses attribute has entries missing a corresponding EnclosingMethod attribute. Such InnerClasses attribute entries are ignored.
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zza
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zzb
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zzc
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zzd
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zze
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zzf
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zzg
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zzh
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zzi
+[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/dce8b18613e2c82fef4d55db39d20ff1/transformed/play-services-mlkit-barcode-scanning-18.3.0-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzec$zzj
+[  +98 ms] AAPT2 aapt2-9.0.1-14304508-linux Daemon #0: shutdown
+[        ] AAPT2 aapt2-9.0.1-14304508-linux Daemon #1: shutdown
+[        ] AAPT2 aapt2-9.0.1-14304508-linux Daemon #2: shutdown
+[        ] Android Lint: Disposing Uast application environment in lint classloader [32.0.1_true]
+[  +99 ms] [Incubating] Problems report is available at: file:///home/runner/work/hortalizas-pos/hortalizas-pos/build/reports/problems/problems-report.html
+[ +102 ms] FAILURE: Build failed with an exception.
 [        ] * What went wrong:
-[   +1 ms] Execution failed for task ':app:checkReleaseAarMetadata'.
+[        ] Execution failed for task ':vibration:checkReleaseAarMetadata'.
 [        ] > A failure occurred while executing com.android.build.gradle.internal.tasks.CheckAarMetadataWorkAction
-[        ]    > An issue was found when checking AAR metadata:
-[        ]        1.  Dependency ':flutter_local_notifications' requires core library desugaring to be enabled
-[        ]            for :app.
-[        ]            See https://developer.android.com/studio/write/java8-support.html for more
-[        ]            details.
+[        ]    > 15 issues were found when checking AAR metadata:
+[        ]        1.  Dependency 'androidx.fragment:fragment:1.7.1' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]        2.  Dependency 'androidx.window:window:1.2.0' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]        3.  Dependency 'androidx.window:window-java:1.2.0' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[   +3 ms]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]        4.  Dependency 'androidx.activity:activity:1.8.1' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]        5.  Dependency 'androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]        6.  Dependency 'androidx.lifecycle:lifecycle-livedata:2.7.0' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]        7.  Dependency 'androidx.lifecycle:lifecycle-viewmodel:2.7.0' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]        8.  Dependency 'androidx.lifecycle:lifecycle-livedata-core:2.7.0' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]        9.  Dependency 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[   +3 ms]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]       10.  Dependency 'androidx.core:core-ktx:1.13.1' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]       11.  Dependency 'androidx.core:core:1.13.1' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]       12.  Dependency 'androidx.lifecycle:lifecycle-runtime:2.7.0' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]       13.  Dependency 'androidx.lifecycle:lifecycle-process:2.7.0' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]       14.  Dependency 'androidx.annotation:annotation-experimental:1.4.0' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[   +3 ms]            minSdk (which determines which devices the app can be installed
+[        ]            on).
+[        ]       15.  Dependency 'androidx.exifinterface:exifinterface:1.4.1' requires libraries and applications that
+[        ]            depend on it to compile against version 34 or later of the
+[        ]            Android APIs.
+[        ]            :vibration is currently compiled against android-33.
+[        ]            Recommended action: Update this project to use a newer compileSdk
+[        ]            of at least 34, for example 36.
+[        ]            Note that updating a library or application's compileSdk (which
+[        ]            allows newer APIs to be used) can be done separately from updating
+[        ]            targetSdk (which opts the app in to new runtime behavior) and
+[        ]            minSdk (which determines which devices the app can be installed
+[        ]            on).
 [        ] * Try:
 [        ] > Run with --debug option to get more log output.
 [        ] > Run with --scan to generate a Build Scan (Powered by Develocity).
 [        ] > Get more help at https://help.gradle.org.
 [        ] * Exception is:
-[        ] org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:checkReleaseAarMetadata'.
+[        ] org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':vibration:checkReleaseAarMetadata'.
 [        ] 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:135)
 [        ] 	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:288)
 [        ] 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:133)
@@ -754,7 +554,7 @@ caf57d480e6cf45cc4b5257ba054db3/transformed/core-ktx-1.16.0 because:
 [        ] 	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
 [        ] 	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
 [        ] 	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
-[        ] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+[   +2 ms] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
 [        ] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
 [        ] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
 [        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
@@ -774,36 +574,6 @@ caf57d480e6cf45cc4b5257ba054db3/transformed/core-ktx-1.16.0 because:
 [        ] 	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:327)
 [        ] 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
 [        ] 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
-[        ] 	at org.gradle.execution.plan.DefaultPlanExecutor.process(DefaultPlanExecutor.java:111)
-[        ] 	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph.executeWithServices(DefaultTaskExecutionGraph.java:146)
-[        ] 	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph.execute(DefaultTaskExecutionGraph.java:131)
-[        ] 	at org.gradle.execution.SelectedTaskExecutionAction.execute(SelectedTaskExecutionAction.java:35)
-[        ] 	at org.gradle.execution.BuildOperationFiringBuildWorkerExecutor$ExecuteTasks.call(BuildOperationFiringBuildWorkerExecutor.java:54)
-[        ] 	at org.gradle.execution.BuildOperationFiringBuildWorkerExecutor$ExecuteTasks.call(BuildOperationFiringBuildWorkerExecutor.java:43)
-[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-[        ] 	at org.gradle.execution.BuildOperationFiringBuildWorkerExecutor.execute(BuildOperationFiringBuildWorkerExecutor.java:40)
-[        ] 	at org.gradle.internal.build.DefaultBuildLifecycleController.lambda$executeTasks$10(DefaultBuildLifecycleController.java:313)
-[        ] 	at org.gradle.internal.model.StateTransitionController.doTransition(StateTransitionController.java:266)
-[        ] 	at org.gradle.internal.model.StateTransitionController.lambda$tryTransition$8(StateTransitionController.java:177)
-[        ] 	at org.gradle.internal.work.DefaultSynchronizer.withLock(DefaultSynchronizer.java:45)
-[        ] 	at org.gradle.internal.model.StateTransitionController.tryTransition(StateTransitionController.java:177)
-[        ] 	at org.gradle.internal.build.DefaultBuildLifecycleController.executeTasks(DefaultBuildLifecycleController.java:304)
-[        ] 	at org.gradle.internal.build.DefaultBuildWorkGraphController$DefaultBuildWorkGraph.runWork(DefaultBuildWorkGraphController.java:220)
-[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:263)
-[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
-[        ] 	at org.gradle.composite.internal.DefaultBuildController.doRun(DefaultBuildController.java:181)
-[        ] 	at org.gradle.composite.internal.DefaultBuildController.access$000(DefaultBuildController.java:50)
-[        ] 	at org.gradle.composite.internal.DefaultBuildController$BuildOpRunnable.lambda$run$0(DefaultBuildController.java:198)
-[        ] 	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:84)
-[        ] 	at org.gradle.composite.internal.DefaultBuildController$BuildOpRunnable.run(DefaultBuildController.java:198)
-[        ] 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
-[        ] 	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
 [        ] 	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
 [        ] 	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
 [        ] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
@@ -821,7 +591,7 @@ caf57d480e6cf45cc4b5257ba054db3/transformed/core-ktx-1.16.0 because:
 [        ] 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForAll(DefaultAsyncWorkTracker.java:78)
 [        ] 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForCompletion(DefaultAsyncWorkTracker.java:66)
 [        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:260)
-[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)
+[   +2 ms] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)
 [        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:26)
 [        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
 [        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
@@ -831,7 +601,7 @@ caf57d480e6cf45cc4b5257ba054db3/transformed/core-ktx-1.16.0 because:
 [        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:237)
 [        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:220)
 [        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:203)
-[        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:170)
+[   +1 ms] 	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:170)
 [        ] 	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:105)
 [        ] 	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
 [        ] 	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)
@@ -880,7 +650,7 @@ caf57d480e6cf45cc4b5257ba054db3/transformed/core-ktx-1.16.0 because:
 [        ] 	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:64)
 [        ] 	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:35)
 [        ] 	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:62)
-[        ] 	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:40)
+[   +2 ms] 	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:40)
 [        ] 	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:76)
 [        ] 	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:45)
 [        ] 	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:136)
@@ -907,12 +677,173 @@ caf57d480e6cf45cc4b5257ba054db3/transformed/core-ktx-1.16.0 because:
 [        ] 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:34)
 [        ] 	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:64)
 [        ] 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:132)
-[        ] 	... 62 more
-[        ] Caused by: java.lang.RuntimeException: An issue was found when checking AAR metadata:
-[        ]   1.  Dependency ':flutter_local_notifications' requires core library desugaring to be enabled
-[        ]       for :app.
-[        ]       See https://developer.android.com/studio/write/java8-support.html for more
-[        ]       details.
+[        ] 	... 32 more
+[        ] Caused by: java.lang.RuntimeException: 15 issues were found when checking AAR metadata:
+[        ]   1.  Dependency 'androidx.fragment:fragment:1.7.1' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]   2.  Dependency 'androidx.window:window:1.2.0' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]   3.  Dependency 'androidx.window:window-java:1.2.0' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]   4.  Dependency 'androidx.activity:activity:1.8.1' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]   5.  Dependency 'androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]   6.  Dependency 'androidx.lifecycle:lifecycle-livedata:2.7.0' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]   7.  Dependency 'androidx.lifecycle:lifecycle-viewmodel:2.7.0' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]   8.  Dependency 'androidx.lifecycle:lifecycle-livedata-core:2.7.0' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]   9.  Dependency 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]  10.  Dependency 'androidx.core:core-ktx:1.13.1' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]  11.  Dependency 'androidx.core:core:1.13.1' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]  12.  Dependency 'androidx.lifecycle:lifecycle-runtime:2.7.0' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]  13.  Dependency 'androidx.lifecycle:lifecycle-process:2.7.0' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]  14.  Dependency 'androidx.annotation:annotation-experimental:1.4.0' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
+[        ]  15.  Dependency 'androidx.exifinterface:exifinterface:1.4.1' requires libraries and applications that
+[        ]       depend on it to compile against version 34 or later of the
+[        ]       Android APIs.
+[        ]       :vibration is currently compiled against android-33.
+[        ]       Recommended action: Update this project to use a newer compileSdk
+[        ]       of at least 34, for example 36.
+[        ]       Note that updating a library or application's compileSdk (which
+[        ]       allows newer APIs to be used) can be done separately from updating
+[        ]       targetSdk (which opts the app in to new runtime behavior) and
+[        ]       minSdk (which determines which devices the app can be installed
+[        ]       on).
 [        ] 	at com.android.build.gradle.internal.tasks.CheckAarMetadataWorkAction.execute(CheckAarMetadataTask.kt:288)
 [        ] 	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
 [        ] 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:66)
@@ -941,15 +872,18 @@ caf57d480e6cf45cc4b5257ba054db3/transformed/core-ktx-1.16.0 because:
 [        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
 [        ] 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
 [        ] 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
-[        ] 	... 7 more
-[        ] BUILD FAILED in 4m 55s
+[        ] 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+[        ] 	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+[        ] 	... 5 more
+[        ] BUILD FAILED in 6m 19s
 [        ] Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
 [        ] You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
 [        ] For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
-[        ] 256 actionable tasks: 255 executed, 1 up-to-date
-[ +457 ms] Running Gradle task 'assembleRelease'... (completed in 296.0s)
-[   +2 ms] "flutter apk" took 296,676ms.
-[  +11 ms] Gradle task assembleRelease failed with exit code 1
+[        ] 450 actionable tasks: 449 executed, 1 up-to-date
+[        ] Gradle was unable to watch the file system for changes. Unable to watch same file twice via different paths: Already watching path: /home/runner/work/hortalizas-pos/hortalizas-pos/android.
+[ +309 ms] Running Gradle task 'assembleRelease'... (completed in 380.0s)
+[   +2 ms] "flutter apk" took 380,588ms.
+[   +8 ms] Gradle task assembleRelease failed with exit code 1
 [        ] 
            #0      throwToolExit (package:flutter_tools/src/base/common.dart:34:3)
            #1      AndroidGradleBuilder.buildGradleApp (package:flutter_tools/src/android/gradle.dart:595:7)
