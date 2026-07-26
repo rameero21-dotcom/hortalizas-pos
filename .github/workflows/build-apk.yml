@@ -127,6 +127,13 @@ jobs:
       - name: Habilitar soporte de escritorio Windows
         run: flutter config --enable-windows-desktop
 
+      - name: Precachear artefactos de Windows
+        run: flutter precache --windows
+
+      - name: Reinstalar dependencias justo antes de compilar (ultima sincronizacion)
+        run: flutter pub get
+        shell: pwsh
+
       - name: Compilar programa de Windows
         id: build_windows
         run: flutter build windows --release --verbose 2>&1 | Tee-Object -FilePath build_windows.log
