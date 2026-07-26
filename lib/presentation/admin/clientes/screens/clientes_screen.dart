@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import 'cliente_form_screen.dart';
+import 'cliente_detalle_screen.dart';
 
 final clientesListProvider = FutureProvider.autoDispose((ref) {
   return ref.watch(clienteRepositoryProvider).obtenerTodos();
@@ -41,22 +42,33 @@ class ClientesScreen extends ConsumerWidget {
               return ListTile(
                 title: Text(c.nombre),
                 subtitle: Text(c.telefono.isEmpty ? c.direccion : '${c.telefono} · ${c.direccion}'),
-                trailing: c.saldoCuentaCorriente != 0
-                    ? Text(
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (c.saldoCuentaCorriente != 0)
+                      Text(
                         Formatters.formatearMoneda(c.saldoCuentaCorriente),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: c.saldoCuentaCorriente < 0 ? Colors.red : Colors.green,
                         ),
-                      )
-                    : null,
-                onTap: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => ClienteFormScreen(cliente: c)),
-                  );
-                  ref.invalidate(clientesListProvider);
-                },
+                      ),
+                    IconButton(
+                      icon: const Icon(Icons.edit, size: 20),
+                      onPressed: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => ClienteFormScreen(cliente: c)),
+                        );
+                        ref.invalidate(clientesListProvider);
+                      },
+                    ),
+                  ],
+                ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => ClienteDetalleScreen(cliente: c)),
+                ),
               );
             },
           );

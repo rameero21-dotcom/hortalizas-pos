@@ -14,3 +14,28 @@ class Cliente {
     this.saldoCuentaCorriente = 0,
   });
 }
+
+/// Un cargo (deuda que aumenta) o un pago (deuda que baja) en la cuenta
+/// corriente de un cliente. Ej: "fiado" una venta -> cargo; el cliente
+/// paga o transfiere -> pago.
+enum TipoMovimientoCuenta { cargo, pago }
+
+class MovimientoCuentaCorriente {
+  final String id;
+  final String clienteId;
+  final TipoMovimientoCuenta tipo;
+  final double monto;
+  final String detalle;
+  final DateTime fecha;
+  final String usuarioId;
+
+  const MovimientoCuentaCorriente({
+    required this.id,
+    required this.clienteId,
+    required this.tipo,
+    required this.monto,
+    required this.detalle,
+    required this.fecha,
+    required this.usuarioId,
+  });
+}

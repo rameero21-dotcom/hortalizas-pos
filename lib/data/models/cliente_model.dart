@@ -25,3 +25,36 @@ class ClienteModel extends Cliente {
         'saldoCuentaCorriente': saldoCuentaCorriente,
       };
 }
+
+class MovimientoCuentaCorrienteModel extends MovimientoCuentaCorriente {
+  const MovimientoCuentaCorrienteModel({
+    required super.id,
+    required super.clienteId,
+    required super.tipo,
+    required super.monto,
+    required super.detalle,
+    required super.fecha,
+    required super.usuarioId,
+  });
+
+  factory MovimientoCuentaCorrienteModel.fromMap(Map<String, dynamic> map) =>
+      MovimientoCuentaCorrienteModel(
+        id: map['id'] as String,
+        clienteId: map['clienteId'] as String,
+        tipo: TipoMovimientoCuenta.values.byName(map['tipo'] as String),
+        monto: (map['monto'] as num).toDouble(),
+        detalle: map['detalle'] as String,
+        fecha: DateTime.parse(map['fecha'] as String),
+        usuarioId: map['usuarioId'] as String,
+      );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'clienteId': clienteId,
+        'tipo': tipo.name,
+        'monto': monto,
+        'detalle': detalle,
+        'fecha': fecha.toIso8601String(),
+        'usuarioId': usuarioId,
+      };
+}

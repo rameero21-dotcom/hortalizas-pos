@@ -1,10 +1,23 @@
 import '../entities/cliente.dart';
 
-/// Contrato del repositorio de Clientes (preparado para el futuro).
+/// Contrato del repositorio de Clientes, incluyendo cuenta corriente
+/// (fiado/deuda) para clientes habituales.
 abstract class ClienteRepository {
   Future<List<Cliente>> obtenerTodos();
   Future<Cliente?> obtenerPorId(String id);
   Future<void> crear(Cliente cliente);
   Future<void> actualizar(Cliente cliente);
   Future<void> eliminar(String id);
+
+  /// Registra un cargo (aumenta la deuda) o un pago (la disminuye) en
+  /// la cuenta corriente del cliente, y actualiza su saldo.
+  Future<void> registrarMovimientoCuenta({
+    required String clienteId,
+    required TipoMovimientoCuenta tipo,
+    required double monto,
+    required String detalle,
+    required String usuarioId,
+  });
+
+  Future<List<MovimientoCuentaCorriente>> obtenerMovimientosCuenta(String clienteId);
 }

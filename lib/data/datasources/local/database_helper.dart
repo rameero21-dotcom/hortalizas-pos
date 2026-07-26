@@ -61,6 +61,18 @@ class DatabaseHelper {
         nota TEXT
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS movimientos_cuenta_corriente (
+        id TEXT PRIMARY KEY,
+        clienteId TEXT NOT NULL,
+        tipo TEXT NOT NULL,
+        monto REAL NOT NULL,
+        detalle TEXT NOT NULL,
+        fecha TEXT NOT NULL,
+        usuarioId TEXT NOT NULL
+      )
+    ''');
   }
 
   Future<void> _onCreate(Database db, int version) async {

@@ -1,3 +1,4 @@
+import 'package:uuid/uuid.dart';
 import '../../core/constants/app_constants.dart';
 import '../../domain/entities/cliente.dart';
 import '../../domain/repositories/cliente_repository.dart';
@@ -8,6 +9,7 @@ import '../models/cliente_model.dart';
 class ClienteRepositoryImpl implements ClienteRepository {
   final ClienteLocalDatasource _local;
   final SyncQueueLocalDatasource _syncQueue;
+  final _uuid = Uuid();
 
   ClienteRepositoryImpl(this._local, this._syncQueue);
 
@@ -57,4 +59,49 @@ class ClienteRepositoryImpl implements ClienteRepository {
       payload: const {},
     );
   }
+
+  @override
+  Future<void> registrarMovimientoCuenta({
+    required String clienteId,
+    required TipoMovimientoCuenta tipo,
+    required double monto,
+    required String detalle,
+    required String usuarioId,
+  }) async {
+    final cliente = await obtenerPorId(clienteId);
+    if (cliente == null) throw ArgumentError('Cliente no encontrado: $clienteId');
+
+    // Un cargo (venta fiada) AUMENTA la deuda; un pago la DISMINUYE.
+    final signo = tipo == TipoMovimientoCuenta.cargo ? 1 : -1;
+    final nuevoSaldo = cliente.saldoCuentaCorriente + (signo * monto);
+    await _local.actualizarSaldo(clienteId, nuevoSaldo);
+
+    final movimiento = MovimientoCuentaCorrienteModel(
+      id: _uuid.v4(),
+      clienteId: clienteId,
+      tipo: tipo,
+      monto: monto,
+      detalle: detalle,
+      fecha: DateTime.now(),
+      usuarioId: usuarioId,
+    );
+    await _local.registrarMovimientoCuenta(movimiento);
+
+    await _syncQueue.encolar(
+      entidad: AppConstants.colClientes,
+      entidadId: clienteId,
+      operacion: 'set',
+      payload: {'id': clienteId, 'saldoCuentaCorriente': nuevoSaldo},
+    );
+    await _syncQueue.encolar(
+      entidad: AppConstants.colMovimientosCuentaCorriente,
+      entidadId: movimiento.id,
+      operacion: 'set',
+      payload: movimiento.toMap(),
+    );
+  }
+
+  @override
+  Future<List<MovimientoCuentaCorriente>> obtenerMovimientosCuenta(String clienteId) =>
+      _local.obtenerMovimientosCuenta(clienteId);
 }
