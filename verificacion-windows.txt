@@ -1,0 +1,42 @@
+Buscando: D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\sqflite_common_ffi.dart
+NO EXISTE en esa ruta exacta.
+Contenido real de la carpeta lib del paquete:
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\windows
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\sqflite_ffi.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\mixin
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\constant.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\database_factory_ffi_io.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\database_factory_ffi_web.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\database_factory_ffi.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\database_tracker_web.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\database_tracker.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\env_utils.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\import.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\isolate.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\method_call.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_exception.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_handler.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_impl_io.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_impl_web.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_impl.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_io.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi_web.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_ffi.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\sqflite_import.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\mixin\handler_mixin.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows\setup_impl.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows\setup.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows\sqlite3_info.dart
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows\sqlite3_info.json
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\src\windows\sqlite3.dll
+D:\a\hortalizas-pos\hortalizas-pos\.pub-cache\hosted\pub.dev\sqflite_common_ffi-2.3.3\lib\windows\sqflite_ffi_setup.dart
+--- package_config.json para sqflite_common_ffi ---
+
+>       "name": "sqflite_common_ffi",
+>       "rootUri": "file:///D:/a/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.3.3",
+        "packageUri": "lib/",
+        "languageVersion": "3.3"
+      },
+
