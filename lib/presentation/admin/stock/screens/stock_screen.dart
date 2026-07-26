@@ -5,6 +5,7 @@ import '../../../../domain/entities/producto.dart';
 import '../../../../domain/entities/stock.dart';
 import 'ingreso_mercaderia_screen.dart';
 import 'ajuste_stock_screen.dart';
+import 'registrar_merma_screen.dart';
 
 class _ProductoConStock {
   final Producto producto;
@@ -109,6 +110,18 @@ class StockScreen extends ConsumerWidget {
                             producto: item.producto,
                             cantidadActual: item.stock?.cantidadDisponible ?? 0,
                           )),
+                );
+                ref.invalidate(stockConProductosProvider);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.remove_circle_outline, color: Colors.red),
+              title: const Text('Registrar merma'),
+              onTap: () async {
+                Navigator.pop(context);
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => RegistrarMermaScreen(producto: item.producto)),
                 );
                 ref.invalidate(stockConProductosProvider);
               },

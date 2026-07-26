@@ -6,7 +6,8 @@ import '../../../../core/utils/validators.dart';
 import '../../../../domain/entities/producto.dart';
 
 /// Formulario para crear/editar un producto: nombre, precio sugerido,
-/// categoría, activo/inactivo.
+/// categoría, activo/inactivo, y los datos que alimentan el reporte de
+/// utilidad (costo por unidad, IIBB y TSH por unidad vendida).
 class ProductoFormScreen extends ConsumerStatefulWidget {
   final Producto? producto; // null = creación
 
@@ -21,21 +22,27 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
   late final TextEditingController _nombreCtrl;
   late final TextEditingController _precioCtrl;
   late final TextEditingController _categoriaCtrl;
+  late final TextEditingController _costoCtrl;
+  late final TextEditingController _iibbCtrl;
+  late final TextEditingController _tshCtrl;
   bool _activo = true;
   bool _guardando = false;
 
   bool get _esEdicion => widget.producto != null;
 
+  String _num(double v) => v > 0 ? v.toStringAsFixed(0) : '';
+
   @override
   void initState() {
     super.initState();
-    _nombreCtrl = TextEditingController(text: widget.producto?.nombre ?? '');
-    _precioCtrl = TextEditingController(
-        text: widget.producto != null && widget.producto!.precioSugerido > 0
-            ? widget.producto!.precioSugerido.toStringAsFixed(0)
-            : '');
-    _categoriaCtrl = TextEditingController(text: widget.producto?.categoria ?? 'Verduras');
-    _activo = widget.producto?.activo ?? true;
+    final p = widget.producto;
+    _nombreCtrl = TextEditingController(text: p?.nombre ?? '');
+    _precioCtrl = TextEditingController(text: p != null ? _num(p.precioSugerido) : '');
+    _categoriaCtrl = TextEditingController(text: p?.categoria ?? 'Verduras');
+    _costoCtrl = TextEditingController(text: p != null ? _num(p.costoUnitario) : '');
+    _iibbCtrl = TextEditingController(text: p != null ? _num(p.tasaIIBB) : '');
+    _tshCtrl = TextEditingController(text: p != null ? _num(p.tasaTSH) : '');
+    _activo = p?.activo ?? true;
   }
 
   @override
@@ -43,8 +50,13 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
     _nombreCtrl.dispose();
     _precioCtrl.dispose();
     _categoriaCtrl.dispose();
+    _costoCtrl.dispose();
+    _iibbCtrl.dispose();
+    _tshCtrl.dispose();
     super.dispose();
   }
+
+  double _leer(TextEditingController c) => double.tryParse(c.text.replaceAll(',', '.')) ?? 0;
 
   Future<void> _guardar() async {
     if (!_formKey.currentState!.validate()) return;
@@ -53,9 +65,12 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
       final producto = Producto(
         id: widget.producto?.id ?? const Uuid().v4(),
         nombre: _nombreCtrl.text.trim(),
-        precioSugerido: double.tryParse(_precioCtrl.text.replaceAll(',', '.')) ?? 0,
+        precioSugerido: _leer(_precioCtrl),
         categoria: _categoriaCtrl.text.trim().isEmpty ? 'General' : _categoriaCtrl.text.trim(),
         activo: _activo,
+        costoUnitario: _leer(_costoCtrl),
+        tasaIIBB: _leer(_iibbCtrl),
+        tasaTSH: _leer(_tshCtrl),
       );
 
       final usecase = ref.read(gestionarProductosUseCaseProvider);
@@ -106,6 +121,45 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
               TextFormField(
                 controller: _categoriaCtrl,
                 decoration: const InputDecoration(labelText: 'Categoría', border: OutlineInputBorder()),
+              ),
+              const SizedBox(height: 20),
+              const Text('Costos e impuestos (para el reporte de utilidad)',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _costoCtrl,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(
+                  labelText: 'Costo por unidad',
+                  border: OutlineInputBorder(),
+                  helperText: 'Lo que pagás vos por cada bulto/unidad',
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: _iibbCtrl,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      decoration: const InputDecoration(
+                        labelText: 'IIBB por unidad',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextFormField(
+                      controller: _tshCtrl,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      decoration: const InputDecoration(
+                        labelText: 'TSH por unidad',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 12),
               SwitchListTile(
