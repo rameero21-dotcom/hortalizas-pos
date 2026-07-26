@@ -18,7 +18,6 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0'
           channel: 'stable'
 
       - name: Generar carpetas nativas (android/ios/etc)
@@ -60,13 +59,13 @@ jobs:
         run: exit 1
 
       - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
-        run: sed -i '/minSdkVersion/s/.*/        minSdkVersion 23/' android/app/build.gradle
-
-      - name: Definir compileSdkVersion legacy (lo pide share_plus)
         run: |
-          sed -i '/allprojects {/a\    ext {\n        compileSdkVersion = 35\n        targetSdkVersion = 35\n    }' android/build.gradle
-          cat android/build.gradle > /tmp/build_gradle_root.log
-          python3 .github/scripts/upload_log.py build-gradle-root.txt /tmp/build_gradle_root.log
+          echo "--- build.gradle ANTES ---" > /tmp/minsdk.log
+          cat android/app/build.gradle >> /tmp/minsdk.log
+          sed -i -E 's/^([[:space:]]*minSdk(Version)?[[:space:]]*=?[[:space:]]*).*/\1 23/' android/app/build.gradle
+          echo "--- build.gradle DESPUES ---" >> /tmp/minsdk.log
+          cat android/app/build.gradle >> /tmp/minsdk.log
+          python3 .github/scripts/upload_log.py minsdk-diagnostico.txt /tmp/minsdk.log
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
