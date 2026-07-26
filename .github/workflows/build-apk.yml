@@ -67,6 +67,11 @@ jobs:
         run: flutter build apk --release --verbose 2>&1 | tee /tmp/android_build.log
         continue-on-error: true
 
+      - name: Guardar log de compilacion siempre (diagnostico)
+        run: python3 .github/scripts/upload_log.py android-build-full.txt /tmp/android_build.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Guardar log de error para diagnostico (si fallo)
         if: steps.build_apk.outcome == 'failure'
         run: python3 .github/scripts/upload_log.py android-error.txt /tmp/android_build.log
