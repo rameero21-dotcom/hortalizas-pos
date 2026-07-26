@@ -58,7 +58,7 @@ jobs:
         if: steps.pub_get_android.outcome == 'failure'
         run: exit 1
 
-      - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
+      - name: Ajustar minSdk y compileSdk (lo piden varios plugins)
         run: |
           set +e
           echo "--- Archivos build.gradle encontrados ---" > /tmp/minsdk.log
@@ -69,6 +69,7 @@ jobs:
             echo "--- Contenido ANTES ---" >> /tmp/minsdk.log
             cat "$ARCHIVO" >> /tmp/minsdk.log
             sed -i -E 's/^([[:space:]]*minSdk(Version)?[[:space:]]*=?[[:space:]]*).*/\1 23/' "$ARCHIVO"
+            sed -i -E 's/^([[:space:]]*compileSdk(Version)?[[:space:]]*=?[[:space:]]*).*/\1 36/' "$ARCHIVO"
             echo "--- Contenido DESPUES ---" >> /tmp/minsdk.log
             cat "$ARCHIVO" >> /tmp/minsdk.log
           else
