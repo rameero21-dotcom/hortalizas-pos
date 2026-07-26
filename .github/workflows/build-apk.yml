@@ -60,11 +60,20 @@ jobs:
 
       - name: Subir minSdkVersion a 23 (lo pide firebase_auth)
         run: |
-          echo "--- build.gradle ANTES ---" > /tmp/minsdk.log
-          cat android/app/build.gradle >> /tmp/minsdk.log
-          sed -i -E 's/^([[:space:]]*minSdk(Version)?[[:space:]]*=?[[:space:]]*).*/\1 23/' android/app/build.gradle
-          echo "--- build.gradle DESPUES ---" >> /tmp/minsdk.log
-          cat android/app/build.gradle >> /tmp/minsdk.log
+          set +e
+          echo "--- Archivos build.gradle encontrados ---" > /tmp/minsdk.log
+          find android/app -maxdepth 1 -name "build.gradle*" >> /tmp/minsdk.log
+          ARCHIVO=$(find android/app -maxdepth 1 -name "build.gradle*" | head -1)
+          echo "Usando archivo: $ARCHIVO" >> /tmp/minsdk.log
+          if [ -n "$ARCHIVO" ]; then
+            echo "--- Contenido ANTES ---" >> /tmp/minsdk.log
+            cat "$ARCHIVO" >> /tmp/minsdk.log
+            sed -i -E 's/^([[:space:]]*minSdk(Version)?[[:space:]]*=?[[:space:]]*).*/\1 23/' "$ARCHIVO"
+            echo "--- Contenido DESPUES ---" >> /tmp/minsdk.log
+            cat "$ARCHIVO" >> /tmp/minsdk.log
+          else
+            echo "NO SE ENCONTRO NINGUN build.gradle*" >> /tmp/minsdk.log
+          fi
           python3 .github/scripts/upload_log.py minsdk-diagnostico.txt /tmp/minsdk.log
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
