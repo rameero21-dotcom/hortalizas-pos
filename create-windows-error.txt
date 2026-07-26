@@ -27,10 +27,21 @@ Recreating project ....
   windows\runner\win32_window.h (created)
   test\widget_test.dart (created)
 Resolving dependencies...
-Because sqlite3 >=2.4.6 <3.3.0 depends on web ^1.0.0 and share_plus >=8.0.1 <10.0.1 depends on web ^0.5.0, sqlite3 >=2.4.6 <3.3.0 is incompatible with share_plus >=8.0.1 <10.0.1.
-So, because hortalizas_pos depends on both share_plus ^9.0.0 and sqlite3 2.9.4, version solving failed.
+Because firebase_auth_web >=5.10.0 <5.13.0 depends on web ^0.5.1 and firebase_auth_web >=5.13.0 <5.13.1 depends on firebase_core ^3.4.1, firebase_auth_web >=5.10.0 <5.13.1 requires web ^0.5.1 or firebase_core ^3.4.1.
+And because firebase_auth_web >=5.13.1 <5.13.2 depends on firebase_core ^3.5.0 and firebase_auth_web >=5.13.2 <5.13.3 depends on firebase_core ^3.6.0, firebase_auth_web >=5.10.0 <5.13.3 requires web ^0.5.1 or firebase_core ^3.4.1.
+And because firebase_auth_web >=5.13.3 <5.13.4 depends on firebase_core ^3.7.0 and firebase_auth_web >=5.13.4 <5.13.5 depends on firebase_core ^3.8.0, firebase_auth_web >=5.10.0 <5.13.5 requires web ^0.5.1 or firebase_core ^3.4.1.
+And because firebase_auth_web >=5.13.5 <5.13.6 depends on firebase_core ^3.8.1 and firebase_auth_web >=5.13.6 <5.13.7 depends on firebase_core ^3.10.0, firebase_auth_web >=5.10.0 <5.13.7 requires web ^0.5.1 or firebase_core ^3.4.1.
+And because firebase_auth_web >=5.13.7 <5.13.8 depends on firebase_core ^3.10.1 and firebase_auth_web >=5.13.8 <5.14.0 depends on firebase_core ^3.11.0, firebase_auth_web >=5.10.0 <5.14.0 requires web ^0.5.1 or firebase_core ^3.4.1.
+And because firebase_auth_web >=5.14.0 <5.14.1 depends on firebase_core ^3.12.0 and firebase_auth_web >=5.14.1 <5.14.2 depends on firebase_core ^3.12.1, firebase_auth_web >=5.10.0 <5.14.2 requires web ^0.5.1 or firebase_core ^3.4.1.
+And because firebase_auth_web >=5.14.2 <5.14.3 depends on firebase_core ^3.13.0 and firebase_auth_web >=5.14.3 <5.15.0 depends on firebase_core ^3.13.1, firebase_auth_web >=5.10.0 <5.15.0 requires web ^0.5.1 or firebase_core ^3.4.1.
+And because firebase_auth_web >=5.15.0 <5.15.1 depends on firebase_core ^3.14.0 and firebase_auth_web >=5.15.1 <5.15.2 depends on firebase_core ^3.15.0, firebase_auth_web >=5.10.0 <5.15.2 requires web ^0.5.1 or firebase_core ^3.4.1.
+And because firebase_auth_web ^5.15.2 depends on firebase_core_web ^2.24.1 which depends on firebase_core_platform_interface ^6.0.0, firebase_auth_web ^5.10.0 requires web ^0.5.1 or firebase_core ^3.4.1 or firebase_core_platform_interface ^6.0.0.
+And because firebase_auth >=5.1.0 <5.1.1 depends on firebase_auth_web ^5.12.2 and share_plus >=10.0.1 <13.0.0 depends on web ^1.0.0, if share_plus >=10.0.1 <13.0.0 and firebase_auth >=5.1.0 <5.1.1 then firebase_core ^3.4.1 or firebase_core_platform_interface ^6.0.0.
+And because hortalizas_pos depends on firebase_core 3.1.0 which depends on firebase_core_platform_interface ^5.1.0, share_plus >=10.0.1 <13.0.0 is incompatible with firebase_auth >=5.1.0 <5.1.1.
+So, because hortalizas_pos depends on both firebase_auth 5.1.0 and share_plus ^12.0.2, version solving failed.
 
 
-You can try the following suggestion to make the pubspec resolve:
-* Try upgrading your constraint on share_plus: flutter pub add share_plus:^12.0.2
+You can try one of the following suggestions to make the pubspec resolve:
+* Try upgrading your constraint on firebase_core: flutter pub add firebase_core:^3.15.0
+* Consider downgrading your constraint on share_plus: flutter pub add share_plus:^10.0.0
 Failed to update packages.
