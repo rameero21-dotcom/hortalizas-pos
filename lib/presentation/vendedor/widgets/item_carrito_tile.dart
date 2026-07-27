@@ -26,7 +26,7 @@ class ItemCarritoTile extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ListTile(
         title: Text(item.nombreProducto, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text('Cantidad: ${item.cantidad}\nPrecio: ${Formatters.formatearMoneda(item.precioTotal)}'),
+        subtitle: Text('Cantidad: ${Formatters.formatearCantidad(item.cantidad)}\nPrecio: ${Formatters.formatearMoneda(item.precioTotal)}'),
         isThreeLine: true,
         trailing: Row(
           mainAxisSize: MainAxisSize.min,

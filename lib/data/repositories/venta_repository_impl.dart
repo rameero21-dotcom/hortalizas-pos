@@ -68,6 +68,17 @@ class VentaRepositoryImpl implements VentaRepository {
   Future<List<Venta>> obtenerPorCliente(String clienteId) => _remote.obtenerPorCliente(clienteId);
 
   @override
+  Future<void> eliminarVenta(String id) async {
+    await _local.eliminar(id);
+    await _syncQueue.encolar(
+      entidad: AppConstants.colVentas,
+      entidadId: id,
+      operacion: 'delete',
+      payload: const {},
+    );
+  }
+
+  @override
   Future<void> finalizarCobro(Venta venta) async {
     final model = VentaModel(
       id: venta.id,

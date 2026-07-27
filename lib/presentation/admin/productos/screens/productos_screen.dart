@@ -65,33 +65,68 @@ class ProductosScreen extends ConsumerWidget {
               itemCount: productos.length,
               itemBuilder: (context, index) {
                 final Producto p = productos[index];
-                return ListTile(
-                  title: Text(
-                    p.nombre,
-                    style: TextStyle(
-                      decoration: p.activo ? null : TextDecoration.lineThrough,
-                      color: p.activo ? null : Colors.grey,
+                return Dismissible(
+                  key: ValueKey(p.id),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 20),
+                    child: const Icon(Icons.delete, color: Colors.white),
+                  ),
+                  confirmDismiss: (_) async {
+                    return await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Eliminar producto'),
+                            content: Text('¿Eliminar "${p.nombre}" del catálogo? Esta acción no se puede deshacer.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                child: const Text('Cancelar'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () => Navigator.pop(context, true),
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                child: const Text('Eliminar'),
+                              ),
+                            ],
+                          ),
+                        ) ??
+                        false;
+                  },
+                  onDismissed: (_) async {
+                    await ref.read(gestionarProductosUseCaseProvider).eliminar(p.id);
+                    ref.invalidate(productosListProvider);
+                  },
+                  child: ListTile(
+                    title: Text(
+                      p.nombre,
+                      style: TextStyle(
+                        decoration: p.activo ? null : TextDecoration.lineThrough,
+                        color: p.activo ? null : Colors.grey,
+                      ),
                     ),
-                  ),
-                  subtitle: Text(
-                    p.precioSugerido > 0
-                        ? '${p.categoria} · Sugerido: ${Formatters.formatearMoneda(p.precioSugerido)}'
-                        : p.categoria,
-                  ),
-                  trailing: Switch(
-                    value: p.activo,
-                    onChanged: (activo) async {
-                      await ref.read(gestionarProductosUseCaseProvider).activarDesactivar(p, activo);
+                    subtitle: Text(
+                      p.precioSugerido > 0
+                          ? '${p.categoria} · Sugerido: ${Formatters.formatearMoneda(p.precioSugerido)}'
+                          : p.categoria,
+                    ),
+                    trailing: Switch(
+                      value: p.activo,
+                      onChanged: (activo) async {
+                        await ref.read(gestionarProductosUseCaseProvider).activarDesactivar(p, activo);
+                        ref.invalidate(productosListProvider);
+                      },
+                    ),
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => ProductoFormScreen(producto: p)),
+                      );
                       ref.invalidate(productosListProvider);
                     },
                   ),
-                  onTap: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => ProductoFormScreen(producto: p)),
-                    );
-                    ref.invalidate(productosListProvider);
-                  },
                 );
               },
             );

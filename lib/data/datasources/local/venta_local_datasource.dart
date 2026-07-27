@@ -152,4 +152,15 @@ class VentaLocalDatasource {
     );
     // El encolado a sync_queue lo hace VentaRepositoryImpl.
   }
+
+  /// Elimina la venta y su detalle de este dispositivo. El borrado en
+  /// Firestore (y por lo tanto en otros dispositivos) lo maneja el
+  /// repositorio encolando la operación de borrado.
+  Future<void> eliminar(String id) async {
+    final db = await _dbHelper.database;
+    await db.transaction((txn) async {
+      await txn.delete(AppConstants.tablaDetalleVenta, where: 'ventaId = ?', whereArgs: [id]);
+      await txn.delete(AppConstants.tablaVentas, where: 'id = ?', whereArgs: [id]);
+    });
+  }
 }

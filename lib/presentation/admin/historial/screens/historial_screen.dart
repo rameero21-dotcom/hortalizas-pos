@@ -114,17 +114,53 @@ class HistorialScreen extends ConsumerWidget {
                   itemCount: ventas.length,
                   itemBuilder: (context, index) {
                     final venta = ventas[index];
-                    return ListTile(
-                      title: Text('Venta #${venta.numero}'),
-                      subtitle: Text(
-                          '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'),
-                      trailing: Text(
-                        Formatters.formatearMoneda(venta.total),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                    return Dismissible(
+                      key: ValueKey(venta.id),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 20),
+                        child: const Icon(Icons.delete, color: Colors.white),
                       ),
-                      onTap: () => showModalBottomSheet(
-                        context: context,
-                        builder: (_) => _DetalleVentaHistorial(venta: venta),
+                      confirmDismiss: (_) async {
+                        return await showDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Eliminar venta'),
+                                content: Text(
+                                    '¿Eliminar la venta #${venta.numero}? Esta acción no se puede deshacer.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context, false),
+                                    child: const Text('Cancelar'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context, true),
+                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                    child: const Text('Eliminar'),
+                                  ),
+                                ],
+                              ),
+                            ) ??
+                            false;
+                      },
+                      onDismissed: (_) async {
+                        await ref.read(ventaRepositoryProvider).eliminarVenta(venta.id);
+                        ref.invalidate(_ventasHistorialProvider);
+                      },
+                      child: ListTile(
+                        title: Text('Venta #${venta.numero}'),
+                        subtitle: Text(
+                            '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'),
+                        trailing: Text(
+                          Formatters.formatearMoneda(venta.total),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onTap: () => showModalBottomSheet(
+                          context: context,
+                          builder: (_) => _DetalleVentaHistorial(venta: venta),
+                        ),
                       ),
                     );
                   },
@@ -159,7 +195,7 @@ class _DetalleVentaHistorial extends StatelessWidget {
             ...venta.detalle.map((d) => ListTile(
                   dense: true,
                   title: Text(d.nombreProducto),
-                  subtitle: Text('Cantidad: ${d.cantidad}'),
+                  subtitle: Text('Cantidad: ${Formatters.formatearCantidad(d.cantidad)}'),
                   trailing: Text(Formatters.formatearMoneda(d.precioTotal)),
                 )),
             const Divider(),

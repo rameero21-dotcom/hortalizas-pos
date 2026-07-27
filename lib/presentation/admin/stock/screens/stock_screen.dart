@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
+import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/producto.dart';
 import '../../../../domain/entities/stock.dart';
 import 'ingreso_mercaderia_screen.dart';
@@ -76,7 +77,7 @@ class StockScreen extends ConsumerWidget {
                   title: Text(item.producto.nombre),
                   subtitle: Text(stockBajo ? 'Stock bajo' : 'Stock OK'),
                   trailing: Text(
-                    '${stock?.cantidadDisponible ?? 0}',
+                    Formatters.formatearCantidad(stock?.cantidadDisponible ?? 0),
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   onTap: () => _mostrarAcciones(context, ref, item),
@@ -100,7 +101,7 @@ class StockScreen extends ConsumerWidget {
           children: [
             ListTile(
               title: Text(item.producto.nombre, style: const TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text('Stock actual: ${item.stock?.cantidadDisponible ?? 0}'),
+              subtitle: Text('Stock actual: ${Formatters.formatearCantidad(item.stock?.cantidadDisponible ?? 0)}'),
             ),
             ListTile(
               leading: const Icon(Icons.add_box),

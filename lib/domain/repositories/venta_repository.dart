@@ -20,4 +20,8 @@ abstract class VentaRepository {
   /// Todas las ventas (boletas) cargadas a un cliente, sin importar en
   /// qué dispositivo se cobraron. Requiere conexión.
   Future<List<Venta>> obtenerPorCliente(String clienteId);
+
+  /// Elimina una venta por completo (ej: se cargó por error). No revierte
+  /// el stock automáticamente si ya estaba cobrada; usarlo con cuidado.
+  Future<void> eliminarVenta(String id);
 }

@@ -81,23 +81,57 @@ class CajaHomeScreen extends ConsumerWidget {
             itemCount: ventas.length,
             itemBuilder: (context, index) {
               final venta = ventas[index];
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                child: ListTile(
-                  title: Text(
-                    venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty
-                        ? 'Venta #${venta.numero} · ${venta.nombreCliente}'
-                        : 'Venta #${venta.numero}',
-                  ),
-                  subtitle: Text(
-                      '${venta.detalle.length} producto(s) · ${Formatters.formatearHora(venta.fecha)}'),
-                  trailing: Text(
-                    Formatters.formatearMoneda(venta.total),
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => VentaDetalleScreen(ventaId: venta.id)),
+              return Dismissible(
+                key: ValueKey(venta.id),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  color: Colors.red,
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 20),
+                  child: const Icon(Icons.delete, color: Colors.white),
+                ),
+                confirmDismiss: (_) async {
+                  return await showDialog<bool>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Eliminar venta'),
+                          content: Text('¿Eliminar la venta #${venta.numero}? Esta acción no se puede deshacer.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: const Text('Cancelar'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () => Navigator.pop(context, true),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                              child: const Text('Eliminar'),
+                            ),
+                          ],
+                        ),
+                      ) ??
+                      false;
+                },
+                onDismissed: (_) async {
+                  await ref.read(ventaRepositoryProvider).eliminarVenta(venta.id);
+                },
+                child: Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  child: ListTile(
+                    title: Text(
+                      venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty
+                          ? 'Venta #${venta.numero} · ${venta.nombreCliente}'
+                          : 'Venta #${venta.numero}',
+                    ),
+                    subtitle: Text(
+                        '${venta.detalle.length} producto(s) · ${Formatters.formatearHora(venta.fecha)}'),
+                    trailing: Text(
+                      Formatters.formatearMoneda(venta.total),
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => VentaDetalleScreen(ventaId: venta.id)),
+                    ),
                   ),
                 ),
               );

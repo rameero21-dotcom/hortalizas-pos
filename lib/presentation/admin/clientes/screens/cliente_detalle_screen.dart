@@ -191,7 +191,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
                               ...venta.detalle.map((d) => ListTile(
                                     dense: true,
                                     title: Text(d.nombreProducto),
-                                    subtitle: Text('Cantidad: ${d.cantidad}'),
+                                    subtitle: Text('Cantidad: ${Formatters.formatearCantidad(d.cantidad)}'),
                                     trailing: Text(Formatters.formatearMoneda(d.precioTotal)),
                                   )),
                               if (venta.pagos.isNotEmpty)

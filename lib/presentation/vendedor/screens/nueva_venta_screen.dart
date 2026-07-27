@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../domain/entities/detalle_venta.dart';
 import '../../../domain/entities/venta.dart';
 import '../providers/carrito_provider.dart';
 import '../widgets/producto_search_field.dart';
@@ -28,6 +29,61 @@ class NuevaVentaScreen extends ConsumerWidget {
     // caché local, para que los cambios hechos desde otro dispositivo
     // (ej. Admin agregó/repuso stock) se vean sin esperar.
     await ref.read(productoRepositoryProvider).refrescarDesdeRemoto();
+  }
+
+  Future<void> _editarItem(BuildContext context, WidgetRef ref, int index, DetalleVenta item) async {
+    final cantidadCtrl = TextEditingController(text: Formatters.formatearCantidad(item.cantidad));
+    final precioCtrl = TextEditingController(text: item.precioTotal.toStringAsFixed(0));
+
+    final confirmado = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Editar ${item.nombreProducto}'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: cantidadCtrl,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(labelText: 'Cantidad', border: OutlineInputBorder()),
+              autofocus: true,
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: precioCtrl,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(labelText: 'Precio total', border: OutlineInputBorder()),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
+          ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Guardar')),
+        ],
+      ),
+    );
+
+    if (confirmado != true) return;
+    final cantidad = double.tryParse(cantidadCtrl.text.replaceAll(',', '.'));
+    final precio = double.tryParse(precioCtrl.text.replaceAll(',', '.'));
+    if (cantidad == null || cantidad <= 0 || precio == null || precio <= 0) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Cantidad y precio tienen que ser mayores a cero')),
+        );
+      }
+      return;
+    }
+
+    ref.read(carritoProvider.notifier).editarProducto(
+          index,
+          DetalleVenta(
+            productoId: item.productoId,
+            nombreProducto: item.nombreProducto,
+            cantidad: cantidad,
+            precioTotal: precio,
+          ),
+        );
   }
 
   @override
@@ -77,9 +133,7 @@ class NuevaVentaScreen extends ConsumerWidget {
                         item: carrito[index],
                         onEliminar: () =>
                             ref.read(carritoProvider.notifier).eliminarProducto(index),
-                        onEditar: () {
-                          // TODO: abrir diálogo de edición (cantidad/precio) reutilizando ProductoSearchField.
-                        },
+                        onEditar: () => _editarItem(context, ref, index, carrito[index]),
                       ),
                     ),
             ),

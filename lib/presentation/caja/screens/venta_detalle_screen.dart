@@ -187,7 +187,7 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
               const Divider(),
               ...venta.detalle.map((item) => ListTile(
                     title: Text(item.nombreProducto),
-                    subtitle: Text('Cantidad: ${item.cantidad}'),
+                    subtitle: Text('Cantidad: ${Formatters.formatearCantidad(item.cantidad)}'),
                     trailing: Text(Formatters.formatearMoneda(item.precioTotal)),
                   )),
               const Divider(),

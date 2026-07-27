@@ -18,4 +18,14 @@ class Formatters {
 
   static String formatearFechaHora(DateTime fecha) =>
       DateFormat('dd/MM/yyyy HH:mm').format(fecha);
+
+  /// Muestra una cantidad sin el ".0" innecesario cuando es un número
+  /// entero (ej: 3 en vez de 3.0), pero conserva los decimales si la
+  /// cantidad realmente los tiene (ej: 2.5 kg).
+  static String formatearCantidad(num valor) {
+    if (valor == valor.roundToDouble()) {
+      return valor.toStringAsFixed(0);
+    }
+    return valor.toString();
+  }
 }
