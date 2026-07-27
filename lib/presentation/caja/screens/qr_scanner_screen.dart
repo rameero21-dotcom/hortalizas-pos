@@ -101,7 +101,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
       children: [
         MobileScanner(
           onDetect: _onDetect,
-          errorBuilder: (context, error) {
+          errorBuilder: (context, error, child) {
             return Container(
               color: Colors.black,
               padding: const EdgeInsets.all(24),
