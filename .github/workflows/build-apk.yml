@@ -198,6 +198,7 @@ jobs:
         continue-on-error: true
         env:
           CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+          CL: "/D_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS"
 
       - name: Guardar log de error para diagnostico (si fallo)
         if: steps.build_windows.outcome == 'failure'
