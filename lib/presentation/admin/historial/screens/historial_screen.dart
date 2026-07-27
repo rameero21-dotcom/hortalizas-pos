@@ -75,7 +75,9 @@ final _movimientosCajaHistorialProvider = FutureProvider.autoDispose<List<_Movim
   for (final v in ventas.where((v) => v.estado == EstadoVenta.cobrada)) {
     unificados.add(_MovimientoUnificado(
       fecha: v.fechaCobro ?? v.fecha,
-      titulo: 'Venta #${v.numero}',
+      titulo: v.nombreCliente != null && v.nombreCliente!.isNotEmpty
+          ? 'Venta #${v.numero} · ${v.nombreCliente}'
+          : 'Venta #${v.numero}',
       subtitulo: v.metodoPago != null ? _labelMetodoPago(v.metodoPago!) : 'Pago dividido',
       monto: v.total,
       color: Colors.green.shade700,

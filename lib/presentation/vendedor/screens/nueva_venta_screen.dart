@@ -12,11 +12,6 @@ import '../../shared/utils/cerrar_sesion.dart';
 
 final _uuid = Uuid();
 
-/// Nombre/etiqueta libre que carga el vendedor para identificar la
-/// boleta en caja (ej: "Juan", "Mesa 3"). Vive fuera del carrito porque
-/// no es parte de un producto, es un dato de la venta completa.
-final _nombreClienteProvider = StateProvider.autoDispose<String>((ref) => '');
-
 /// Pantalla principal del vendedor: buscar producto, ingresar cantidad
 /// y precio (total o por unidad), agregar al carrito, y finalizar la
 /// venta. Al finalizar, la venta se envía directo a caja sin mostrar el
@@ -160,7 +155,14 @@ class _ResumenTotalYFinalizar extends ConsumerStatefulWidget {
 }
 
 class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar> {
+  final _nombreClienteCtrl = TextEditingController();
   bool _guardando = false;
+
+  @override
+  void dispose() {
+    _nombreClienteCtrl.dispose();
+    super.dispose();
+  }
 
   Future<void> _finalizarVenta() async {
     final carritoNotifier = ref.read(carritoProvider.notifier);
@@ -170,7 +172,7 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
     setState(() => _guardando = true);
     try {
       final vendedorId = ref.read(currentUserIdProvider);
-      final nombreCliente = ref.read(_nombreClienteProvider).trim();
+      final nombreCliente = _nombreClienteCtrl.text.trim();
       final venta = Venta(
         id: _uuid.v4(),
         numero: 0, // se reasigna en el datasource (correlativo real)
@@ -188,7 +190,7 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
       final ventaCreada = await ref.read(crearVentaUseCaseProvider).call(venta);
 
       carritoNotifier.limpiar();
-      ref.read(_nombreClienteProvider.notifier).state = '';
+      _nombreClienteCtrl.clear();
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -219,14 +221,12 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Consumer(
-              builder: (context, ref, _) => TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Nombre (opcional, para identificar la boleta en caja)',
-                  border: OutlineInputBorder(),
-                  isDense: true,
-                ),
-                onChanged: (v) => ref.read(_nombreClienteProvider.notifier).state = v,
+            TextField(
+              controller: _nombreClienteCtrl,
+              decoration: const InputDecoration(
+                labelText: 'Nombre (opcional, para identificar la boleta en caja)',
+                border: OutlineInputBorder(),
+                isDense: true,
               ),
             ),
             const SizedBox(height: 12),
