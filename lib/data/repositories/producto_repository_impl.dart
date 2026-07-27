@@ -1,4 +1,5 @@
 import '../../core/constants/app_constants.dart';
+import '../../core/services/sync_service.dart';
 import '../../domain/entities/producto.dart';
 import '../../domain/repositories/producto_repository.dart';
 import '../datasources/local/producto_local_datasource.dart';
@@ -13,8 +14,9 @@ class ProductoRepositoryImpl implements ProductoRepository {
   final ProductoLocalDatasource _local;
   final SyncQueueLocalDatasource _syncQueue;
   final ProductoRemoteDatasource _remote;
+  final SyncService _syncService;
 
-  ProductoRepositoryImpl(this._local, this._syncQueue, this._remote);
+  ProductoRepositoryImpl(this._local, this._syncQueue, this._remote, this._syncService);
 
   @override
   Future<List<Producto>> obtenerTodos() => _local.obtenerTodos();
@@ -69,6 +71,11 @@ class ProductoRepositoryImpl implements ProductoRepository {
   @override
   Future<void> refrescarDesdeRemoto() async {
     try {
+      // Primero sube lo pendiente (ej: un borrado reciente que todavía no
+      // se reflejó en Firestore). Si no se hiciera esto, traer del remoto
+      // podría "revivir" localmente algo que se acaba de eliminar, porque
+      // en Firestore todavía figuraría como existente.
+      await _syncService.sincronizarAhora();
       final remotos = await _remote.obtenerTodos();
       for (final producto in remotos) {
         await _local.upsert(producto);

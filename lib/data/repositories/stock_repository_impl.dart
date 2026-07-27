@@ -1,5 +1,6 @@
 import 'package:uuid/uuid.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/services/sync_service.dart';
 import '../../domain/entities/stock.dart';
 import '../../domain/repositories/stock_repository.dart';
 import '../datasources/local/stock_local_datasource.dart';
@@ -11,9 +12,10 @@ class StockRepositoryImpl implements StockRepository {
   final StockLocalDatasource _local;
   final SyncQueueLocalDatasource _syncQueue;
   final StockRemoteDatasource _remote;
+  final SyncService _syncService;
   final _uuid = Uuid();
 
-  StockRepositoryImpl(this._local, this._syncQueue, this._remote);
+  StockRepositoryImpl(this._local, this._syncQueue, this._remote, this._syncService);
 
   @override
   Future<Stock?> obtenerPorProducto(String productoId) => _local.obtenerPorProducto(productoId);
@@ -127,6 +129,7 @@ class StockRepositoryImpl implements StockRepository {
   @override
   Future<void> refrescarDesdeRemoto() async {
     try {
+      await _syncService.sincronizarAhora();
       final remotos = await _remote.obtenerTodos();
       for (final stock in remotos) {
         await _local.actualizarCantidad(stock.productoId, stock.cantidadDisponible);

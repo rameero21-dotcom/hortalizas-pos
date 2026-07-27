@@ -113,6 +113,7 @@ final productoRepositoryProvider = Provider<ProductoRepository>((ref) => Product
       ref.watch(productoLocalDsProvider),
       ref.watch(syncQueueLocalDsProvider),
       ref.watch(productoRemoteDsProvider),
+      ref.watch(syncServiceProvider),
     ));
 final ventaRepositoryProvider = Provider<VentaRepository>((ref) => VentaRepositoryImpl(
       ref.watch(ventaLocalDsProvider),
@@ -124,6 +125,7 @@ final stockRepositoryProvider = Provider<StockRepository>((ref) => StockReposito
       ref.watch(stockLocalDsProvider),
       ref.watch(syncQueueLocalDsProvider),
       ref.watch(stockRemoteDsProvider),
+      ref.watch(syncServiceProvider),
     ));
 final usuarioRepositoryProvider = Provider<UsuarioRepository>((ref) => UsuarioRepositoryImpl(
       ref.watch(usuarioLocalDsProvider),
