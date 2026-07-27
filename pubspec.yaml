@@ -84,6 +84,13 @@ dependency_overrides:
   # usamos esta implementacion en ningun target real, es seguro fijarla.
   path_provider_foundation: 2.4.1
 
+  # jni (dependencia transitiva, probablemente via algun plugin que usa
+  # interop nativo Android): la version 1.0.1 agrego un bloque "kotlin {}"
+  # en su build.gradle que requiere el plugin de Kotlin explicitamente
+  # aplicado a ese subproyecto, cosa que rompe la compilacion en este
+  # entorno. La 1.0.0 (version anterior) no tiene ese bloque.
+  jni: 1.0.0
+
   # sqlite3 (dependencia transitiva de sqflite_common_ffi): el codigo
   # INTERNO de sqflite_common_ffi 2.3.3 (lib/src/windows/setup.dart)
   # importa "package:sqlite3/open.dart", un archivo que sqlite3 elimino
