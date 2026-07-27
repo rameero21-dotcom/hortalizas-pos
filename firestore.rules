@@ -29,13 +29,13 @@ service cloud.firestore {
     }
 
     // Ventas: vendedor y admin pueden crear; cajero y admin pueden
-    // actualizar (cobrar). Todos los logueados pueden leer (necesario
-    // para el stream de "ventas pendientes" en caja).
+    // actualizar (cobrar) y eliminar. Todos los logueados pueden leer
+    // (necesario para el stream de "ventas pendientes" en caja).
     match /ventas/{ventaId} {
       allow read: if estaLogueado();
       allow create: if estaLogueado() && (miRol() == 'vendedor' || miRol() == 'administrador');
       allow update: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
-      allow delete: if estaLogueado() && miRol() == 'administrador';
+      allow delete: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
     }
 
     // Stock y movimientos: lectura para todos los logueados, escritura
@@ -53,6 +53,27 @@ service cloud.firestore {
     // Clientes: por ahora, lectura/escritura para todos los logueados.
     match /clientes/{clienteId} {
       allow read, write: if estaLogueado();
+    }
+
+    // Cuenta corriente de clientes: se genera al cobrar (cajero) o al
+    // registrar un cargo/pago manual (cajero o admin). Lectura para
+    // todos los logueados, para poder ver el historial del cliente.
+    match /movimientos_cuenta_corriente/{movimientoId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
+    }
+
+    // Caja: ingresos/egresos manuales y cierres de arqueo. Los carga el
+    // cajero al cerrar caja; el admin necesita leerlos para el
+    // apartado de "Movimientos de caja" en Historial.
+    match /movimientos_caja/{movimientoId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
+    }
+
+    match /cierres_caja/{cierreId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
     }
   }
 }
