@@ -122,6 +122,11 @@ jobs:
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
 
+      - name: Publicar APK en una Release (link de descarga estable)
+        run: python3 .github/scripts/publish_release.py ultima-compilacion build/app/outputs/flutter-apk/app-release.apk hortalizas-pos.apk
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-windows:
     runs-on: windows-latest
     env:
@@ -215,3 +220,8 @@ jobs:
         with:
           name: hortalizas-pos-windows
           path: hortalizas-pos-windows.zip
+
+      - name: Publicar programa de Windows en una Release (link de descarga estable)
+        run: python .github/scripts/publish_release.py ultima-compilacion hortalizas-pos-windows.zip hortalizas-pos-windows.zip
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
