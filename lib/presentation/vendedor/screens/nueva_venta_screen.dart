@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
@@ -14,9 +15,9 @@ final _uuid = Uuid();
 
 /// Pantalla principal del vendedor: buscar producto, ingresar cantidad
 /// y precio (total o por unidad), agregar al carrito, y finalizar la
-/// venta. Al finalizar, la venta se envía directo a caja sin mostrar el
-/// QR en pantalla (queda como respaldo interno para el escaneo sin
-/// conexión; en el futuro se imprime junto con el ticket).
+/// venta. Al finalizar, la venta se envía a caja y se muestra el QR en
+/// pantalla como respaldo para escanear manualmente (útil para probar
+/// sin lector físico, o si la sincronización automática tarda).
 class NuevaVentaScreen extends ConsumerWidget {
   const NuevaVentaScreen({super.key});
 
@@ -193,8 +194,31 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
       _nombreClienteCtrl.clear();
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Venta #${ventaCreada.numero} enviada a caja')),
+        final qrPayload = ref.read(qrServiceProvider).generarPayload(ventaCreada);
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Venta #${ventaCreada.numero} enviada'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Mostrale esto a la caja para escanear (o esperá a que llegue solo):'),
+                const SizedBox(height: 16),
+                QrImageView(data: qrPayload, size: 220),
+                const SizedBox(height: 12),
+                Text(
+                  Formatters.formatearMoneda(ventaCreada.total),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Listo'),
+              ),
+            ],
+          ),
         );
       }
     } catch (e) {
