@@ -31,7 +31,7 @@ dependencies:
 
   # QR
   qr_flutter: ^4.1.0
-  mobile_scanner: ^5.1.1
+  mobile_scanner: ^7.4.0
 
   # Impresión térmica (58mm / 80mm, Bluetooth/USB)
   esc_pos_utils_plus: ^2.0.4
