@@ -4,26 +4,31 @@ import 'package:uuid/uuid.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/entities/venta.dart';
-import '../../shared/widgets/qr_ticket_dialog.dart';
 import '../providers/carrito_provider.dart';
 import '../widgets/producto_search_field.dart';
 import '../widgets/item_carrito_tile.dart';
 
 final _uuid = Uuid();
 
+/// Nombre/etiqueta libre que carga el vendedor para identificar la
+/// boleta en caja (ej: "Juan", "Mesa 3"). Vive fuera del carrito porque
+/// no es parte de un producto, es un dato de la venta completa.
+final _nombreClienteProvider = StateProvider.autoDispose<String>((ref) => '');
+
 /// Pantalla principal del vendedor: buscar producto, ingresar cantidad
-/// y precio TOTAL, agregar al carrito, y finalizar la venta.
-///
-/// Layout según especificación:
-/// - Buscador de productos (lista desplegable)
-/// - Cantidad
-/// - Precio total
-/// - Botón Agregar
-/// - Lista de productos agregados (editar / eliminar)
-/// - TOTAL
-/// - Botón enorme "FINALIZAR VENTA"
+/// y precio (total o por unidad), agregar al carrito, y finalizar la
+/// venta. Al finalizar, la venta se envía directo a caja sin mostrar el
+/// QR en pantalla (queda como respaldo interno para el escaneo sin
+/// conexión; en el futuro se imprime junto con el ticket).
 class NuevaVentaScreen extends ConsumerWidget {
   const NuevaVentaScreen({super.key});
+
+  Future<void> _actualizar(WidgetRef ref) async {
+    // Fuerza a releer productos/stock desde Firestore y refrescar la
+    // caché local, para que los cambios hechos desde otro dispositivo
+    // (ej. Admin agregó/repuso stock) se vean sin esperar.
+    await ref.read(productoRepositoryProvider).refrescarDesdeRemoto();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,30 +36,56 @@ class NuevaVentaScreen extends ConsumerWidget {
     final total = ref.watch(carritoProvider.notifier).total;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Nueva venta')),
-      body: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(16),
-            child: ProductoSearchField(),
+      appBar: AppBar(
+        title: const Text('Nueva venta'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: 'Actualizar productos y stock',
+            onPressed: () async {
+              await _actualizar(ref);
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Productos y stock actualizados'), duration: Duration(seconds: 1)),
+                );
+              }
+            },
           ),
-          Expanded(
-            child: carrito.isEmpty
-                ? const Center(child: Text('Agregá productos a la venta'))
-                : ListView.builder(
-                    itemCount: carrito.length,
-                    itemBuilder: (context, index) => ItemCarritoTile(
-                      item: carrito[index],
-                      onEliminar: () =>
-                          ref.read(carritoProvider.notifier).eliminarProducto(index),
-                      onEditar: () {
-                        // TODO: abrir diálogo de edición (cantidad/precio) reutilizando ProductoSearchField.
-                      },
-                    ),
-                  ),
-          ),
-          _ResumenTotalYFinalizar(total: total),
         ],
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => _actualizar(ref),
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: ProductoSearchField(),
+            ),
+            Expanded(
+              child: carrito.isEmpty
+                  ? ListView(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.only(top: 60),
+                          child: Center(child: Text('Agregá productos a la venta')),
+                        ),
+                      ],
+                    )
+                  : ListView.builder(
+                      itemCount: carrito.length,
+                      itemBuilder: (context, index) => ItemCarritoTile(
+                        item: carrito[index],
+                        onEliminar: () =>
+                            ref.read(carritoProvider.notifier).eliminarProducto(index),
+                        onEditar: () {
+                          // TODO: abrir diálogo de edición (cantidad/precio) reutilizando ProductoSearchField.
+                        },
+                      ),
+                    ),
+            ),
+            _ResumenTotalYFinalizar(total: total),
+          ],
+        ),
       ),
     );
   }
@@ -79,6 +110,7 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
     setState(() => _guardando = true);
     try {
       final vendedorId = ref.read(currentUserIdProvider);
+      final nombreCliente = ref.read(_nombreClienteProvider).trim();
       final venta = Venta(
         id: _uuid.v4(),
         numero: 0, // se reasigna en el datasource (correlativo real)
@@ -86,20 +118,17 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
         vendedorId: vendedorId,
         detalle: detalle,
         total: carritoNotifier.total,
+        nombreCliente: nombreCliente.isEmpty ? null : nombreCliente,
       );
 
+      // La venta se manda directo a caja: no se muestra el QR en pantalla
+      // (se genera igual internamente como respaldo por si falla la
+      // sincronización, pero no bloquea al vendedor con un popup). En el
+      // futuro, este paso disparará la impresión del ticket con el QR.
       final ventaCreada = await ref.read(crearVentaUseCaseProvider).call(venta);
 
-      if (!mounted) return;
-
-      final qrPayload = ref.read(qrServiceProvider).generarPayload(ventaCreada);
-
-      await showDialog(
-        context: context,
-        builder: (_) => QrTicketDialog(payload: qrPayload, numeroVenta: ventaCreada.numero),
-      );
-
       carritoNotifier.limpiar();
+      ref.read(_nombreClienteProvider.notifier).state = '';
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -130,6 +159,17 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Consumer(
+              builder: (context, ref, _) => TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Nombre (opcional, para identificar la boleta en caja)',
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                ),
+                onChanged: (v) => ref.read(_nombreClienteProvider.notifier).state = v,
+              ),
+            ),
+            const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

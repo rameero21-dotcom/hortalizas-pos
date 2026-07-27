@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/constants/app_constants.dart';
 import '../../../core/di/providers.dart';
-import '../../../core/errors/exceptions.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/entities/venta.dart';
 import '../../../domain/entities/cliente.dart';
 import '../widgets/metodo_pago_selector.dart';
 import 'caja_home_screen.dart';
 
-/// Detalle de una venta pendiente y flujo de cobro completo:
-/// método de pago -> descuento automático de stock -> impresión de
-/// ticket térmico. Si se paga a "cuenta corriente", pide elegir el
-/// cliente y genera el cargo (fiado) automáticamente.
+/// Detalle de una venta pendiente y flujo de cobro: se puede pagar con
+/// un solo método o dividir el total entre varios (ej: parte en
+/// efectivo, parte por transferencia). Si alguna parte se cobra a
+/// "cuenta corriente", pide elegir el cliente y genera el cargo por esa
+/// parte específica.
+///
+/// La impresión del ticket se dispara del lado del vendedor al finalizar
+/// la venta (impresora conectada a esa terminal), no acá en caja.
 ///
 /// Se puede abrir de dos formas:
 /// - `ventaId`: la venta viene del stream en tiempo real de Firestore
@@ -31,9 +33,59 @@ class VentaDetalleScreen extends ConsumerStatefulWidget {
 }
 
 class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
-  MetodoPago? _metodoSeleccionado;
+  final List<DetallePago> _pagos = [];
   Cliente? _clienteSeleccionado;
   bool _cobrando = false;
+
+  double _restante(double total) {
+    final cargado = _pagos.fold<double>(0, (acc, p) => acc + p.monto);
+    return total - cargado;
+  }
+
+  bool get _incluyeCuentaCorriente => _pagos.any((p) => p.metodo == MetodoPago.cuentaCorriente);
+
+  Future<void> _agregarPago(double total) async {
+    MetodoPago metodoElegido = MetodoPago.efectivo;
+    final montoCtrl = TextEditingController(text: _restante(total).toStringAsFixed(0));
+
+    final confirmado = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: const Text('Agregar pago'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              MetodoPagoSelector(
+                seleccionado: metodoElegido,
+                onChanged: (m) => setDialogState(() => metodoElegido = m),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: montoCtrl,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(labelText: 'Monto', border: OutlineInputBorder()),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
+            ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Agregar')),
+          ],
+        ),
+      ),
+    );
+
+    if (confirmado != true) return;
+    final monto = double.tryParse(montoCtrl.text.replaceAll(',', '.'));
+    if (monto == null || monto <= 0) return;
+
+    setState(() => _pagos.add(DetallePago(metodo: metodoElegido, monto: monto)));
+
+    if (metodoElegido == MetodoPago.cuentaCorriente && _clienteSeleccionado == null) {
+      await _elegirCliente();
+    }
+  }
 
   Future<void> _elegirCliente() async {
     final clientes = await ref.read(clienteRepositoryProvider).obtenerTodos();
@@ -63,15 +115,21 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
   }
 
   Future<void> _cobrar(Venta venta) async {
-    if (_metodoSeleccionado == null) {
+    if (_pagos.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Elegí un método de pago')),
+        const SnackBar(content: Text('Agregá al menos un método de pago')),
       );
       return;
     }
-    if (_metodoSeleccionado == MetodoPago.cuentaCorriente && _clienteSeleccionado == null) {
+    if (_restante(venta.total).abs() > 0.5) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Elegí a qué cliente cargarle la venta')),
+        const SnackBar(content: Text('El total de los pagos no coincide con el total de la venta')),
+      );
+      return;
+    }
+    if (_incluyeCuentaCorriente && _clienteSeleccionado == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Elegí a qué cliente cargarle la parte fiada')),
       );
       return;
     }
@@ -82,31 +140,14 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
       final ventaCobrada = await ref.read(finalizarCobroUseCaseProvider).call(
             venta,
             cajeroId,
-            _metodoSeleccionado!,
+            _pagos,
             clienteId: _clienteSeleccionado?.id,
           );
-
-      // La impresión no bloquea el cobro: si falla, la venta ya quedó
-      // cobrada y con stock descontado; el cajero puede reimprimir después
-      // (Fase 4 - historial).
-      String? errorImpresion;
-      try {
-        await ref.read(printServiceProvider).imprimirTicket(
-              venta: ventaCobrada,
-              nombreComercio: AppConstants.nombreComercio,
-            );
-      } on PrinterException catch (e) {
-        errorImpresion = e.mensaje;
-      }
 
       if (!mounted) return;
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorImpresion == null
-              ? 'Venta #${ventaCobrada.numero} cobrada'
-              : 'Venta #${ventaCobrada.numero} cobrada. No se pudo imprimir: $errorImpresion'),
-        ),
+        SnackBar(content: Text('Venta #${ventaCobrada.numero} cobrada')),
       );
     } catch (e) {
       if (mounted) {
@@ -119,7 +160,17 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
     }
   }
 
+  String _labelMetodo(MetodoPago m) => switch (m) {
+        MetodoPago.efectivo => 'Efectivo',
+        MetodoPago.transferencia => 'Transferencia',
+        MetodoPago.debito => 'Débito',
+        MetodoPago.credito => 'Crédito',
+        MetodoPago.cuentaCorriente => 'Cuenta corriente',
+      };
+
   Widget _buildContenido(BuildContext context, Venta venta) {
+    final restante = _restante(venta.total);
+
     return Column(
       children: [
         Expanded(
@@ -127,7 +178,11 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
             children: [
               ListTile(
                 title: Text('Venta #${venta.numero}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text(Formatters.formatearFechaHora(venta.fecha)),
+                subtitle: Text(
+                  venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty
+                      ? '${venta.nombreCliente}  ·  ${Formatters.formatearFechaHora(venta.fecha)}'
+                      : Formatters.formatearFechaHora(venta.fecha),
+                ),
               ),
               const Divider(),
               ...venta.detalle.map((item) => ListTile(
@@ -141,18 +196,54 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Método de pago', style: TextStyle(fontWeight: FontWeight.bold)),
+                    const Text('Pagos', style: TextStyle(fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
-                    MetodoPagoSelector(
-                      seleccionado: _metodoSeleccionado,
-                      onChanged: (m) => setState(() => _metodoSeleccionado = m),
+                    if (_pagos.isEmpty)
+                      const Text('Todavía no agregaste ningún pago.')
+                    else
+                      ..._pagos.asMap().entries.map((entry) {
+                        final i = entry.key;
+                        final p = entry.value;
+                        return ListTile(
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(_labelMetodo(p.metodo)),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(Formatters.formatearMoneda(p.monto)),
+                              IconButton(
+                                icon: const Icon(Icons.close, size: 18),
+                                onPressed: () => setState(() => _pagos.removeAt(i)),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                    const SizedBox(height: 8),
+                    Text(
+                      restante.abs() < 0.5
+                          ? 'Pagos completos'
+                          : (restante > 0
+                              ? 'Falta cubrir: ${Formatters.formatearMoneda(restante)}'
+                              : 'Sobran: ${Formatters.formatearMoneda(-restante)}'),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: restante.abs() < 0.5 ? Colors.green.shade700 : Colors.orange.shade800,
+                      ),
                     ),
-                    if (_metodoSeleccionado == MetodoPago.cuentaCorriente) ...[
+                    const SizedBox(height: 8),
+                    OutlinedButton.icon(
+                      onPressed: restante.abs() < 0.5 ? null : () => _agregarPago(venta.total),
+                      icon: const Icon(Icons.add),
+                      label: const Text('Agregar pago'),
+                    ),
+                    if (_incluyeCuentaCorriente) ...[
                       const SizedBox(height: 12),
                       OutlinedButton.icon(
                         onPressed: _elegirCliente,
                         icon: const Icon(Icons.person),
-                        label: Text(_clienteSeleccionado?.nombre ?? 'Elegir cliente'),
+                        label: Text(_clienteSeleccionado?.nombre ?? 'Elegir cliente para la parte fiada'),
                       ),
                     ],
                   ],
@@ -180,7 +271,7 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
                 ? const SizedBox(
                     height: 20, width: 20,
                     child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                : const Text('COBRAR E IMPRIMIR'),
+                : const Text('COBRAR'),
           ),
         ),
       ],

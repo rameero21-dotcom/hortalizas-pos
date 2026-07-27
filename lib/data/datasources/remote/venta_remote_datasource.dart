@@ -32,4 +32,16 @@ class VentaRemoteDatasource {
         .get();
     return snap.docs.map((d) => VentaModel.fromRemoteMap(d.data() as Map<String, dynamic>)).toList();
   }
+
+  /// Todas las boletas (ventas) cargadas a un cliente puntual, sin
+  /// importar en qué dispositivo se cobraron. Se usa en la pantalla de
+  /// cuenta corriente del cliente, para ver el detalle completo de
+  /// productos y cómo se pagó cada una.
+  Future<List<VentaModel>> obtenerPorCliente(String clienteId) async {
+    final snap = await _firestoreService.ventas.where('clienteId', isEqualTo: clienteId).get();
+    final ventas =
+        snap.docs.map((d) => VentaModel.fromRemoteMap(d.data() as Map<String, dynamic>)).toList();
+    ventas.sort((a, b) => b.fecha.compareTo(a.fecha));
+    return ventas;
+  }
 }

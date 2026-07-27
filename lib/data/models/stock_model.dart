@@ -10,7 +10,7 @@ class StockModel extends Stock {
   factory StockModel.fromMap(Map<String, dynamic> map) => StockModel(
         productoId: map['productoId'] as String,
         cantidadDisponible: (map['cantidadDisponible'] as num).toDouble(),
-        umbralStockBajo: (map['umbralStockBajo'] as num).toDouble(),
+        umbralStockBajo: (map['umbralStockBajo'] as num?)?.toDouble() ?? 10.0,
       );
 
   Map<String, dynamic> toMap() => {

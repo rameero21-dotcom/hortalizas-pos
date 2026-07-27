@@ -31,9 +31,26 @@ class StockScreen extends ConsumerWidget {
     final stockAsync = ref.watch(stockConProductosProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Stock')),
+      appBar: AppBar(
+        title: const Text('Stock'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: 'Actualizar',
+            onPressed: () async {
+              await ref.read(productoRepositoryProvider).refrescarDesdeRemoto();
+              await ref.read(stockRepositoryProvider).refrescarDesdeRemoto();
+              ref.invalidate(stockConProductosProvider);
+            },
+          ),
+        ],
+      ),
       body: RefreshIndicator(
-        onRefresh: () async => ref.invalidate(stockConProductosProvider),
+        onRefresh: () async {
+          await ref.read(productoRepositoryProvider).refrescarDesdeRemoto();
+          await ref.read(stockRepositoryProvider).refrescarDesdeRemoto();
+          ref.invalidate(stockConProductosProvider);
+        },
         child: stockAsync.when(
           data: (items) {
             if (items.isEmpty) {

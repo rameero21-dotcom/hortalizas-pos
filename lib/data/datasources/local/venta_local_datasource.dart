@@ -31,6 +31,7 @@ class VentaLocalDatasource {
         detalle: venta.detalle,
         total: venta.total,
         estado: venta.estado,
+        nombreCliente: venta.nombreCliente,
       );
 
       await txn.insert(AppConstants.tablaVentas, ventaConNumero.toMap());
@@ -131,8 +132,10 @@ class VentaLocalDatasource {
     });
   }
 
-  /// Marca una venta como cobrada: método de pago, cajero y fecha de cobro.
-  Future<void> actualizarEstadoCobro(Venta venta) async {
+  /// Marca una venta como cobrada: método de pago(s), cajero, cliente y
+  /// fecha de cobro. Recibe un VentaModel para reutilizar su toMap()
+  /// (incluye la serialización de la lista de pagos).
+  Future<void> actualizarEstadoCobro(VentaModel venta) async {
     final db = await _dbHelper.database;
     await db.update(
       AppConstants.tablaVentas,
@@ -142,6 +145,7 @@ class VentaLocalDatasource {
         'cajeroId': venta.cajeroId,
         'fechaCobro': venta.fechaCobro?.toIso8601String(),
         'clienteId': venta.clienteId,
+        'pagos': venta.toMap()['pagos'],
       },
       where: 'id = ?',
       whereArgs: [venta.id],

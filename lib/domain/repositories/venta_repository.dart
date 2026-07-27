@@ -16,4 +16,8 @@ abstract class VentaRepository {
   Future<void> finalizarCobro(Venta venta);
   Stream<List<Venta>> observarPendientes();
   Future<Venta> reconstruirDesdeQr(String qrPayload);
+
+  /// Todas las ventas (boletas) cargadas a un cliente, sin importar en
+  /// qué dispositivo se cobraron. Requiere conexión.
+  Future<List<Venta>> obtenerPorCliente(String clienteId);
 }

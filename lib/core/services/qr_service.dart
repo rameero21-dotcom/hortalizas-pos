@@ -20,6 +20,7 @@ class QrService {
               })
           .toList(),
       'total': venta.total,
+      'nombreCliente': venta.nombreCliente,
     };
     return jsonEncode(data);
   }

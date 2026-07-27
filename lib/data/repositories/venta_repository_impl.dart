@@ -25,6 +25,7 @@ class VentaRepositoryImpl implements VentaRepository {
       vendedorId: venta.vendedorId,
       detalle: venta.detalle,
       total: venta.total,
+      nombreCliente: venta.nombreCliente,
     );
     final ventaCreada = await _local.crear(model); // asigna el número correlativo real
 
@@ -36,6 +37,7 @@ class VentaRepositoryImpl implements VentaRepository {
       detalle: ventaCreada.detalle,
       total: ventaCreada.total,
       estado: ventaCreada.estado,
+      nombreCliente: ventaCreada.nombreCliente,
     );
 
     await _syncQueue.encolar(
@@ -63,6 +65,9 @@ class VentaRepositoryImpl implements VentaRepository {
       _remote.obtenerPorRangoFecha(desde, hasta);
 
   @override
+  Future<List<Venta>> obtenerPorCliente(String clienteId) => _remote.obtenerPorCliente(clienteId);
+
+  @override
   Future<void> finalizarCobro(Venta venta) async {
     final model = VentaModel(
       id: venta.id,
@@ -75,6 +80,9 @@ class VentaRepositoryImpl implements VentaRepository {
       metodoPago: venta.metodoPago,
       cajeroId: venta.cajeroId,
       fechaCobro: venta.fechaCobro,
+      clienteId: venta.clienteId,
+      nombreCliente: venta.nombreCliente,
+      pagos: venta.pagos,
     );
 
     // Si la venta nunca existió en el SQLite de este dispositivo (caso
@@ -86,7 +94,7 @@ class VentaRepositoryImpl implements VentaRepository {
     if (existente == null) {
       await _local.guardarCompleta(model);
     } else {
-      await _local.actualizarEstadoCobro(venta);
+      await _local.actualizarEstadoCobro(model);
     }
 
     await _syncQueue.encolar(
@@ -128,6 +136,7 @@ class VentaRepositoryImpl implements VentaRepository {
       vendedorId: data['vendedorId'] as String,
       detalle: detalle,
       total: (data['total'] as num).toDouble(),
+      nombreCliente: data['nombreCliente'] as String?,
     );
   }
 }

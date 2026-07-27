@@ -4,14 +4,16 @@ import '../../domain/entities/stock.dart';
 import '../../domain/repositories/stock_repository.dart';
 import '../datasources/local/stock_local_datasource.dart';
 import '../datasources/local/sync_queue_local_datasource.dart';
+import '../datasources/remote/stock_remote_datasource.dart';
 import '../models/stock_model.dart';
 
 class StockRepositoryImpl implements StockRepository {
   final StockLocalDatasource _local;
   final SyncQueueLocalDatasource _syncQueue;
+  final StockRemoteDatasource _remote;
   final _uuid = Uuid();
 
-  StockRepositoryImpl(this._local, this._syncQueue);
+  StockRepositoryImpl(this._local, this._syncQueue, this._remote);
 
   @override
   Future<Stock?> obtenerPorProducto(String productoId) => _local.obtenerPorProducto(productoId);
@@ -120,5 +122,17 @@ class StockRepositoryImpl implements StockRepository {
     // Por ahora StockScreen calcula el stock bajo localmente filtrando
     // `obtenerTodos()` con `Stock.stockBajo` (no necesita stream).
     throw UnimplementedError('observarStockBajo - Fase 5 (alertas push)');
+  }
+
+  @override
+  Future<void> refrescarDesdeRemoto() async {
+    try {
+      final remotos = await _remote.obtenerTodos();
+      for (final stock in remotos) {
+        await _local.actualizarCantidad(stock.productoId, stock.cantidadDisponible);
+      }
+    } catch (_) {
+      // Sin conexión: la app sigue con la última caché local conocida.
+    }
   }
 }

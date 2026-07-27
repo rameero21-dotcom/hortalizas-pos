@@ -84,7 +84,11 @@ class CajaHomeScreen extends ConsumerWidget {
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 child: ListTile(
-                  title: Text('Venta #${venta.numero}'),
+                  title: Text(
+                    venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty
+                        ? 'Venta #${venta.numero} · ${venta.nombreCliente}'
+                        : 'Venta #${venta.numero}',
+                  ),
                   subtitle: Text(
                       '${venta.detalle.length} producto(s) · ${Formatters.formatearHora(venta.fecha)}'),
                   trailing: Text(

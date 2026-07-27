@@ -12,6 +12,8 @@ import '../../data/datasources/local/sync_queue_local_datasource.dart';
 import '../../data/datasources/remote/firestore_service.dart';
 import '../../data/datasources/remote/auth_service.dart';
 import '../../data/datasources/remote/venta_remote_datasource.dart';
+import '../../data/datasources/remote/producto_remote_datasource.dart';
+import '../../data/datasources/remote/stock_remote_datasource.dart';
 
 import '../../data/repositories/producto_repository_impl.dart';
 import '../../data/repositories/venta_repository_impl.dart';
@@ -78,6 +80,10 @@ final firestoreServiceProvider = Provider((ref) => FirestoreService());
 final authServiceProvider = Provider((ref) => AuthService());
 final ventaRemoteDsProvider =
     Provider((ref) => VentaRemoteDatasource(ref.watch(firestoreServiceProvider)));
+final productoRemoteDsProvider =
+    Provider((ref) => ProductoRemoteDatasource(ref.watch(firestoreServiceProvider)));
+final stockRemoteDsProvider =
+    Provider((ref) => StockRemoteDatasource(ref.watch(firestoreServiceProvider)));
 
 /// ================= DATASOURCES LOCALES =================
 final productoLocalDsProvider =
@@ -106,6 +112,7 @@ final syncServiceProvider = Provider((ref) => SyncService(
 final productoRepositoryProvider = Provider<ProductoRepository>((ref) => ProductoRepositoryImpl(
       ref.watch(productoLocalDsProvider),
       ref.watch(syncQueueLocalDsProvider),
+      ref.watch(productoRemoteDsProvider),
     ));
 final ventaRepositoryProvider = Provider<VentaRepository>((ref) => VentaRepositoryImpl(
       ref.watch(ventaLocalDsProvider),
@@ -116,6 +123,7 @@ final ventaRepositoryProvider = Provider<VentaRepository>((ref) => VentaReposito
 final stockRepositoryProvider = Provider<StockRepository>((ref) => StockRepositoryImpl(
       ref.watch(stockLocalDsProvider),
       ref.watch(syncQueueLocalDsProvider),
+      ref.watch(stockRemoteDsProvider),
     ));
 final usuarioRepositoryProvider = Provider<UsuarioRepository>((ref) => UsuarioRepositoryImpl(
       ref.watch(usuarioLocalDsProvider),

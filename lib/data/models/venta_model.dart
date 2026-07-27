@@ -1,3 +1,4 @@
+import 'dart:convert';
 import '../../domain/entities/venta.dart';
 import '../../domain/entities/detalle_venta.dart';
 
@@ -15,7 +16,26 @@ class VentaModel extends Venta {
     super.cajeroId,
     super.fechaCobro,
     super.clienteId,
+    super.nombreCliente,
+    super.pagos,
   });
+
+  static List<DetallePago> _parsePagos(dynamic raw) {
+    if (raw == null) return const [];
+    final texto = raw is String ? raw : jsonEncode(raw);
+    if (texto.isEmpty || texto == 'null') return const [];
+    final lista = jsonDecode(texto) as List<dynamic>;
+    return lista
+        .map((p) => DetallePago(
+              metodo: MetodoPago.values.byName(p['metodo'] as String),
+              monto: (p['monto'] as num).toDouble(),
+            ))
+        .toList();
+  }
+
+  static dynamic _encodePagos(List<DetallePago> pagos) {
+    return pagos.map((p) => {'metodo': p.metodo.name, 'monto': p.monto}).toList();
+  }
 
   factory VentaModel.fromMap(Map<String, dynamic> map, List<DetalleVenta> detalle) => VentaModel(
         id: map['id'] as String,
@@ -31,6 +51,8 @@ class VentaModel extends Venta {
         cajeroId: map['cajeroId'] as String?,
         fechaCobro: map['fechaCobro'] != null ? DateTime.parse(map['fechaCobro'] as String) : null,
         clienteId: map['clienteId'] as String?,
+        nombreCliente: map['nombreCliente'] as String?,
+        pagos: _parsePagos(map['pagos']),
       );
 
   /// Reconstruye la venta a partir de un documento de Firestore, donde
@@ -48,6 +70,7 @@ class VentaModel extends Venta {
     return VentaModel.fromMap(map, detalle);
   }
 
+  /// Para SQLite: los pagos se guardan como texto JSON en una sola columna.
   Map<String, dynamic> toMap() => {
         'id': id,
         'numero': numero,
@@ -59,14 +82,19 @@ class VentaModel extends Venta {
         'cajeroId': cajeroId,
         'fechaCobro': fechaCobro?.toIso8601String(),
         'clienteId': clienteId,
+        'nombreCliente': nombreCliente,
+        'pagos': jsonEncode(_encodePagos(pagos)),
       };
 
   /// Para Firestore: a diferencia de SQLite (donde el detalle vive en su
   /// propia tabla), acá se embebe como array dentro del mismo documento
   /// para que la caja pueda reconstruir la venta completa con una sola
-  /// lectura (igual que reconstruyendo desde el QR).
+  /// lectura (igual que reconstruyendo desde el QR). Los pagos también
+  /// van embebidos como array (no como texto JSON, Firestore los guarda
+  /// nativamente).
   Map<String, dynamic> toRemoteMap() => {
         ...toMap(),
+        'pagos': _encodePagos(pagos),
         'detalle': detalle
             .map((d) => {
                   'productoId': d.productoId,

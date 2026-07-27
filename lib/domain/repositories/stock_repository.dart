@@ -10,4 +10,9 @@ abstract class StockRepository {
   Future<void> registrarMerma(String productoId, double cantidad, String usuarioId, {String? nota});
   Future<List<MovimientoStock>> obtenerHistorial(String productoId);
   Stream<List<Stock>> observarStockBajo();
+
+  /// Trae las cantidades de stock desde Firestore y actualiza la caché
+  /// local. Ver ProductoRepository.refrescarDesdeRemoto para el mismo
+  /// criterio.
+  Future<void> refrescarDesdeRemoto();
 }

@@ -21,7 +21,19 @@ class ProductosScreen extends ConsumerWidget {
     final productosAsync = ref.watch(productosListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Productos')),
+      appBar: AppBar(
+        title: const Text('Productos'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: 'Actualizar',
+            onPressed: () async {
+              await ref.read(productoRepositoryProvider).refrescarDesdeRemoto();
+              ref.invalidate(productosListProvider);
+            },
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(
@@ -33,7 +45,10 @@ class ProductosScreen extends ConsumerWidget {
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => ref.invalidate(productosListProvider),
+        onRefresh: () async {
+          await ref.read(productoRepositoryProvider).refrescarDesdeRemoto();
+          ref.invalidate(productosListProvider);
+        },
         child: productosAsync.when(
           data: (productos) {
             if (productos.isEmpty) {

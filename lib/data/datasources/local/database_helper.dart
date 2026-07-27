@@ -21,15 +21,15 @@ class DatabaseHelper {
     final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
     return openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
   }
 
-  /// Migra instalaciones existentes (version 1 -> 2): agrega columnas de
-  /// costo/impuestos a productos y las tablas nuevas de caja (movimientos
-  /// manuales y cierres con conteo de billetes).
+  /// Migra instalaciones existentes: agrega columnas de costo/impuestos a
+  /// productos y las tablas de caja (v1->v2), y nombreCliente/pagos
+  /// múltiples en ventas (v2->v3).
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
       await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN costoUnitario REAL NOT NULL DEFAULT 0');
@@ -37,6 +37,10 @@ class DatabaseHelper {
       await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN tasaTSH REAL NOT NULL DEFAULT 0');
       await db.execute('ALTER TABLE ${AppConstants.tablaVentas} ADD COLUMN clienteId TEXT');
       await _crearTablasCaja(db);
+    }
+    if (oldVersion < 3) {
+      await db.execute('ALTER TABLE ${AppConstants.tablaVentas} ADD COLUMN nombreCliente TEXT');
+      await db.execute('ALTER TABLE ${AppConstants.tablaVentas} ADD COLUMN pagos TEXT');
     }
   }
 
@@ -102,7 +106,9 @@ class DatabaseHelper {
         metodoPago TEXT,
         cajeroId TEXT,
         fechaCobro TEXT,
-        clienteId TEXT
+        clienteId TEXT,
+        nombreCliente TEXT,
+        pagos TEXT
       )
     ''');
 
