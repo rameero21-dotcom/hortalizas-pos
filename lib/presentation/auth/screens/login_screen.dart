@@ -13,9 +13,13 @@ import '../../vendedor/screens/nueva_venta_screen.dart';
 /// + Firestore), navega a NuevaVentaScreen (vendedor), CajaHomeScreen
 /// (cajero) o AdminDashboardScreen (administrador). El checkbox
 /// "Mantener sesión iniciada" decide si la próxima vez que se abra la
-/// app va a entrar directo (sin pedir usuario/contraseña) o no. También
-/// muestra las últimas cuentas usadas en este dispositivo para elegir
-/// rápido con cuál entrar (solo se guarda el email, nunca la contraseña).
+/// app va a entrar directo (sin pedir usuario/contraseña) o no.
+///
+/// Las "cuentas recientes" permiten cambiar de usuario con un solo
+/// toque: la contraseña queda guardada de forma cifrada en el
+/// dispositivo (Keystore de Android / almacén de Windows), así que al
+/// tocar una cuenta se inicia sesión directo, sin escribir nada de
+/// nuevo.
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
@@ -46,13 +50,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (mounted) setState(() => _cuentasRecientes = cuentas);
   }
 
-  void _elegirCuenta(CuentaReciente cuenta) {
+  /// Al tocar una cuenta reciente, intenta entrar directo con la
+  /// contraseña guardada. Si por algún motivo no hay contraseña guardada
+  /// (o cambió y ya no es válida), cae al modo normal: precarga el email
+  /// y deja que escriban la contraseña una vez más.
+  Future<void> _elegirCuenta(CuentaReciente cuenta) async {
+    final passwordGuardada = await CuentasRecientes.obtenerPassword(cuenta.email);
+    if (passwordGuardada == null) {
+      setState(() {
+        _emailCtrl.text = cuenta.email;
+        _passwordCtrl.clear();
+        _error = null;
+      });
+      _passwordFocus.requestFocus();
+      return;
+    }
+
     setState(() {
       _emailCtrl.text = cuenta.email;
-      _passwordCtrl.clear();
+      _passwordCtrl.text = passwordGuardada;
       _error = null;
     });
-    _passwordFocus.requestFocus();
+    await _login();
   }
 
   Future<void> _quitarCuenta(CuentaReciente cuenta) async {
@@ -83,11 +102,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         return;
       }
       await SesionPrefs.guardarMantenerSesion(_mantenerSesion);
-      await CuentasRecientes.agregar(CuentaReciente(
-        email: usuario.email,
-        nombre: usuario.nombre,
-        rol: _labelRol(usuario.rol),
-      ));
+      await CuentasRecientes.agregar(
+        CuentaReciente(
+          email: usuario.email,
+          nombre: usuario.nombre,
+          rol: _labelRol(usuario.rol),
+        ),
+        _passwordCtrl.text,
+      );
       if (!mounted) return;
       _navegarSegunRol(usuario);
     } on FailureAutenticacion catch (e) {
@@ -133,43 +155,45 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 8),
               SizedBox(
                 height: 76,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _cuentasRecientes.length,
-                  separatorBuilder: (context, i) => const SizedBox(width: 8),
-                  itemBuilder: (context, i) {
-                    final c = _cuentasRecientes[i];
-                    return GestureDetector(
-                      onTap: () => _elegirCuenta(c),
-                      onLongPress: () => _quitarCuenta(c),
-                      child: Container(
-                        width: 110,
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Theme.of(context).dividerColor),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircleAvatar(child: Text(c.nombre.isNotEmpty ? c.nombre[0] : '?')),
-                            const SizedBox(height: 4),
-                            Text(c.nombre,
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 12)),
-                            Text(c.rol,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 10, color: Colors.grey)),
-                          ],
-                        ),
+                child: _cargando
+                    ? const Center(child: CircularProgressIndicator())
+                    : ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _cuentasRecientes.length,
+                        separatorBuilder: (context, i) => const SizedBox(width: 8),
+                        itemBuilder: (context, i) {
+                          final c = _cuentasRecientes[i];
+                          return GestureDetector(
+                            onTap: () => _elegirCuenta(c),
+                            onLongPress: () => _quitarCuenta(c),
+                            child: Container(
+                              width: 110,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Theme.of(context).dividerColor),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(child: Text(c.nombre.isNotEmpty ? c.nombre[0] : '?')),
+                                  const SizedBox(height: 4),
+                                  Text(c.nombre,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 12)),
+                                  Text(c.rol,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
               ),
-              const Text('Tocá para elegir · mantené presionado para quitar',
+              const Text('Tocá para entrar directo · mantené presionado para quitar',
                   style: TextStyle(fontSize: 11, color: Colors.grey)),
               const SizedBox(height: 24),
             ],
