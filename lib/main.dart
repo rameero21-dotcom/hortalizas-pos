@@ -8,7 +8,7 @@ import 'firebase_options.dart';
 
 import 'core/theme/app_theme.dart';
 import 'core/di/providers.dart';
-import 'presentation/auth/screens/login_screen.dart';
+import 'presentation/auth/screens/auth_gate.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +42,7 @@ class HortalizasPosApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      home: const LoginScreen(),
+      home: const AuthGate(),
     );
   }
 }

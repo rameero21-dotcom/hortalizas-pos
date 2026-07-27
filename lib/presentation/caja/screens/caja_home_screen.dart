@@ -8,6 +8,7 @@ import 'venta_detalle_screen.dart';
 import 'qr_scanner_screen.dart';
 import 'qr_texto_screen.dart';
 import 'arqueo_caja_screen.dart';
+import '../../shared/utils/cerrar_sesion.dart';
 
 bool get _tieneCamaraDeQr => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
@@ -69,6 +70,11 @@ class CajaHomeScreen extends ConsumerWidget {
                     );
               if (context.mounted) await _procesarQr(context, ref, raw);
             },
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Cambiar de usuario',
+            onPressed: () => cerrarSesionYVolver(context, ref),
           ),
         ],
       ),

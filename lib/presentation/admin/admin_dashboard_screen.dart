@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'productos/screens/productos_screen.dart';
 import 'stock/screens/stock_screen.dart';
 import 'estadisticas/screens/estadisticas_screen.dart';
 import 'usuarios/screens/usuarios_screen.dart';
 import 'historial/screens/historial_screen.dart';
 import 'clientes/screens/clientes_screen.dart';
+import '../shared/utils/cerrar_sesion.dart';
 
 /// Menú principal del administrador: acceso a todos los módulos de gestión.
-class AdminDashboardScreen extends StatelessWidget {
+class AdminDashboardScreen extends ConsumerWidget {
   const AdminDashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final modulos = <_ModuloAdmin>[
       _ModuloAdmin('Productos', Icons.eco, const ProductosScreen()),
       _ModuloAdmin('Stock', Icons.inventory_2, const StockScreen()),
@@ -22,7 +24,16 @@ class AdminDashboardScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Panel de administración')),
+      appBar: AppBar(
+        title: const Text('Panel de administración'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Cambiar de usuario',
+            onPressed: () => cerrarSesionYVolver(context, ref),
+          ),
+        ],
+      ),
       body: GridView.count(
         padding: const EdgeInsets.all(16),
         crossAxisCount: 2,

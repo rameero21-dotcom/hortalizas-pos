@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/errors/failures.dart';
+import '../../../core/services/sesion_prefs.dart';
 import '../../../domain/entities/usuario.dart';
 import '../../admin/admin_dashboard_screen.dart';
 import '../../caja/screens/caja_home_screen.dart';
@@ -9,7 +10,9 @@ import '../../vendedor/screens/nueva_venta_screen.dart';
 
 /// Pantalla de login. Según el rol del usuario autenticado (Firebase Auth
 /// + Firestore), navega a NuevaVentaScreen (vendedor), CajaHomeScreen
-/// (cajero) o AdminDashboardScreen (administrador).
+/// (cajero) o AdminDashboardScreen (administrador). El checkbox
+/// "Mantener sesión iniciada" decide si la próxima vez que se abra la
+/// app va a entrar directo (sin pedir usuario/contraseña) o no.
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
@@ -21,7 +24,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   bool _cargando = false;
+  bool _mantenerSesion = true;
   String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    SesionPrefs.obtenerMantenerSesion().then((valor) {
+      if (mounted) setState(() => _mantenerSesion = valor);
+    });
+  }
 
   @override
   void dispose() {
@@ -44,6 +56,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         setState(() => _error = 'Email o contraseña incorrectos');
         return;
       }
+      await SesionPrefs.guardarMantenerSesion(_mantenerSesion);
       if (!mounted) return;
       _navegarSegunRol(usuario);
     } on FailureAutenticacion catch (e) {
@@ -87,6 +100,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               decoration: const InputDecoration(labelText: 'Contraseña', border: OutlineInputBorder()),
               obscureText: true,
               onSubmitted: (_) => _login(),
+            ),
+            CheckboxListTile(
+              value: _mantenerSesion,
+              onChanged: (v) => setState(() => _mantenerSesion = v ?? true),
+              title: const Text('Mantener sesión iniciada'),
+              contentPadding: EdgeInsets.zero,
+              controlAffinity: ListTileControlAffinity.leading,
             ),
             if (_error != null) ...[
               const SizedBox(height: 12),

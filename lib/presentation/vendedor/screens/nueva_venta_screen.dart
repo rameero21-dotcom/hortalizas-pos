@@ -8,6 +8,7 @@ import '../../../domain/entities/venta.dart';
 import '../providers/carrito_provider.dart';
 import '../widgets/producto_search_field.dart';
 import '../widgets/item_carrito_tile.dart';
+import '../../shared/utils/cerrar_sesion.dart';
 
 final _uuid = Uuid();
 
@@ -106,6 +107,11 @@ class NuevaVentaScreen extends ConsumerWidget {
                 );
               }
             },
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Cambiar de usuario',
+            onPressed: () => cerrarSesionYVolver(context, ref),
           ),
         ],
       ),
