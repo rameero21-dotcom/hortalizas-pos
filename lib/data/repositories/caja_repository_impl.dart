@@ -1,17 +1,21 @@
 import 'package:uuid/uuid.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/services/sync_service.dart';
 import '../../domain/entities/caja.dart';
 import '../../domain/repositories/caja_repository.dart';
 import '../datasources/local/caja_local_datasource.dart';
 import '../datasources/local/sync_queue_local_datasource.dart';
+import '../datasources/remote/caja_remote_datasource.dart';
 import '../models/caja_model.dart';
 
 class CajaRepositoryImpl implements CajaRepository {
   final CajaLocalDatasource _local;
   final SyncQueueLocalDatasource _syncQueue;
+  final CajaRemoteDatasource _remote;
+  final SyncService _syncService;
   final _uuid = Uuid();
 
-  CajaRepositoryImpl(this._local, this._syncQueue);
+  CajaRepositoryImpl(this._local, this._syncQueue, this._remote, this._syncService);
 
   @override
   Future<void> registrarMovimiento({
@@ -35,11 +39,16 @@ class CajaRepositoryImpl implements CajaRepository {
       operacion: 'set',
       payload: movimiento.toMap(),
     );
+    await _syncService.sincronizarAhora();
   }
 
   @override
   Future<List<MovimientoCaja>> obtenerMovimientos(DateTime desde, DateTime hasta) =>
       _local.obtenerMovimientos(desde, hasta);
+
+  @override
+  Future<List<MovimientoCaja>> obtenerMovimientosGlobal(DateTime desde, DateTime hasta) =>
+      _remote.obtenerMovimientosPorRango(desde, hasta);
 
   @override
   Future<void> guardarCierre({
@@ -63,6 +72,7 @@ class CajaRepositoryImpl implements CajaRepository {
       operacion: 'set',
       payload: cierre.toMap(),
     );
+    await _syncService.sincronizarAhora();
   }
 
   @override

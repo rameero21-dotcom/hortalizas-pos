@@ -12,6 +12,12 @@ abstract class CajaRepository {
 
   Future<List<MovimientoCaja>> obtenerMovimientos(DateTime desde, DateTime hasta);
 
+  /// A diferencia de `obtenerMovimientos` (SQLite de este dispositivo),
+  /// trae los movimientos de TODOS los dispositivos vía Firestore. Se
+  /// usa en el apartado de "Movimientos de caja" de Historial. Requiere
+  /// conexión.
+  Future<List<MovimientoCaja>> obtenerMovimientosGlobal(DateTime desde, DateTime hasta);
+
   Future<void> guardarCierre({
     required double cajaInicio,
     required List<ConteoBillete> billetes,

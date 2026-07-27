@@ -1,5 +1,6 @@
 import '../../core/constants/app_constants.dart';
 import '../../core/services/qr_service.dart';
+import '../../core/services/sync_service.dart';
 import '../../domain/entities/detalle_venta.dart';
 import '../../domain/entities/venta.dart';
 import '../../domain/repositories/venta_repository.dart';
@@ -13,8 +14,9 @@ class VentaRepositoryImpl implements VentaRepository {
   final SyncQueueLocalDatasource _syncQueue;
   final QrService _qrService;
   final VentaRemoteDatasource _remote;
+  final SyncService _syncService;
 
-  VentaRepositoryImpl(this._local, this._syncQueue, this._qrService, this._remote);
+  VentaRepositoryImpl(this._local, this._syncQueue, this._qrService, this._remote, this._syncService);
 
   @override
   Future<Venta> crearVenta(Venta venta) async {
@@ -76,6 +78,11 @@ class VentaRepositoryImpl implements VentaRepository {
       operacion: 'delete',
       payload: const {},
     );
+    // Se sube el borrado a Firestore YA (no esperar al próximo ciclo de
+    // sincronización), para que desaparezca de inmediato de cualquier
+    // otra pantalla que la esté mirando (historial, cuenta corriente,
+    // ventas pendientes de otro dispositivo).
+    await _syncService.sincronizarAhora();
   }
 
   @override

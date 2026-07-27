@@ -7,6 +7,7 @@ import '../../data/datasources/local/stock_local_datasource.dart';
 import '../../data/datasources/local/usuario_local_datasource.dart';
 import '../../data/datasources/local/cliente_local_datasource.dart';
 import '../../data/datasources/local/caja_local_datasource.dart';
+import '../../data/datasources/remote/caja_remote_datasource.dart';
 import '../../data/datasources/local/sync_queue_local_datasource.dart';
 
 import '../../data/datasources/remote/firestore_service.dart';
@@ -98,6 +99,8 @@ final clienteLocalDsProvider =
     Provider((ref) => ClienteLocalDatasource(ref.watch(databaseHelperProvider)));
 final cajaLocalDsProvider =
     Provider((ref) => CajaLocalDatasource(ref.watch(databaseHelperProvider)));
+final cajaRemoteDsProvider =
+    Provider((ref) => CajaRemoteDatasource(ref.watch(firestoreServiceProvider)));
 final syncQueueLocalDsProvider =
     Provider((ref) => SyncQueueLocalDatasource(ref.watch(databaseHelperProvider)));
 
@@ -120,6 +123,7 @@ final ventaRepositoryProvider = Provider<VentaRepository>((ref) => VentaReposito
       ref.watch(syncQueueLocalDsProvider),
       ref.watch(qrServiceProvider),
       ref.watch(ventaRemoteDsProvider),
+      ref.watch(syncServiceProvider),
     ));
 final stockRepositoryProvider = Provider<StockRepository>((ref) => StockRepositoryImpl(
       ref.watch(stockLocalDsProvider),
@@ -139,6 +143,8 @@ final clienteRepositoryProvider = Provider<ClienteRepository>((ref) => ClienteRe
 final cajaRepositoryProvider = Provider<CajaRepository>((ref) => CajaRepositoryImpl(
       ref.watch(cajaLocalDsProvider),
       ref.watch(syncQueueLocalDsProvider),
+      ref.watch(cajaRemoteDsProvider),
+      ref.watch(syncServiceProvider),
     ));
 
 /// ================= CASOS DE USO =================

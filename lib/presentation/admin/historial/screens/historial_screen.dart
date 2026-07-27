@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/venta.dart';
+import '../../../../domain/entities/caja.dart';
 
 class _FiltrosHistorial {
   final DateTime desde;
@@ -44,9 +45,92 @@ final _ventasHistorialProvider = FutureProvider.autoDispose<List<Venta>>((ref) a
   }).toList();
 });
 
-/// Búsqueda de ventas cobradas por fecha, número, producto o vendedor.
-class HistorialScreen extends ConsumerWidget {
+/// Un ítem unificado de la línea de tiempo de caja: puede ser una venta
+/// cobrada o un movimiento manual (ingreso/egreso), todo junto y
+/// ordenado por fecha.
+class _MovimientoUnificado {
+  final DateTime fecha;
+  final String titulo;
+  final String subtitulo;
+  final double monto;
+  final Color color;
+
+  _MovimientoUnificado({
+    required this.fecha,
+    required this.titulo,
+    required this.subtitulo,
+    required this.monto,
+    required this.color,
+  });
+}
+
+final _movimientosCajaHistorialProvider = FutureProvider.autoDispose<List<_MovimientoUnificado>>((ref) async {
+  final filtros = ref.watch(_filtrosProvider);
+  final ventas = await ref.watch(ventaRepositoryProvider).obtenerPorRangoFechaGlobal(filtros.desde, filtros.hasta);
+  final movimientos = await ref.watch(cajaRepositoryProvider).obtenerMovimientosGlobal(filtros.desde, filtros.hasta);
+
+  final unificados = <_MovimientoUnificado>[];
+
+  for (final v in ventas.where((v) => v.estado == EstadoVenta.cobrada)) {
+    unificados.add(_MovimientoUnificado(
+      fecha: v.fechaCobro ?? v.fecha,
+      titulo: 'Venta #${v.numero}',
+      subtitulo: v.metodoPago != null ? _labelMetodoPago(v.metodoPago!) : 'Pago dividido',
+      monto: v.total,
+      color: Colors.green.shade700,
+    ));
+  }
+
+  for (final m in movimientos) {
+    final esIngreso = m.tipo == TipoMovimientoCaja.ingreso;
+    unificados.add(_MovimientoUnificado(
+      fecha: m.fecha,
+      titulo: esIngreso ? 'Ingreso manual' : 'Egreso manual',
+      subtitulo: m.detalle,
+      monto: esIngreso ? m.monto : -m.monto,
+      color: esIngreso ? Colors.blue.shade700 : Colors.red.shade700,
+    ));
+  }
+
+  unificados.sort((a, b) => b.fecha.compareTo(a.fecha));
+  return unificados;
+});
+
+String _labelMetodoPago(MetodoPago m) => switch (m) {
+      MetodoPago.efectivo => 'Efectivo',
+      MetodoPago.transferencia => 'Transferencia',
+      MetodoPago.debito => 'Débito',
+      MetodoPago.credito => 'Crédito',
+      MetodoPago.cuentaCorriente => 'Cuenta corriente',
+    };
+
+/// Búsqueda de ventas cobradas por fecha, número, producto o vendedor,
+/// más un apartado con todos los movimientos de caja (ventas, ingresos
+/// y egresos manuales) juntos en una sola línea de tiempo.
+class HistorialScreen extends ConsumerStatefulWidget {
   const HistorialScreen({super.key});
+
+  @override
+  ConsumerState<HistorialScreen> createState() => _HistorialScreenState();
+}
+
+class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   Future<void> _elegirRango(BuildContext context, WidgetRef ref) async {
     final filtros = ref.read(_filtrosProvider);
@@ -65,27 +149,38 @@ class HistorialScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final filtros = ref.watch(_filtrosProvider);
     final ventasAsync = ref.watch(_ventasHistorialProvider);
+    final movimientosAsync = ref.watch(_movimientosCajaHistorialProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Historial de ventas')),
+      appBar: AppBar(
+        title: const Text('Historial'),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'Ventas'),
+            Tab(text: 'Movimientos de caja'),
+          ],
+        ),
+      ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Buscar por número, producto o vendedor',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.search),
+                if (_tabController.index == 0)
+                  TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Buscar por número, producto o vendedor',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                    onChanged: (v) =>
+                        ref.read(_filtrosProvider.notifier).state = filtros.copyWith(busqueda: v),
                   ),
-                  onChanged: (v) =>
-                      ref.read(_filtrosProvider.notifier).state = filtros.copyWith(busqueda: v),
-                ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -105,69 +200,100 @@ class HistorialScreen extends ConsumerWidget {
             ),
           ),
           Expanded(
-            child: ventasAsync.when(
-              data: (ventas) {
-                if (ventas.isEmpty) {
-                  return const Center(child: Text('No hay ventas cobradas en este rango.'));
-                }
-                return ListView.builder(
-                  itemCount: ventas.length,
-                  itemBuilder: (context, index) {
-                    final venta = ventas[index];
-                    return Dismissible(
-                      key: ValueKey(venta.id),
-                      direction: DismissDirection.endToStart,
-                      background: Container(
-                        color: Colors.red,
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 20),
-                        child: const Icon(Icons.delete, color: Colors.white),
-                      ),
-                      confirmDismiss: (_) async {
-                        return await showDialog<bool>(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // ===== Pestaña: Ventas =====
+                ventasAsync.when(
+                  data: (ventas) {
+                    if (ventas.isEmpty) {
+                      return const Center(child: Text('No hay ventas cobradas en este rango.'));
+                    }
+                    return ListView.builder(
+                      itemCount: ventas.length,
+                      itemBuilder: (context, index) {
+                        final venta = ventas[index];
+                        return Dismissible(
+                          key: ValueKey(venta.id),
+                          direction: DismissDirection.endToStart,
+                          background: Container(
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: 20),
+                            child: const Icon(Icons.delete, color: Colors.white),
+                          ),
+                          confirmDismiss: (_) async {
+                            return await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Eliminar venta'),
+                                    content: Text(
+                                        '¿Eliminar la venta #${venta.numero}? Esta acción no se puede deshacer.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context, false),
+                                        child: const Text('Cancelar'),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () => Navigator.pop(context, true),
+                                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                        child: const Text('Eliminar'),
+                                      ),
+                                    ],
+                                  ),
+                                ) ??
+                                false;
+                          },
+                          onDismissed: (_) async {
+                            await ref.read(ventaRepositoryProvider).eliminarVenta(venta.id);
+                            ref.invalidate(_ventasHistorialProvider);
+                            ref.invalidate(_movimientosCajaHistorialProvider);
+                          },
+                          child: ListTile(
+                            title: Text('Venta #${venta.numero}'),
+                            subtitle: Text(
+                                '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'),
+                            trailing: Text(
+                              Formatters.formatearMoneda(venta.total),
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () => showModalBottomSheet(
                               context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text('Eliminar venta'),
-                                content: Text(
-                                    '¿Eliminar la venta #${venta.numero}? Esta acción no se puede deshacer.'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context, false),
-                                    child: const Text('Cancelar'),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () => Navigator.pop(context, true),
-                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                                    child: const Text('Eliminar'),
-                                  ),
-                                ],
-                              ),
-                            ) ??
-                            false;
+                              builder: (_) => _DetalleVentaHistorial(venta: venta),
+                            ),
+                          ),
+                        );
                       },
-                      onDismissed: (_) async {
-                        await ref.read(ventaRepositoryProvider).eliminarVenta(venta.id);
-                        ref.invalidate(_ventasHistorialProvider);
-                      },
-                      child: ListTile(
-                        title: Text('Venta #${venta.numero}'),
-                        subtitle: Text(
-                            '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'),
-                        trailing: Text(
-                          Formatters.formatearMoneda(venta.total),
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        onTap: () => showModalBottomSheet(
-                          context: context,
-                          builder: (_) => _DetalleVentaHistorial(venta: venta),
-                        ),
-                      ),
                     );
                   },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, __) => Center(child: Text('Error: $err')),
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (err, __) => Center(child: Text('Error: $err')),
+                ),
+                // ===== Pestaña: Movimientos de caja (ventas + ingresos + egresos) =====
+                movimientosAsync.when(
+                  data: (movimientos) {
+                    if (movimientos.isEmpty) {
+                      return const Center(child: Text('No hay movimientos en este rango.'));
+                    }
+                    return ListView.builder(
+                      itemCount: movimientos.length,
+                      itemBuilder: (context, index) {
+                        final m = movimientos[index];
+                        return ListTile(
+                          title: Text(m.titulo),
+                          subtitle: Text('${m.subtitulo} · ${Formatters.formatearFechaHora(m.fecha)}'),
+                          trailing: Text(
+                            Formatters.formatearMoneda(m.monto),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: m.color),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (err, __) => Center(child: Text('Error: $err')),
+                ),
+              ],
             ),
           ),
         ],
@@ -201,7 +327,7 @@ class _DetalleVentaHistorial extends StatelessWidget {
             const Divider(),
             Text('Total: ${Formatters.formatearMoneda(venta.total)}',
                 style: const TextStyle(fontWeight: FontWeight.bold)),
-            if (venta.metodoPago != null) Text('Pago: ${venta.metodoPago!.name}'),
+            if (venta.metodoPago != null) Text('Pago: ${_labelMetodoPago(venta.metodoPago!)}'),
           ],
         ),
       ),

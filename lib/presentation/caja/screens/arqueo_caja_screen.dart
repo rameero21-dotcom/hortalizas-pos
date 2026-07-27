@@ -4,6 +4,7 @@ import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/entities/caja.dart';
 import '../../../domain/entities/venta.dart';
+import 'historial_cierres_screen.dart';
 
 /// Denominaciones de billetes en pesos argentinos, tal como se cuentan
 /// en la planilla (de mayor a menor).
@@ -80,7 +81,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
           );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Caja cerrada correctamente')),
+          SnackBar(content: Text('Caja cerrada y guardada (${Formatters.formatearMoneda(_totalContado)})')),
         );
         Navigator.pop(context);
       }
@@ -142,7 +143,19 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
     final movimientosAsync = ref.watch(_movimientosCajaHoyProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Arqueo de caja')),
+      appBar: AppBar(
+        title: const Text('Arqueo de caja'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            tooltip: 'Ver cierres guardados',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const HistorialCierresScreen()),
+            ),
+          ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
