@@ -49,6 +49,10 @@ class VentaRepositoryImpl implements VentaRepository {
       payload: modelConNumero.toRemoteMap(), // incluye el detalle embebido
     );
 
+    // Sube la venta a Firestore YA, para que aparezca en caja al toque
+    // en vez de esperar al próximo ciclo automático de sincronización.
+    await _syncService.sincronizarAhora();
+
     return ventaCreada;
   }
 
@@ -121,6 +125,7 @@ class VentaRepositoryImpl implements VentaRepository {
       operacion: 'set',
       payload: model.toRemoteMap(),
     );
+    await _syncService.sincronizarAhora();
   }
 
   @override
