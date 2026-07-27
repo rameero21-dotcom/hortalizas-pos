@@ -99,7 +99,36 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        MobileScanner(onDetect: _onDetect),
+        MobileScanner(
+          onDetect: _onDetect,
+          errorBuilder: (context, error) {
+            return Container(
+              color: Colors.black,
+              padding: const EdgeInsets.all(24),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline, color: Colors.red, size: 48),
+                    const SizedBox(height: 16),
+                    Text(
+                      'No se pudo iniciar la cámara.\n\n'
+                      'Código: ${error.errorCode}\n'
+                      'Detalle: ${error.errorDetails?.message ?? "(sin detalle)"}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => setState(() {}),
+                      child: const Text('Reintentar'),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
         Container(
           width: double.infinity,
           color: Colors.black54,
