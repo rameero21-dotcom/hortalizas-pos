@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 import '../../../domain/entities/detalle_venta.dart';
 import '../../../domain/entities/producto.dart';
 import '../../../core/di/providers.dart';
+import '../../../core/utils/formatters.dart';
 import '../providers/carrito_provider.dart';
 
 /// Cómo se interpreta el número que carga el vendedor en el campo de precio.
@@ -253,6 +254,23 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
             ),
           ),
         const SizedBox(height: 8),
+        if (_productoSeleccionado != null && _productoSeleccionado!.costoUnitario > 0)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.amber.shade50,
+                border: Border.all(color: Colors.amber.shade200),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                'Costo de referencia: ${Formatters.formatearMoneda(_productoSeleccionado!.costoUnitario)} por unidad',
+                style: TextStyle(color: Colors.amber.shade900, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
         Row(
           children: [
             Expanded(

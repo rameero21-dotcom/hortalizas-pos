@@ -41,7 +41,8 @@ final _ventasHistorialProvider = FutureProvider.autoDispose<List<Venta>>((ref) a
     final matchNumero = v.numero.toString().contains(q);
     final matchProducto = v.detalle.any((d) => d.nombreProducto.toLowerCase().contains(q));
     final matchVendedor = v.vendedorId.toLowerCase().contains(q);
-    return matchNumero || matchProducto || matchVendedor;
+    final matchNombreReferencia = (v.nombreCliente ?? '').toLowerCase().contains(q);
+    return matchNumero || matchProducto || matchVendedor || matchNombreReferencia;
   }).toList();
 });
 
@@ -174,7 +175,7 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                 if (_tabController.index == 0)
                   TextField(
                     decoration: const InputDecoration(
-                      labelText: 'Buscar por número, producto o vendedor',
+                      labelText: 'Buscar por número, producto, vendedor o nombre de referencia',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.search),
                     ),
@@ -250,7 +251,11 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                             ref.invalidate(_movimientosCajaHistorialProvider);
                           },
                           child: ListTile(
-                            title: Text('Venta #${venta.numero}'),
+                            title: Text(
+                              venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty
+                                  ? 'Venta #${venta.numero} · ${venta.nombreCliente}'
+                                  : 'Venta #${venta.numero}',
+                            ),
                             subtitle: Text(
                                 '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'),
                             trailing: Text(

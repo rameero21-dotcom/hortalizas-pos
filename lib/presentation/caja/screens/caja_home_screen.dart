@@ -8,6 +8,7 @@ import 'venta_detalle_screen.dart';
 import 'qr_scanner_screen.dart';
 import 'qr_texto_screen.dart';
 import 'arqueo_caja_screen.dart';
+import '../../admin/historial/screens/historial_screen.dart';
 import '../../shared/utils/cerrar_sesion.dart';
 
 bool get _tieneCamaraDeQr => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
@@ -63,6 +64,14 @@ class CajaHomeScreen extends ConsumerWidget {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const ArqueoCajaScreen()),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.history),
+            tooltip: 'Historial',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const HistorialScreen()),
             ),
           ),
           IconButton(
