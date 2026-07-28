@@ -1,9 +1,11 @@
 /home/runner/.local/lib/python3.12/site-packages/google/cloud/firestore_v1/base_collection.py:317: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
   return query.where(field_path, op_string, value)
-/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:219: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:220: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
   .where("detalle", "<", PREFIJO + "\uf8ff").stream()))
-/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:258: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:259: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
   .where("detalle", "<", PREFIJO + "\uf8ff").stream()))
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:365: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+  .where("vendedorNombre", "in", vendedores_test).stream())
 ======================================================================
 PRUEBA DE INTEGRACION - HORTALIZAS POS
 ======================================================================
@@ -52,8 +54,62 @@ Utilidad esperada: 28270.00
 [OK] Con incremento atomico, las DOS ventas se descuentan bien: 100-7-4=89 (antes del fix se hubiera perdido una) (quedo en 89)
 
 --- 10) Cierre de caja (arqueo con billetes) ---
+[OK] El cierre de caja guarda y recalcula bien el total contado (122000 == 122000)
+
+--- 11) Estadisticas: muchas ventas mezcladas ---
 Traceback (most recent call last):
-  File "/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py", line 317, in <module>
-    "billetesJson": json.dumps(billetes_test), "usuarioId": "test-cajero",
-                    ^^^^
-NameError: name 'json' is not defined. Did you forget to import 'json'?
+  File "/home/runner/.local/lib/python3.12/site-packages/google/api_core/grpc_helpers.py", line 149, in error_remapped_callable
+    return _StreamingResponseIterator(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/api_core/grpc_helpers.py", line 71, in __init__
+    self._stored_first_result = next(self._wrapped)
+                                ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/grpc/_channel.py", line 547, in __next__
+    return self._next()
+           ^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/grpc/_channel.py", line 965, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hortalizas-cys/firestore/indexes?create_composite=Ck1wcm9qZWN0cy9ob3J0YWxpemFzLWN5cy9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvdmVudGFzL2luZGV4ZXMvXxABGhIKDnZlbmRlZG9yTm9tYnJlEAEaCQoFZmVjaGEQARoMCghfX25hbWVfXxAB"
+	debug_error_string = "FAILED_PRECONDITION:The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hortalizas-cys/firestore/indexes?create_composite=Ck1wcm9qZWN0cy9ob3J0YWxpemFzLWN5cy9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvdmVudGFzL2luZGV4ZXMvXxABGhIKDnZlbmRlZG9yTm9tYnJlEAEaCQoFZmVjaGEQARoMCghfX25hbWVfXxAB"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py", line 363, in <module>
+    ventas_leidas = list(db.collection("ventas")
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/cloud/firestore_v1/stream_generator.py", line 58, in __next__
+    return self._generator.__next__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/cloud/firestore_v1/query.py", line 423, in _make_stream
+    response_iterator, expected_prefix = self._get_stream_iterator(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/cloud/firestore_v1/query.py", line 268, in _get_stream_iterator
+    response_iterator = self._client._firestore_api.run_query(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/cloud/firestore_v1/services/firestore/client.py", line 1648, in run_query
+    response = rpc(
+               ^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/api_core/gapic_v1/method.py", line 128, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 295, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 157, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 215, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/runner/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 148, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/api_core/timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/google/api_core/grpc_helpers.py", line 153, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hortalizas-cys/firestore/indexes?create_composite=Ck1wcm9qZWN0cy9ob3J0YWxpemFzLWN5cy9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvdmVudGFzL2luZGV4ZXMvXxABGhIKDnZlbmRlZG9yTm9tYnJlEAEaCQoFZmVjaGEQARoMCghfX25hbWVfXxAB
