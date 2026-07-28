@@ -3,6 +3,9 @@ name: Limpiar datos de prueba de Firebase (manual)
 on:
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   limpiar:
     runs-on: ubuntu-latest

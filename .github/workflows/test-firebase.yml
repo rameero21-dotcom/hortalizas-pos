@@ -3,6 +3,9 @@ name: Prueba de integracion contra Firebase (manual)
 on:
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   probar-firebase:
     runs-on: ubuntu-latest
