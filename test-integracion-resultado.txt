@@ -1,0 +1,38 @@
+======================================================================
+PRUEBA DE INTEGRACION - HORTALIZAS POS
+======================================================================
+
+--- 1) Productos ---
+[OK] Producto se creo y se puede leer 
+[OK] Stock inicial quedo en 100 
+
+--- 2) Clientes ---
+[OK] Cliente se creo con saldo 0 
+
+--- 3) Venta en efectivo ---
+[OK] Stock de Papa bajo de 100 a 98 tras vender 2 (quedo en 98)
+[OK] Venta 1 quedo marcada como cobrada 
+
+--- 4) Venta con pago dividido ---
+[OK] Pago dividido suma correctamente al total (pagos suman 30000, total 30000)
+
+--- 5) Venta fiada (cuenta corriente) ---
+[OK] Saldo del cliente bajo a -36000 tras la venta fiada (quedo en -36000)
+
+--- 6) Pago parcial del cliente ---
+[OK] Saldo del cliente sube a -26000 tras pagar 10000 (quedo en -26000)
+
+--- 7) Formulas de costo/impuestos/utilidad ---
+Facturacion total (test): 94000
+Costo total (test): 61500
+IIBB esperado (3.5%): 3290.00
+TSH esperado (1%): 940.00
+Utilidad esperada: 28270.00
+[OK] Formula de utilidad da un resultado positivo y coherente (utilidad 28270.00 de 94000 facturados)
+
+======================================================================
+RESUMEN
+======================================================================
+9/9 verificaciones pasaron correctamente.
+
+IDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.
