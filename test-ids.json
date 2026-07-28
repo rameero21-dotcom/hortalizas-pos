@@ -1,19 +1,26 @@
 {
   "productos": [
-    "5c56f4d8-7f31-49ff-aca8-9edd421c14f3",
-    "2b36b235-932c-4303-9e30-79a8d8abcfcc",
-    "cf5e789b-bb7b-4582-a9ae-49f4f6857181"
+    "aabcce29-4593-4e13-9982-0a57f71710f6",
+    "e4a16d06-a476-4660-84d5-8cc99a555ad8",
+    "8eb180f6-22af-49e7-b59f-79cffc2b6d16"
   ],
   "clientes": [
-    "92ff0fdb-e631-4908-ac20-d440d68b8102"
+    "7ef82a3d-16b9-4111-8d45-664c864ee873",
+    "ddb838ed-c857-4896-8476-a5856877402a"
   ],
   "ventas": [
-    "4e3dd2ba-607e-4e4d-9c1a-c3f68d11e8aa",
-    "46eee884-005f-4b61-8e4b-1a813b3e953c",
-    "85bb2316-78f4-4923-8352-c20571a98dbc"
+    "28a1782c-7441-4c2c-8bea-9e9f9d5e6114",
+    "917cefe7-0e5c-4fd1-bf4b-864c721ddced",
+    "9d12d9b6-b51d-4b29-b800-c732d42ff9a5"
   ],
   "movimientos_cuenta_corriente": [
-    "13e7f5f6-dc7d-4738-a527-c702a3a62432",
-    "f55f504e-132e-4867-ba23-c7ec4b412efe"
+    "b86f5a63-6471-4b77-a324-a91d42139ad9",
+    "3b4797ab-2d76-4362-9544-b23ccceaa0ab",
+    "13378106-8c8a-4e9e-86c5-e4df4b0c9b98",
+    "aa9da4a4-b918-40ad-a2dd-6d9f66d395ab",
+    "e6eebc90-3253-4377-814d-4bfa84da4efc"
+  ],
+  "movimientos_caja": [
+    "69cd2ab5-c0fe-470c-b485-c06713485f2d"
   ]
 }
