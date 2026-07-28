@@ -10,6 +10,7 @@ Uso: python3 test_integracion_firebase.py
 """
 import uuid
 import datetime
+import json
 from google.cloud import firestore
 
 db = firestore.Client.from_service_account_json('/tmp/sa.json')
@@ -403,7 +404,6 @@ for nombre, estado, detalle in resultados:
         print(f"  FALLO: {nombre} {detalle}")
 
 # Guardar ids creados para poder limpiarlos despues
-import json
 with open('/tmp/test_ids.json', 'w') as f:
     json.dump({
         "productos": list(ids_productos.values()),
