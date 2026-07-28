@@ -195,6 +195,71 @@ verificar("Formula de utilidad da un resultado positivo y coherente",
           utilidad_esperada > 0 and utilidad_esperada < facturacion_total_test,
           f"(utilidad {utilidad_esperada:.2f} de {facturacion_total_test} facturados)")
 
+# ============ 7) Ciclo completo de deuda: generar y cobrar ============
+print("\n--- 7) Ciclo completo: generar deuda y cobrarla ---")
+cliente2_id = str(uuid.uuid4())
+db.collection("clientes").document(cliente2_id).set({
+    "id": cliente2_id, "nombre": f"{PREFIJO} Cliente Cobro", "telefono": "",
+    "direccion": "", "saldoCuentaCorriente": 0,
+})
+
+# Generar una deuda de 50000 (equivalente a un "Cargo (fiado)" manual)
+db.collection("clientes").document(cliente2_id).update({"saldoCuentaCorriente": firestore.Increment(-50000)})
+mov_cargo_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_cargo_id).set({
+    "id": mov_cargo_id, "clienteId": cliente2_id, "tipo": "cargo", "monto": 50000,
+    "detalle": f"{PREFIJO} cargo inicial", "fecha": ahora_iso(), "usuarioId": "test-cajero",
+})
+saldo_tras_cargo = db.collection("clientes").document(cliente2_id).get().to_dict()["saldoCuentaCorriente"]
+verificar("Saldo baja a -50000 tras generar la deuda", saldo_tras_cargo == -50000,
+          f"(quedo en {saldo_tras_cargo})")
+
+# Contar movimientos de caja ANTES de cobrar (para comparar el efecto)
+movs_caja_antes = len(list(db.collection("movimientos_caja").where("detalle", ">=", PREFIJO)
+                            .where("detalle", "<", PREFIJO + "\uf8ff").stream()))
+
+# Cobro 1: paga 20000 en EFECTIVO -> tiene que generar un ingreso en movimientos_caja
+db.collection("clientes").document(cliente2_id).update({"saldoCuentaCorriente": firestore.Increment(20000)})
+mov_pago_efectivo_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_pago_efectivo_id).set({
+    "id": mov_pago_efectivo_id, "clienteId": cliente2_id, "tipo": "pago", "monto": 20000,
+    "detalle": f"{PREFIJO} pago efectivo", "fecha": ahora_iso(), "usuarioId": "test-cajero",
+})
+mov_caja_efectivo_id = str(uuid.uuid4())
+db.collection("movimientos_caja").document(mov_caja_efectivo_id).set({
+    "id": mov_caja_efectivo_id, "tipo": "ingreso", "monto": 20000,
+    "detalle": f"{PREFIJO} Pago cuenta corriente - Cliente Cobro: efectivo",
+    "fecha": ahora_iso(), "usuarioId": "test-cajero",
+})
+
+saldo_tras_pago_efectivo = db.collection("clientes").document(cliente2_id).get().to_dict()["saldoCuentaCorriente"]
+verificar("Saldo sube a -30000 tras pagar 20000 en efectivo", saldo_tras_pago_efectivo == -30000,
+          f"(quedo en {saldo_tras_pago_efectivo})")
+
+mov_caja_creado = db.collection("movimientos_caja").document(mov_caja_efectivo_id).get()
+verificar("El pago en efectivo SI genero un movimiento de caja (para el arqueo)",
+          mov_caja_creado.exists and mov_caja_creado.to_dict()["monto"] == 20000)
+
+# Cobro 2: paga los 30000 restantes por TRANSFERENCIA -> NO debe tocar caja
+db.collection("clientes").document(cliente2_id).update({"saldoCuentaCorriente": firestore.Increment(30000)})
+mov_pago_transf_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_pago_transf_id).set({
+    "id": mov_pago_transf_id, "clienteId": cliente2_id, "tipo": "pago", "monto": 30000,
+    "detalle": f"{PREFIJO} pago transferencia", "fecha": ahora_iso(), "usuarioId": "test-cajero",
+})
+# A proposito NO se crea ningun movimientos_caja aca (la transferencia no
+# es efectivo fisico), verificamos que efectivamente no se creo de mas.
+
+saldo_final_cliente2 = db.collection("clientes").document(cliente2_id).get().to_dict()["saldoCuentaCorriente"]
+verificar("Saldo queda en 0 tras pagar el resto por transferencia", saldo_final_cliente2 == 0,
+          f"(quedo en {saldo_final_cliente2})")
+
+movs_caja_despues = len(list(db.collection("movimientos_caja").where("detalle", ">=", PREFIJO)
+                              .where("detalle", "<", PREFIJO + "\uf8ff").stream()))
+verificar("Solo se creo 1 movimiento de caja (el del pago en efectivo, no el de transferencia)",
+          movs_caja_despues - movs_caja_antes == 1,
+          f"(se crearon {movs_caja_despues - movs_caja_antes})")
+
 print("\n" + "=" * 70)
 print("RESUMEN")
 print("=" * 70)
@@ -210,9 +275,10 @@ import json
 with open('/tmp/test_ids.json', 'w') as f:
     json.dump({
         "productos": list(ids_productos.values()),
-        "clientes": [cliente_id],
+        "clientes": [cliente_id, cliente2_id],
         "ventas": [venta1_id, venta2_id, venta3_id],
-        "movimientos_cuenta_corriente": [mov_id, mov_pago_id],
+        "movimientos_cuenta_corriente": [mov_id, mov_pago_id, mov_cargo_id, mov_pago_efectivo_id, mov_pago_transf_id],
+        "movimientos_caja": [mov_caja_efectivo_id],
     }, f, indent=2)
 
 print("\nIDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.")
