@@ -11,6 +11,7 @@ class QrService {
       'numero': venta.numero,
       'fecha': venta.fecha.toIso8601String(),
       'vendedorId': venta.vendedorId,
+      'vendedorNombre': venta.vendedorNombre,
       'productos': venta.detalle
           .map((d) => {
                 'productoId': d.productoId,

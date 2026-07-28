@@ -28,6 +28,7 @@ class VentaLocalDatasource {
         numero: numero,
         fecha: venta.fecha,
         vendedorId: venta.vendedorId,
+        vendedorNombre: venta.vendedorNombre,
         detalle: venta.detalle,
         total: venta.total,
         estado: venta.estado,

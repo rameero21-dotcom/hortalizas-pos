@@ -160,7 +160,8 @@ class CajaHomeScreen extends ConsumerWidget {
                             : 'Venta #${venta.numero}',
                       ),
                       subtitle: Text(
-                          '${venta.detalle.length} producto(s) · ${Formatters.formatearHora(venta.fecha)}'),
+                          '${venta.detalle.length} producto(s) · ${Formatters.formatearHora(venta.fecha)}'
+                          '${venta.vendedorNombre != null ? ' · Vend: ${venta.vendedorNombre}' : ''}'),
                       trailing: Text(
                         Formatters.formatearMoneda(venta.total),
                         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),

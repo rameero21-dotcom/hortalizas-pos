@@ -191,9 +191,12 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
               ListTile(
                 title: Text('Venta #${venta.numero}', style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(
-                  venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty
-                      ? '${venta.nombreCliente}  ·  ${Formatters.formatearFechaHora(venta.fecha)}'
-                      : Formatters.formatearFechaHora(venta.fecha),
+                  [
+                    if (venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty)
+                      venta.nombreCliente!,
+                    Formatters.formatearFechaHora(venta.fecha),
+                    if (venta.vendedorNombre != null) 'Vendedor: ${venta.vendedorNombre}',
+                  ].join('  ·  '),
                 ),
               ),
               const Divider(),

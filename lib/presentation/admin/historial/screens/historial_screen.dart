@@ -267,7 +267,8 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                                   : 'Venta #${venta.numero}',
                             ),
                             subtitle: Text(
-                                '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'),
+                                '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'
+                                '${venta.vendedorNombre != null ? ' · Vend: ${venta.vendedorNombre}' : ''}'),
                             trailing: Text(
                               Formatters.formatearMoneda(venta.total),
                               style: const TextStyle(fontWeight: FontWeight.bold),

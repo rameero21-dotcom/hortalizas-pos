@@ -21,6 +21,14 @@ class Venta {
   final int numero;
   final DateTime fecha;
   final String vendedorId;
+
+  /// Nombre del vendedor que creó la venta, guardado en el momento (no
+  /// se resuelve después por id) para poder mostrarlo junto al número
+  /// de venta y distinguir boletas si más de un vendedor usa la app al
+  /// mismo tiempo (el número de venta se calcula por dispositivo, así
+  /// que en ese caso raro dos ventas distintas podrían compartir
+  /// número).
+  final String? vendedorNombre;
   final List<DetalleVenta> detalle;
   final double total;
   final EstadoVenta estado;
@@ -48,6 +56,7 @@ class Venta {
     required this.numero,
     required this.fecha,
     required this.vendedorId,
+    this.vendedorNombre,
     required this.detalle,
     required this.total,
     this.estado = EstadoVenta.pendiente,
@@ -73,6 +82,7 @@ class Venta {
       numero: numero,
       fecha: fecha,
       vendedorId: vendedorId,
+      vendedorNombre: vendedorNombre,
       detalle: detalle,
       total: total,
       estado: estado ?? this.estado,

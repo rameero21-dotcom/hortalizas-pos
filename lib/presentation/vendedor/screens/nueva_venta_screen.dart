@@ -173,12 +173,14 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
     setState(() => _guardando = true);
     try {
       final vendedorId = ref.read(currentUserIdProvider);
+      final usuarioActual = await ref.read(usuarioRepositoryProvider).usuarioActual();
       final nombreCliente = _nombreClienteCtrl.text.trim();
       final venta = Venta(
         id: _uuid.v4(),
         numero: 0, // se reasigna en el datasource (correlativo real)
         fecha: DateTime.now(),
         vendedorId: vendedorId,
+        vendedorNombre: usuarioActual?.nombre,
         detalle: detalle,
         total: carritoNotifier.total,
         nombreCliente: nombreCliente.isEmpty ? null : nombreCliente,
