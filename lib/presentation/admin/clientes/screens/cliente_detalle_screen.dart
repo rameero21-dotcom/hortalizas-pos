@@ -4,6 +4,7 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/cliente.dart';
 import '../../../../domain/entities/venta.dart';
+import '../../../../domain/entities/caja.dart';
 
 final _movimientosClienteProvider =
     FutureProvider.autoDispose.family<List<MovimientoCuentaCorriente>, String>((ref, clienteId) {
