@@ -1,3 +1,9 @@
+/home/runner/.local/lib/python3.12/site-packages/google/cloud/firestore_v1/base_collection.py:317: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+  return query.where(field_path, op_string, value)
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:219: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+  .where("detalle", "<", PREFIJO + "\uf8ff").stream()))
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:258: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+  .where("detalle", "<", PREFIJO + "\uf8ff").stream()))
 ======================================================================
 PRUEBA DE INTEGRACION - HORTALIZAS POS
 ======================================================================
@@ -30,9 +36,16 @@ TSH esperado (1%): 940.00
 Utilidad esperada: 28270.00
 [OK] Formula de utilidad da un resultado positivo y coherente (utilidad 28270.00 de 94000 facturados)
 
+--- 7) Ciclo completo: generar deuda y cobrarla ---
+[OK] Saldo baja a -50000 tras generar la deuda (quedo en -50000)
+[OK] Saldo sube a -30000 tras pagar 20000 en efectivo (quedo en -30000)
+[OK] El pago en efectivo SI genero un movimiento de caja (para el arqueo) 
+[OK] Saldo queda en 0 tras pagar el resto por transferencia (quedo en 0)
+[OK] Solo se creo 1 movimiento de caja (el del pago en efectivo, no el de transferencia) (se crearon 1)
+
 ======================================================================
 RESUMEN
 ======================================================================
-9/9 verificaciones pasaron correctamente.
+14/14 verificaciones pasaron correctamente.
 
 IDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.
