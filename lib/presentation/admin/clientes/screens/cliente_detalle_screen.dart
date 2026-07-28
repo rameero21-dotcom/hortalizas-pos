@@ -46,46 +46,87 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
   Future<void> _registrarMovimiento(TipoMovimientoCuenta tipo) async {
     final montoCtrl = TextEditingController();
     final detalleCtrl = TextEditingController();
+    // El método de pago solo importa para un PAGO (el cliente saldando
+    // deuda): si paga en efectivo, esa plata entra de verdad a la caja
+    // y tiene que reflejarse ahí; un cargo (fiado) nunca mueve caja.
+    MetodoPago metodoPago = MetodoPago.efectivo;
+
     final confirmado = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(tipo == TipoMovimientoCuenta.cargo
-            ? 'Nuevo cargo (fiado)'
-            : 'Registrar pago/transferencia'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: montoCtrl,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(labelText: 'Monto', border: OutlineInputBorder()),
-              autofocus: true,
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: detalleCtrl,
-              decoration: const InputDecoration(labelText: 'Detalle', border: OutlineInputBorder()),
-            ),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text(tipo == TipoMovimientoCuenta.cargo
+              ? 'Nuevo cargo (fiado)'
+              : 'Registrar pago'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: montoCtrl,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(labelText: 'Monto', border: OutlineInputBorder()),
+                autofocus: true,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: detalleCtrl,
+                decoration: const InputDecoration(labelText: 'Detalle', border: OutlineInputBorder()),
+              ),
+              if (tipo == TipoMovimientoCuenta.pago) ...[
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('¿Cómo paga?', style: TextStyle(color: Colors.grey.shade700)),
+                ),
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 8,
+                  children: [MetodoPago.efectivo, MetodoPago.transferencia].map((m) {
+                    return ChoiceChip(
+                      label: Text(m == MetodoPago.efectivo ? 'Efectivo' : 'Transferencia'),
+                      selected: metodoPago == m,
+                      onSelected: (_) => setDialogState(() => metodoPago = m),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ],
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
+            ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Guardar')),
           ],
         ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
-          ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Guardar')),
-        ],
       ),
     );
     if (confirmado != true) return;
     final monto = double.tryParse(montoCtrl.text.replaceAll(',', '.'));
     if (monto == null || monto <= 0) return;
+    final detalle = detalleCtrl.text.trim().isEmpty ? '(sin detalle)' : detalleCtrl.text.trim();
 
     final usuarioId = ref.read(currentUserIdProvider);
     await ref.read(clienteRepositoryProvider).registrarMovimientoCuenta(
           clienteId: widget.cliente.id,
           tipo: tipo,
           monto: monto,
-          detalle: detalleCtrl.text.trim().isEmpty ? '(sin detalle)' : detalleCtrl.text.trim(),
+          detalle: detalle,
           usuarioId: usuarioId,
         );
+
+    // Si el cliente pagó en EFECTIVO, esa plata entró de verdad a la
+    // caja: se registra como ingreso manual para que el arqueo de caja
+    // lo tenga en cuenta al calcular el efectivo esperado. Si fue por
+    // transferencia, no toca la caja física (no hay billetes de por
+    // medio), pero el pago ya quedó reflejado en la cuenta corriente.
+    if (tipo == TipoMovimientoCuenta.pago && metodoPago == MetodoPago.efectivo) {
+      await ref.read(cajaRepositoryProvider).registrarMovimiento(
+            tipo: TipoMovimientoCaja.ingreso,
+            monto: monto,
+            detalle: 'Pago cuenta corriente - ${widget.cliente.nombre}: $detalle',
+            usuarioId: usuarioId,
+          );
+    }
+
     ref.invalidate(_movimientosClienteProvider(widget.cliente.id));
   }
 
