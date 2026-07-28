@@ -43,9 +43,17 @@ Utilidad esperada: 28270.00
 [OK] Saldo queda en 0 tras pagar el resto por transferencia (quedo en 0)
 [OK] Solo se creo 1 movimiento de caja (el del pago en efectivo, no el de transferencia) (se crearon 1)
 
-======================================================================
-RESUMEN
-======================================================================
-14/14 verificaciones pasaron correctamente.
+--- 8) Movimientos de stock: merma, ingreso, ajuste ---
+[OK] Ingreso de mercaderia: 50 + 30 = 80 (quedo en 80)
+[OK] Merma: 80 - 5 = 75 (quedo en 75)
+[OK] Ajuste manual: se fija directo en 60 (no suma/resta) (quedo en 60)
 
-IDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.
+--- 9) Race condition: dos dispositivos descontando stock del mismo producto ---
+[OK] Con incremento atomico, las DOS ventas se descuentan bien: 100-7-4=89 (antes del fix se hubiera perdido una) (quedo en 89)
+
+--- 10) Cierre de caja (arqueo con billetes) ---
+Traceback (most recent call last):
+  File "/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py", line 317, in <module>
+    "billetesJson": json.dumps(billetes_test), "usuarioId": "test-cajero",
+                    ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
