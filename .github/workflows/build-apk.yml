@@ -12,42 +12,25 @@ jobs:
   verificar-firebase-secret:
     runs-on: ubuntu-latest
     steps:
-      - name: Verificar que el secreto existe y es una clave valida
+      - uses: actions/checkout@v4
+
+      - name: Guardar el secreto en un archivo temporal
         run: |
           if [ -z "$FIREBASE_KEY" ]; then
             echo "FALTA el secreto FIREBASE_SERVICE_ACCOUNT_JSON (esta vacio o no existe)."
             exit 1
           fi
           echo "$FIREBASE_KEY" > /tmp/sa.json
-          python3 -c "
-import json
-with open('/tmp/sa.json') as f:
-    data = json.load(f)
-campos_esperados = ['type', 'project_id', 'private_key', 'client_email']
-faltantes = [c for c in campos_esperados if c not in data]
-if faltantes:
-    print('El JSON no tiene los campos esperados:', faltantes)
-    exit(1)
-print('JSON con formato correcto.')
-print('project_id:', data['project_id'])
-print('client_email:', data['client_email'])
-"
         env:
           FIREBASE_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+
+      - name: Verificar formato de la clave
+        run: python3 .github/scripts/verificar_firebase_secret.py
 
       - name: Probar conexion real contra Firestore
         run: |
           pip install --quiet google-auth google-cloud-firestore --break-system-packages
-          python3 -c "
-from google.cloud import firestore
-db = firestore.Client.from_service_account_json('/tmp/sa.json')
-# Una lectura minima y segura: solo lista los NOMBRES de las colecciones
-# que ya existen, no lee ningun documento ni dato real.
-colecciones = [c.id for c in db.collections()]
-print('Conexion exitosa. Colecciones encontradas:', colecciones)
-"
-        env:
-          FIREBASE_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          python3 .github/scripts/probar_conexion_firestore.py
 
   build-android:
     runs-on: ubuntu-latest
