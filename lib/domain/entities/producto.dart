@@ -1,8 +1,10 @@
 /// Entidad de dominio: Producto del catálogo (papa, cebolla, etc.).
 ///
-/// [costoUnitario], [tasaIIBB] y [tasaTSH] permiten calcular márgen y
-/// utilidad reales por venta (igual que en la planilla de control diario):
-/// UTILIDAD = VENTA - (COSTO * cantidad) - IIBB - TSH.
+/// [costoUnitario] se usa para calcular margen y utilidad real por venta.
+/// [tasaIIBB]/[tasaTSH] quedan en el modelo por compatibilidad con datos
+/// viejos, pero YA NO se usan: esos impuestos se calculan automáticamente
+/// como porcentaje de la venta (ver ConfiguracionImpuestos), igual que en
+/// la planilla de control diario, en vez de cargarse por producto.
 class Producto {
   final String id;
   final String nombre;

@@ -1,14 +1,20 @@
 import '../../entities/venta.dart';
 import '../../repositories/venta_repository.dart';
 import '../../repositories/producto_repository.dart';
+import '../../../core/services/configuracion_impuestos.dart';
 
-/// Resumen de costo/impuestos/utilidad de un producto en el período,
-/// igual a como se calcula en la planilla de control diario:
-/// UTILIDAD = VENTA - (COSTO * cantidad) - IIBB - TSH.
+/// Resumen de costo/impuestos/utilidad de un producto en el período.
+/// Fórmula tomada de la planilla de control diario:
+///   promedioVenta = facturacion / cantidadVendida
+///   IIBB = facturacion * tasaIIBB   (equivale a promedioVenta*tasaIIBB*cantidad)
+///   TSH  = facturacion * tasaTSH
+///   contribucionMarginal (por unidad) = promedioVenta - costoUnitario - iibbPorUnidad - tshPorUnidad
+///   UTILIDAD = facturacion - costoTotal - IIBB - TSH
 class ResumenProducto {
   final String nombreProducto;
   final double cantidadVendida;
   final double facturacion;
+  final double costoUnitario;
   final double costoTotal;
   final double iibbTotal;
   final double tshTotal;
@@ -17,10 +23,23 @@ class ResumenProducto {
     required this.nombreProducto,
     required this.cantidadVendida,
     required this.facturacion,
+    required this.costoUnitario,
     required this.costoTotal,
     required this.iibbTotal,
     required this.tshTotal,
   });
+
+  double get promedioVenta => cantidadVendida > 0 ? facturacion / cantidadVendida : 0;
+
+  /// Contribución marginal POR UNIDAD (precio promedio menos costo e
+  /// impuestos, todo por unidad), igual que la fila "CONT MARG" de la
+  /// planilla.
+  double get contribucionMarginalUnitaria {
+    if (cantidadVendida <= 0) return 0;
+    final iibbPorUnidad = iibbTotal / cantidadVendida;
+    final tshPorUnidad = tshTotal / cantidadVendida;
+    return promedioVenta - costoUnitario - iibbPorUnidad - tshPorUnidad;
+  }
 
   double get utilidad => facturacion - costoTotal - iibbTotal - tshTotal;
 }
@@ -70,7 +89,8 @@ class EstadisticasResumen {
 
 /// Caso de uso: calcula estadísticas (día/semana/mes) a partir de las
 /// ventas cobradas en el rango de fechas solicitado, incluyendo costo,
-/// impuestos (IIBB/TSH) y utilidad real por producto.
+/// impuestos (IIBB/TSH, calculados automáticamente como % de la venta,
+/// igual que en la planilla) y utilidad real por producto.
 class ObtenerEstadisticasUseCase {
   final VentaRepository _ventaRepository;
   final ProductoRepository _productoRepository;
@@ -82,11 +102,19 @@ class ObtenerEstadisticasUseCase {
     final productos = await _productoRepository.obtenerTodos();
     final productoPorId = {for (final p in productos) p.id: p};
 
+    final tasaIIBB = await ConfiguracionImpuestos.obtenerTasaIIBB();
+    final tasaTSH = await ConfiguracionImpuestos.obtenerTasaTSH();
+
     double facturacionTotal = 0;
     final cantidadPorProducto = <String, double>{};
     final facturacionPorVendedor = <String, double>{};
-    final resumenPorProducto = <String, ResumenProducto>{};
     final facturacionPorMetodoPago = <MetodoPago, double>{};
+
+    // Primero se acumula cantidad y facturación por producto (necesario
+    // para poder calcular costo/IIBB/TSH una sola vez al final).
+    final cantidadPorProductoId = <String, double>{};
+    final facturacionPorProductoId = <String, double>{};
+    final nombrePorProductoId = <String, String>{};
 
     for (final venta in cobradas) {
       facturacionTotal += venta.total;
@@ -108,22 +136,35 @@ class ObtenerEstadisticasUseCase {
           (actual) => actual + item.cantidad,
           ifAbsent: () => item.cantidad,
         );
-
-        final producto = productoPorId[item.productoId];
-        final costoUnit = producto?.costoUnitario ?? 0;
-        final iibbUnit = producto?.tasaIIBB ?? 0;
-        final tshUnit = producto?.tasaTSH ?? 0;
-
-        final existente = resumenPorProducto[item.productoId];
-        resumenPorProducto[item.productoId] = ResumenProducto(
-          nombreProducto: item.nombreProducto,
-          cantidadVendida: (existente?.cantidadVendida ?? 0) + item.cantidad,
-          facturacion: (existente?.facturacion ?? 0) + item.precioTotal,
-          costoTotal: (existente?.costoTotal ?? 0) + (costoUnit * item.cantidad),
-          iibbTotal: (existente?.iibbTotal ?? 0) + (iibbUnit * item.cantidad),
-          tshTotal: (existente?.tshTotal ?? 0) + (tshUnit * item.cantidad),
+        cantidadPorProductoId.update(
+          item.productoId,
+          (actual) => actual + item.cantidad,
+          ifAbsent: () => item.cantidad,
         );
+        facturacionPorProductoId.update(
+          item.productoId,
+          (actual) => actual + item.precioTotal,
+          ifAbsent: () => item.precioTotal,
+        );
+        nombrePorProductoId[item.productoId] = item.nombreProducto;
       }
+    }
+
+    final resumenPorProducto = <String, ResumenProducto>{};
+    for (final productoId in cantidadPorProductoId.keys) {
+      final facturacionProducto = facturacionPorProductoId[productoId] ?? 0;
+      final costoUnit = productoPorId[productoId]?.costoUnitario ?? 0;
+      final cantidad = cantidadPorProductoId[productoId] ?? 0;
+
+      resumenPorProducto[productoId] = ResumenProducto(
+        nombreProducto: nombrePorProductoId[productoId] ?? '(producto eliminado)',
+        cantidadVendida: cantidad,
+        facturacion: facturacionProducto,
+        costoUnitario: costoUnit,
+        costoTotal: costoUnit * cantidad,
+        iibbTotal: facturacionProducto * tasaIIBB,
+        tshTotal: facturacionProducto * tasaTSH,
+      );
     }
 
     return EstadisticasResumen(

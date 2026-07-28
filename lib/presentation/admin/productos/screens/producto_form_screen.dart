@@ -6,8 +6,10 @@ import '../../../../core/utils/validators.dart';
 import '../../../../domain/entities/producto.dart';
 
 /// Formulario para crear/editar un producto: nombre, precio sugerido,
-/// categoría, activo/inactivo, y los datos que alimentan el reporte de
-/// utilidad (costo por unidad, IIBB y TSH por unidad vendida).
+/// categoría, activo/inactivo, y el costo por unidad (para el reporte
+/// de utilidad). IIBB y TSH ya NO se cargan acá: se calculan solos como
+/// porcentaje de la venta (configurable desde Estadísticas), igual que
+/// en la planilla de control diario.
 class ProductoFormScreen extends ConsumerStatefulWidget {
   final Producto? producto; // null = creación
 
@@ -23,8 +25,6 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
   late final TextEditingController _precioCtrl;
   late final TextEditingController _categoriaCtrl;
   late final TextEditingController _costoCtrl;
-  late final TextEditingController _iibbCtrl;
-  late final TextEditingController _tshCtrl;
   bool _activo = true;
   bool _guardando = false;
 
@@ -40,8 +40,6 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
     _precioCtrl = TextEditingController(text: p != null ? _num(p.precioSugerido) : '');
     _categoriaCtrl = TextEditingController(text: p?.categoria ?? 'Verduras');
     _costoCtrl = TextEditingController(text: p != null ? _num(p.costoUnitario) : '');
-    _iibbCtrl = TextEditingController(text: p != null ? _num(p.tasaIIBB) : '');
-    _tshCtrl = TextEditingController(text: p != null ? _num(p.tasaTSH) : '');
     _activo = p?.activo ?? true;
   }
 
@@ -51,8 +49,6 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
     _precioCtrl.dispose();
     _categoriaCtrl.dispose();
     _costoCtrl.dispose();
-    _iibbCtrl.dispose();
-    _tshCtrl.dispose();
     super.dispose();
   }
 
@@ -69,8 +65,6 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
         categoria: _categoriaCtrl.text.trim().isEmpty ? 'General' : _categoriaCtrl.text.trim(),
         activo: _activo,
         costoUnitario: _leer(_costoCtrl),
-        tasaIIBB: _leer(_iibbCtrl),
-        tasaTSH: _leer(_tshCtrl),
       );
 
       final usecase = ref.read(gestionarProductosUseCaseProvider);
@@ -123,8 +117,14 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
                 decoration: const InputDecoration(labelText: 'Categoría', border: OutlineInputBorder()),
               ),
               const SizedBox(height: 20),
-              const Text('Costos e impuestos (para el reporte de utilidad)',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text('Costo (para el reporte de utilidad)', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 4),
+              const Text(
+                'IIBB y TSH ya no se cargan por producto: se calculan solos como '
+                'porcentaje de la venta. Podés ajustar esos porcentajes desde '
+                'Estadísticas si hace falta.',
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _costoCtrl,
@@ -134,32 +134,6 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
                   border: OutlineInputBorder(),
                   helperText: 'Lo que pagás vos por cada bulto/unidad',
                 ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _iibbCtrl,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(
-                        labelText: 'IIBB por unidad',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _tshCtrl,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(
-                        labelText: 'TSH por unidad',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
               ),
               const SizedBox(height: 12),
               SwitchListTile(

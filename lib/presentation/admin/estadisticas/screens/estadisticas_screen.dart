@@ -5,6 +5,7 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/venta.dart';
 import '../../../../domain/usecases/estadisticas/obtener_estadisticas_usecase.dart';
+import 'configuracion_impuestos_screen.dart';
 
 enum _Periodo { dia, semana, mes }
 
@@ -50,7 +51,21 @@ class EstadisticasScreen extends ConsumerWidget {
     final estadisticasAsync = ref.watch(_estadisticasProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Estadísticas')),
+      appBar: AppBar(
+        title: const Text('Estadísticas'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Porcentajes de IIBB y TSH',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ConfiguracionImpuestosScreen()),
+              ).then((_) => ref.invalidate(_estadisticasProvider));
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(
@@ -155,19 +170,23 @@ class _ContenidoEstadisticas extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 24),
-        const Text('Detalle por producto', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const Text('Productos', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 4),
+        const Text(
+          'Costo, IIBB y TSH calculados automáticamente sobre cada venta.',
+          style: TextStyle(fontSize: 12, color: Colors.grey),
+        ),
         const SizedBox(height: 8),
         if (stats.resumenPorProducto.isEmpty)
           const Text('Sin datos en este período.')
         else
           ...stats.resumenPorProducto.values.map(
             (r) => Card(
-              child: ListTile(
+              child: ExpansionTile(
                 title: Text(r.nombreProducto),
                 subtitle: Text(
                   'Cant: ${r.cantidadVendida.toStringAsFixed(0)} · '
-                  'Costo: ${Formatters.formatearMoneda(r.costoTotal)} · '
-                  'Imp: ${Formatters.formatearMoneda(r.iibbTotal + r.tshTotal)}',
+                  'Venta: ${Formatters.formatearMoneda(r.facturacion)}',
                 ),
                 trailing: Text(
                   Formatters.formatearMoneda(r.utilidad),
@@ -176,6 +195,15 @@ class _ContenidoEstadisticas extends StatelessWidget {
                     color: r.utilidad >= 0 ? Colors.green.shade700 : Colors.red.shade700,
                   ),
                 ),
+                children: [
+                  _FilaDetalleProducto('Precio promedio de venta', r.promedioVenta),
+                  _FilaDetalleProducto('Costo (unitario)', r.costoUnitario),
+                  _FilaDetalleProducto('Costo total', r.costoTotal),
+                  _FilaDetalleProducto('IIBB', r.iibbTotal),
+                  _FilaDetalleProducto('TSH', r.tshTotal),
+                  _FilaDetalleProducto('Contribución marginal (por unidad)', r.contribucionMarginalUnitaria),
+                  _FilaDetalleProducto('Utilidad', r.utilidad, destacado: true),
+                ],
               ),
             ),
           ),
@@ -244,6 +272,33 @@ String _labelMetodoPago(MetodoPago m) => switch (m) {
       MetodoPago.credito => 'Crédito',
       MetodoPago.cuentaCorriente => 'Cuenta corriente (fiado)',
     };
+
+class _FilaDetalleProducto extends StatelessWidget {
+  final String label;
+  final double valor;
+  final bool destacado;
+  const _FilaDetalleProducto(this.label, this.valor, {this.destacado = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: TextStyle(fontWeight: destacado ? FontWeight.bold : FontWeight.normal)),
+          Text(
+            Formatters.formatearMoneda(valor),
+            style: TextStyle(
+              fontWeight: destacado ? FontWeight.bold : FontWeight.normal,
+              color: destacado ? (valor >= 0 ? Colors.green.shade700 : Colors.red.shade700) : null,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _TarjetaMetrica extends StatelessWidget {
   final String titulo;
