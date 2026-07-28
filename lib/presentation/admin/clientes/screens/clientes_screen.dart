@@ -5,8 +5,16 @@ import '../../../../core/utils/formatters.dart';
 import 'cliente_form_screen.dart';
 import 'cliente_detalle_screen.dart';
 
-final clientesListProvider = FutureProvider.autoDispose((ref) {
-  return ref.watch(clienteRepositoryProvider).obtenerTodos();
+final clientesListProvider = FutureProvider.autoDispose((ref) async {
+  final repo = ref.watch(clienteRepositoryProvider);
+  try {
+    await repo.refrescarDesdeRemoto();
+  } catch (_) {
+    // Sin conexión: seguimos con la caché local.
+  }
+  final clientes = await repo.obtenerTodos();
+  clientes.sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
+  return clientes;
 });
 
 /// Listado de clientes (preparado para el futuro): nombre, teléfono,

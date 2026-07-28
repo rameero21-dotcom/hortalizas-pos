@@ -88,6 +88,18 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
   }
 
   Future<void> _elegirCliente() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+    try {
+      await ref.read(clienteRepositoryProvider).refrescarDesdeRemoto();
+    } catch (_) {
+      // Sin conexión: seguimos con la caché local que haya.
+    }
+    if (mounted) Navigator.pop(context); // cierra el indicador de carga
+
     final clientes = await ref.read(clienteRepositoryProvider).obtenerTodos();
     if (!mounted) return;
     if (clientes.isEmpty) {

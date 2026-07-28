@@ -11,9 +11,9 @@ class ClienteModel extends Cliente {
 
   factory ClienteModel.fromMap(Map<String, dynamic> map) => ClienteModel(
         id: map['id'] as String,
-        nombre: map['nombre'] as String,
-        telefono: map['telefono'] as String,
-        direccion: map['direccion'] as String,
+        nombre: map['nombre'] as String? ?? '(sin nombre)',
+        telefono: map['telefono'] as String? ?? '',
+        direccion: map['direccion'] as String? ?? '',
         saldoCuentaCorriente: (map['saldoCuentaCorriente'] as num?)?.toDouble() ?? 0,
       );
 

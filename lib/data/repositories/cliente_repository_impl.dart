@@ -1,17 +1,21 @@
 import 'package:uuid/uuid.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/services/sync_service.dart';
 import '../../domain/entities/cliente.dart';
 import '../../domain/repositories/cliente_repository.dart';
 import '../datasources/local/cliente_local_datasource.dart';
 import '../datasources/local/sync_queue_local_datasource.dart';
+import '../datasources/remote/cliente_remote_datasource.dart';
 import '../models/cliente_model.dart';
 
 class ClienteRepositoryImpl implements ClienteRepository {
   final ClienteLocalDatasource _local;
   final SyncQueueLocalDatasource _syncQueue;
+  final ClienteRemoteDatasource _remote;
+  final SyncService _syncService;
   final _uuid = Uuid();
 
-  ClienteRepositoryImpl(this._local, this._syncQueue);
+  ClienteRepositoryImpl(this._local, this._syncQueue, this._remote, this._syncService);
 
   ClienteModel _toModel(Cliente c) => ClienteModel(
         id: c.id,
@@ -44,6 +48,7 @@ class ClienteRepositoryImpl implements ClienteRepository {
       operacion: 'set',
       payload: model.toMap(),
     );
+    await _syncService.sincronizarAhora();
   }
 
   @override
@@ -58,6 +63,7 @@ class ClienteRepositoryImpl implements ClienteRepository {
       operacion: 'delete',
       payload: const {},
     );
+    await _syncService.sincronizarAhora();
   }
 
   @override
@@ -99,9 +105,33 @@ class ClienteRepositoryImpl implements ClienteRepository {
       operacion: 'set',
       payload: movimiento.toMap(),
     );
+    await _syncService.sincronizarAhora();
   }
 
   @override
   Future<List<MovimientoCuentaCorriente>> obtenerMovimientosCuenta(String clienteId) =>
       _local.obtenerMovimientosCuenta(clienteId);
+
+  @override
+  Future<void> refrescarDesdeRemoto() async {
+    try {
+      await _syncService.sincronizarAhora();
+      final remotos = await _remote.obtenerTodos();
+      for (final cliente in remotos) {
+        await _local.upsert(cliente);
+      }
+
+      // Borra localmente cualquier cliente que ya no exista en Firestore
+      // (eliminado desde otro dispositivo).
+      final idsRemotos = remotos.map((c) => c.id).toSet();
+      final locales = await _local.obtenerTodos();
+      for (final local in locales) {
+        if (!idsRemotos.contains(local.id)) {
+          await _local.eliminar(local.id);
+        }
+      }
+    } catch (_) {
+      // Sin conexión: la app sigue con la última caché local conocida.
+    }
+  }
 }

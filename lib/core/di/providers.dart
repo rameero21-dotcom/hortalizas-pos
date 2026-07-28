@@ -6,6 +6,7 @@ import '../../data/datasources/local/venta_local_datasource.dart';
 import '../../data/datasources/local/stock_local_datasource.dart';
 import '../../data/datasources/local/usuario_local_datasource.dart';
 import '../../data/datasources/local/cliente_local_datasource.dart';
+import '../../data/datasources/remote/cliente_remote_datasource.dart';
 import '../../data/datasources/local/caja_local_datasource.dart';
 import '../../data/datasources/remote/caja_remote_datasource.dart';
 import '../../data/datasources/local/sync_queue_local_datasource.dart';
@@ -97,6 +98,8 @@ final usuarioLocalDsProvider =
     Provider((ref) => UsuarioLocalDatasource(ref.watch(databaseHelperProvider)));
 final clienteLocalDsProvider =
     Provider((ref) => ClienteLocalDatasource(ref.watch(databaseHelperProvider)));
+final clienteRemoteDsProvider =
+    Provider((ref) => ClienteRemoteDatasource(ref.watch(firestoreServiceProvider)));
 final cajaLocalDsProvider =
     Provider((ref) => CajaLocalDatasource(ref.watch(databaseHelperProvider)));
 final cajaRemoteDsProvider =
@@ -139,6 +142,8 @@ final usuarioRepositoryProvider = Provider<UsuarioRepository>((ref) => UsuarioRe
 final clienteRepositoryProvider = Provider<ClienteRepository>((ref) => ClienteRepositoryImpl(
       ref.watch(clienteLocalDsProvider),
       ref.watch(syncQueueLocalDsProvider),
+      ref.watch(clienteRemoteDsProvider),
+      ref.watch(syncServiceProvider),
     ));
 final cajaRepositoryProvider = Provider<CajaRepository>((ref) => CajaRepositoryImpl(
       ref.watch(cajaLocalDsProvider),

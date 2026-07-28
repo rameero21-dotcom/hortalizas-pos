@@ -20,4 +20,11 @@ abstract class ClienteRepository {
   });
 
   Future<List<MovimientoCuentaCorriente>> obtenerMovimientosCuenta(String clienteId);
+
+  /// Trae todos los clientes desde Firestore y actualiza la caché local
+  /// (agrega nuevos, actualiza cambiados, borra los que ya no existen).
+  /// Se usa antes de mostrar el selector de cliente en caja, para que un
+  /// cliente cargado desde otro dispositivo (Admin) aparezca sin
+  /// esperar. Si no hay conexión, no hace nada.
+  Future<void> refrescarDesdeRemoto();
 }
