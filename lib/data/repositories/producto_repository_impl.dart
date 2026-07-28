@@ -58,6 +58,10 @@ class ProductoRepositoryImpl implements ProductoRepository {
       operacion: 'delete',
       payload: const {},
     );
+    // Se sube el borrado a Firestore YA, para que otros dispositivos
+    // (ej. el vendedor) dejen de verlo apenas actualicen, en vez de
+    // esperar al próximo ciclo automático de sincronización.
+    await _syncService.sincronizarAhora();
   }
 
   @override
@@ -79,6 +83,18 @@ class ProductoRepositoryImpl implements ProductoRepository {
       final remotos = await _remote.obtenerTodos();
       for (final producto in remotos) {
         await _local.upsert(producto);
+      }
+
+      // Sincronización de borrados: si un producto se eliminó desde OTRO
+      // dispositivo, acá nunca llega un "delete" explícito (solo vemos
+      // la lista completa actual de Firestore) — hay que borrar
+      // localmente cualquier producto que ya no esté en esa lista.
+      final idsRemotos = remotos.map((p) => p.id).toSet();
+      final locales = await _local.obtenerTodos();
+      for (final local in locales) {
+        if (!idsRemotos.contains(local.id)) {
+          await _local.eliminar(local.id);
+        }
       }
     } catch (_) {
       // Sin conexión o error de red: la app sigue con lo que ya tenía

@@ -7,8 +7,10 @@ import 'producto_form_screen.dart';
 
 /// Recarga la lista de productos. Se invalida manualmente después de
 /// crear/editar/eliminar (no hay stream local de productos todavía).
-final productosListProvider = FutureProvider.autoDispose((ref) {
-  return ref.watch(productoRepositoryProvider).obtenerTodos();
+final productosListProvider = FutureProvider.autoDispose((ref) async {
+  final productos = await ref.watch(productoRepositoryProvider).obtenerTodos();
+  productos.sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
+  return productos;
 });
 
 /// Administración de productos: listar, buscar, activar/desactivar,

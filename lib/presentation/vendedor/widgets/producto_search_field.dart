@@ -41,16 +41,31 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
   @override
   void initState() {
     super.initState();
-    _cargarProductos();
+    _cargarInicial();
     _busquedaFocus.addListener(() => setState(() {}));
+  }
+
+  /// Al abrir la pantalla, primero intenta traer los cambios desde
+  /// Firestore (productos nuevos, eliminados o editados desde Admin) y
+  /// recién después muestra la lista — así el vendedor ve el catálogo
+  /// al día sin tener que acordarse de tocar "actualizar" a mano.
+  Future<void> _cargarInicial() async {
+    try {
+      await ref.read(productoRepositoryProvider).refrescarDesdeRemoto();
+    } catch (_) {
+      // Sin conexión: seguimos con lo que haya en la caché local.
+    }
+    await _cargarProductos();
   }
 
   Future<void> _cargarProductos() async {
     try {
       final productos = await ref.read(productoRepositoryProvider).obtenerTodos();
       if (!mounted) return;
+      final activos = productos.where((p) => p.activo).toList()
+        ..sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
       setState(() {
-        _productos = productos.where((p) => p.activo).toList();
+        _productos = activos;
         _filtrados = _productos;
         _cargando = false;
       });

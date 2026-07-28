@@ -19,7 +19,9 @@ final stockConProductosProvider = FutureProvider.autoDispose<List<_ProductoConSt
   final productos = await ref.watch(productoRepositoryProvider).obtenerTodos();
   final stocks = await ref.watch(stockRepositoryProvider).obtenerTodos();
   final stockPorProducto = {for (final s in stocks) s.productoId: s};
-  return productos.map((p) => _ProductoConStock(p, stockPorProducto[p.id])).toList();
+  final ordenados = List.of(productos)
+    ..sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
+  return ordenados.map((p) => _ProductoConStock(p, stockPorProducto[p.id])).toList();
 });
 
 /// Listado de stock por producto con indicador de stock bajo,
