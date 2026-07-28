@@ -69,16 +69,30 @@ class StockScreen extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final item = items[index];
                 final stock = item.stock;
+                final cantidad = stock?.cantidadDisponible ?? 0;
+                final stockNegativo = cantidad < 0;
                 final stockBajo = stock?.stockBajo ?? true;
                 return ListTile(
-                  leading: stockBajo
-                      ? const Icon(Icons.warning_amber_rounded, color: Colors.orange)
-                      : const Icon(Icons.check_circle_outline, color: Colors.green),
+                  leading: stockNegativo
+                      ? const Icon(Icons.error, color: Colors.red)
+                      : stockBajo
+                          ? const Icon(Icons.warning_amber_rounded, color: Colors.orange)
+                          : const Icon(Icons.check_circle_outline, color: Colors.green),
                   title: Text(item.producto.nombre),
-                  subtitle: Text(stockBajo ? 'Stock bajo' : 'Stock OK'),
+                  subtitle: Text(
+                    stockNegativo
+                        ? 'Stock negativo — revisar (¿venta sin stock cargado?)'
+                        : stockBajo
+                            ? 'Stock bajo'
+                            : 'Stock OK',
+                  ),
                   trailing: Text(
-                    Formatters.formatearCantidad(stock?.cantidadDisponible ?? 0),
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    Formatters.formatearCantidad(cantidad),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: stockNegativo ? Colors.red : null,
+                    ),
                   ),
                   onTap: () => _mostrarAcciones(context, ref, item),
                 );

@@ -89,16 +89,16 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
 
   void _agregar() {
     final cantidad = double.tryParse(_cantidadCtrl.text.replaceAll(',', '.'));
-    if (_productoSeleccionado == null || cantidad == null) {
+    if (_productoSeleccionado == null || cantidad == null || cantidad <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Elegí un producto y una cantidad válida')),
+        const SnackBar(content: Text('Elegí un producto y una cantidad mayor a cero')),
       );
       return;
     }
     final precioTotal = _calcularPrecioTotal(cantidad);
-    if (precioTotal == null) {
+    if (precioTotal == null || precioTotal <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Ingresá un precio válido')),
+        const SnackBar(content: Text('Ingresá un precio mayor a cero')),
       );
       return;
     }
