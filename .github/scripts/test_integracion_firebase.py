@@ -357,15 +357,9 @@ for i in range(15):
     facturacion_total_stats += precio_total
     costo_total_stats += costo_unit * cantidad
 
-# Leo todas las ventas de los ultimos 5 dias y agrupo como lo hace
-# ObtenerEstadisticasUseCase (facturacion por vendedor, total general).
-desde_stats = datetime.datetime.now() - datetime.timedelta(days=5)
-ventas_leidas = list(db.collection("ventas")
-                      .where("fecha", ">=", desde_stats.isoformat())
-                      .where("vendedorNombre", "in", vendedores_test).stream())
-# Nota: Firestore no permite mezclar bien "in" con rango de fecha en un
-# where compuesto simple sin indice; para la verificacion, mejor filtro
-# en Python sobre lo que ya se exactamente que cargue.
+# Agrupo facturacion por vendedor leyendo directo los documentos que
+# yo mismo cree (mas simple y confiable que una consulta compuesta que
+# necesitaria un indice nuevo en Firestore).
 facturacion_calculada_por_vendedor = {v: 0 for v in vendedores_test}
 for vid in ventas_stats_ids:
     v = db.collection("ventas").document(vid).get().to_dict()
