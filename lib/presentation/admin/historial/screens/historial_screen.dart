@@ -50,6 +50,8 @@ final _ventasHistorialProvider = FutureProvider.autoDispose<List<Venta>>((ref) a
 /// cobrada o un movimiento manual (ingreso/egreso), todo junto y
 /// ordenado por fecha.
 class _MovimientoUnificado {
+  final String id;
+  final bool esVenta;
   final DateTime fecha;
   final String titulo;
   final String subtitulo;
@@ -57,6 +59,8 @@ class _MovimientoUnificado {
   final Color color;
 
   _MovimientoUnificado({
+    required this.id,
+    required this.esVenta,
     required this.fecha,
     required this.titulo,
     required this.subtitulo,
@@ -74,6 +78,8 @@ final _movimientosCajaHistorialProvider = FutureProvider.autoDispose<List<_Movim
 
   for (final v in ventas.where((v) => v.estado == EstadoVenta.cobrada)) {
     unificados.add(_MovimientoUnificado(
+      id: v.id,
+      esVenta: true,
       fecha: v.fechaCobro ?? v.fecha,
       titulo: v.nombreCliente != null && v.nombreCliente!.isNotEmpty
           ? 'Venta #${v.numero} · ${v.nombreCliente}'
@@ -87,6 +93,8 @@ final _movimientosCajaHistorialProvider = FutureProvider.autoDispose<List<_Movim
   for (final m in movimientos) {
     final esIngreso = m.tipo == TipoMovimientoCaja.ingreso;
     unificados.add(_MovimientoUnificado(
+      id: m.id,
+      esVenta: false,
       fecha: m.fecha,
       titulo: esIngreso ? 'Ingreso manual' : 'Egreso manual',
       subtitulo: m.detalle,
@@ -177,7 +185,7 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                 if (_tabController.index == 0)
                   TextField(
                     decoration: const InputDecoration(
-                      labelText: 'Buscar por número, producto, vendedor o nombre de referencia',
+                      labelText: 'Buscar por nombre',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.search),
                     ),
@@ -286,12 +294,53 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                       itemCount: movimientos.length,
                       itemBuilder: (context, index) {
                         final m = movimientos[index];
-                        return ListTile(
-                          title: Text(m.titulo),
-                          subtitle: Text('${m.subtitulo} · ${Formatters.formatearFechaHora(m.fecha)}'),
-                          trailing: Text(
-                            Formatters.formatearMoneda(m.monto),
-                            style: TextStyle(fontWeight: FontWeight.bold, color: m.color),
+                        return Dismissible(
+                          key: ValueKey('${m.esVenta}_${m.id}'),
+                          direction: DismissDirection.endToStart,
+                          background: Container(
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: 20),
+                            child: const Icon(Icons.delete, color: Colors.white),
+                          ),
+                          confirmDismiss: (_) async {
+                            return await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text('Eliminar ${m.esVenta ? 'venta' : 'movimiento'}'),
+                                    content: Text(
+                                        '¿Eliminar "${m.titulo}"? Esta acción no se puede deshacer.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context, false),
+                                        child: const Text('Cancelar'),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () => Navigator.pop(context, true),
+                                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                        child: const Text('Eliminar'),
+                                      ),
+                                    ],
+                                  ),
+                                ) ??
+                                false;
+                          },
+                          onDismissed: (_) async {
+                            if (m.esVenta) {
+                              await ref.read(ventaRepositoryProvider).eliminarVenta(m.id);
+                              ref.invalidate(_ventasHistorialProvider);
+                            } else {
+                              await ref.read(cajaRepositoryProvider).eliminarMovimiento(m.id);
+                            }
+                            ref.invalidate(_movimientosCajaHistorialProvider);
+                          },
+                          child: ListTile(
+                            title: Text(m.titulo),
+                            subtitle: Text('${m.subtitulo} · ${Formatters.formatearFechaHora(m.fecha)}'),
+                            trailing: Text(
+                              Formatters.formatearMoneda(m.monto),
+                              style: TextStyle(fontWeight: FontWeight.bold, color: m.color),
+                            ),
                           ),
                         );
                       },

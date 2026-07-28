@@ -51,6 +51,18 @@ class CajaRepositoryImpl implements CajaRepository {
       _remote.obtenerMovimientosPorRango(desde, hasta);
 
   @override
+  Future<void> eliminarMovimiento(String id) async {
+    await _local.eliminarMovimiento(id);
+    await _syncQueue.encolar(
+      entidad: AppConstants.colMovimientosCaja,
+      entidadId: id,
+      operacion: 'delete',
+      payload: const {},
+    );
+    await _syncService.sincronizarAhora();
+  }
+
+  @override
   Future<void> guardarCierre({
     required double cajaInicio,
     required List<ConteoBillete> billetes,

@@ -26,6 +26,11 @@ class CajaLocalDatasource {
     return rows.map(MovimientoCajaModel.fromMap).toList();
   }
 
+  Future<void> eliminarMovimiento(String id) async {
+    final db = await _dbHelper.database;
+    await db.delete('movimientos_caja', where: 'id = ?', whereArgs: [id]);
+  }
+
   Future<void> guardarCierre(CierreCajaModel cierre) async {
     final db = await _dbHelper.database;
     await db.insert(

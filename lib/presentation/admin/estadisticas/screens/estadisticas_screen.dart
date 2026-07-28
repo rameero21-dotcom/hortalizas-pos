@@ -232,18 +232,6 @@ class _ContenidoEstadisticas extends StatelessWidget {
               trailing: Text(Formatters.formatearMoneda(e.value)),
             ),
           ),
-        const SizedBox(height: 24),
-        const Text('Ventas por vendedor', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        const SizedBox(height: 8),
-        if (stats.facturacionPorVendedor.isEmpty)
-          const Text('Sin datos en este período.')
-        else
-          ...stats.facturacionPorVendedor.entries.map(
-            (e) => ListTile(
-              title: Text(e.key),
-              trailing: Text(Formatters.formatearMoneda(e.value)),
-            ),
-          ),
       ],
     );
   }

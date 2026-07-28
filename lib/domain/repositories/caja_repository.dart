@@ -18,6 +18,10 @@ abstract class CajaRepository {
   /// conexión.
   Future<List<MovimientoCaja>> obtenerMovimientosGlobal(DateTime desde, DateTime hasta);
 
+  /// Elimina un movimiento manual de caja (ingreso/egreso). No aplica a
+  /// ventas, que se eliminan con VentaRepository.eliminarVenta.
+  Future<void> eliminarMovimiento(String id);
+
   Future<void> guardarCierre({
     required double cajaInicio,
     required List<ConteoBillete> billetes,
