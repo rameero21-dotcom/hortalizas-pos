@@ -1,0 +1,28 @@
+name: Limpiar datos de prueba de Firebase (manual)
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  limpiar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guardar el secreto en un archivo temporal
+        run: |
+          if [ -z "$FIREBASE_KEY" ]; then
+            echo "FALTA el secreto FIREBASE_SERVICE_ACCOUNT_JSON."
+            exit 1
+          fi
+          echo "$FIREBASE_KEY" > /tmp/sa.json
+        env:
+          FIREBASE_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+
+      - name: Instalar dependencias de Python
+        run: pip install --quiet google-auth google-cloud-firestore --break-system-packages
+
+      - name: Borrar datos de prueba (creados en la ultima corrida de test)
+        run: python3 .github/scripts/limpiar_datos_test.py
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

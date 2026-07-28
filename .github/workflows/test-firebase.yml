@@ -1,0 +1,42 @@
+name: Prueba de integracion contra Firebase (manual)
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  probar-firebase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guardar el secreto en un archivo temporal
+        run: |
+          if [ -z "$FIREBASE_KEY" ]; then
+            echo "FALTA el secreto FIREBASE_SERVICE_ACCOUNT_JSON (esta vacio o no existe)."
+            exit 1
+          fi
+          echo "$FIREBASE_KEY" > /tmp/sa.json
+        env:
+          FIREBASE_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+
+      - name: Verificar formato de la clave
+        run: python3 .github/scripts/verificar_firebase_secret.py
+
+      - name: Instalar dependencias de Python
+        run: pip install --quiet google-auth google-cloud-firestore --break-system-packages
+
+      - name: Probar conexion real contra Firestore
+        run: python3 .github/scripts/probar_conexion_firestore.py
+
+      - name: Correr prueba de integracion a fondo
+        run: python3 .github/scripts/test_integracion_firebase.py 2>&1 | tee /tmp/test_resultado.log
+
+      - name: Guardar resultado de la prueba de integracion
+        run: python3 .github/scripts/upload_log.py test-integracion-resultado.txt /tmp/test_resultado.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Guardar los IDs de prueba (para poder limpiarlos despues)
+        run: python3 .github/scripts/upload_log.py test-ids.json /tmp/test_ids.json
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

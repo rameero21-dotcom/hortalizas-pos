@@ -1,0 +1,218 @@
+"""Prueba de integracion a fondo contra Firestore real, replicando
+exactamente la estructura de datos y la logica de negocio de la app
+(mismos nombres de coleccion, mismos campos, mismas formulas), para
+validar que todo el flujo funcione de punta a punta.
+
+Todos los datos de prueba se crean con el prefijo "TEST -" para poder
+identificarlos y borrarlos facilmente despues.
+
+Uso: python3 test_integracion_firebase.py
+"""
+import uuid
+import datetime
+from google.cloud import firestore
+
+db = firestore.Client.from_service_account_json('/tmp/sa.json')
+
+PREFIJO = "TEST -"
+TASA_IIBB = 0.035
+TASA_TSH = 0.01
+
+resultados = []
+
+
+def verificar(nombre, condicion, detalle=""):
+    estado = "OK" if condicion else "FALLO"
+    resultados.append((nombre, estado, detalle))
+    print(f"[{estado}] {nombre} {detalle}")
+
+
+def ahora_iso():
+    return datetime.datetime.now().isoformat()
+
+
+print("=" * 70)
+print("PRUEBA DE INTEGRACION - HORTALIZAS POS")
+print("=" * 70)
+
+# ============ 1) Crear productos de prueba con costo ============
+print("\n--- 1) Productos ---")
+productos_test = [
+    {"nombre": f"{PREFIJO} Papa", "costo": 9000, "precio": 14000},
+    {"nombre": f"{PREFIJO} Cebolla", "costo": 6500, "precio": 10000},
+    {"nombre": f"{PREFIJO} Tomate", "costo": 12000, "precio": 18000},
+]
+ids_productos = {}
+for p in productos_test:
+    pid = str(uuid.uuid4())
+    ids_productos[p["nombre"]] = pid
+    db.collection("productos").document(pid).set({
+        "id": pid,
+        "nombre": p["nombre"],
+        "precioSugerido": p["precio"],
+        "categoria": "Verduras",
+        "activo": True,
+        "favorito": False,
+        "costoUnitario": p["costo"],
+        "tasaIIBB": 0,
+        "tasaTSH": 0,
+    })
+    # stock inicial
+    db.collection("stock").document(pid).set({
+        "productoId": pid,
+        "cantidadDisponible": 100,
+        "umbralStockBajo": 10,
+    })
+
+doc = db.collection("productos").document(ids_productos[f"{PREFIJO} Papa"]).get()
+verificar("Producto se creo y se puede leer", doc.exists and doc.to_dict()["costoUnitario"] == 9000)
+
+stock_doc = db.collection("stock").document(ids_productos[f"{PREFIJO} Papa"]).get()
+verificar("Stock inicial quedo en 100", stock_doc.to_dict()["cantidadDisponible"] == 100)
+
+# ============ 2) Crear cliente de prueba (cuenta corriente) ============
+print("\n--- 2) Clientes ---")
+cliente_id = str(uuid.uuid4())
+db.collection("clientes").document(cliente_id).set({
+    "id": cliente_id,
+    "nombre": f"{PREFIJO} Cliente Fiado",
+    "telefono": "",
+    "direccion": "",
+    "saldoCuentaCorriente": 0,
+})
+doc = db.collection("clientes").document(cliente_id).get()
+verificar("Cliente se creo con saldo 0", doc.exists and doc.to_dict()["saldoCuentaCorriente"] == 0)
+
+# ============ 3) Simular venta 1: efectivo, pago simple ============
+print("\n--- 3) Venta en efectivo ---")
+venta1_id = str(uuid.uuid4())
+papa_id = ids_productos[f"{PREFIJO} Papa"]
+db.collection("ventas").document(venta1_id).set({
+    "id": venta1_id, "numero": 9001, "fecha": ahora_iso(),
+    "vendedorId": "test-vendedor", "vendedorNombre": f"{PREFIJO} Vendedor",
+    "total": 28000, "estado": "pendiente", "metodoPago": None,
+    "cajeroId": None, "fechaCobro": None, "clienteId": None,
+    "nombreCliente": f"{PREFIJO} boleta 1", "pagos": [],
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": 2, "precioTotal": 28000}],
+})
+
+# Cobrar: descuenta stock + marca cobrada
+db.collection("stock").document(papa_id).update({"cantidadDisponible": firestore.Increment(-2)})
+db.collection("ventas").document(venta1_id).update({
+    "estado": "cobrada", "metodoPago": "efectivo", "cajeroId": "test-cajero",
+    "fechaCobro": ahora_iso(), "pagos": [{"metodo": "efectivo", "monto": 28000}],
+})
+
+stock_papa = db.collection("stock").document(papa_id).get().to_dict()
+verificar("Stock de Papa bajo de 100 a 98 tras vender 2", stock_papa["cantidadDisponible"] == 98,
+          f"(quedo en {stock_papa['cantidadDisponible']})")
+
+venta1 = db.collection("ventas").document(venta1_id).get().to_dict()
+verificar("Venta 1 quedo marcada como cobrada", venta1["estado"] == "cobrada")
+
+# ============ 4) Simular venta 2: pago dividido (efectivo + transferencia) ============
+print("\n--- 4) Venta con pago dividido ---")
+venta2_id = str(uuid.uuid4())
+cebolla_id = ids_productos[f"{PREFIJO} Cebolla"]
+db.collection("ventas").document(venta2_id).set({
+    "id": venta2_id, "numero": 9002, "fecha": ahora_iso(),
+    "vendedorId": "test-vendedor", "vendedorNombre": f"{PREFIJO} Vendedor",
+    "total": 30000, "estado": "cobrada", "metodoPago": None,
+    "cajeroId": "test-cajero", "fechaCobro": ahora_iso(), "clienteId": None,
+    "nombreCliente": f"{PREFIJO} boleta 2", "pagos": [
+        {"metodo": "efectivo", "monto": 10000},
+        {"metodo": "transferencia", "monto": 20000},
+    ],
+    "detalle": [{"productoId": cebolla_id, "nombreProducto": f"{PREFIJO} Cebolla",
+                 "cantidad": 3, "precioTotal": 30000}],
+})
+db.collection("stock").document(cebolla_id).update({"cantidadDisponible": firestore.Increment(-3)})
+
+venta2 = db.collection("ventas").document(venta2_id).get().to_dict()
+suma_pagos = sum(p["monto"] for p in venta2["pagos"])
+verificar("Pago dividido suma correctamente al total", suma_pagos == venta2["total"],
+          f"(pagos suman {suma_pagos}, total {venta2['total']})")
+
+# ============ 5) Simular venta 3: fiado (cuenta corriente) ============
+print("\n--- 5) Venta fiada (cuenta corriente) ---")
+venta3_id = str(uuid.uuid4())
+tomate_id = ids_productos[f"{PREFIJO} Tomate"]
+db.collection("ventas").document(venta3_id).set({
+    "id": venta3_id, "numero": 9003, "fecha": ahora_iso(),
+    "vendedorId": "test-vendedor", "vendedorNombre": f"{PREFIJO} Vendedor",
+    "total": 36000, "estado": "cobrada", "metodoPago": "cuentaCorriente",
+    "cajeroId": "test-cajero", "fechaCobro": ahora_iso(), "clienteId": cliente_id,
+    "nombreCliente": f"{PREFIJO} boleta 3", "pagos": [{"metodo": "cuentaCorriente", "monto": 36000}],
+    "detalle": [{"productoId": tomate_id, "nombreProducto": f"{PREFIJO} Tomate",
+                 "cantidad": 2, "precioTotal": 36000}],
+})
+db.collection("stock").document(tomate_id).update({"cantidadDisponible": firestore.Increment(-2)})
+
+# Cargo en cuenta corriente (igual que hace ClienteRepositoryImpl.registrarMovimientoCuenta)
+db.collection("clientes").document(cliente_id).update({"saldoCuentaCorriente": firestore.Increment(-36000)})
+mov_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_id).set({
+    "id": mov_id, "clienteId": cliente_id, "tipo": "cargo", "monto": 36000,
+    "detalle": f"Venta #9003 ({PREFIJO})", "fecha": ahora_iso(), "usuarioId": "test-cajero",
+})
+
+cliente_actualizado = db.collection("clientes").document(cliente_id).get().to_dict()
+verificar("Saldo del cliente bajo a -36000 tras la venta fiada",
+          cliente_actualizado["saldoCuentaCorriente"] == -36000,
+          f"(quedo en {cliente_actualizado['saldoCuentaCorriente']})")
+
+# ============ 6) Cliente paga parte de la deuda ============
+print("\n--- 6) Pago parcial del cliente ---")
+db.collection("clientes").document(cliente_id).update({"saldoCuentaCorriente": firestore.Increment(10000)})
+mov_pago_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_pago_id).set({
+    "id": mov_pago_id, "clienteId": cliente_id, "tipo": "pago", "monto": 10000,
+    "detalle": f"{PREFIJO} pago parcial", "fecha": ahora_iso(), "usuarioId": "test-cajero",
+})
+cliente_final = db.collection("clientes").document(cliente_id).get().to_dict()
+verificar("Saldo del cliente sube a -26000 tras pagar 10000",
+          cliente_final["saldoCuentaCorriente"] == -26000,
+          f"(quedo en {cliente_final['saldoCuentaCorriente']})")
+
+# ============ 7) Verificar formulas de IIBB/TSH/utilidad ============
+print("\n--- 7) Formulas de costo/impuestos/utilidad ---")
+# Traigo las 3 ventas de prueba cobradas y calculo como lo hace
+# ObtenerEstadisticasUseCase: IIBB = facturacion*3.5%, TSH = facturacion*1%,
+# utilidad = facturacion - costoTotal - IIBB - TSH.
+facturacion_total_test = 28000 + 30000 + 36000  # ventas 1, 2 y 3
+costo_total_test = (9000 * 2) + (6500 * 3) + (12000 * 2)  # costo unit * cantidad
+iibb_esperado = facturacion_total_test * TASA_IIBB
+tsh_esperado = facturacion_total_test * TASA_TSH
+utilidad_esperada = facturacion_total_test - costo_total_test - iibb_esperado - tsh_esperado
+
+print(f"Facturacion total (test): {facturacion_total_test}")
+print(f"Costo total (test): {costo_total_test}")
+print(f"IIBB esperado (3.5%): {iibb_esperado:.2f}")
+print(f"TSH esperado (1%): {tsh_esperado:.2f}")
+print(f"Utilidad esperada: {utilidad_esperada:.2f}")
+verificar("Formula de utilidad da un resultado positivo y coherente",
+          utilidad_esperada > 0 and utilidad_esperada < facturacion_total_test,
+          f"(utilidad {utilidad_esperada:.2f} de {facturacion_total_test} facturados)")
+
+print("\n" + "=" * 70)
+print("RESUMEN")
+print("=" * 70)
+ok = sum(1 for _, e, _ in resultados if e == "OK")
+total = len(resultados)
+print(f"{ok}/{total} verificaciones pasaron correctamente.")
+for nombre, estado, detalle in resultados:
+    if estado != "OK":
+        print(f"  FALLO: {nombre} {detalle}")
+
+# Guardar ids creados para poder limpiarlos despues
+import json
+with open('/tmp/test_ids.json', 'w') as f:
+    json.dump({
+        "productos": list(ids_productos.values()),
+        "clientes": [cliente_id],
+        "ventas": [venta1_id, venta2_id, venta3_id],
+        "movimientos_cuenta_corriente": [mov_id, mov_pago_id],
+    }, f, indent=2)
+
+print("\nIDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.")

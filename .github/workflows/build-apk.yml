@@ -9,29 +9,6 @@ permissions:
   contents: write
 
 jobs:
-  verificar-firebase-secret:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Guardar el secreto en un archivo temporal
-        run: |
-          if [ -z "$FIREBASE_KEY" ]; then
-            echo "FALTA el secreto FIREBASE_SERVICE_ACCOUNT_JSON (esta vacio o no existe)."
-            exit 1
-          fi
-          echo "$FIREBASE_KEY" > /tmp/sa.json
-        env:
-          FIREBASE_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-
-      - name: Verificar formato de la clave
-        run: python3 .github/scripts/verificar_firebase_secret.py
-
-      - name: Probar conexion real contra Firestore
-        run: |
-          pip install --quiet google-auth google-cloud-firestore --break-system-packages
-          python3 .github/scripts/probar_conexion_firestore.py
-
   build-android:
     runs-on: ubuntu-latest
     env:
