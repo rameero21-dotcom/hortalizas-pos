@@ -59,6 +59,13 @@ class SyncService {
         try {
           if (item.operacion == 'delete') {
             await _firestoreService.eliminarDocumento(item.entidad, item.entidadId);
+          } else if (item.operacion == 'incrementar') {
+            await _firestoreService.incrementarCampo(
+              item.entidad,
+              item.entidadId,
+              item.payload['campo'] as String,
+              item.payload['delta'] as num,
+            );
           } else {
             await _firestoreService.subirDocumento(item.entidad, item.entidadId, item.payload);
           }

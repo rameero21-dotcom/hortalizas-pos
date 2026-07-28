@@ -39,6 +39,28 @@ class StockRepositoryImpl implements StockRepository {
     );
   }
 
+  /// Igual que `_encolarStockYMovimiento`, pero para movimientos que
+  /// representan un CAMBIO RELATIVO (venta, ingreso, merma) en vez de un
+  /// valor final absoluto (eso es lo que hace `ajusteManual`, que sí
+  /// quiere fijar un número exacto a propósito). Usa el incremento
+  /// atómico de Firestore para no perder cambios si dos dispositivos
+  /// tocan el mismo producto casi al mismo tiempo.
+  Future<void> _encolarStockRelativoYMovimiento(
+      String productoId, double delta, MovimientoStockModel movimiento) async {
+    await _syncQueue.encolar(
+      entidad: AppConstants.colStock,
+      entidadId: productoId,
+      operacion: 'incrementar',
+      payload: {'campo': 'cantidadDisponible', 'delta': delta},
+    );
+    await _syncQueue.encolar(
+      entidad: AppConstants.colMovimientosStock,
+      entidadId: movimiento.id,
+      operacion: 'set',
+      payload: movimiento.toMap(),
+    );
+  }
+
   @override
   Future<void> descontarPorVenta(String productoId, double cantidad, String usuarioId) async {
     final actual = await _local.obtenerPorProducto(productoId);
@@ -54,7 +76,7 @@ class StockRepositoryImpl implements StockRepository {
       usuarioId: usuarioId,
     );
     await _local.registrarMovimiento(movimiento);
-    await _encolarStockYMovimiento(productoId, nuevaCantidad, movimiento);
+    await _encolarStockRelativoYMovimiento(productoId, -cantidad, movimiento);
   }
 
   @override
@@ -73,7 +95,7 @@ class StockRepositoryImpl implements StockRepository {
       nota: nota,
     );
     await _local.registrarMovimiento(movimiento);
-    await _encolarStockYMovimiento(productoId, nuevaCantidad, movimiento);
+    await _encolarStockRelativoYMovimiento(productoId, cantidad, movimiento);
   }
 
   @override
@@ -110,7 +132,7 @@ class StockRepositoryImpl implements StockRepository {
       nota: nota,
     );
     await _local.registrarMovimiento(movimiento);
-    await _encolarStockYMovimiento(productoId, nuevaCantidad, movimiento);
+    await _encolarStockRelativoYMovimiento(productoId, -cantidad, movimiento);
   }
 
   @override

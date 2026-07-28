@@ -52,4 +52,16 @@ class FirestoreService {
   Future<void> eliminarDocumento(String entidad, String id) {
     return coleccionPara(entidad).doc(id).delete();
   }
+
+  /// Suma (o resta, con delta negativo) un campo numérico de forma
+  /// ATÓMICA en el servidor de Firestore — a diferencia de leer el valor
+  /// actual y escribir un nuevo total calculado, esto es seguro aunque
+  /// dos dispositivos lo hagan sobre el mismo documento casi al mismo
+  /// tiempo (ej: dos cajeros descontando stock del mismo producto):
+  /// Firestore aplica ambos incrementos sin que ninguno se pierda,
+  /// mientras que con un "set" de un total ya calculado, el que
+  /// sincroniza último pisaría al otro.
+  Future<void> incrementarCampo(String entidad, String id, String campo, num delta) {
+    return coleccionPara(entidad).doc(id).set({campo: FieldValue.increment(delta)}, SetOptions(merge: true));
+  }
 }
