@@ -10,15 +10,40 @@ import 'historial_cierres_screen.dart';
 /// en la planilla (de mayor a menor).
 const _denominaciones = [20000, 10000, 2000, 1000, 500, 100, 50, 20, 10];
 
+/// Suma cuánto de las ventas cobradas hoy correspondió a un método de
+/// pago puntual, contemplando tanto ventas de un solo método (metodoPago)
+/// como ventas con pago dividido (lista `pagos`).
+double _sumaPorMetodo(List<Venta> ventas, MetodoPago metodo) {
+  double total = 0;
+  for (final v in ventas) {
+    if (v.pagos.isNotEmpty) {
+      total += v.pagos.where((p) => p.metodo == metodo).fold(0.0, (acc, p) => acc + p.monto);
+    } else if (v.metodoPago == metodo) {
+      total += v.total;
+    }
+  }
+  return total;
+}
+
 /// Ventas cobradas HOY en efectivo (para comparar contra lo contado).
 final _ventasEfectivoHoyProvider = FutureProvider.autoDispose<double>((ref) async {
   final ahora = DateTime.now();
   final inicio = DateTime(ahora.year, ahora.month, ahora.day);
   final fin = inicio.add(const Duration(days: 1));
   final ventas = await ref.watch(ventaRepositoryProvider).obtenerPorRangoFechaGlobal(inicio, fin);
-  return ventas
-      .where((v) => v.estado == EstadoVenta.cobrada && v.metodoPago == MetodoPago.efectivo)
-      .fold<double>(0.0, (acc, v) => acc + v.total);
+  final cobradas = ventas.where((v) => v.estado == EstadoVenta.cobrada).toList();
+  return _sumaPorMetodo(cobradas, MetodoPago.efectivo);
+});
+
+/// Ventas cobradas HOY a cuenta corriente (fiado, cheque, o cualquier
+/// parte de una venta que no entró como efectivo físico en la caja).
+final _ventasCuentaCorrienteHoyProvider = FutureProvider.autoDispose<double>((ref) async {
+  final ahora = DateTime.now();
+  final inicio = DateTime(ahora.year, ahora.month, ahora.day);
+  final fin = inicio.add(const Duration(days: 1));
+  final ventas = await ref.watch(ventaRepositoryProvider).obtenerPorRangoFechaGlobal(inicio, fin);
+  final cobradas = ventas.where((v) => v.estado == EstadoVenta.cobrada).toList();
+  return _sumaPorMetodo(cobradas, MetodoPago.cuentaCorriente);
 });
 
 /// Movimientos manuales de caja de hoy (ingresos/egresos aparte de ventas).
@@ -140,6 +165,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
   @override
   Widget build(BuildContext context) {
     final ventasEfectivoAsync = ref.watch(_ventasEfectivoHoyProvider);
+    final ventasCuentaCorrienteAsync = ref.watch(_ventasCuentaCorrienteHoyProvider);
     final movimientosAsync = ref.watch(_movimientosCajaHoyProvider);
 
     return Scaffold(
@@ -169,39 +195,47 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
           ),
           const SizedBox(height: 16),
           ventasEfectivoAsync.when(
-            data: (ventasEfectivo) => movimientosAsync.when(
-              data: (movimientos) {
-                final ingresos = movimientos
-                    .where((m) => m.tipo == TipoMovimientoCaja.ingreso)
-                    .fold(0.0, (acc, m) => acc + m.monto);
-                final egresos = movimientos
-                    .where((m) => m.tipo == TipoMovimientoCaja.egreso)
-                    .fold(0.0, (acc, m) => acc + m.monto);
-                final cajaInicio = double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.')) ?? 0;
-                final totalEsperado = cajaInicio + ventasEfectivo + ingresos - egresos;
-                final diferencia = _totalContado - totalEsperado;
+            data: (ventasEfectivo) => ventasCuentaCorrienteAsync.when(
+              data: (ventasCuentaCorriente) => movimientosAsync.when(
+                data: (movimientos) {
+                  final ingresos = movimientos
+                      .where((m) => m.tipo == TipoMovimientoCaja.ingreso)
+                      .fold(0.0, (acc, m) => acc + m.monto);
+                  final egresos = movimientos
+                      .where((m) => m.tipo == TipoMovimientoCaja.egreso)
+                      .fold(0.0, (acc, m) => acc + m.monto);
+                  final cajaInicio = double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.')) ?? 0;
+                  // La cuenta corriente NO suma al efectivo esperado: esa
+                  // plata no entró físicamente a la caja (fiado, cheque,
+                  // etc.), se muestra solo a modo informativo.
+                  final totalEsperado = cajaInicio + ventasEfectivo + ingresos - egresos;
+                  final diferencia = _totalContado - totalEsperado;
 
-                return Card(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _filaResumen('Ventas en efectivo hoy', ventasEfectivo),
-                        _filaResumen('Ingresos manuales', ingresos),
-                        _filaResumen('Egresos manuales', -egresos),
-                        const Divider(),
-                        _filaResumen('Total esperado en caja', totalEsperado, negrita: true),
-                        _filaResumen('Total contado (billetes)', _totalContado, negrita: true),
-                        const Divider(),
-                        _filaResumen('Diferencia', diferencia,
-                            negrita: true, colorSegunSigno: true),
-                      ],
+                  return Card(
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _filaResumen('Ventas en efectivo hoy', ventasEfectivo),
+                          _filaResumen('Ventas en cuenta corriente hoy', ventasCuentaCorriente),
+                          _filaResumen('Ingresos manuales', ingresos),
+                          _filaResumen('Egresos manuales', -egresos),
+                          const Divider(),
+                          _filaResumen('Total esperado en caja', totalEsperado, negrita: true),
+                          _filaResumen('Total contado (billetes)', _totalContado, negrita: true),
+                          const Divider(),
+                          _filaResumen('Diferencia', diferencia,
+                              negrita: true, colorSegunSigno: true),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, __) => Text('Error: $e'),
+              ),
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, __) => Text('Error: $e'),
             ),
