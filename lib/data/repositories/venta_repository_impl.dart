@@ -90,6 +90,15 @@ class VentaRepositoryImpl implements VentaRepository {
   }
 
   @override
+  Future<Venta?> obtenerEstadoActualDesdeRemoto(String id) async {
+    try {
+      return await _remote.obtenerPorIdRemoto(id);
+    } catch (_) {
+      return null; // sin conexión: el llamador decide cómo seguir
+    }
+  }
+
+  @override
   Future<void> finalizarCobro(Venta venta) async {
     final model = VentaModel(
       id: venta.id,

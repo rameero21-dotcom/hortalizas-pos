@@ -24,4 +24,12 @@ abstract class VentaRepository {
   /// Elimina una venta por completo (ej: se cargó por error). No revierte
   /// el stock automáticamente si ya estaba cobrada; usarlo con cuidado.
   Future<void> eliminarVenta(String id);
+
+  /// Trae el estado ACTUAL de una venta directo desde Firestore (no de
+  /// la caché local), para verificar justo antes de cobrar que nadie ya
+  /// la haya cobrado antes (ej: el mismo QR de respaldo escaneado dos
+  /// veces, o dos cajeros escaneando el mismo QR casi al mismo tiempo).
+  /// Si no hay conexión, devuelve null y el llamador debe decidir cómo
+  /// proceder (la app sigue funcionando offline, a costa de este chequeo).
+  Future<Venta?> obtenerEstadoActualDesdeRemoto(String id);
 }

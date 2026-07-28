@@ -22,6 +22,18 @@ class FinalizarCobroUseCase {
     List<DetallePago> pagos, {
     String? clienteId,
   }) async {
+    // Verificación real contra Firestore (no solo el objeto que ya
+    // tenemos en mano): cubre tanto el caso de la venta pendiente vista
+    // por el stream normal, como el caso más delicado de la venta
+    // reconstruida desde el QR de respaldo, que siempre "cree" estar
+    // pendiente porque el QR no sabe si alguien ya la cobró. Si no hay
+    // conexión para verificar, se sigue igual (offline-first) — el
+    // riesgo de doble cobro queda limitado a ese escenario sin señal.
+    final estadoReal = await _ventaRepository.obtenerEstadoActualDesdeRemoto(venta.id);
+    if (estadoReal != null && estadoReal.estado == EstadoVenta.cobrada) {
+      throw ArgumentError('Esta venta ya fue cobrada antes, no se puede cobrar de nuevo');
+    }
+
     if (pagos.isEmpty) {
       throw ArgumentError('Hay que cargar al menos un método de pago');
     }

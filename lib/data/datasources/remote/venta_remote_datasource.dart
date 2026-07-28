@@ -44,4 +44,13 @@ class VentaRemoteDatasource {
     ventas.sort((a, b) => b.fecha.compareTo(a.fecha));
     return ventas;
   }
+
+  /// Lee UN documento puntual directo de Firestore (no de un stream ni
+  /// caché), para verificar el estado real de una venta antes de
+  /// cobrarla (evita doble cobro si el QR se escanea dos veces).
+  Future<VentaModel?> obtenerPorIdRemoto(String id) async {
+    final doc = await _firestoreService.ventas.doc(id).get();
+    if (!doc.exists) return null;
+    return VentaModel.fromRemoteMap(doc.data() as Map<String, dynamic>);
+  }
 }
