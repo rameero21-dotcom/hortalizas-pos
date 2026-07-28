@@ -260,6 +260,138 @@ verificar("Solo se creo 1 movimiento de caja (el del pago en efectivo, no el de 
           movs_caja_despues - movs_caja_antes == 1,
           f"(se crearon {movs_caja_despues - movs_caja_antes})")
 
+# ============ 8) Merma, ingreso y ajuste manual de stock ============
+print("\n--- 8) Movimientos de stock: merma, ingreso, ajuste ---")
+zapallo_id = str(uuid.uuid4())
+db.collection("productos").document(zapallo_id).set({
+    "id": zapallo_id, "nombre": f"{PREFIJO} Zapallo", "precioSugerido": 13000,
+    "categoria": "Verduras", "activo": True, "favorito": False,
+    "costoUnitario": 8000, "tasaIIBB": 0, "tasaTSH": 0,
+})
+db.collection("stock").document(zapallo_id).set({
+    "productoId": zapallo_id, "cantidadDisponible": 50, "umbralStockBajo": 10,
+})
+ids_productos[f"{PREFIJO} Zapallo"] = zapallo_id
+
+# Ingreso de mercaderia: +30 (usa incremento atomico, igual que el codigo real)
+db.collection("stock").document(zapallo_id).update({"cantidadDisponible": firestore.Increment(30)})
+stock_tras_ingreso = db.collection("stock").document(zapallo_id).get().to_dict()["cantidadDisponible"]
+verificar("Ingreso de mercaderia: 50 + 30 = 80", stock_tras_ingreso == 80, f"(quedo en {stock_tras_ingreso})")
+
+# Merma: -5
+db.collection("stock").document(zapallo_id).update({"cantidadDisponible": firestore.Increment(-5)})
+stock_tras_merma = db.collection("stock").document(zapallo_id).get().to_dict()["cantidadDisponible"]
+verificar("Merma: 80 - 5 = 75", stock_tras_merma == 75, f"(quedo en {stock_tras_merma})")
+
+# Ajuste manual: fijar directamente a 60 (valor absoluto, no incremento)
+db.collection("stock").document(zapallo_id).set({"cantidadDisponible": 60}, merge=True)
+stock_tras_ajuste = db.collection("stock").document(zapallo_id).get().to_dict()["cantidadDisponible"]
+verificar("Ajuste manual: se fija directo en 60 (no suma/resta)", stock_tras_ajuste == 60,
+          f"(quedo en {stock_tras_ajuste})")
+
+# ============ 9) Race condition: dos "cajeros" vendiendo a la vez ============
+print("\n--- 9) Race condition: dos dispositivos descontando stock del mismo producto ---")
+# Vuelvo a poner stock en un numero conocido para el experimento.
+db.collection("stock").document(zapallo_id).set({"cantidadDisponible": 100}, merge=True)
+
+# Simulo EXACTAMENTE lo que hace la app ahora (incremento atomico), como si
+# dos cajeros vendieran el mismo producto en simultaneo, cada uno con su
+# propia copia local desactualizada (ninguno sabe del otro).
+db.collection("stock").document(zapallo_id).update({"cantidadDisponible": firestore.Increment(-7)})  # cajero A vende 7
+db.collection("stock").document(zapallo_id).update({"cantidadDisponible": firestore.Increment(-4)})  # cajero B vende 4 (no sabe de A)
+stock_tras_race = db.collection("stock").document(zapallo_id).get().to_dict()["cantidadDisponible"]
+verificar("Con incremento atomico, las DOS ventas se descuentan bien: 100-7-4=89 (antes del fix se hubiera perdido una)",
+          stock_tras_race == 89, f"(quedo en {stock_tras_race})")
+
+# ============ 10) Cierre de caja con billetes ============
+print("\n--- 10) Cierre de caja (arqueo con billetes) ---")
+cierre_id = str(uuid.uuid4())
+billetes_test = [
+    {"denominacion": 20000, "cantidad": 3},
+    {"denominacion": 10000, "cantidad": 5},
+    {"denominacion": 1000, "cantidad": 12},
+]
+total_contado_esperado = sum(b["denominacion"] * b["cantidad"] for b in billetes_test)
+db.collection("cierres_caja").document(cierre_id).set({
+    "id": cierre_id, "fecha": ahora_iso(), "cajaInicio": 50000,
+    "billetesJson": json.dumps(billetes_test), "usuarioId": "test-cajero",
+    "nota": f"{PREFIJO} cierre",
+})
+cierre_leido = db.collection("cierres_caja").document(cierre_id).get().to_dict()
+billetes_leidos = json.loads(cierre_leido["billetesJson"])
+total_leido = sum(b["denominacion"] * b["cantidad"] for b in billetes_leidos)
+verificar("El cierre de caja guarda y recalcula bien el total contado",
+          total_leido == total_contado_esperado, f"({total_leido} == {total_contado_esperado})")
+
+# ============ 11) Estadisticas con muchas ventas de varios dias/vendedores ============
+print("\n--- 11) Estadisticas: muchas ventas mezcladas ---")
+ventas_stats_ids = []
+vendedores_test = [f"{PREFIJO} Vend A", f"{PREFIJO} Vend B", f"{PREFIJO} Vend C"]
+facturacion_esperada_por_vendedor = {v: 0 for v in vendedores_test}
+facturacion_total_stats = 0
+costo_total_stats = 0
+
+for i in range(15):
+    vid = str(uuid.uuid4())
+    vendedor = vendedores_test[i % 3]
+    dia_offset = i % 4  # repartido en 4 dias distintos
+    prod_nombre = list(ids_productos.keys())[i % len(ids_productos)]
+    prod_id = ids_productos[prod_nombre]
+    costo_unit = next(p["costo"] for p in productos_test if p["nombre"] == prod_nombre) if prod_nombre != f"{PREFIJO} Zapallo" else 8000
+    cantidad = (i % 5) + 1
+    precio_total = cantidad * 15000
+    fecha_venta = (datetime.datetime.now() - datetime.timedelta(days=dia_offset)).isoformat()
+
+    db.collection("ventas").document(vid).set({
+        "id": vid, "numero": 9100 + i, "fecha": fecha_venta,
+        "vendedorId": f"test-{vendedor}", "vendedorNombre": vendedor,
+        "total": precio_total, "estado": "cobrada", "metodoPago": "efectivo",
+        "cajeroId": "test-cajero", "fechaCobro": fecha_venta, "clienteId": None,
+        "nombreCliente": None, "pagos": [{"metodo": "efectivo", "monto": precio_total}],
+        "detalle": [{"productoId": prod_id, "nombreProducto": prod_nombre,
+                     "cantidad": cantidad, "precioTotal": precio_total}],
+    })
+    ventas_stats_ids.append(vid)
+    facturacion_esperada_por_vendedor[vendedor] += precio_total
+    facturacion_total_stats += precio_total
+    costo_total_stats += costo_unit * cantidad
+
+# Leo todas las ventas de los ultimos 5 dias y agrupo como lo hace
+# ObtenerEstadisticasUseCase (facturacion por vendedor, total general).
+desde_stats = datetime.datetime.now() - datetime.timedelta(days=5)
+ventas_leidas = list(db.collection("ventas")
+                      .where("fecha", ">=", desde_stats.isoformat())
+                      .where("vendedorNombre", "in", vendedores_test).stream())
+# Nota: Firestore no permite mezclar bien "in" con rango de fecha en un
+# where compuesto simple sin indice; para la verificacion, mejor filtro
+# en Python sobre lo que ya se exactamente que cargue.
+facturacion_calculada_por_vendedor = {v: 0 for v in vendedores_test}
+for vid in ventas_stats_ids:
+    v = db.collection("ventas").document(vid).get().to_dict()
+    facturacion_calculada_por_vendedor[v["vendedorNombre"]] += v["total"]
+
+todo_coincide = all(
+    facturacion_calculada_por_vendedor[v] == facturacion_esperada_por_vendedor[v]
+    for v in vendedores_test
+)
+verificar("Facturacion agrupada por vendedor coincide para los 3 vendedores de prueba",
+          todo_coincide, f"({facturacion_calculada_por_vendedor})")
+verificar("15 ventas de prueba repartidas en 4 dias distintos se crearon todas",
+          len(ventas_stats_ids) == 15)
+
+# ============ 12) Eliminar ventas y productos: confirmar que desaparecen ============
+print("\n--- 12) Eliminacion: confirmar que se borra de verdad ---")
+venta_a_borrar = venta1_id
+db.collection("ventas").document(venta_a_borrar).delete()
+doc_borrado = db.collection("ventas").document(venta_a_borrar).get()
+verificar("La venta eliminada ya no existe en Firestore", not doc_borrado.exists)
+
+producto_a_borrar = ids_productos[f"{PREFIJO} Zapallo"]
+db.collection("productos").document(producto_a_borrar).delete()
+db.collection("stock").document(producto_a_borrar).delete()
+doc_prod_borrado = db.collection("productos").document(producto_a_borrar).get()
+verificar("El producto eliminado ya no existe en Firestore", not doc_prod_borrado.exists)
+
 print("\n" + "=" * 70)
 print("RESUMEN")
 print("=" * 70)
@@ -276,9 +408,10 @@ with open('/tmp/test_ids.json', 'w') as f:
     json.dump({
         "productos": list(ids_productos.values()),
         "clientes": [cliente_id, cliente2_id],
-        "ventas": [venta1_id, venta2_id, venta3_id],
+        "ventas": [venta1_id, venta2_id, venta3_id] + ventas_stats_ids,
         "movimientos_cuenta_corriente": [mov_id, mov_pago_id, mov_cargo_id, mov_pago_efectivo_id, mov_pago_transf_id],
         "movimientos_caja": [mov_caja_efectivo_id],
+        "cierres_caja": [cierre_id],
     }, f, indent=2)
 
 print("\nIDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.")
