@@ -36,26 +36,35 @@ class AdminDashboardScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: GridView.count(
+      body: GridView.builder(
         padding: const EdgeInsets.all(16),
-        crossAxisCount: 2,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
-        children: modulos.map((m) {
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          // En vez de una cantidad fija de columnas (que en una ventana
+          // ancha de Windows deja cada ícono gigante), esto arma tantas
+          // columnas como entren manteniendo cada tarjeta en un tamaño
+          // razonable — así entran todos los accesos sin desplazarse.
+          maxCrossAxisExtent: 160,
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 12,
+          childAspectRatio: 1,
+        ),
+        itemCount: modulos.length,
+        itemBuilder: (context, i) {
+          final m = modulos[i];
           return Card(
             child: InkWell(
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => m.pantalla)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(m.icono, size: 40),
-                  const SizedBox(height: 8),
+                  Icon(m.icono, size: 30),
+                  const SizedBox(height: 6),
                   Text(m.titulo, style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
           );
-        }).toList(),
+        },
       ),
     );
   }
