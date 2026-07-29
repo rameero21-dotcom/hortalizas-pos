@@ -10,51 +10,39 @@ import 'historial_cierres_screen.dart';
 /// en la planilla (de mayor a menor).
 const _denominaciones = [20000, 10000, 2000, 1000, 500, 100, 50, 20, 10];
 
-/// Suma cuánto de las ventas cobradas hoy correspondió a un método de
-/// pago puntual, contemplando tanto ventas de un solo método (metodoPago)
-/// como ventas con pago dividido (lista `pagos`).
-double _sumaPorMetodo(List<Venta> ventas, MetodoPago metodo) {
-  double total = 0;
-  for (final v in ventas) {
-    if (v.pagos.isNotEmpty) {
-      total += v.pagos.where((p) => p.metodo == metodo).fold(0.0, (acc, p) => acc + p.monto);
-    } else if (v.metodoPago == metodo) {
-      total += v.total;
-    }
-  }
-  return total;
+/// Un ítem de venta para mostrar dentro del desplegable de efectivo o
+/// de cuenta corriente (puede ser solo una PARTE de la venta, si el
+/// pago fue dividido entre varios métodos).
+class _ItemVentaCaja {
+  final int numero;
+  final String? nombreCliente;
+  final double monto;
+  final String metodoLabel;
+
+  _ItemVentaCaja({
+    required this.numero,
+    required this.nombreCliente,
+    required this.monto,
+    required this.metodoLabel,
+  });
 }
 
-/// Ventas cobradas HOY en efectivo (para comparar contra lo contado).
-final _ventasEfectivoHoyProvider = FutureProvider.autoDispose<double>((ref) async {
-  final ahora = DateTime.now();
-  final inicio = DateTime(ahora.year, ahora.month, ahora.day);
-  final fin = inicio.add(const Duration(days: 1));
-  final ventas = await ref.watch(ventaRepositoryProvider).obtenerPorRangoFechaGlobal(inicio, fin);
-  final cobradas = ventas.where((v) => v.estado == EstadoVenta.cobrada).toList();
-  return _sumaPorMetodo(cobradas, MetodoPago.efectivo);
-});
+String _labelMetodo(MetodoPago m) => switch (m) {
+      MetodoPago.efectivo => 'Efectivo',
+      MetodoPago.transferencia => 'Transferencia',
+      MetodoPago.debito => 'Débito',
+      MetodoPago.credito => 'Crédito',
+      MetodoPago.cuentaCorriente => 'Fiado',
+    };
 
-/// Ventas cobradas HOY a cuenta corriente (fiado): el cliente se llevó
-/// la mercadería a deber, no entró plata a la caja en absoluto.
-final _ventasCuentaCorrienteHoyProvider = FutureProvider.autoDispose<double>((ref) async {
+/// Todas las ventas cobradas HOY (se procesan acá mismo para armar
+/// tanto los totales como el detalle de cada venta en los desplegables).
+final _ventasHoyProvider = FutureProvider.autoDispose<List<Venta>>((ref) async {
   final ahora = DateTime.now();
   final inicio = DateTime(ahora.year, ahora.month, ahora.day);
   final fin = inicio.add(const Duration(days: 1));
   final ventas = await ref.watch(ventaRepositoryProvider).obtenerPorRangoFechaGlobal(inicio, fin);
-  final cobradas = ventas.where((v) => v.estado == EstadoVenta.cobrada).toList();
-  return _sumaPorMetodo(cobradas, MetodoPago.cuentaCorriente);
-});
-
-/// Ventas cobradas HOY por transferencia: es plata que sí se cobró (no
-/// es deuda), pero no entra físicamente a la caja como billetes.
-final _ventasTransferenciaHoyProvider = FutureProvider.autoDispose<double>((ref) async {
-  final ahora = DateTime.now();
-  final inicio = DateTime(ahora.year, ahora.month, ahora.day);
-  final fin = inicio.add(const Duration(days: 1));
-  final ventas = await ref.watch(ventaRepositoryProvider).obtenerPorRangoFechaGlobal(inicio, fin);
-  final cobradas = ventas.where((v) => v.estado == EstadoVenta.cobrada).toList();
-  return _sumaPorMetodo(cobradas, MetodoPago.transferencia);
+  return ventas.where((v) => v.estado == EstadoVenta.cobrada).toList();
 });
 
 /// Movimientos manuales de caja de hoy (ingresos/egresos aparte de ventas).
@@ -70,6 +58,10 @@ final _movimientosCajaHoyProvider = FutureProvider.autoDispose<List<MovimientoCa
 /// - egresos manuales), y permite contar los billetes reales para
 /// comparar y cerrar la caja del día — igual que el bloque de caja de
 /// la planilla (EFECTIVO, CAJA INICIO, BILLETE/CANTIDAD, etc.).
+///
+/// "Cuenta corriente" acá agrupa tanto lo fiado como lo cobrado por
+/// transferencia: en ninguno de los dos casos entra plata física a la
+/// caja, así que para el arqueo del día se tratan igual.
 class ArqueoCajaScreen extends ConsumerStatefulWidget {
   const ArqueoCajaScreen({super.key});
 
@@ -173,11 +165,40 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
     ref.invalidate(_movimientosCajaHoyProvider);
   }
 
+  /// Separa cada venta cobrada hoy en ítems por método de pago (una
+  /// venta con pago dividido aparece una vez por cada parte), y
+  /// devuelve los dos grupos que nos interesan: efectivo, y
+  /// cuenta corriente (fiado + transferencia juntos).
+  ({List<_ItemVentaCaja> efectivo, List<_ItemVentaCaja> cuentaCorriente}) _agruparVentas(
+      List<Venta> ventas) {
+    final efectivo = <_ItemVentaCaja>[];
+    final cuentaCorriente = <_ItemVentaCaja>[];
+
+    for (final v in ventas) {
+      final pagos = v.pagos.isNotEmpty
+          ? v.pagos
+          : (v.metodoPago != null ? [DetallePago(metodo: v.metodoPago!, monto: v.total)] : <DetallePago>[]);
+
+      for (final p in pagos) {
+        final item = _ItemVentaCaja(
+          numero: v.numero,
+          nombreCliente: v.nombreCliente,
+          monto: p.monto,
+          metodoLabel: _labelMetodo(p.metodo),
+        );
+        if (p.metodo == MetodoPago.efectivo) {
+          efectivo.add(item);
+        } else if (p.metodo == MetodoPago.cuentaCorriente || p.metodo == MetodoPago.transferencia) {
+          cuentaCorriente.add(item);
+        }
+      }
+    }
+    return (efectivo: efectivo, cuentaCorriente: cuentaCorriente);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ventasEfectivoAsync = ref.watch(_ventasEfectivoHoyProvider);
-    final ventasCuentaCorrienteAsync = ref.watch(_ventasCuentaCorrienteHoyProvider);
-    final ventasTransferenciaAsync = ref.watch(_ventasTransferenciaHoyProvider);
+    final ventasAsync = ref.watch(_ventasHoyProvider);
     final movimientosAsync = ref.watch(_movimientosCajaHoyProvider);
 
     return Scaffold(
@@ -206,36 +227,37 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          ventasEfectivoAsync.when(
-            data: (ventasEfectivo) => ventasCuentaCorrienteAsync.when(
-              data: (ventasCuentaCorriente) => ventasTransferenciaAsync.when(
-                data: (ventasTransferencia) => movimientosAsync.when(
-                  data: (movimientos) {
-                    final ingresos = movimientos
-                        .where((m) => m.tipo == TipoMovimientoCaja.ingreso)
-                        .fold(0.0, (acc, m) => acc + m.monto);
-                    final egresos = movimientos
-                        .where((m) => m.tipo == TipoMovimientoCaja.egreso)
-                        .fold(0.0, (acc, m) => acc + m.monto);
-                    final cajaInicio = double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.')) ?? 0;
-                    // Ni la cuenta corriente ni la transferencia suman al
-                    // efectivo esperado: esa plata no entró físicamente a
-                    // la caja como billetes, se muestran solo a modo
-                    // informativo (para no perder de vista el total del
-                    // día completo).
-                    final totalEsperado = cajaInicio + ventasEfectivo + ingresos - egresos;
-                    final diferencia = _totalContado - totalEsperado;
+          ventasAsync.when(
+            data: (ventas) => movimientosAsync.when(
+              data: (movimientos) {
+                final grupos = _agruparVentas(ventas);
+                final totalEfectivo = grupos.efectivo.fold(0.0, (acc, i) => acc + i.monto);
+                final totalCuentaCorriente = grupos.cuentaCorriente.fold(0.0, (acc, i) => acc + i.monto);
+                final ingresos = movimientos
+                    .where((m) => m.tipo == TipoMovimientoCaja.ingreso)
+                    .fold(0.0, (acc, m) => acc + m.monto);
+                final egresos = movimientos
+                    .where((m) => m.tipo == TipoMovimientoCaja.egreso)
+                    .fold(0.0, (acc, m) => acc + m.monto);
+                final cajaInicio = double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.')) ?? 0;
+                // La cuenta corriente (fiado + transferencia) NO suma al
+                // efectivo esperado: esa plata no entró físicamente a la
+                // caja como billetes, se muestra solo a modo informativo.
+                final totalEsperado = cajaInicio + totalEfectivo + ingresos - egresos;
+                final diferencia = _totalContado - totalEsperado;
 
-                    return Card(
+                return Column(
+                  children: [
+                    Card(
                       color: Theme.of(context).colorScheme.surfaceContainerHighest,
                       child: Padding(
                         padding: const EdgeInsets.all(16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _filaResumen('Ventas en efectivo hoy', ventasEfectivo),
-                            _filaResumen('Ventas por transferencia hoy', ventasTransferencia),
-                            _filaResumen('Ventas en cuenta corriente (fiado) hoy', ventasCuentaCorriente),
+                            _filaResumen('Ventas en efectivo hoy', totalEfectivo),
+                            _filaResumen('Ventas en cuenta corriente hoy (fiado + transferencia)',
+                                totalCuentaCorriente),
                             _filaResumen('Ingresos manuales', ingresos),
                             _filaResumen('Egresos manuales', -egresos),
                             const Divider(),
@@ -247,14 +269,17 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                           ],
                         ),
                       ),
-                    );
-                  },
-                  loading: () => const Center(child: CircularProgressIndicator()),
-                  error: (e, __) => Text('Error: $e'),
-                ),
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (e, __) => Text('Error: $e'),
-              ),
+                    ),
+                    const SizedBox(height: 12),
+                    _desplegableVentas('Ventas en efectivo', grupos.efectivo, Colors.green.shade700),
+                    const SizedBox(height: 8),
+                    _desplegableVentas(
+                        'Ventas en cuenta corriente (fiado + transferencia)',
+                        grupos.cuentaCorriente,
+                        Colors.blue.shade700),
+                  ],
+                );
+              },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, __) => Text('Error: $e'),
             ),
@@ -333,12 +358,39 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(titulo, style: TextStyle(fontWeight: negrita ? FontWeight.bold : FontWeight.normal)),
+          Expanded(child: Text(titulo, style: TextStyle(fontWeight: negrita ? FontWeight.bold : FontWeight.normal))),
           Text(
             Formatters.formatearMoneda(valor),
             style: TextStyle(fontWeight: negrita ? FontWeight.bold : FontWeight.normal, color: color),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _desplegableVentas(String titulo, List<_ItemVentaCaja> items, Color color) {
+    final total = items.fold(0.0, (acc, i) => acc + i.monto);
+    return Card(
+      child: ExpansionTile(
+        title: Text(titulo),
+        subtitle: Text('${items.length} venta(s) · ${Formatters.formatearMoneda(total)}'),
+        children: items.isEmpty
+            ? [const Padding(padding: EdgeInsets.all(16), child: Text('Sin ventas todavía hoy.'))]
+            : items
+                .map((i) => ListTile(
+                      dense: true,
+                      title: Text(
+                        i.nombreCliente != null && i.nombreCliente!.isNotEmpty
+                            ? 'Venta #${i.numero} · ${i.nombreCliente}'
+                            : 'Venta #${i.numero}',
+                      ),
+                      subtitle: Text(i.metodoLabel),
+                      trailing: Text(
+                        Formatters.formatearMoneda(i.monto),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: color),
+                      ),
+                    ))
+                .toList(),
       ),
     );
   }
