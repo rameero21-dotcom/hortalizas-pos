@@ -44,6 +44,10 @@ class ProductoRepositoryImpl implements ProductoRepository {
       operacion: 'set',
       payload: model.toMap(),
     );
+    // Se sube a Firestore YA, para que otros dispositivos (ej. el
+    // vendedor) vean el producto nuevo apenas actualicen, en vez de
+    // esperar al próximo ciclo automático de sincronización.
+    await _syncService.sincronizarAhora();
   }
 
   @override

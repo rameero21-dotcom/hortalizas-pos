@@ -77,6 +77,7 @@ class StockRepositoryImpl implements StockRepository {
     );
     await _local.registrarMovimiento(movimiento);
     await _encolarStockRelativoYMovimiento(productoId, -cantidad, movimiento);
+    await _syncService.sincronizarAhora();
   }
 
   @override
@@ -96,6 +97,7 @@ class StockRepositoryImpl implements StockRepository {
     );
     await _local.registrarMovimiento(movimiento);
     await _encolarStockRelativoYMovimiento(productoId, cantidad, movimiento);
+    await _syncService.sincronizarAhora();
   }
 
   @override
@@ -114,6 +116,7 @@ class StockRepositoryImpl implements StockRepository {
     );
     await _local.registrarMovimiento(movimiento);
     await _encolarStockYMovimiento(productoId, nuevaCantidad, movimiento);
+    await _syncService.sincronizarAhora();
   }
 
   @override
@@ -133,6 +136,7 @@ class StockRepositoryImpl implements StockRepository {
     );
     await _local.registrarMovimiento(movimiento);
     await _encolarStockRelativoYMovimiento(productoId, -cantidad, movimiento);
+    await _syncService.sincronizarAhora();
   }
 
   @override
