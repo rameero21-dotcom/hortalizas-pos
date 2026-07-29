@@ -113,6 +113,10 @@ class ClienteRepositoryImpl implements ClienteRepository {
       _local.obtenerMovimientosCuenta(clienteId);
 
   @override
+  Future<List<MovimientoCuentaCorriente>> obtenerMovimientosCuentaGlobal(DateTime desde, DateTime hasta) =>
+      _remote.obtenerMovimientosPorRango(desde, hasta);
+
+  @override
   Future<void> refrescarDesdeRemoto() async {
     try {
       await _syncService.sincronizarAhora();

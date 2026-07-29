@@ -14,4 +14,21 @@ class ClienteRemoteDatasource {
         .map((d) => ClienteModel.fromMap(d.data() as Map<String, dynamic>))
         .toList();
   }
+
+  /// Todos los movimientos de cuenta corriente (cargos/pagos) de TODOS
+  /// los clientes en un rango de fechas, sin importar en qué dispositivo
+  /// se cargaron. Se usa para el reporte exportable en PDF, que necesita
+  /// ver el panorama completo del negocio, no solo lo de este celular.
+  Future<List<MovimientoCuentaCorrienteModel>> obtenerMovimientosPorRango(
+      DateTime desde, DateTime hasta) async {
+    final snap = await _firestoreService.movimientosCuentaCorriente
+        .where('fecha', isGreaterThanOrEqualTo: desde.toIso8601String())
+        .where('fecha', isLessThanOrEqualTo: hasta.toIso8601String())
+        .get();
+    final movimientos = snap.docs
+        .map((d) => MovimientoCuentaCorrienteModel.fromMap(d.data() as Map<String, dynamic>))
+        .toList();
+    movimientos.sort((a, b) => a.fecha.compareTo(b.fecha));
+    return movimientos;
+  }
 }

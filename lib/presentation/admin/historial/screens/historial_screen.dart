@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:printing/printing.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/venta.dart';
@@ -112,6 +113,7 @@ class HistorialScreen extends ConsumerStatefulWidget {
 
 class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTickerProviderStateMixin {
   late final TabController _tabController;
+  bool _generandoPdf = false;
 
   @override
   void initState() {
@@ -144,6 +146,53 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
     }
   }
 
+  /// Junta todos los datos del período (ventas, estadísticas, caja,
+  /// clientes) y arma el PDF, para después dejar que el usuario lo
+  /// guarde o comparta con el selector nativo del sistema.
+  Future<void> _exportarPdf(_FiltrosHistorial filtros) async {
+    setState(() => _generandoPdf = true);
+    try {
+      final ventasRepo = ref.read(ventaRepositoryProvider);
+      final todasLasVentas = await ventasRepo.obtenerPorRangoFechaGlobal(filtros.desde, filtros.hasta);
+      final ventasCobradas = todasLasVentas.where((v) => v.estado == EstadoVenta.cobrada).toList();
+
+      final estadisticas =
+          await ref.read(obtenerEstadisticasUseCaseProvider).call(filtros.desde, filtros.hasta);
+
+      final movimientosCaja =
+          await ref.read(cajaRepositoryProvider).obtenerMovimientosGlobal(filtros.desde, filtros.hasta);
+
+      final clienteRepo = ref.read(clienteRepositoryProvider);
+      final clientes = await clienteRepo.obtenerTodos();
+      final movimientosCuentaCorriente =
+          await clienteRepo.obtenerMovimientosCuentaGlobal(filtros.desde, filtros.hasta);
+
+      final bytes = await ref.read(reportePdfServiceProvider).generar(
+            desde: filtros.desde,
+            hasta: filtros.hasta,
+            ventas: ventasCobradas,
+            estadisticas: estadisticas,
+            movimientosCaja: movimientosCaja,
+            clientes: clientes,
+            movimientosCuentaCorriente: movimientosCuentaCorriente,
+          );
+
+      await Printing.sharePdf(
+        bytes: bytes,
+        filename:
+            'reporte_${Formatters.formatearFecha(filtros.desde).replaceAll('/', '-')}_a_${Formatters.formatearFecha(filtros.hasta.subtract(const Duration(days: 1))).replaceAll('/', '-')}.pdf',
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al generar el PDF: $e')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _generandoPdf = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final filtros = ref.watch(_filtrosProvider);
@@ -153,6 +202,17 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
     return Scaffold(
       appBar: AppBar(
         title: const Text('Historial'),
+        actions: [
+          IconButton(
+            icon: _generandoPdf
+                ? const SizedBox(
+                    height: 20, width: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                : const Icon(Icons.picture_as_pdf),
+            tooltip: 'Exportar PDF del período seleccionado',
+            onPressed: _generandoPdf ? null : () => _exportarPdf(filtros),
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           tabs: const [

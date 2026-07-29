@@ -44,6 +44,7 @@ import '../../domain/usecases/usuarios/login_usecase.dart';
 import '../services/connectivity_service.dart';
 import '../services/sync_service.dart';
 import '../services/qr_service.dart';
+import '../services/reporte_pdf_service.dart';
 import '../services/print_service.dart';
 
 /// ================= USUARIO ACTUAL (PLACEHOLDER hasta Fase 2 completa en UI) =================
@@ -75,6 +76,7 @@ final databaseHelperProvider = Provider((ref) => DatabaseHelper.instance);
 
 final connectivityServiceProvider = Provider((ref) => ConnectivityService());
 final qrServiceProvider = Provider((ref) => QrService());
+final reportePdfServiceProvider = Provider((ref) => ReportePdfService());
 final printServiceProvider = Provider((ref) => PrintService(ref.watch(qrServiceProvider)));
 
 /// ================= FIREBASE =================

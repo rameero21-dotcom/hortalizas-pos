@@ -21,6 +21,11 @@ abstract class ClienteRepository {
 
   Future<List<MovimientoCuentaCorriente>> obtenerMovimientosCuenta(String clienteId);
 
+  /// Todos los movimientos de cuenta corriente de TODOS los clientes en
+  /// un rango de fechas, sin importar el dispositivo. Se usa en el
+  /// reporte exportable en PDF. Requiere conexión.
+  Future<List<MovimientoCuentaCorriente>> obtenerMovimientosCuentaGlobal(DateTime desde, DateTime hasta);
+
   /// Trae todos los clientes desde Firestore y actualiza la caché local
   /// (agrega nuevos, actualiza cambiados, borra los que ya no existen).
   /// Se usa antes de mostrar el selector de cliente en caja, para que un
