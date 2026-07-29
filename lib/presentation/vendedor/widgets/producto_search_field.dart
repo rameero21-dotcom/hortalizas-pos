@@ -39,11 +39,25 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
   _ModoPrecio _modoPrecio = _ModoPrecio.total;
   bool _ignorarProximoCambioDeTexto = false; // ver _seleccionar()
 
+  // Se maneja aparte de "_busquedaFocus.hasFocus": en Windows (con
+  // mouse), tocar un ítem del desplegable a veces le saca el foco al
+  // campo de texto ANTES de que el clic llegue a completarse, y si la
+  // lista se ocultaba automáticamente al perder el foco, ese ítem
+  // desaparecía a mitad del clic sin llegar a seleccionarse nunca.
+  bool _mostrarSugerencias = false;
+
   @override
   void initState() {
     super.initState();
     _cargarInicial();
-    _busquedaFocus.addListener(() => setState(() {}));
+    _busquedaFocus.addListener(() {
+      if (_busquedaFocus.hasFocus) {
+        setState(() => _mostrarSugerencias = true);
+      }
+      // Ojo: cuando el campo PIERDE el foco no ocultamos acá mismo — lo
+      // maneja el TapRegion de más abajo, para no cerrar la lista a
+      // mitad de un clic sobre uno de sus ítems.
+    });
   }
 
   /// Al abrir la pantalla, primero intenta traer los cambios desde
@@ -95,6 +109,7 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
     _ignorarProximoCambioDeTexto = true;
     setState(() {
       _productoSeleccionado = producto;
+      _mostrarSugerencias = false;
       _busquedaCtrl.text = producto.nombre;
     });
     _busquedaFocus.unfocus();
@@ -212,9 +227,14 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
 
   @override
   Widget build(BuildContext context) {
-    final mostrarDropdown = _busquedaFocus.hasFocus && _productoSeleccionado == null;
+    final mostrarDropdown = _mostrarSugerencias && _productoSeleccionado == null;
 
-    return Column(
+    return TapRegion(
+      onTapOutside: (_) {
+        if (_mostrarSugerencias) setState(() => _mostrarSugerencias = false);
+        _busquedaFocus.unfocus();
+      },
+      child: Column(
       children: [
         TextField(
           controller: _busquedaCtrl,
@@ -351,6 +371,7 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
           label: const Text('Agregar'),
         ),
       ],
+      ),
     );
   }
 }
