@@ -11,9 +11,9 @@ import 'historial_cierres_screen.dart';
 const _denominaciones = [20000, 10000, 2000, 1000, 500, 100, 50, 20, 10];
 
 /// Cuántos billetes tiene un "fajo" en este negocio (ej: un fajo de
-/// $20.000 son 10 billetes = $200.000). Se usa para la "caja grande",
-/// donde se cuenta en fajos en vez de billete por billete.
-const _billetesPorFajo = 10;
+/// $20.000 son 100 billetes = $2.000.000). Se usa para la "caja
+/// grande", donde se cuenta en fajos en vez de billete por billete.
+const _billetesPorFajo = 100;
 
 /// Un ítem de venta para mostrar dentro del desplegable de efectivo o
 /// de cuenta corriente (puede ser solo una PARTE de la venta, si el
