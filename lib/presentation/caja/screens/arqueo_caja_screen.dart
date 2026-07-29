@@ -53,6 +53,12 @@ final _movimientosCajaHoyProvider = FutureProvider.autoDispose<List<MovimientoCa
   return ref.watch(cajaRepositoryProvider).obtenerMovimientos(inicio, fin);
 });
 
+/// Marca especial en el detalle para reconocer el ingreso que representa
+/// la "caja inicio" del día (el efectivo con el que arrancó la jornada),
+/// para poder guardarlo, mostrarlo aparte, y no contarlo dos veces
+/// dentro de "Ingresos manuales".
+const _detalleCajaInicio = 'Caja inicio';
+
 /// Pantalla de arqueo/cierre de caja: muestra lo que el sistema calcula
 /// que debería haber en efectivo (ventas en efectivo + ingresos manuales
 /// - egresos manuales), y permite contar los billetes reales para
@@ -75,6 +81,44 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
     for (final d in _denominaciones) d: TextEditingController(text: '0'),
   };
   bool _guardando = false;
+  bool _guardandoCajaInicio = false;
+  bool _cajaInicioYaCargada = false; // para no pisar lo que el cajero está escribiendo
+
+  /// Guarda (o actualiza, si ya había uno hoy) el ingreso especial que
+  /// representa la caja inicio del día. Es siempre en efectivo.
+  Future<void> _guardarCajaInicio(List<MovimientoCaja> movimientosActuales) async {
+    final monto = double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.'));
+    if (monto == null || monto < 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Ingresá un monto válido')),
+      );
+      return;
+    }
+    setState(() => _guardandoCajaInicio = true);
+    try {
+      // Si el cajero ya había cargado una caja inicio hoy y se equivocó,
+      // esto la reemplaza en vez de duplicarla.
+      final existente = movimientosActuales.where((m) => m.detalle == _detalleCajaInicio);
+      for (final m in existente) {
+        await ref.read(cajaRepositoryProvider).eliminarMovimiento(m.id);
+      }
+      final usuarioId = ref.read(currentUserIdProvider);
+      await ref.read(cajaRepositoryProvider).registrarMovimiento(
+            tipo: TipoMovimientoCaja.ingreso,
+            monto: monto,
+            detalle: _detalleCajaInicio,
+            usuarioId: usuarioId,
+          );
+      ref.invalidate(_movimientosCajaHoyProvider);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Caja inicio guardada: ${Formatters.formatearMoneda(monto)}')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _guardandoCajaInicio = false);
+    }
+  }
 
   @override
   void dispose() {
@@ -218,25 +262,29 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          TextField(
-            controller: _cajaInicioCtrl,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: const InputDecoration(
-              labelText: 'Caja inicio (efectivo con el que arrancó el día)',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 16),
           ventasAsync.when(
             data: (ventas) => movimientosAsync.when(
               data: (movimientos) {
+                // Precarga el campo con la caja inicio ya guardada hoy,
+                // una sola vez (para no pisar lo que el cajero esté
+                // escribiendo si todavía no la guardó).
+                if (!_cajaInicioYaCargada) {
+                  final existente = movimientos.where((m) => m.detalle == _detalleCajaInicio);
+                  if (existente.isNotEmpty) {
+                    _cajaInicioCtrl.text = existente.first.monto.toStringAsFixed(0);
+                  }
+                  _cajaInicioYaCargada = true;
+                }
+
+                final movimientosSinCajaInicio =
+                    movimientos.where((m) => m.detalle != _detalleCajaInicio).toList();
                 final grupos = _agruparVentas(ventas);
                 final totalEfectivo = grupos.efectivo.fold(0.0, (acc, i) => acc + i.monto);
                 final totalCuentaCorriente = grupos.cuentaCorriente.fold(0.0, (acc, i) => acc + i.monto);
-                final ingresos = movimientos
+                final ingresos = movimientosSinCajaInicio
                     .where((m) => m.tipo == TipoMovimientoCaja.ingreso)
                     .fold(0.0, (acc, m) => acc + m.monto);
-                final egresos = movimientos
+                final egresos = movimientosSinCajaInicio
                     .where((m) => m.tipo == TipoMovimientoCaja.egreso)
                     .fold(0.0, (acc, m) => acc + m.monto);
                 final cajaInicio = double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.')) ?? 0;
@@ -247,7 +295,37 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                 final diferencia = _totalContado - totalEsperado;
 
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _cajaInicioCtrl,
+                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                            decoration: const InputDecoration(
+                              labelText: 'Caja inicio (efectivo)',
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (_) => setState(() {}),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          height: 56,
+                          child: ElevatedButton(
+                            onPressed: _guardandoCajaInicio ? null : () => _guardarCajaInicio(movimientos),
+                            child: _guardandoCajaInicio
+                                ? const SizedBox(
+                                    height: 16, width: 16,
+                                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                                : const Text('Guardar'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
                     Card(
                       color: Theme.of(context).colorScheme.surfaceContainerHighest,
                       child: Padding(
@@ -255,6 +333,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            _filaResumen('Caja inicio', cajaInicio),
                             _filaResumen('Ventas en efectivo hoy', totalEfectivo),
                             _filaResumen('Ventas en cuenta corriente hoy (fiado + transferencia)',
                                 totalCuentaCorriente),

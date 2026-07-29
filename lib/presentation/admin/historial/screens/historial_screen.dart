@@ -71,24 +71,9 @@ class _MovimientoUnificado {
 
 final _movimientosCajaHistorialProvider = FutureProvider.autoDispose<List<_MovimientoUnificado>>((ref) async {
   final filtros = ref.watch(_filtrosProvider);
-  final ventas = await ref.watch(ventaRepositoryProvider).obtenerPorRangoFechaGlobal(filtros.desde, filtros.hasta);
   final movimientos = await ref.watch(cajaRepositoryProvider).obtenerMovimientosGlobal(filtros.desde, filtros.hasta);
 
   final unificados = <_MovimientoUnificado>[];
-
-  for (final v in ventas.where((v) => v.estado == EstadoVenta.cobrada)) {
-    unificados.add(_MovimientoUnificado(
-      id: v.id,
-      esVenta: true,
-      fecha: v.fechaCobro ?? v.fecha,
-      titulo: v.nombreCliente != null && v.nombreCliente!.isNotEmpty
-          ? 'Venta #${v.numero} · ${v.nombreCliente}'
-          : 'Venta #${v.numero}',
-      subtitulo: v.metodoPago != null ? _labelMetodoPago(v.metodoPago!) : 'Pago dividido',
-      monto: v.total,
-      color: Colors.green.shade700,
-    ));
-  }
 
   for (final m in movimientos) {
     final esIngreso = m.tipo == TipoMovimientoCaja.ingreso;
