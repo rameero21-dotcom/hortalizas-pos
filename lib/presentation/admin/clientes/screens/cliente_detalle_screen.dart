@@ -44,21 +44,23 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
     super.dispose();
   }
 
-  Future<void> _registrarMovimiento(TipoMovimientoCuenta tipo) async {
+  /// Registra un pago del cliente contra su deuda de cuenta corriente.
+  /// Los cargos (fiado) ya NO se generan a mano acá: siempre nacen de
+  /// una venta real cobrada como "cuenta corriente" (así queda la
+  /// boleta a su nombre, visible en la pestaña "Boletas"). Esta
+  /// pantalla es solo para gente que YA debe algo y viene a pagarlo.
+  Future<void> _registrarPago() async {
     final montoCtrl = TextEditingController();
     final detalleCtrl = TextEditingController();
-    // El método de pago solo importa para un PAGO (el cliente saldando
-    // deuda): si paga en efectivo, esa plata entra de verdad a la caja
-    // y tiene que reflejarse ahí; un cargo (fiado) nunca mueve caja.
+    // Si paga en efectivo, esa plata entra de verdad a la caja y tiene
+    // que reflejarse ahí.
     MetodoPago metodoPago = MetodoPago.efectivo;
 
     final confirmado = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: Text(tipo == TipoMovimientoCuenta.cargo
-              ? 'Nuevo cargo (fiado)'
-              : 'Registrar pago'),
+          title: const Text('Registrar pago'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -73,24 +75,22 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
                 controller: detalleCtrl,
                 decoration: const InputDecoration(labelText: 'Detalle', border: OutlineInputBorder()),
               ),
-              if (tipo == TipoMovimientoCuenta.pago) ...[
-                const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('¿Cómo paga?', style: TextStyle(color: Colors.grey.shade700)),
-                ),
-                const SizedBox(height: 4),
-                Wrap(
-                  spacing: 8,
-                  children: [MetodoPago.efectivo, MetodoPago.transferencia].map((m) {
-                    return ChoiceChip(
-                      label: Text(m == MetodoPago.efectivo ? 'Efectivo' : 'Transferencia'),
-                      selected: metodoPago == m,
-                      onSelected: (_) => setDialogState(() => metodoPago = m),
-                    );
-                  }).toList(),
-                ),
-              ],
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text('¿Cómo paga?', style: TextStyle(color: Colors.grey.shade700)),
+              ),
+              const SizedBox(height: 4),
+              Wrap(
+                spacing: 8,
+                children: [MetodoPago.efectivo, MetodoPago.transferencia].map((m) {
+                  return ChoiceChip(
+                    label: Text(m == MetodoPago.efectivo ? 'Efectivo' : 'Transferencia'),
+                    selected: metodoPago == m,
+                    onSelected: (_) => setDialogState(() => metodoPago = m),
+                  );
+                }).toList(),
+              ),
             ],
           ),
           actions: [
@@ -108,7 +108,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
     final usuarioId = ref.read(currentUserIdProvider);
     await ref.read(clienteRepositoryProvider).registrarMovimientoCuenta(
           clienteId: widget.cliente.id,
-          tipo: tipo,
+          tipo: TipoMovimientoCuenta.pago,
           monto: monto,
           detalle: detalle,
           usuarioId: usuarioId,
@@ -119,7 +119,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
     // lo tenga en cuenta al calcular el efectivo esperado. Si fue por
     // transferencia, no toca la caja física (no hay billetes de por
     // medio), pero el pago ya quedó reflejado en la cuenta corriente.
-    if (tipo == TipoMovimientoCuenta.pago && metodoPago == MetodoPago.efectivo) {
+    if (metodoPago == MetodoPago.efectivo) {
       await ref.read(cajaRepositoryProvider).registrarMovimiento(
             tipo: TipoMovimientoCaja.ingreso,
             monto: monto,
@@ -185,24 +185,10 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () => _registrarMovimiento(TipoMovimientoCuenta.cargo),
-                    icon: const Icon(Icons.add),
-                    label: const Text('Cargo (fiado)'),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () => _registrarMovimiento(TipoMovimientoCuenta.pago),
-                    icon: const Icon(Icons.check),
-                    label: const Text('Registrar pago'),
-                  ),
-                ),
-              ],
+            child: OutlinedButton.icon(
+              onPressed: _registrarPago,
+              icon: const Icon(Icons.check),
+              label: const Text('Registrar pago'),
             ),
           ),
           const SizedBox(height: 8),

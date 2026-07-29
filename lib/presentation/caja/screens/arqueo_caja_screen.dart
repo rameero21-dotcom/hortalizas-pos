@@ -10,6 +10,11 @@ import 'historial_cierres_screen.dart';
 /// en la planilla (de mayor a menor).
 const _denominaciones = [20000, 10000, 2000, 1000, 500, 100, 50, 20, 10];
 
+/// Cuántos billetes tiene un "fajo" en este negocio (ej: un fajo de
+/// $20.000 son 10 billetes = $200.000). Se usa para la "caja grande",
+/// donde se cuenta en fajos en vez de billete por billete.
+const _billetesPorFajo = 10;
+
 /// Un ítem de venta para mostrar dentro del desplegable de efectivo o
 /// de cuenta corriente (puede ser solo una PARTE de la venta, si el
 /// pago fue dividido entre varios métodos).
@@ -80,6 +85,9 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
   final Map<int, TextEditingController> _billeteCtrls = {
     for (final d in _denominaciones) d: TextEditingController(text: '0'),
   };
+  final Map<int, TextEditingController> _fajoCtrls = {
+    for (final d in _denominaciones) d: TextEditingController(text: '0'),
+  };
   bool _guardando = false;
   bool _guardandoCajaInicio = false;
   bool _cajaInicioYaCargada = false; // para no pisar lo que el cajero está escribiendo
@@ -126,10 +134,13 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
     for (final c in _billeteCtrls.values) {
       c.dispose();
     }
+    for (final c in _fajoCtrls.values) {
+      c.dispose();
+    }
     super.dispose();
   }
 
-  double get _totalContado {
+  double get _totalCajaChica {
     double total = 0;
     for (final d in _denominaciones) {
       final cantidad = int.tryParse(_billeteCtrls[d]!.text) ?? 0;
@@ -138,14 +149,30 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
     return total;
   }
 
+  double get _totalCajaGrande {
+    double total = 0;
+    for (final d in _denominaciones) {
+      final cantidadFajos = int.tryParse(_fajoCtrls[d]!.text) ?? 0;
+      total += d * cantidadFajos * _billetesPorFajo;
+    }
+    return total;
+  }
+
+  double get _totalContado => _totalCajaChica + _totalCajaGrande;
+
   Future<void> _cerrarCaja() async {
     setState(() => _guardando = true);
     try {
       final usuarioId = ref.read(currentUserIdProvider);
-      final billetes = _denominaciones
-          .map((d) => ConteoBillete(denominacion: d, cantidad: int.tryParse(_billeteCtrls[d]!.text) ?? 0))
-          .where((b) => b.cantidad > 0)
-          .toList();
+      // El cierre guardado combina la caja chica (billetes sueltos) y
+      // la caja grande (fajos, convertidos a su cantidad equivalente de
+      // billetes) en un solo conteo por denominación — así no hace
+      // falta cambiar cómo se guarda el cierre.
+      final billetes = _denominaciones.map((d) {
+        final sueltos = int.tryParse(_billeteCtrls[d]!.text) ?? 0;
+        final fajos = int.tryParse(_fajoCtrls[d]!.text) ?? 0;
+        return ConteoBillete(denominacion: d, cantidad: sueltos + (fajos * _billetesPorFajo));
+      }).where((b) => b.cantidad > 0).toList();
       await ref.read(cajaRepositoryProvider).guardarCierre(
             cajaInicio: double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.')) ?? 0,
             billetes: billetes,
@@ -371,7 +398,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                             _filaResumen('Egresos manuales', -egresos),
                             const Divider(),
                             _filaResumen('Total esperado en caja', totalEsperado, negrita: true),
-                            _filaResumen('Total contado (billetes)', _totalContado, negrita: true),
+                            _filaResumen('Total contado (caja chica + caja grande)', _totalContado, negrita: true),
                             const Divider(),
                             _filaResumen('Diferencia', diferencia,
                                 negrita: true, colorSegunSigno: true),
@@ -420,7 +447,54 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
             ],
           ),
           const SizedBox(height: 24),
-          const Text('Conteo de billetes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          const Text('Caja grande (fajos)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          Text(
+            'Un fajo de cada denominación equivale a $_billetesPorFajo billetes.',
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+          ),
+          const SizedBox(height: 8),
+          ..._denominaciones.map((d) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  children: [
+                    SizedBox(width: 90, child: Text(Formatters.formatearMoneda(d))),
+                    Expanded(
+                      child: TextField(
+                        controller: _fajoCtrls[d],
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: 'Cantidad de fajos',
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                        onChanged: (_) => setState(() {}),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        Formatters.formatearMoneda(
+                            d * (int.tryParse(_fajoCtrls[d]!.text) ?? 0) * _billetesPorFajo),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Subtotal caja grande', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(Formatters.formatearMoneda(_totalCajaGrande),
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+          const Text('Caja chica (billetes sueltos)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           const SizedBox(height: 8),
           ..._denominaciones.map((d) => Padding(
                 padding: const EdgeInsets.only(bottom: 8),
@@ -450,6 +524,17 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                   ],
                 ),
               )),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Subtotal caja chica', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(Formatters.formatearMoneda(_totalCajaChica),
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: _guardando ? null : _cerrarCaja,
