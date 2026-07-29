@@ -9,6 +9,7 @@ identificarlos y borrarlos facilmente despues.
 Uso: python3 test_integracion_firebase.py
 """
 import uuid
+import time
 import datetime
 import json
 from google.cloud import firestore
@@ -525,9 +526,9 @@ for nombre, estado, detalle in resultados:
 # Guardar ids creados para poder limpiarlos despues
 with open('/tmp/test_ids.json', 'w') as f:
     json.dump({
-        "productos": list(ids_productos.values()),
+        "productos": list(ids_productos.values()) + productos_volumen_ids,
         "clientes": [cliente_id, cliente2_id],
-        "ventas": [venta1_id, venta2_id, venta3_id] + ventas_stats_ids,
+        "ventas": [venta1_id, venta2_id, venta3_id, venta_qr_id] + ventas_stats_ids + ventas_volumen_ids,
         "movimientos_cuenta_corriente": [mov_id, mov_pago_id, mov_cargo_id, mov_pago_efectivo_id, mov_pago_transf_id],
         "movimientos_caja": [mov_caja_efectivo_id],
         "cierres_caja": [cierre_id],
