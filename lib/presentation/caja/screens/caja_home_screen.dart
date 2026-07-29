@@ -15,8 +15,27 @@ import '../../shared/widgets/indicador_sincronizacion.dart';
 
 bool get _tieneCamaraDeQr => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
-final ventasPendientesStreamProvider = StreamProvider((ref) {
-  return ref.watch(ventaRemoteDsProvider).observarPendientes();
+/// Se reintenta un par de veces si falla al principio: justo al abrir la
+/// app (sobre todo con sesión guardada, entrando directo sin login), a
+/// veces el token de autenticación de Firebase todavía no terminó de
+/// prepararse en el mismo instante en que se intenta leer "ventas",
+/// dando un error de permisos transitorio que se resuelve solo un
+/// instante después. Sin este reintento, el usuario veía el error y
+/// tenía que actualizar a mano aunque en realidad no había ningún
+/// problema real de conexión ni de permisos.
+final ventasPendientesStreamProvider = StreamProvider((ref) async* {
+  final datasource = ref.watch(ventaRemoteDsProvider);
+  var intentos = 0;
+  while (true) {
+    try {
+      yield* datasource.observarPendientes();
+      return;
+    } catch (e) {
+      intentos++;
+      if (intentos >= 4) rethrow; // ya reintentó varias veces: mostrar el error de verdad
+      await Future.delayed(Duration(milliseconds: 600 * intentos));
+    }
+  }
 });
 
 class CajaHomeScreen extends ConsumerWidget {
