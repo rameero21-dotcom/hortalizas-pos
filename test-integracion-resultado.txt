@@ -1,9 +1,11 @@
 /home/runner/.local/lib/python3.12/site-packages/google/cloud/firestore_v1/base_collection.py:317: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
   return query.where(field_path, op_string, value)
-/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:220: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:221: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
   .where("detalle", "<", PREFIJO + "\uf8ff").stream()))
-/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:259: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:260: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
   .where("detalle", "<", PREFIJO + "\uf8ff").stream()))
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:506: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+  .where("fecha", "<=", hasta_vol.isoformat())
 ======================================================================
 PRUEBA DE INTEGRACION - HORTALIZAS POS
 ======================================================================
@@ -62,9 +64,23 @@ Utilidad esperada: 28270.00
 [OK] La venta eliminada ya no existe en Firestore 
 [OK] El producto eliminado ya no existe en Firestore 
 
+--- 13) Flujo sin conexion: vendedor genera QR, cajero lo escanea despues ---
+[OK] El QR decodificado tiene todos los campos necesarios para reconstruir la venta 
+[OK] Antes de cobrar, la venta reconstruida desde QR no existe en Firestore (como se espera) 
+[OK] La venta reconstruida desde QR se creo completa y cobrada en Firestore 
+[OK] El stock se descuenta igual para una venta reconstruida desde QR (98 -> 95)
+[OK] Al reescanear el mismo QR, el sistema ahora SI encuentra la venta como 'cobrada' (el guard la bloquearia) 
+
+--- 14) Volumen grande: 60 productos + 300 ventas ---
+Tiempo para crear 60 productos: 0.66s
+Tiempo para crear 300 ventas: 1.69s
+Tiempo para leer 307 ventas del rango: 0.48s
+[OK] Se pudieron crear y leer las 300 ventas de volumen sin errores (se leyeron 307)
+[OK] La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos) (tardo 0.48s)
+
 ======================================================================
 RESUMEN
 ======================================================================
-23/23 verificaciones pasaron correctamente.
+30/30 verificaciones pasaron correctamente.
 
 IDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.
