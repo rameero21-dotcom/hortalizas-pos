@@ -21,7 +21,7 @@ class DatabaseHelper {
     final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
     return openDatabase(
       path,
-      version: 4,
+      version: 5,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -45,6 +45,9 @@ class DatabaseHelper {
     if (oldVersion < 4) {
       await db.execute('ALTER TABLE ${AppConstants.tablaVentas} ADD COLUMN vendedorNombre TEXT');
     }
+    if (oldVersion < 5) {
+      await db.execute("ALTER TABLE movimientos_caja ADD COLUMN metodo TEXT NOT NULL DEFAULT 'efectivo'");
+    }
   }
 
   Future<void> _crearTablasCaja(Database db) async {
@@ -55,7 +58,8 @@ class DatabaseHelper {
         monto REAL NOT NULL,
         detalle TEXT NOT NULL,
         fecha TEXT NOT NULL,
-        usuarioId TEXT NOT NULL
+        usuarioId TEXT NOT NULL,
+        metodo TEXT NOT NULL DEFAULT 'efectivo'
       )
     ''');
 

@@ -8,6 +8,7 @@ abstract class CajaRepository {
     required double monto,
     required String detalle,
     required String usuarioId,
+    MetodoMovimientoCaja metodo = MetodoMovimientoCaja.efectivo,
   });
 
   Future<List<MovimientoCaja>> obtenerMovimientos(DateTime desde, DateTime hasta);

@@ -9,6 +9,7 @@ class MovimientoCajaModel extends MovimientoCaja {
     required super.detalle,
     required super.fecha,
     required super.usuarioId,
+    super.metodo,
   });
 
   factory MovimientoCajaModel.fromMap(Map<String, dynamic> map) => MovimientoCajaModel(
@@ -18,6 +19,11 @@ class MovimientoCajaModel extends MovimientoCaja {
         detalle: map['detalle'] as String,
         fecha: DateTime.parse(map['fecha'] as String),
         usuarioId: map['usuarioId'] as String,
+        // Los movimientos guardados antes de este cambio no tienen este
+        // campo: se asumen en efectivo (comportamiento de siempre).
+        metodo: map['metodo'] != null
+            ? MetodoMovimientoCaja.values.byName(map['metodo'] as String)
+            : MetodoMovimientoCaja.efectivo,
       );
 
   Map<String, dynamic> toMap() => {
@@ -27,6 +33,7 @@ class MovimientoCajaModel extends MovimientoCaja {
         'detalle': detalle,
         'fecha': fecha.toIso8601String(),
         'usuarioId': usuarioId,
+        'metodo': metodo.name,
       };
 }
 

@@ -15,6 +15,13 @@ class ConteoBillete {
 /// que paga una deuda vieja, un gasto en efectivo, un préstamo, etc.
 enum TipoMovimientoCaja { ingreso, egreso }
 
+/// Cómo entró/salió la plata de este movimiento. Los egresos son
+/// siempre en efectivo (no tiene sentido "un gasto por transferencia"
+/// para el arqueo físico); los ingresos sí pueden ser por transferencia
+/// (ej: alguien te transfiere en vez de traer el efectivo), aunque lo
+/// más común sea efectivo.
+enum MetodoMovimientoCaja { efectivo, transferencia }
+
 class MovimientoCaja {
   final String id;
   final TipoMovimientoCaja tipo;
@@ -22,6 +29,7 @@ class MovimientoCaja {
   final String detalle;
   final DateTime fecha;
   final String usuarioId;
+  final MetodoMovimientoCaja metodo;
 
   const MovimientoCaja({
     required this.id,
@@ -30,6 +38,7 @@ class MovimientoCaja {
     required this.detalle,
     required this.fecha,
     required this.usuarioId,
+    this.metodo = MetodoMovimientoCaja.efectivo,
   });
 }
 

@@ -23,6 +23,7 @@ class CajaRepositoryImpl implements CajaRepository {
     required double monto,
     required String detalle,
     required String usuarioId,
+    MetodoMovimientoCaja metodo = MetodoMovimientoCaja.efectivo,
   }) async {
     final movimiento = MovimientoCajaModel(
       id: _uuid.v4(),
@@ -31,6 +32,7 @@ class CajaRepositoryImpl implements CajaRepository {
       detalle: detalle,
       fecha: DateTime.now(),
       usuarioId: usuarioId,
+      metodo: metodo,
     );
     await _local.registrarMovimiento(movimiento);
     await _syncQueue.encolar(

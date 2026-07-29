@@ -82,7 +82,7 @@ final _movimientosCajaHistorialProvider = FutureProvider.autoDispose<List<_Movim
       esVenta: false,
       fecha: m.fecha,
       titulo: esIngreso ? 'Ingreso manual' : 'Egreso manual',
-      subtitulo: m.detalle,
+      subtitulo: '${m.detalle} (${m.metodo == MetodoMovimientoCaja.efectivo ? 'Efectivo' : 'Transferencia'})',
       monto: esIngreso ? m.monto : -m.monto,
       color: esIngreso ? Colors.blue.shade700 : Colors.red.shade700,
     ));

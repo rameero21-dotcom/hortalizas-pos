@@ -169,30 +169,57 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
   Future<void> _agregarMovimientoManual(TipoMovimientoCaja tipo) async {
     final montoCtrl = TextEditingController();
     final detalleCtrl = TextEditingController();
+    // Los egresos son siempre en efectivo (no tiene sentido "un gasto
+    // por transferencia" para el arqueo físico). Los ingresos casi
+    // siempre son en efectivo también, pero a veces te transfieren en
+    // vez de traer el efectivo — por eso solo a los ingresos se les
+    // pregunta el método.
+    MetodoMovimientoCaja metodo = MetodoMovimientoCaja.efectivo;
+
     final confirmado = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(tipo == TipoMovimientoCaja.ingreso ? 'Ingreso manual' : 'Egreso manual'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: montoCtrl,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(labelText: 'Monto', border: OutlineInputBorder()),
-              autofocus: true,
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: detalleCtrl,
-              decoration: const InputDecoration(labelText: 'Detalle / cliente', border: OutlineInputBorder()),
-            ),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text(tipo == TipoMovimientoCaja.ingreso ? 'Ingreso manual' : 'Egreso manual'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: montoCtrl,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(labelText: 'Monto', border: OutlineInputBorder()),
+                autofocus: true,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: detalleCtrl,
+                decoration: const InputDecoration(labelText: 'Detalle / cliente', border: OutlineInputBorder()),
+              ),
+              if (tipo == TipoMovimientoCaja.ingreso) ...[
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('¿Cómo entró la plata?', style: TextStyle(color: Colors.grey.shade700)),
+                ),
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 8,
+                  children: MetodoMovimientoCaja.values.map((m) {
+                    return ChoiceChip(
+                      label: Text(m == MetodoMovimientoCaja.efectivo ? 'Efectivo' : 'Transferencia'),
+                      selected: metodo == m,
+                      onSelected: (_) => setDialogState(() => metodo = m),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ],
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
+            ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Guardar')),
           ],
         ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
-          ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Guardar')),
-        ],
       ),
     );
     if (confirmado != true) return;
@@ -205,6 +232,8 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
           monto: monto,
           detalle: detalleCtrl.text.trim().isEmpty ? '(sin detalle)' : detalleCtrl.text.trim(),
           usuarioId: usuarioId,
+          // Los egresos quedan siempre en efectivo, sin preguntar.
+          metodo: tipo == TipoMovimientoCaja.egreso ? MetodoMovimientoCaja.efectivo : metodo,
         );
     ref.invalidate(_movimientosCajaHoyProvider);
   }
@@ -278,20 +307,27 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
 
                 final movimientosSinCajaInicio =
                     movimientos.where((m) => m.detalle != _detalleCajaInicio).toList();
+                final ingresosTodos = movimientosSinCajaInicio.where((m) => m.tipo == TipoMovimientoCaja.ingreso).toList();
+                final egresosTodos = movimientosSinCajaInicio.where((m) => m.tipo == TipoMovimientoCaja.egreso).toList();
                 final grupos = _agruparVentas(ventas);
                 final totalEfectivo = grupos.efectivo.fold(0.0, (acc, i) => acc + i.monto);
-                final totalCuentaCorriente = grupos.cuentaCorriente.fold(0.0, (acc, i) => acc + i.monto);
-                final ingresos = movimientosSinCajaInicio
-                    .where((m) => m.tipo == TipoMovimientoCaja.ingreso)
+                final ingresosEfectivo = ingresosTodos
+                    .where((m) => m.metodo == MetodoMovimientoCaja.efectivo)
                     .fold(0.0, (acc, m) => acc + m.monto);
-                final egresos = movimientosSinCajaInicio
-                    .where((m) => m.tipo == TipoMovimientoCaja.egreso)
+                final ingresosTransferencia = ingresosTodos
+                    .where((m) => m.metodo == MetodoMovimientoCaja.transferencia)
                     .fold(0.0, (acc, m) => acc + m.monto);
+                // Cuenta corriente agrupa: fiado + transferencia (ventas)
+                // + ingresos manuales que llegaron por transferencia —
+                // ninguno de esos casos mete plata física a la caja.
+                final totalCuentaCorriente =
+                    grupos.cuentaCorriente.fold(0.0, (acc, i) => acc + i.monto) + ingresosTransferencia;
+                final egresos = egresosTodos.fold(0.0, (acc, m) => acc + m.monto);
                 final cajaInicio = double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.')) ?? 0;
                 // La cuenta corriente (fiado + transferencia) NO suma al
                 // efectivo esperado: esa plata no entró físicamente a la
                 // caja como billetes, se muestra solo a modo informativo.
-                final totalEsperado = cajaInicio + totalEfectivo + ingresos - egresos;
+                final totalEsperado = cajaInicio + totalEfectivo + ingresosEfectivo - egresos;
                 final diferencia = _totalContado - totalEsperado;
 
                 return Column(
@@ -331,7 +367,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                             _filaResumen('Ventas en efectivo hoy', totalEfectivo),
                             _filaResumen('Ventas en cuenta corriente hoy (fiado + transferencia)',
                                 totalCuentaCorriente),
-                            _filaResumen('Ingresos manuales', ingresos),
+                            _filaResumen('Ingresos manuales (efectivo)', ingresosEfectivo),
                             _filaResumen('Egresos manuales', -egresos),
                             const Divider(),
                             _filaResumen('Total esperado en caja', totalEsperado, negrita: true),
@@ -350,6 +386,10 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                         'Ventas en cuenta corriente (fiado + transferencia)',
                         grupos.cuentaCorriente,
                         Colors.blue.shade700),
+                    const SizedBox(height: 8),
+                    _desplegableMovimientos('Ingresos', ingresosTodos, Colors.teal.shade700),
+                    const SizedBox(height: 8),
+                    _desplegableMovimientos('Egresos', egresosTodos, Colors.red.shade700),
                   ],
                 );
               },
@@ -461,6 +501,46 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                       trailing: Text(
                         Formatters.formatearMoneda(i.monto),
                         style: TextStyle(fontWeight: FontWeight.bold, color: color),
+                      ),
+                    ))
+                .toList(),
+      ),
+    );
+  }
+
+  Widget _desplegableMovimientos(String titulo, List<MovimientoCaja> items, Color color) {
+    final total = items.fold(0.0, (acc, m) => acc + m.monto);
+    return Card(
+      child: ExpansionTile(
+        title: Text(titulo),
+        subtitle: Text('${items.length} movimiento(s) · ${Formatters.formatearMoneda(total)}'),
+        children: items.isEmpty
+            ? [Padding(padding: const EdgeInsets.all(16), child: Text('Sin ${titulo.toLowerCase()} todavía hoy.'))]
+            : items
+                .map((m) => Dismissible(
+                      key: ValueKey(m.id),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 20),
+                        child: const Icon(Icons.delete, color: Colors.white),
+                      ),
+                      onDismissed: (_) async {
+                        await ref.read(cajaRepositoryProvider).eliminarMovimiento(m.id);
+                        ref.invalidate(_movimientosCajaHoyProvider);
+                      },
+                      child: ListTile(
+                        dense: true,
+                        title: Text(m.detalle),
+                        subtitle: Text(
+                          '${m.metodo == MetodoMovimientoCaja.efectivo ? 'Efectivo' : 'Transferencia'} · '
+                          '${Formatters.formatearHora(m.fecha)}',
+                        ),
+                        trailing: Text(
+                          Formatters.formatearMoneda(m.monto),
+                          style: TextStyle(fontWeight: FontWeight.bold, color: color),
+                        ),
                       ),
                     ))
                 .toList(),
