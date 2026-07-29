@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uuid/uuid.dart';
 import '../../../domain/entities/detalle_venta.dart';
 import '../../../domain/entities/producto.dart';
 import '../../../core/di/providers.dart';
@@ -154,68 +153,6 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
     });
   }
 
-  /// Alta rápida de un producto nuevo, sin salir de la pantalla de venta.
-  /// Útil cuando el vendedor busca algo que todavía no está cargado en el
-  /// inventario. Una vez creado, queda seleccionado listo para agregar a
-  /// la venta.
-  Future<void> _altaRapidaProducto() async {
-    final nombreInicial = _busquedaCtrl.text.trim();
-    final nombreCtrl = TextEditingController(text: nombreInicial);
-    final categoriaCtrl = TextEditingController(text: 'Verduras');
-
-    final confirmado = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Agregar producto nuevo'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: nombreCtrl,
-              autofocus: true,
-              decoration: const InputDecoration(labelText: 'Nombre', border: OutlineInputBorder()),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: categoriaCtrl,
-              decoration: const InputDecoration(labelText: 'Categoría', border: OutlineInputBorder()),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
-          ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Crear')),
-        ],
-      ),
-    );
-
-    if (confirmado != true || nombreCtrl.text.trim().isEmpty) return;
-
-    final nuevoProducto = Producto(
-      id: const Uuid().v4(),
-      nombre: nombreCtrl.text.trim(),
-      precioSugerido: 0,
-      categoria: categoriaCtrl.text.trim().isEmpty ? 'General' : categoriaCtrl.text.trim(),
-      activo: true,
-    );
-
-    try {
-      await ref.read(gestionarProductosUseCaseProvider).crear(nuevoProducto);
-      await _cargarProductos();
-      if (!mounted) return;
-      _seleccionar(nuevoProducto);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('"${nuevoProducto.nombre}" agregado al inventario')),
-      );
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No se pudo crear el producto: $e')),
-        );
-      }
-    }
-  }
-
   @override
   void dispose() {
     _busquedaCtrl.dispose();
@@ -274,7 +211,7 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
                   child: _filtrados.isEmpty
                       ? const Padding(
                           padding: EdgeInsets.all(12),
-                          child: Text('Sin resultados.'),
+                          child: Text('Sin resultados. Pedile a un administrador que lo cargue.'),
                         )
                       : ListView.builder(
                           shrinkWrap: true,
@@ -288,12 +225,6 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
                             );
                           },
                         ),
-                ),
-                const Divider(height: 1),
-                ListTile(
-                  leading: const Icon(Icons.add_circle_outline),
-                  title: const Text('Agregar producto nuevo al inventario'),
-                  onTap: _altaRapidaProducto,
                 ),
               ],
             ),

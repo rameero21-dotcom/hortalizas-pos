@@ -5,13 +5,13 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../domain/entities/producto.dart';
 
-/// Formulario para crear/editar un producto: nombre, categoría,
-/// activo/inactivo, y el costo por unidad (para el reporte de
-/// utilidad). Ya no pide "precio sugerido": el vendedor ya ve el costo
-/// de referencia al armar la venta, así que ese campo quedaba de más.
-/// IIBB y TSH tampoco se cargan acá: se calculan solos como porcentaje
-/// de la venta (configurable desde Estadísticas), igual que en la
-/// planilla de control diario.
+/// Formulario para crear/editar un producto: nombre, activo/inactivo, y
+/// el costo por unidad (para el reporte de utilidad). Ya no pide
+/// "categoría" (todo el catálogo es del mismo rubro, no aportaba nada)
+/// ni "precio sugerido" (el vendedor ya ve el costo de referencia al
+/// armar la venta). IIBB y TSH tampoco se cargan acá: se calculan solos
+/// como porcentaje de la venta (configurable desde Estadísticas), igual
+/// que en la planilla de control diario.
 class ProductoFormScreen extends ConsumerStatefulWidget {
   final Producto? producto; // null = creación
 
@@ -24,7 +24,6 @@ class ProductoFormScreen extends ConsumerStatefulWidget {
 class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _nombreCtrl;
-  late final TextEditingController _categoriaCtrl;
   late final TextEditingController _costoCtrl;
   bool _activo = true;
   bool _guardando = false;
@@ -38,7 +37,6 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
     super.initState();
     final p = widget.producto;
     _nombreCtrl = TextEditingController(text: p?.nombre ?? '');
-    _categoriaCtrl = TextEditingController(text: p?.categoria ?? 'Verduras');
     _costoCtrl = TextEditingController(text: p != null ? _num(p.costoUnitario) : '');
     _activo = p?.activo ?? true;
   }
@@ -46,7 +44,6 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
   @override
   void dispose() {
     _nombreCtrl.dispose();
-    _categoriaCtrl.dispose();
     _costoCtrl.dispose();
     super.dispose();
   }
@@ -61,7 +58,7 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
         id: widget.producto?.id ?? const Uuid().v4(),
         nombre: _nombreCtrl.text.trim(),
         precioSugerido: 0, // ya no se carga por producto (queda el costo como referencia)
-        categoria: _categoriaCtrl.text.trim().isEmpty ? 'General' : _categoriaCtrl.text.trim(),
+        categoria: widget.producto?.categoria ?? 'Verduras', // ya no se elige por producto
         activo: _activo,
         costoUnitario: _leer(_costoCtrl),
       );
@@ -99,11 +96,6 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
                 controller: _nombreCtrl,
                 decoration: const InputDecoration(labelText: 'Nombre', border: OutlineInputBorder()),
                 validator: (v) => Validators.requerido(v, campo: 'El nombre'),
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: _categoriaCtrl,
-                decoration: const InputDecoration(labelText: 'Categoría', border: OutlineInputBorder()),
               ),
               const SizedBox(height: 20),
               const Text('Costo (para el reporte de utilidad)', style: TextStyle(fontWeight: FontWeight.bold)),
