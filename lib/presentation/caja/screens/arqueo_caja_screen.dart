@@ -297,33 +297,27 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _cajaInicioCtrl,
-                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                            decoration: const InputDecoration(
-                              labelText: 'Caja inicio (efectivo)',
-                              border: OutlineInputBorder(),
-                            ),
-                            onChanged: (_) => setState(() {}),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                          height: 56,
-                          child: ElevatedButton(
-                            onPressed: _guardandoCajaInicio ? null : () => _guardarCajaInicio(movimientos),
-                            child: _guardandoCajaInicio
-                                ? const SizedBox(
-                                    height: 16, width: 16,
-                                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                                : const Text('Guardar'),
-                          ),
-                        ),
-                      ],
+                    TextField(
+                      controller: _cajaInicioCtrl,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      decoration: InputDecoration(
+                        labelText: 'Caja inicio (efectivo)',
+                        border: const OutlineInputBorder(),
+                        suffixIcon: _guardandoCajaInicio
+                            ? const Padding(
+                                padding: EdgeInsets.all(12),
+                                child: SizedBox(
+                                  height: 16, width: 16,
+                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                ),
+                              )
+                            : IconButton(
+                                icon: const Icon(Icons.save),
+                                tooltip: 'Guardar caja inicio',
+                                onPressed: () => _guardarCajaInicio(movimientos),
+                              ),
+                      ),
+                      onChanged: (_) => setState(() {}),
                     ),
                     const SizedBox(height: 16),
                     Card(
