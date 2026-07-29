@@ -64,4 +64,23 @@ class FirestoreService {
   Future<void> incrementarCampo(String entidad, String id, String campo, num delta) {
     return coleccionPara(entidad).doc(id).set({campo: FieldValue.increment(delta)}, SetOptions(merge: true));
   }
+
+  /// Crea/actualiza una venta SOLO SI todavía no está cobrada en el
+  /// servidor. Cubre este caso: el vendedor crea una venta sin señal;
+  /// la caja la cobra al toque escaneando el QR de respaldo (con
+  /// conexión); recién DESPUÉS el celular del vendedor recupera señal y
+  /// sube su "creación" (que en su cabeza todavía está pendiente). Sin
+  /// esta protección, esa subida tardía pisaría el estado "cobrada" de
+  /// vuelta a "pendiente" con un set/merge común. La transacción lee el
+  /// estado actual en el servidor antes de decidir si escribir.
+  Future<void> crearVentaSiNoCobrada(String id, Map<String, dynamic> data) {
+    final doc = ventas.doc(id);
+    return _firestore.runTransaction((transaction) async {
+      final snapshot = await transaction.get(doc);
+      if (snapshot.exists && (snapshot.data() as Map<String, dynamic>?)?['estado'] == 'cobrada') {
+        return; // ya la cobraron por otro camino; no tocar nada.
+      }
+      transaction.set(doc, data, SetOptions(merge: true));
+    });
+  }
 }

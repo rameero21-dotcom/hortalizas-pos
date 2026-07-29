@@ -66,6 +66,8 @@ class SyncService {
               item.payload['campo'] as String,
               item.payload['delta'] as num,
             );
+          } else if (item.operacion == 'crear_venta_segura') {
+            await _firestoreService.crearVentaSiNoCobrada(item.entidadId, item.payload);
           } else {
             await _firestoreService.subirDocumento(item.entidad, item.entidadId, item.payload);
           }

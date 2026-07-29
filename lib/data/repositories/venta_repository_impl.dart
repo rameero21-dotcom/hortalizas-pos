@@ -47,7 +47,11 @@ class VentaRepositoryImpl implements VentaRepository {
     await _syncQueue.encolar(
       entidad: AppConstants.colVentas,
       entidadId: modelConNumero.id,
-      operacion: 'set',
+      // 'crear_venta_segura' (no 'set' común): protege contra el caso
+      // donde esta creación tarda en subir y llega DESPUÉS de que la
+      // venta ya fue cobrada por otro camino (ej: QR de respaldo
+      // escaneado sin conexión) — no pisa el estado "cobrada".
+      operacion: 'crear_venta_segura',
       payload: modelConNumero.toRemoteMap(), // incluye el detalle embebido
     );
 
