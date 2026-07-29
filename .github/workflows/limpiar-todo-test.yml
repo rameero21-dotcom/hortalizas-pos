@@ -1,0 +1,34 @@
+name: Limpieza a fondo de datos de prueba (manual)
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  limpiar-todo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guardar el secreto en un archivo temporal
+        run: |
+          if [ -z "$FIREBASE_KEY" ]; then
+            echo "FALTA el secreto FIREBASE_SERVICE_ACCOUNT_JSON."
+            exit 1
+          fi
+          echo "$FIREBASE_KEY" > /tmp/sa.json
+        env:
+          FIREBASE_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+
+      - name: Instalar dependencias de Python
+        run: pip install --quiet google-auth google-cloud-firestore --break-system-packages
+
+      - name: Borrar TODO lo que tenga el prefijo "TEST -" (sin depender de una lista de IDs)
+        run: python3 .github/scripts/limpiar_todo_test.py 2>&1 | tee /tmp/limpieza_resultado.log
+
+      - name: Guardar resultado de la limpieza
+        run: python3 .github/scripts/upload_log.py limpieza-a-fondo-resultado.txt /tmp/limpieza_resultado.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
