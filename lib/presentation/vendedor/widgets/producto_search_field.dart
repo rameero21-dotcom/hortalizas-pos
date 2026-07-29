@@ -37,6 +37,7 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
   bool _cargando = true;
   String? _error;
   _ModoPrecio _modoPrecio = _ModoPrecio.total;
+  bool _ignorarProximoCambioDeTexto = false; // ver _seleccionar()
 
   @override
   void initState() {
@@ -87,6 +88,11 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
   }
 
   void _seleccionar(Producto producto) {
+    // Escribir el nombre en el campo dispara el "onChanged" del
+    // TextField (aunque el cambio sea programático, no tipeado por el
+    // usuario) — sin esta bandera, ese onChanged deshacía la selección
+    // que se acababa de hacer, un instante después, en el mismo cuadro.
+    _ignorarProximoCambioDeTexto = true;
     setState(() {
       _productoSeleccionado = producto;
       _busquedaCtrl.text = producto.nombre;
@@ -214,6 +220,10 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
           controller: _busquedaCtrl,
           focusNode: _busquedaFocus,
           onChanged: (v) {
+            if (_ignorarProximoCambioDeTexto) {
+              _ignorarProximoCambioDeTexto = false;
+              return;
+            }
             if (_productoSeleccionado != null) setState(() => _productoSeleccionado = null);
             _filtrar(v);
           },
