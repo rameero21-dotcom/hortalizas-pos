@@ -71,4 +71,16 @@ class SyncQueueLocalDatasource {
       [id],
     );
   }
+
+  /// Cuántos cambios locales todavía no se subieron a Firestore. Se usa
+  /// para mostrarle al usuario un aviso si queda algo pendiente (por
+  /// ejemplo, después de estar mucho tiempo sin conexión), en vez de
+  /// reintentar en silencio para siempre sin que nadie se entere.
+  Future<int> contarPendientes() async {
+    final db = await _dbHelper.database;
+    final resultado = await db.rawQuery(
+      'SELECT COUNT(*) as total FROM ${AppConstants.tablaSyncQueue}',
+    );
+    return resultado.first['total'] as int;
+  }
 }

@@ -11,6 +11,7 @@ import 'arqueo_caja_screen.dart';
 import '../../admin/historial/screens/historial_screen.dart';
 import '../../admin/clientes/screens/clientes_screen.dart';
 import '../../shared/utils/cerrar_sesion.dart';
+import '../../shared/widgets/indicador_sincronizacion.dart';
 
 bool get _tieneCamaraDeQr => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
@@ -54,6 +55,7 @@ class CajaHomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Ventas pendientes'),
         actions: [
+          const IndicadorSincronizacion(),
           IconButton(
             icon: const Icon(Icons.refresh),
             tooltip: 'Actualizar',

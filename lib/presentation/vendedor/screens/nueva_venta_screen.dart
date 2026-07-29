@@ -10,6 +10,7 @@ import '../providers/carrito_provider.dart';
 import '../widgets/producto_search_field.dart';
 import '../widgets/item_carrito_tile.dart';
 import '../../shared/utils/cerrar_sesion.dart';
+import '../../shared/widgets/indicador_sincronizacion.dart';
 
 final _uuid = Uuid();
 
@@ -92,6 +93,7 @@ class NuevaVentaScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Nueva venta'),
         actions: [
+          const IndicadorSincronizacion(),
           IconButton(
             icon: const Icon(Icons.refresh),
             tooltip: 'Actualizar productos y stock',

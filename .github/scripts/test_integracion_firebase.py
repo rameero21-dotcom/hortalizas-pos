@@ -387,6 +387,131 @@ db.collection("stock").document(producto_a_borrar).delete()
 doc_prod_borrado = db.collection("productos").document(producto_a_borrar).get()
 verificar("El producto eliminado ya no existe en Firestore", not doc_prod_borrado.exists)
 
+# ============ 13) Flujo offline: venta reconstruida desde QR ============
+print("\n--- 13) Flujo sin conexion: vendedor genera QR, cajero lo escanea despues ---")
+# Simulo EXACTAMENTE el formato que arma QrService.generarPayload() del
+# lado del vendedor (offline, nunca llego a sincronizarse a Firestore).
+venta_qr_id = str(uuid.uuid4())
+papa_id_qr = ids_productos[f"{PREFIJO} Papa"]
+qr_payload = {
+    "id": venta_qr_id, "numero": 9500, "fecha": ahora_iso(),
+    "vendedorId": "test-vendedor-offline", "vendedorNombre": f"{PREFIJO} Vendedor Offline",
+    "productos": [{"productoId": papa_id_qr, "nombre": f"{PREFIJO} Papa", "cantidad": 3, "precioTotal": 42000}],
+    "total": 42000, "nombreCliente": f"{PREFIJO} boleta offline",
+}
+qr_string = json.dumps(qr_payload)  # esto es lo que quedaria codificado en la imagen QR
+
+# El cajero "escanea" el QR (simplemente decodifica el JSON, como hace
+# QrService.decodificarPayload) y reconstruye la venta.
+qr_decodificado = json.loads(qr_string)
+verificar("El QR decodificado tiene todos los campos necesarios para reconstruir la venta",
+          all(k in qr_decodificado for k in ["id", "numero", "vendedorNombre", "productos", "total"]))
+
+# Como esta venta NUNCA existio en Firestore (era 100% local en el
+# celular del vendedor), verifico que el chequeo de "no cobrar dos
+# veces" no la bloquee de entrada (el doc no existe todavia = OK cobrar).
+doc_previo = db.collection("ventas").document(venta_qr_id).get()
+verificar("Antes de cobrar, la venta reconstruida desde QR no existe en Firestore (como se espera)",
+          not doc_previo.exists)
+
+# El cajero cobra: se crea el documento completo por primera vez
+# (equivalente a "guardarCompleta" en finalizarCobro cuando existente==null).
+stock_papa_antes_qr = db.collection("stock").document(papa_id_qr).get().to_dict()["cantidadDisponible"]
+db.collection("stock").document(papa_id_qr).update({"cantidadDisponible": firestore.Increment(-3)})
+db.collection("ventas").document(venta_qr_id).set({
+    "id": qr_decodificado["id"], "numero": qr_decodificado["numero"], "fecha": qr_decodificado["fecha"],
+    "vendedorId": qr_decodificado["vendedorId"], "vendedorNombre": qr_decodificado["vendedorNombre"],
+    "total": qr_decodificado["total"], "estado": "cobrada", "metodoPago": "efectivo",
+    "cajeroId": "test-cajero-offline", "fechaCobro": ahora_iso(), "clienteId": None,
+    "nombreCliente": qr_decodificado["nombreCliente"],
+    "pagos": [{"metodo": "efectivo", "monto": qr_decodificado["total"]}],
+    "detalle": [{"productoId": p["productoId"], "nombreProducto": p["nombre"],
+                 "cantidad": p["cantidad"], "precioTotal": p["precioTotal"]}
+                for p in qr_decodificado["productos"]],
+})
+
+venta_qr_creada = db.collection("ventas").document(venta_qr_id).get()
+verificar("La venta reconstruida desde QR se creo completa y cobrada en Firestore",
+          venta_qr_creada.exists and venta_qr_creada.to_dict()["estado"] == "cobrada")
+
+stock_papa_despues_qr = db.collection("stock").document(papa_id_qr).get().to_dict()["cantidadDisponible"]
+verificar("El stock se descuenta igual para una venta reconstruida desde QR",
+          stock_papa_despues_qr == stock_papa_antes_qr - 3,
+          f"({stock_papa_antes_qr} -> {stock_papa_despues_qr})")
+
+# Ahora simulo el intento de cobrar la MISMA venta de nuevo (ej: el
+# cajero escanea el mismo QR de respaldo sin querer una segunda vez).
+# El chequeo real (obtenerEstadoActualDesdeRemoto) ahora SI encontraria
+# el documento con estado "cobrada" y bloquearia el cobro.
+doc_recobro = db.collection("ventas").document(venta_qr_id).get().to_dict()
+verificar("Al reescanear el mismo QR, el sistema ahora SI encuentra la venta como 'cobrada' (el guard la bloquearia)",
+          doc_recobro["estado"] == "cobrada")
+
+# ============ 14) Prueba de volumen: cientos de ventas y productos ============
+print("\n--- 14) Volumen grande: 60 productos + 300 ventas ---")
+import time as _time
+
+t0 = _time.time()
+productos_volumen_ids = []
+batch = db.batch()
+for i in range(60):
+    pid = str(uuid.uuid4())
+    productos_volumen_ids.append(pid)
+    ref = db.collection("productos").document(pid)
+    batch.set(ref, {
+        "id": pid, "nombre": f"{PREFIJO} Prod Vol {i}", "precioSugerido": 5000 + i * 100,
+        "categoria": "Verduras", "activo": True, "favorito": False,
+        "costoUnitario": 3000 + i * 50, "tasaIIBB": 0, "tasaTSH": 0,
+    })
+    if (i + 1) % 20 == 0:  # Firestore limita batches a 500 operaciones
+        batch.commit()
+        batch = db.batch()
+batch.commit()
+t_productos = _time.time() - t0
+print(f"Tiempo para crear 60 productos: {t_productos:.2f}s")
+
+t0 = _time.time()
+ventas_volumen_ids = []
+batch = db.batch()
+for i in range(300):
+    vid = str(uuid.uuid4())
+    ventas_volumen_ids.append(vid)
+    prod_idx = i % len(productos_volumen_ids)
+    ref = db.collection("ventas").document(vid)
+    batch.set(ref, {
+        "id": vid, "numero": 20000 + i, "fecha": ahora_iso(),
+        "vendedorId": "test-vendedor-vol", "vendedorNombre": f"{PREFIJO} Vendedor Volumen",
+        "total": 8000, "estado": "cobrada", "metodoPago": "efectivo",
+        "cajeroId": "test-cajero-vol", "fechaCobro": ahora_iso(), "clienteId": None,
+        "nombreCliente": None, "pagos": [{"metodo": "efectivo", "monto": 8000}],
+        "detalle": [{"productoId": productos_volumen_ids[prod_idx],
+                     "nombreProducto": f"{PREFIJO} Prod Vol {prod_idx}",
+                     "cantidad": 1, "precioTotal": 8000}],
+    })
+    if (i + 1) % 400 == 0:
+        batch.commit()
+        batch = db.batch()
+batch.commit()
+t_ventas = _time.time() - t0
+print(f"Tiempo para crear 300 ventas: {t_ventas:.2f}s")
+
+# Ahora simulo la consulta que hace Estadisticas/Historial: traer todas
+# las ventas de un rango de fechas (obtenerPorRangoFechaGlobal).
+t0 = _time.time()
+desde_vol = datetime.datetime.now() - datetime.timedelta(hours=1)
+hasta_vol = datetime.datetime.now() + datetime.timedelta(hours=1)
+ventas_leidas_vol = list(db.collection("ventas")
+                          .where("fecha", ">=", desde_vol.isoformat())
+                          .where("fecha", "<=", hasta_vol.isoformat())
+                          .stream())
+t_lectura = _time.time() - t0
+print(f"Tiempo para leer {len(ventas_leidas_vol)} ventas del rango: {t_lectura:.2f}s")
+
+verificar("Se pudieron crear y leer las 300 ventas de volumen sin errores",
+          len(ventas_leidas_vol) >= 300, f"(se leyeron {len(ventas_leidas_vol)})")
+verificar("La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos)",
+          t_lectura < 5, f"(tardo {t_lectura:.2f}s)")
+
 print("\n" + "=" * 70)
 print("RESUMEN")
 print("=" * 70)

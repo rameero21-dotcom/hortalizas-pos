@@ -7,6 +7,7 @@ import 'usuarios/screens/usuarios_screen.dart';
 import 'historial/screens/historial_screen.dart';
 import 'clientes/screens/clientes_screen.dart';
 import '../shared/utils/cerrar_sesion.dart';
+import '../shared/widgets/indicador_sincronizacion.dart';
 
 /// Menú principal del administrador: acceso a todos los módulos de gestión.
 class AdminDashboardScreen extends ConsumerWidget {
@@ -27,6 +28,7 @@ class AdminDashboardScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Panel de administración'),
         actions: [
+          const IndicadorSincronizacion(),
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Cambiar de usuario',
