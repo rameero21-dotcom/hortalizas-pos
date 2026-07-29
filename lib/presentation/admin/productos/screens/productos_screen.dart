@@ -110,8 +110,8 @@ class ProductosScreen extends ConsumerWidget {
                       ),
                     ),
                     subtitle: Text(
-                      p.precioSugerido > 0
-                          ? '${p.categoria} · Sugerido: ${Formatters.formatearMoneda(p.precioSugerido)}'
+                      p.costoUnitario > 0
+                          ? '${p.categoria} · Costo: ${Formatters.formatearMoneda(p.costoUnitario)}'
                           : p.categoria,
                     ),
                     trailing: Switch(
