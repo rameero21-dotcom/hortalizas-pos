@@ -216,34 +216,48 @@ class _ContenidoEstadisticas extends StatelessWidget {
             child: Text('No hay ventas cobradas en este período todavía.'),
           )
         else
-          SizedBox(
-            height: 220,
-            child: BarChart(
-              BarChartData(
-                alignment: BarChartAlignment.spaceAround,
-                barGroups: [
-                  for (int i = 0; i < masVendidos.length; i++)
-                    BarChartGroupData(x: i, barRods: [
-                      BarChartRodData(toY: masVendidos[i].value, width: 24),
-                    ]),
-                ],
-                titlesData: FlTitlesData(
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget: (value, meta) {
-                        final i = value.toInt();
-                        if (i < 0 || i >= masVendidos.length) return const SizedBox.shrink();
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(masVendidos[i].key, style: const TextStyle(fontSize: 10)),
-                        );
-                      },
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 16, 16, 8),
+              child: SizedBox(
+                height: 220,
+                child: BarChart(
+                  BarChartData(
+                    alignment: BarChartAlignment.spaceAround,
+                    barGroups: [
+                      for (int i = 0; i < masVendidos.length; i++)
+                        BarChartGroupData(x: i, barRods: [
+                          BarChartRodData(
+                            toY: masVendidos[i].value,
+                            width: 24,
+                            borderRadius: BorderRadius.circular(6),
+                            color: i == 0
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context).colorScheme.primary,
+                          ),
+                        ]),
+                    ],
+                    gridData: const FlGridData(show: false),
+                    borderData: FlBorderData(show: false),
+                    titlesData: FlTitlesData(
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: (value, meta) {
+                            final i = value.toInt();
+                            if (i < 0 || i >= masVendidos.length) return const SizedBox.shrink();
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 4),
+                              child: Text(masVendidos[i].key, style: const TextStyle(fontSize: 10)),
+                            );
+                          },
+                        ),
+                      ),
+                      leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: true)),
+                      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                     ),
                   ),
-                  leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: true)),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 ),
               ),
             ),

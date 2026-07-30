@@ -184,6 +184,15 @@ class CajaHomeScreen extends ConsumerWidget {
                   child: Card(
                     margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     child: ListTile(
+                      leading: Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary.withOpacity(0.18),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(Icons.receipt_long_rounded, color: Theme.of(context).colorScheme.primary),
+                      ),
                       title: Text(
                         venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty
                             ? 'Venta #${venta.numero} · ${venta.nombreCliente}'
@@ -194,7 +203,11 @@ class CajaHomeScreen extends ConsumerWidget {
                           '${venta.vendedorNombre != null ? ' · Vend: ${venta.vendedorNombre}' : ''}'),
                       trailing: Text(
                         Formatters.formatearMoneda(venta.total),
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
                       ),
                       onTap: () => Navigator.push(
                         context,
