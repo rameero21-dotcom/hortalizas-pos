@@ -160,19 +160,23 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
         children: [
           Card(
             margin: const EdgeInsets.all(16),
-            color: cliente.saldoCuentaCorriente < 0 ? Colors.red.shade50 : Colors.green.shade50,
+            color: (cliente.saldoCuentaCorriente < 0 ? Colors.red : Colors.green).withOpacity(0.15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: BorderSide(color: cliente.saldoCuentaCorriente < 0 ? Colors.red : Colors.green),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  const Text('Saldo cuenta corriente', style: TextStyle(color: Colors.grey)),
+                  Text('Saldo cuenta corriente', style: TextStyle(color: Colors.grey.shade400)),
                   const SizedBox(height: 4),
                   Text(
                     Formatters.formatearMoneda(cliente.saldoCuentaCorriente),
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
-                      color: cliente.saldoCuentaCorriente < 0 ? Colors.red.shade700 : Colors.green.shade700,
+                      color: cliente.saldoCuentaCorriente < 0 ? Colors.red.shade300 : Colors.green.shade300,
                     ),
                   ),
                   Text(

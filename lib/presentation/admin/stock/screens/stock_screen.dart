@@ -83,29 +83,45 @@ class StockScreen extends ConsumerWidget {
                 final cantidad = stock?.cantidadDisponible ?? 0;
                 final stockNegativo = cantidad < 0;
                 final stockBajo = stock?.stockBajo ?? true;
-                return ListTile(
-                  leading: stockNegativo
-                      ? const Icon(Icons.error, color: Colors.red)
-                      : stockBajo
-                          ? const Icon(Icons.warning_amber_rounded, color: Colors.orange)
-                          : const Icon(Icons.check_circle_outline, color: Colors.green),
-                  title: Text(item.producto.nombre),
-                  subtitle: Text(
-                    stockNegativo
-                        ? 'Stock negativo — revisar (¿venta sin stock cargado?)'
-                        : stockBajo
-                            ? 'Stock bajo'
-                            : 'Stock OK',
-                  ),
-                  trailing: Text(
-                    Formatters.formatearCantidad(cantidad),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: stockNegativo ? Colors.red : null,
+                return Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  child: ListTile(
+                    leading: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: (stockNegativo
+                                ? Colors.red
+                                : stockBajo
+                                    ? Colors.orange
+                                    : Colors.green)
+                            .withOpacity(0.18),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: stockNegativo
+                          ? const Icon(Icons.error, color: Colors.red)
+                          : stockBajo
+                              ? const Icon(Icons.warning_amber_rounded, color: Colors.orange)
+                              : const Icon(Icons.check_circle_outline, color: Colors.green),
                     ),
+                    title: Text(item.producto.nombre),
+                    subtitle: Text(
+                      stockNegativo
+                          ? 'Stock negativo — revisar (¿venta sin stock cargado?)'
+                          : stockBajo
+                              ? 'Stock bajo'
+                              : 'Stock OK',
+                    ),
+                    trailing: Text(
+                      Formatters.formatearCantidad(cantidad),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: stockNegativo ? Colors.red : null,
+                      ),
+                    ),
+                    onTap: () => _mostrarAcciones(context, ref, item),
                   ),
-                  onTap: () => _mostrarAcciones(context, ref, item),
                 );
               },
             );

@@ -101,33 +101,47 @@ class ProductosScreen extends ConsumerWidget {
                     await ref.read(gestionarProductosUseCaseProvider).eliminar(p.id);
                     ref.invalidate(productosListProvider);
                   },
-                  child: ListTile(
-                    title: Text(
-                      p.nombre,
-                      style: TextStyle(
-                        decoration: p.activo ? null : TextDecoration.lineThrough,
-                        color: p.activo ? null : Colors.grey,
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    child: ListTile(
+                      leading: Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: (p.activo ? Theme.of(context).colorScheme.secondary : Colors.grey)
+                              .withOpacity(0.18),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(Icons.eco_rounded,
+                            color: p.activo ? Theme.of(context).colorScheme.secondary : Colors.grey),
                       ),
-                    ),
-                    subtitle: Text(
-                      p.costoUnitario > 0
-                          ? '${p.categoria} · Costo: ${Formatters.formatearMoneda(p.costoUnitario)}'
-                          : p.categoria,
-                    ),
-                    trailing: Switch(
-                      value: p.activo,
-                      onChanged: (activo) async {
-                        await ref.read(gestionarProductosUseCaseProvider).activarDesactivar(p, activo);
+                      title: Text(
+                        p.nombre,
+                        style: TextStyle(
+                          decoration: p.activo ? null : TextDecoration.lineThrough,
+                          color: p.activo ? null : Colors.grey,
+                        ),
+                      ),
+                      subtitle: Text(
+                        p.costoUnitario > 0
+                            ? '${p.categoria} · Costo: ${Formatters.formatearMoneda(p.costoUnitario)}'
+                            : p.categoria,
+                      ),
+                      trailing: Switch(
+                        value: p.activo,
+                        onChanged: (activo) async {
+                          await ref.read(gestionarProductosUseCaseProvider).activarDesactivar(p, activo);
+                          ref.invalidate(productosListProvider);
+                        },
+                      ),
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => ProductoFormScreen(producto: p)),
+                        );
                         ref.invalidate(productosListProvider);
                       },
                     ),
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ProductoFormScreen(producto: p)),
-                      );
-                      ref.invalidate(productosListProvider);
-                    },
                   ),
                 );
               },

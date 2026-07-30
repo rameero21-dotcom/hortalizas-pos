@@ -30,13 +30,13 @@ class UsuariosScreen extends ConsumerWidget {
         children: [
           Container(
             width: double.infinity,
-            color: Colors.amber.shade50,
+            color: Theme.of(context).colorScheme.secondary.withOpacity(0.15),
             padding: const EdgeInsets.all(12),
-            child: const Text(
+            child: Text(
               'Los usuarios se crean por ahora desde Firebase Console '
               '(ver README, sección 5). Acá se listan los que ya '
               'iniciaron sesión en este celular.',
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary),
             ),
           ),
           Expanded(
@@ -49,11 +49,21 @@ class UsuariosScreen extends ConsumerWidget {
                   itemCount: usuarios.length,
                   itemBuilder: (context, index) {
                     final Usuario u = usuarios[index];
-                    return ListTile(
-                      leading: CircleAvatar(child: Text(u.nombre.isNotEmpty ? u.nombre[0] : '?')),
-                      title: Text(u.nombre),
-                      subtitle: Text(u.email),
-                      trailing: Chip(label: Text(_labelRol(u.rol))),
+                    return Card(
+                      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                          foregroundColor: Theme.of(context).colorScheme.primary,
+                          child: Text(u.nombre.isNotEmpty ? u.nombre[0].toUpperCase() : '?'),
+                        ),
+                        title: Text(u.nombre),
+                        subtitle: Text(u.email),
+                        trailing: Chip(
+                          label: Text(_labelRol(u.rol)),
+                          backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.18),
+                        ),
+                      ),
                     );
                   },
                 );

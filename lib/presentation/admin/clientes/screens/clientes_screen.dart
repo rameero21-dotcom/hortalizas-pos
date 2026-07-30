@@ -47,35 +47,43 @@ class ClientesScreen extends ConsumerWidget {
             itemCount: clientes.length,
             itemBuilder: (context, index) {
               final c = clientes[index];
-              return ListTile(
-                title: Text(c.nombre),
-                subtitle: Text(c.telefono.isEmpty ? c.direccion : '${c.telefono} · ${c.direccion}'),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (c.saldoCuentaCorriente != 0)
-                      Text(
-                        Formatters.formatearMoneda(c.saldoCuentaCorriente),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: c.saldoCuentaCorriente < 0 ? Colors.red : Colors.green,
+              return Card(
+                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    child: Text(c.nombre.isNotEmpty ? c.nombre[0].toUpperCase() : '?'),
+                  ),
+                  title: Text(c.nombre),
+                  subtitle: Text(c.telefono.isEmpty ? c.direccion : '${c.telefono} · ${c.direccion}'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (c.saldoCuentaCorriente != 0)
+                        Text(
+                          Formatters.formatearMoneda(c.saldoCuentaCorriente),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: c.saldoCuentaCorriente < 0 ? Colors.red : Colors.green,
+                          ),
                         ),
+                      IconButton(
+                        icon: const Icon(Icons.edit, size: 20),
+                        onPressed: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => ClienteFormScreen(cliente: c)),
+                          );
+                          ref.invalidate(clientesListProvider);
+                        },
                       ),
-                    IconButton(
-                      icon: const Icon(Icons.edit, size: 20),
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => ClienteFormScreen(cliente: c)),
-                        );
-                        ref.invalidate(clientesListProvider);
-                      },
-                    ),
-                  ],
-                ),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => ClienteDetalleScreen(cliente: c)),
+                    ],
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => ClienteDetalleScreen(cliente: c)),
+                  ),
                 ),
               );
             },
