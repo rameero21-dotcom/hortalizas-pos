@@ -21,7 +21,7 @@ class DatabaseHelper {
     final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
     return openDatabase(
       path,
-      version: 7,
+      version: 8,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -52,7 +52,25 @@ class DatabaseHelper {
       await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN fechaCreacion TEXT');
     }
     if (oldVersion < 7) {
+      // Ya crea la tabla con saldoCuentaCorriente incluido (ver abajo),
+      // así que folks migrando desde antes de la v7 no necesitan el
+      // ALTER TABLE de más abajo.
       await _crearTablasProveedores(db);
+    } else if (oldVersion == 7) {
+      // Ya tenían la tabla de proveedores (sin saldo) de la v7 exacta.
+      await db.execute(
+          'ALTER TABLE ${AppConstants.tablaProveedores} ADD COLUMN saldoCuentaCorriente REAL NOT NULL DEFAULT 0');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS pagos_proveedor (
+          id TEXT PRIMARY KEY,
+          proveedorId TEXT NOT NULL,
+          monto REAL NOT NULL,
+          metodoPago TEXT NOT NULL,
+          fecha TEXT NOT NULL,
+          usuarioId TEXT NOT NULL,
+          nota TEXT
+        )
+      ''');
     }
   }
 
@@ -62,7 +80,8 @@ class DatabaseHelper {
         id TEXT PRIMARY KEY,
         nombre TEXT NOT NULL,
         telefono TEXT NOT NULL DEFAULT '',
-        activo INTEGER NOT NULL DEFAULT 1
+        activo INTEGER NOT NULL DEFAULT 1,
+        saldoCuentaCorriente REAL NOT NULL DEFAULT 0
       )
     ''');
     await db.execute('''
@@ -74,6 +93,17 @@ class DatabaseHelper {
         cantidad REAL NOT NULL,
         metodoPago TEXT NOT NULL,
         monto REAL NOT NULL,
+        fecha TEXT NOT NULL,
+        usuarioId TEXT NOT NULL,
+        nota TEXT
+      )
+    ''');
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS pagos_proveedor (
+        id TEXT PRIMARY KEY,
+        proveedorId TEXT NOT NULL,
+        monto REAL NOT NULL,
+        metodoPago TEXT NOT NULL,
         fecha TEXT NOT NULL,
         usuarioId TEXT NOT NULL,
         nota TEXT

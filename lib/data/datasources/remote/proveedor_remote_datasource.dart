@@ -23,4 +23,15 @@ class ProveedorRemoteDatasource {
     pedidos.sort((a, b) => b.fecha.compareTo(a.fecha));
     return pedidos;
   }
+
+  /// Todos los pagos hechos a TODOS los proveedores, sin importar el
+  /// dispositivo.
+  Future<List<PagoProveedorModel>> obtenerTodosLosPagos() async {
+    final snap = await _firestoreService.pagosProveedor.get();
+    final pagos = snap.docs
+        .map((d) => PagoProveedorModel.fromMap(d.data() as Map<String, dynamic>))
+        .toList();
+    pagos.sort((a, b) => b.fecha.compareTo(a.fecha));
+    return pagos;
+  }
 }

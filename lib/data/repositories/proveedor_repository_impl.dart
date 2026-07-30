@@ -75,6 +75,26 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
       operacion: 'set',
       payload: model.toMap(),
     );
+
+    // Pedir mercadería SUMA a lo que le debemos al proveedor.
+    final proveedores = await _local.obtenerTodos();
+    Proveedor? proveedor;
+    for (final p in proveedores) {
+      if (p.id == pedido.proveedorId) {
+        proveedor = p;
+        break;
+      }
+    }
+    final saldoActual = proveedor?.saldoCuentaCorriente ?? 0;
+    final nuevoSaldo = saldoActual + pedido.monto;
+    await _local.actualizarSaldo(pedido.proveedorId, nuevoSaldo);
+    await _syncQueue.encolar(
+      entidad: AppConstants.colProveedores,
+      entidadId: pedido.proveedorId,
+      operacion: 'set',
+      payload: {'id': pedido.proveedorId, 'saldoCuentaCorriente': nuevoSaldo},
+    );
+
     await _syncService.sincronizarAhora();
   }
 
@@ -89,6 +109,65 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
     );
     await _syncService.sincronizarAhora();
   }
+
+  @override
+  Future<void> registrarPago(PagoProveedor pago) async {
+    final model = PagoProveedorModel(
+      id: pago.id.isEmpty ? _uuid.v4() : pago.id,
+      proveedorId: pago.proveedorId,
+      monto: pago.monto,
+      metodoPago: pago.metodoPago,
+      fecha: pago.fecha,
+      usuarioId: pago.usuarioId,
+      nota: pago.nota,
+    );
+    await _local.registrarPago(model);
+    await _syncQueue.encolar(
+      entidad: AppConstants.colPagosProveedor,
+      entidadId: model.id,
+      operacion: 'set',
+      payload: model.toMap(),
+    );
+
+    // Pagarle al proveedor RESTA de lo que le debemos.
+    final proveedores = await _local.obtenerTodos();
+    Proveedor? proveedor;
+    for (final p in proveedores) {
+      if (p.id == pago.proveedorId) {
+        proveedor = p;
+        break;
+      }
+    }
+    final saldoActual = proveedor?.saldoCuentaCorriente ?? 0;
+    final nuevoSaldo = saldoActual - pago.monto;
+    await _local.actualizarSaldo(pago.proveedorId, nuevoSaldo);
+    await _syncQueue.encolar(
+      entidad: AppConstants.colProveedores,
+      entidadId: pago.proveedorId,
+      operacion: 'set',
+      payload: {'id': pago.proveedorId, 'saldoCuentaCorriente': nuevoSaldo},
+    );
+
+    await _syncService.sincronizarAhora();
+  }
+
+  @override
+  Future<void> eliminarPago(String id) async {
+    await _local.eliminarPago(id);
+    await _syncQueue.encolar(
+      entidad: AppConstants.colPagosProveedor,
+      entidadId: id,
+      operacion: 'delete',
+      payload: const {},
+    );
+    await _syncService.sincronizarAhora();
+  }
+
+  @override
+  Future<List<PagoProveedor>> obtenerPagos(String proveedorId) => _local.obtenerPagos(proveedorId);
+
+  @override
+  Future<List<PagoProveedor>> obtenerTodosLosPagosGlobal() => _remote.obtenerTodosLosPagos();
 
   @override
   Future<void> refrescarDesdeRemoto() async {

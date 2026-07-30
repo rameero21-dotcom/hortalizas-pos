@@ -6,6 +6,7 @@ class ProveedorModel extends Proveedor {
     required super.nombre,
     super.telefono,
     super.activo,
+    super.saldoCuentaCorriente,
   });
 
   factory ProveedorModel.fromMap(Map<String, dynamic> map) => ProveedorModel(
@@ -13,6 +14,7 @@ class ProveedorModel extends Proveedor {
         nombre: map['nombre'] as String,
         telefono: map['telefono'] as String? ?? '',
         activo: _parseBool(map['activo'], porDefecto: true),
+        saldoCuentaCorriente: (map['saldoCuentaCorriente'] as num?)?.toDouble() ?? 0,
       );
 
   static bool _parseBool(dynamic valor, {required bool porDefecto}) {
@@ -27,6 +29,7 @@ class ProveedorModel extends Proveedor {
         'nombre': nombre,
         'telefono': telefono,
         'activo': activo ? 1 : 0,
+        'saldoCuentaCorriente': saldoCuentaCorriente,
       };
 
   factory ProveedorModel.fromEntity(Proveedor p) => ProveedorModel(
@@ -34,6 +37,7 @@ class ProveedorModel extends Proveedor {
         nombre: p.nombre,
         telefono: p.telefono,
         activo: p.activo,
+        saldoCuentaCorriente: p.saldoCuentaCorriente,
       );
 }
 
@@ -72,6 +76,38 @@ class PedidoProveedorModel extends PedidoProveedor {
         'cantidad': cantidad,
         'metodoPago': metodoPago.name,
         'monto': monto,
+        'fecha': fecha.toIso8601String(),
+        'usuarioId': usuarioId,
+        'nota': nota,
+      };
+}
+
+class PagoProveedorModel extends PagoProveedor {
+  const PagoProveedorModel({
+    required super.id,
+    required super.proveedorId,
+    required super.monto,
+    required super.metodoPago,
+    required super.fecha,
+    required super.usuarioId,
+    super.nota,
+  });
+
+  factory PagoProveedorModel.fromMap(Map<String, dynamic> map) => PagoProveedorModel(
+        id: map['id'] as String,
+        proveedorId: map['proveedorId'] as String,
+        monto: (map['monto'] as num).toDouble(),
+        metodoPago: MetodoPagoProveedor.values.byName(map['metodoPago'] as String),
+        fecha: DateTime.parse(map['fecha'] as String),
+        usuarioId: map['usuarioId'] as String,
+        nota: map['nota'] as String?,
+      );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'proveedorId': proveedorId,
+        'monto': monto,
+        'metodoPago': metodoPago.name,
         'fecha': fecha.toIso8601String(),
         'usuarioId': usuarioId,
         'nota': nota,

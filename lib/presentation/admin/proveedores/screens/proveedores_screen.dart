@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
+import '../../../../core/utils/formatters.dart';
 import 'proveedor_form_screen.dart';
 import 'proveedor_detalle_screen.dart';
 
@@ -61,15 +62,28 @@ class ProveedoresScreen extends ConsumerWidget {
                   ),
                   title: Text(p.nombre),
                   subtitle: Text(p.telefono.isEmpty ? 'Sin teléfono cargado' : p.telefono),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.edit, size: 20),
-                    onPressed: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ProveedorFormScreen(proveedor: p)),
-                      );
-                      ref.invalidate(proveedoresListProvider);
-                    },
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (p.saldoCuentaCorriente != 0)
+                        Text(
+                          Formatters.formatearMoneda(p.saldoCuentaCorriente.abs()),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: p.saldoCuentaCorriente > 0 ? Colors.red : Colors.green,
+                          ),
+                        ),
+                      IconButton(
+                        icon: const Icon(Icons.edit, size: 20),
+                        onPressed: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => ProveedorFormScreen(proveedor: p)),
+                          );
+                          ref.invalidate(proveedoresListProvider);
+                        },
+                      ),
+                    ],
                   ),
                   onTap: () => Navigator.push(
                     context,

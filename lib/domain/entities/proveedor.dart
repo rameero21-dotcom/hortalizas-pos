@@ -1,23 +1,28 @@
 /// Entidad de dominio: Proveedor (de quién se compra mercadería).
+/// saldoCuentaCorriente: positivo = le debemos plata (pedimos más de lo
+/// que le pagamos hasta ahora); 0 = estamos al día.
 class Proveedor {
   final String id;
   final String nombre;
   final String telefono;
   final bool activo;
+  final double saldoCuentaCorriente;
 
   const Proveedor({
     required this.id,
     required this.nombre,
     this.telefono = '',
     this.activo = true,
+    this.saldoCuentaCorriente = 0,
   });
 
-  Proveedor copyWith({String? nombre, String? telefono, bool? activo}) {
+  Proveedor copyWith({String? nombre, String? telefono, bool? activo, double? saldoCuentaCorriente}) {
     return Proveedor(
       id: id,
       nombre: nombre ?? this.nombre,
       telefono: telefono ?? this.telefono,
       activo: activo ?? this.activo,
+      saldoCuentaCorriente: saldoCuentaCorriente ?? this.saldoCuentaCorriente,
     );
   }
 }
@@ -49,6 +54,28 @@ class PedidoProveedor {
     required this.cantidad,
     required this.metodoPago,
     required this.monto,
+    required this.fecha,
+    required this.usuarioId,
+    this.nota,
+  });
+}
+
+/// Un pago hecho al proveedor (para saldar lo que se le debe). Cada
+/// pedido SUMA a la deuda con el proveedor; cada pago la RESTA.
+class PagoProveedor {
+  final String id;
+  final String proveedorId;
+  final double monto;
+  final MetodoPagoProveedor metodoPago;
+  final DateTime fecha;
+  final String usuarioId;
+  final String? nota;
+
+  const PagoProveedor({
+    required this.id,
+    required this.proveedorId,
+    required this.monto,
+    required this.metodoPago,
     required this.fecha,
     required this.usuarioId,
     this.nota,

@@ -15,6 +15,7 @@ class AppConstants {
   static const String colMovimientosCuentaCorriente = 'movimientos_cuenta_corriente';
   static const String colProveedores = 'proveedores';
   static const String colPedidosProveedor = 'pedidos_proveedor';
+  static const String colPagosProveedor = 'pagos_proveedor';
 
   // Tablas SQLite
   static const String tablaProductos = 'productos';

@@ -19,4 +19,11 @@ abstract class ProveedorRepository {
 
   Future<void> registrarPedido(PedidoProveedor pedido);
   Future<void> eliminarPedido(String id);
+
+  /// Registra un pago al proveedor: RESTA el monto del saldo (lo que
+  /// le debemos baja).
+  Future<void> registrarPago(PagoProveedor pago);
+  Future<void> eliminarPago(String id);
+  Future<List<PagoProveedor>> obtenerPagos(String proveedorId);
+  Future<List<PagoProveedor>> obtenerTodosLosPagosGlobal();
 }
