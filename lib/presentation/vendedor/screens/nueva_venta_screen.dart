@@ -261,18 +261,28 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('TOTAL', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                Text(Formatters.formatearMoneda(widget.total),
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                const Text('TOTAL', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text(
+                  Formatters.formatearMoneda(widget.total),
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w800,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 12),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                foregroundColor: Colors.black,
+              ),
               onPressed: (widget.total > 0 && !_guardando) ? _finalizarVenta : null,
               child: _guardando
                   ? const SizedBox(
                       height: 20, width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black),
                     )
                   : const Text('FINALIZAR VENTA'),
             ),

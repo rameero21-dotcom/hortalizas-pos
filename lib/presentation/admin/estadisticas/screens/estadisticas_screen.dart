@@ -308,8 +308,15 @@ class _TarjetaMetrica extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
-      color: destacado ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
+      color: destacado ? colorScheme.secondary.withOpacity(0.15) : null,
+      shape: destacado
+          ? RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: BorderSide(color: colorScheme.secondary),
+            )
+          : null,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -322,7 +329,7 @@ class _TarjetaMetrica extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: destacado ? Colors.green.shade400 : null,
+                color: destacado ? colorScheme.secondary : null,
               ),
             ),
           ],

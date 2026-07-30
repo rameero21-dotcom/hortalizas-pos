@@ -15,13 +15,14 @@ class AdminDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Theme.of(context).colorScheme;
     final modulos = <_ModuloAdmin>[
-      _ModuloAdmin('Productos', Icons.eco, const ProductosScreen()),
-      _ModuloAdmin('Stock', Icons.inventory_2, const StockScreen()),
-      _ModuloAdmin('Estadísticas', Icons.bar_chart, const EstadisticasScreen()),
-      _ModuloAdmin('Usuarios', Icons.people, const UsuariosScreen()),
-      _ModuloAdmin('Historial', Icons.history, const HistorialScreen()),
-      _ModuloAdmin('Clientes', Icons.contacts, const ClientesScreen()),
+      _ModuloAdmin('Productos', Icons.eco_rounded, const ProductosScreen(), colorScheme.secondary),
+      _ModuloAdmin('Stock', Icons.balance_rounded, const StockScreen(), colorScheme.primary),
+      _ModuloAdmin('Estadísticas', Icons.insights_rounded, const EstadisticasScreen(), colorScheme.secondary),
+      _ModuloAdmin('Usuarios', Icons.people_alt_rounded, const UsuariosScreen(), colorScheme.primary),
+      _ModuloAdmin('Historial', Icons.history_rounded, const HistorialScreen(), colorScheme.secondary),
+      _ModuloAdmin('Clientes', Icons.contacts_rounded, const ClientesScreen(), colorScheme.primary),
     ];
 
     return Scaffold(
@@ -53,12 +54,21 @@ class AdminDashboardScreen extends ConsumerWidget {
           final m = modulos[i];
           return Card(
             child: InkWell(
+              borderRadius: BorderRadius.circular(16),
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => m.pantalla)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(m.icono, size: 30),
-                  const SizedBox(height: 6),
+                  Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: m.color.withOpacity(0.18),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Icon(m.icono, size: 26, color: m.color),
+                  ),
+                  const SizedBox(height: 10),
                   Text(m.titulo, style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
@@ -74,5 +84,6 @@ class _ModuloAdmin {
   final String titulo;
   final IconData icono;
   final Widget pantalla;
-  _ModuloAdmin(this.titulo, this.icono, this.pantalla);
+  final Color color;
+  _ModuloAdmin(this.titulo, this.icono, this.pantalla, this.color);
 }

@@ -235,15 +235,18 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
             padding: const EdgeInsets.only(bottom: 8),
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
-                color: Colors.amber.shade50,
-                border: Border.all(color: Colors.amber.shade200),
-                borderRadius: BorderRadius.circular(6),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.15),
+                border: Border.all(color: Theme.of(context).colorScheme.secondary),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                'Costo de referencia: ${Formatters.formatearMoneda(_productoSeleccionado!.costoUnitario)} por unidad',
-                style: TextStyle(color: Colors.amber.shade900, fontWeight: FontWeight.w600),
+                '💰  Costo de referencia: ${Formatters.formatearMoneda(_productoSeleccionado!.costoUnitario)} por unidad',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),
