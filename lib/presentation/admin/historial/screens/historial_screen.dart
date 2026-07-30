@@ -305,23 +305,39 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                             ref.invalidate(_ventasHistorialProvider);
                             ref.invalidate(_movimientosCajaHistorialProvider);
                           },
-                          child: ListTile(
-                            title: Text(
-                              venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty
-                                  ? 'Venta #${venta.numero} · ${venta.nombreCliente}'
-                                  : 'Venta #${venta.numero}',
-                            ),
-                            subtitle: Text(
-                                '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'
-                                '${venta.vendedorNombre != null ? ' · Vend: ${venta.vendedorNombre}' : ''}'),
-                            trailing: Text(
-                              Formatters.formatearMoneda(venta.total),
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                          child: Card(
+                            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            child: ListTile(
+                              leading: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary.withOpacity(0.18),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Icon(Icons.receipt_long_rounded,
+                                    size: 20, color: Theme.of(context).colorScheme.primary),
+                              ),
+                              title: Text(
+                                venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty
+                                    ? 'Venta #${venta.numero} · ${venta.nombreCliente}'
+                                    : 'Venta #${venta.numero}',
+                              ),
+                              subtitle: Text(
+                                  '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'
+                                  '${venta.vendedorNombre != null ? ' · Vend: ${venta.vendedorNombre}' : ''}'),
+                              trailing: Text(
+                                Formatters.formatearMoneda(venta.total),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
                             onTap: () => showModalBottomSheet(
                               context: context,
                               builder: (_) => _DetalleVentaHistorial(venta: venta),
                             ),
+                          ),
                           ),
                         );
                       },
@@ -380,13 +396,31 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                             }
                             ref.invalidate(_movimientosCajaHistorialProvider);
                           },
-                          child: ListTile(
-                            title: Text(m.titulo),
-                            subtitle: Text('${m.subtitulo} · ${Formatters.formatearFechaHora(m.fecha)}'),
-                            trailing: Text(
-                              Formatters.formatearMoneda(m.monto),
-                              style: TextStyle(fontWeight: FontWeight.bold, color: m.color),
-                            ),
+                          child: Card(
+                            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            child: ListTile(
+                              leading: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: m.color.withOpacity(0.18),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Icon(
+                                  m.titulo.startsWith('Egreso')
+                                      ? Icons.arrow_downward_rounded
+                                      : Icons.arrow_upward_rounded,
+                                  size: 20,
+                                  color: m.color,
+                                ),
+                              ),
+                              title: Text(m.titulo),
+                              subtitle: Text('${m.subtitulo} · ${Formatters.formatearFechaHora(m.fecha)}'),
+                              trailing: Text(
+                                Formatters.formatearMoneda(m.monto),
+                                style: TextStyle(fontWeight: FontWeight.bold, color: m.color),
+                              ),
+                          ),
                           ),
                         );
                       },
