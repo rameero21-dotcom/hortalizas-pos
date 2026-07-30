@@ -154,7 +154,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const Text('Cuentas recientes', style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               SizedBox(
-                height: 76,
+                height: 96,
                 child: _cargando
                     ? const Center(child: CircularProgressIndicator())
                     : ListView.separated(
@@ -168,23 +168,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             onLongPress: () => _quitarCuenta(c),
                             child: Container(
                               width: 110,
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                               decoration: BoxDecoration(
                                 border: Border.all(color: Theme.of(context).dividerColor),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  CircleAvatar(child: Text(c.nombre.isNotEmpty ? c.nombre[0] : '?')),
+                                  CircleAvatar(
+                                    radius: 16,
+                                    child: Text(c.nombre.isNotEmpty ? c.nombre[0] : '?'),
+                                  ),
                                   const SizedBox(height: 4),
                                   Text(c.nombre,
                                       textAlign: TextAlign.center,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 12)),
+                                  const SizedBox(height: 2),
                                   Text(c.rol,
                                       textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 10, color: Colors.grey)),
                                 ],
                               ),
