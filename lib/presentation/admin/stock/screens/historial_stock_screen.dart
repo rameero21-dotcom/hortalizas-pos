@@ -86,6 +86,11 @@ class HistorialStockScreen extends ConsumerWidget {
         title: const Text('Historial de stock'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.delete_sweep),
+            tooltip: 'Vaciar historial (no borra productos ni stock actual)',
+            onPressed: () => _vaciarHistorial(context, ref, itemsAsync.valueOrNull ?? []),
+          ),
+          IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => ref.invalidate(_historialStockProvider),
           ),
@@ -155,6 +160,45 @@ class HistorialStockScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, __) => Center(child: Text('Error: $e')),
       ),
+    );
+  }
+}
+
+Future<void> _vaciarHistorial(BuildContext context, WidgetRef ref, List<_ItemHistorial> items) async {
+  final movimientos = items.where((i) => i.movimientoIdParaBorrar != null).toList();
+  if (movimientos.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('No hay movimientos para vaciar (los productos no se tocan).')),
+    );
+    return;
+  }
+  final confirmado = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Vaciar historial'),
+      content: Text(
+        '¿Borrar los ${movimientos.length} registros de movimientos de este historial? '
+        'Esto NO borra los productos ni cambia el stock actual, solo limpia el registro.',
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
+        ElevatedButton(
+          onPressed: () => Navigator.pop(context, true),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+          child: const Text('Vaciar'),
+        ),
+      ],
+    ),
+  );
+  if (confirmado != true) return;
+
+  for (final m in movimientos) {
+    await ref.read(stockRepositoryProvider).eliminarMovimiento(m.movimientoIdParaBorrar!);
+  }
+  ref.invalidate(_historialStockProvider);
+  if (context.mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('${movimientos.length} registros borrados.')),
     );
   }
 }
