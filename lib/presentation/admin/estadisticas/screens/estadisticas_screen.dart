@@ -192,7 +192,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
                   Formatters.formatearMoneda(r.utilidad),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: r.utilidad >= 0 ? Colors.green.shade700 : Colors.red.shade700,
+                    color: r.utilidad >= 0 ? Colors.green.shade300 : Colors.red.shade300,
                   ),
                 ),
                 children: [
@@ -305,7 +305,7 @@ class _FilaDetalleProducto extends StatelessWidget {
             Formatters.formatearMoneda(valor),
             style: TextStyle(
               fontWeight: destacado ? FontWeight.bold : FontWeight.normal,
-              color: destacado ? (valor >= 0 ? Colors.green.shade700 : Colors.red.shade700) : null,
+              color: destacado ? (valor >= 0 ? Colors.green.shade300 : Colors.red.shade300) : null,
             ),
           ),
         ],

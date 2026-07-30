@@ -226,7 +226,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                 const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('¿Cómo entró la plata?', style: TextStyle(color: Colors.grey.shade700)),
+                  child: Text('¿Cómo entró la plata?', style: TextStyle(color: Colors.grey.shade400)),
                 ),
                 const SizedBox(height: 4),
                 Wrap(
@@ -407,16 +407,16 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    _desplegableVentas('Ventas en efectivo', grupos.efectivo, Colors.green.shade700),
+                    _desplegableVentas('Ventas en efectivo', grupos.efectivo, Colors.green.shade300),
                     const SizedBox(height: 8),
                     _desplegableVentas(
                         'Ventas en cuenta corriente (fiado + transferencia)',
                         grupos.cuentaCorriente,
-                        Colors.blue.shade700),
+                        Colors.blue.shade200),
                     const SizedBox(height: 8),
-                    _desplegableMovimientos('Ingresos', ingresosTodos, Colors.teal.shade700),
+                    _desplegableMovimientos('Ingresos', ingresosTodos, Colors.teal.shade300),
                     const SizedBox(height: 8),
-                    _desplegableMovimientos('Egresos', egresosTodos, Colors.red.shade700),
+                    _desplegableMovimientos('Egresos', egresosTodos, Colors.red.shade300),
                   ],
                 );
               },
@@ -562,7 +562,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
   }
 
   Widget _filaResumen(String titulo, double valor, {bool negrita = false, bool colorSegunSigno = false}) {
-    final color = colorSegunSigno ? (valor >= 0 ? Colors.green.shade700 : Colors.red.shade700) : null;
+    final color = colorSegunSigno ? (valor >= 0 ? Colors.green.shade300 : Colors.red.shade300) : null;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(

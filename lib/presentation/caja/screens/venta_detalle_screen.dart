@@ -244,7 +244,7 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
                               : 'Sobran: ${Formatters.formatearMoneda(-restante)}'),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: restante.abs() < 0.5 ? Colors.green.shade700 : Colors.orange.shade800,
+                        color: restante.abs() < 0.5 ? Colors.green.shade300 : Colors.orange.shade300,
                       ),
                     ),
                     const SizedBox(height: 8),

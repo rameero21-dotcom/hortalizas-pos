@@ -78,7 +78,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
               const SizedBox(height: 12),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text('¿Cómo paga?', style: TextStyle(color: Colors.grey.shade700)),
+                child: Text('¿Cómo paga?', style: TextStyle(color: Colors.grey.shade400)),
               ),
               const SizedBox(height: 4),
               Wrap(
@@ -270,7 +270,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
                             Formatters.formatearMoneda(m.monto),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: esCargo ? Colors.red.shade700 : Colors.green.shade700,
+                              color: esCargo ? Colors.red.shade300 : Colors.green.shade300,
                             ),
                           ),
                         );
