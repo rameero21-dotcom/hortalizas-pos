@@ -42,7 +42,21 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
   void initState() {
     super.initState();
     _cargarInicial();
-    _busquedaFocus.addListener(() => setState(() {}));
+    _busquedaFocus.addListener(() {
+      if (_busquedaFocus.hasFocus) {
+        setState(() {});
+      } else {
+        // No ocultar la lista al instante: con mouse (Windows), el
+        // campo puede perder el foco un momento ANTES de que el clic
+        // sobre un ítem de la lista termine de procesarse, y si la
+        // ocultamos ya mismo, ese ítem desaparece a mitad del clic y
+        // nunca llega a seleccionarse. Este pequeño margen le da tiempo
+        // al clic para completarse primero.
+        Future.delayed(const Duration(milliseconds: 150), () {
+          if (mounted && !_busquedaFocus.hasFocus) setState(() {});
+        });
+      }
+    });
   }
 
   /// Al abrir la pantalla, primero intenta traer los cambios desde
