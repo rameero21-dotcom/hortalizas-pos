@@ -35,6 +35,7 @@ class VentaDetalleScreen extends ConsumerStatefulWidget {
 class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
   final List<DetallePago> _pagos = [];
   Cliente? _clienteSeleccionado;
+  String? _cuitDniComprador;
   bool _cobrando = false;
 
   double _restante(double total) {
@@ -43,6 +44,7 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
   }
 
   bool get _incluyeCuentaCorriente => _pagos.any((p) => p.metodo == MetodoPago.cuentaCorriente);
+  bool get _incluyeTransferencia => _pagos.any((p) => p.metodo == MetodoPago.transferencia);
 
   Future<void> _agregarPago(double total) async {
     MetodoPago metodoElegido = MetodoPago.efectivo;
@@ -84,6 +86,60 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
 
     if (metodoElegido == MetodoPago.cuentaCorriente && _clienteSeleccionado == null) {
       await _elegirCliente();
+    } else if (metodoElegido == MetodoPago.transferencia &&
+        _clienteSeleccionado == null &&
+        (_cuitDniComprador == null || _cuitDniComprador!.isEmpty)) {
+      await _pedirCuitDniTransferencia();
+    }
+  }
+
+  /// El contador necesita el CUIT/DNI de quien compra para poder
+  /// facturar lo que se cobró por transferencia. Si no es un cliente
+  /// ya registrado (con el dato guardado en su ficha), se lo pide acá
+  /// mismo antes de poder cobrar.
+  Future<void> _pedirCuitDniTransferencia() async {
+    final ctrl = TextEditingController(text: _cuitDniComprador ?? '');
+    final resultado = await showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('CUIT o DNI del comprador'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Como se cobra por transferencia, el contador necesita este dato para poder facturar.',
+              style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: ctrl,
+              autofocus: true,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'CUIT o DNI', border: OutlineInputBorder()),
+            ),
+            const SizedBox(height: 8),
+            TextButton.icon(
+              onPressed: () async {
+                Navigator.pop(context);
+                await _elegirCliente();
+              },
+              icon: const Icon(Icons.person_search),
+              label: const Text('Es un cliente ya registrado'),
+            ),
+          ],
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, ctrl.text.trim()),
+            child: const Text('Guardar'),
+          ),
+        ],
+      ),
+    );
+    if (resultado != null && resultado.isNotEmpty) {
+      setState(() => _cuitDniComprador = resultado);
     }
   }
 
@@ -145,6 +201,14 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
       );
       return;
     }
+    if (_incluyeTransferencia &&
+        _clienteSeleccionado == null &&
+        (_cuitDniComprador == null || _cuitDniComprador!.isEmpty)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Falta el CUIT/DNI de quién compra por transferencia')),
+      );
+      return;
+    }
 
     setState(() => _cobrando = true);
     try {
@@ -154,6 +218,7 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
             cajeroId,
             _pagos,
             clienteId: _clienteSeleccionado?.id,
+            cuitDniComprador: _cuitDniComprador,
           );
 
       if (!mounted) return;
@@ -259,6 +324,20 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
                         onPressed: _elegirCliente,
                         icon: const Icon(Icons.person),
                         label: Text(_clienteSeleccionado?.nombre ?? 'Elegir cliente para la parte fiada'),
+                      ),
+                    ],
+                    if (_incluyeTransferencia) ...[
+                      const SizedBox(height: 12),
+                      OutlinedButton.icon(
+                        onPressed: _pedirCuitDniTransferencia,
+                        icon: const Icon(Icons.badge_outlined),
+                        label: Text(
+                          _clienteSeleccionado != null
+                              ? 'Cliente: ${_clienteSeleccionado!.nombre}'
+                              : (_cuitDniComprador != null && _cuitDniComprador!.isNotEmpty
+                                  ? 'CUIT/DNI: ${_cuitDniComprador!}'
+                                  : 'Falta CUIT/DNI para la transferencia'),
+                        ),
                       ),
                     ],
                   ],

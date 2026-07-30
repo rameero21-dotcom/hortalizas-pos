@@ -21,6 +21,7 @@ class FinalizarCobroUseCase {
     String cajeroId,
     List<DetallePago> pagos, {
     String? clienteId,
+    String? cuitDniComprador,
   }) async {
     // Verificación real contra Firestore (no solo el objeto que ya
     // tenemos en mano): cubre tanto el caso de la venta pendiente vista
@@ -48,6 +49,16 @@ class FinalizarCobroUseCase {
       throw ArgumentError('Para cobrar a cuenta corriente hay que elegir un cliente');
     }
 
+    // Para transferencia se necesita el CUIT/DNI de quién compra (para
+    // que el contador pueda facturarle), salvo que ya se haya elegido
+    // un cliente registrado (que ya tiene ese dato guardado).
+    final incluyeTransferencia = pagos.any((p) => p.metodo == MetodoPago.transferencia);
+    if (incluyeTransferencia &&
+        (clienteId == null || clienteId.isEmpty) &&
+        (cuitDniComprador == null || cuitDniComprador.trim().isEmpty)) {
+      throw ArgumentError('Para cobrar por transferencia hace falta el CUIT o DNI de quién compra');
+    }
+
     for (final item in venta.detalle) {
       await _stockRepository.descontarPorVenta(item.productoId, item.cantidad, cajeroId);
     }
@@ -58,6 +69,19 @@ class FinalizarCobroUseCase {
     // y el detalle completo vive en `pagos`.
     final metodoPrincipal = pagos.length == 1 ? pagos.first.metodo : null;
 
+    // Si se seleccionó un cliente registrado, se usa SU CUIT/DNI (ya
+    // cargado en su ficha) en vez de pedirlo de nuevo a mano.
+    String? cuitDniFinal = cuitDniComprador;
+    if (clienteId != null && clienteId.isNotEmpty) {
+      final clientes = await _clienteRepository.obtenerTodos();
+      for (final c in clientes) {
+        if (c.id == clienteId && c.cuitODni.isNotEmpty) {
+          cuitDniFinal = c.cuitODni;
+          break;
+        }
+      }
+    }
+
     final ventaCobrada = venta.copyWith(
       estado: EstadoVenta.cobrada,
       metodoPago: metodoPrincipal,
@@ -65,6 +89,7 @@ class FinalizarCobroUseCase {
       fechaCobro: DateTime.now(),
       clienteId: clienteId,
       pagos: pagos,
+      cuitDniComprador: cuitDniFinal,
     );
     await _ventaRepository.finalizarCobro(ventaCobrada);
 
