@@ -10,6 +10,10 @@ class _FiltrosFacturacion {
   _FiltrosFacturacion({required this.desde, required this.hasta});
 }
 
+/// Monto neto = bruto / 1.105, siempre redondeado PARA ARRIBA (nunca
+/// para abajo), tal como lo pidió el contador.
+int _montoNeto(double bruto) => (bruto / 1.105).ceil();
+
 final _filtrosFacturacionProvider = StateProvider<_FiltrosFacturacion>((ref) {
   final ahora = DateTime.now();
   final hoy = DateTime(ahora.year, ahora.month, ahora.day);
@@ -157,18 +161,35 @@ class FacturacionScreen extends ConsumerWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Total a facturar (${items.length} venta(s))',
+                            Text('${items.length} venta(s) por transferencia',
                                 style: TextStyle(color: Colors.grey.shade300)),
-                            Text(
-                              Formatters.formatearMoneda(total),
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Total bruto'),
+                                Text(
+                                  Formatters.formatearMoneda(total),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).colorScheme.secondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Total neto (÷ 1.105)'),
+                                Text(
+                                  Formatters.formatearMoneda(_montoNeto(total).toDouble()),
+                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -209,12 +230,22 @@ class FacturacionScreen extends ConsumerWidget {
                                       : null,
                                 ),
                               ),
-                              trailing: Text(
-                                Formatters.formatearMoneda(item.montoTransferido),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.secondary,
-                                ),
+                              trailing: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Bruto: ${Formatters.formatearMoneda(item.montoTransferido)}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).colorScheme.secondary,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Neto: ${Formatters.formatearMoneda(_montoNeto(item.montoTransferido))}',
+                                    style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+                                  ),
+                                ],
                               ),
                             ),
                           );

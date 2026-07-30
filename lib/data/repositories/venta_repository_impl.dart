@@ -121,6 +121,7 @@ class VentaRepositoryImpl implements VentaRepository {
       clienteId: venta.clienteId,
       nombreCliente: venta.nombreCliente,
       pagos: venta.pagos,
+      cuitDniComprador: venta.cuitDniComprador,
     );
 
     // Si la venta nunca existió en el SQLite de este dispositivo (caso
