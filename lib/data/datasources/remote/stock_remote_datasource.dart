@@ -13,4 +13,16 @@ class StockRemoteDatasource {
         .map((d) => StockModel.fromMap(d.data() as Map<String, dynamic>))
         .toList();
   }
+
+  /// Todos los movimientos de stock (ingresos, mermas, ajustes, ventas)
+  /// de TODOS los productos, sin importar el dispositivo. Se usa en el
+  /// historial de stock. Requiere conexión.
+  Future<List<MovimientoStockModel>> obtenerTodosLosMovimientos() async {
+    final snap = await _firestoreService.movimientosStock.get();
+    final movimientos = snap.docs
+        .map((d) => MovimientoStockModel.fromMap(d.data() as Map<String, dynamic>))
+        .toList();
+    movimientos.sort((a, b) => b.fecha.compareTo(a.fecha));
+    return movimientos;
+  }
 }

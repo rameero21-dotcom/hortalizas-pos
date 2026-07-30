@@ -56,4 +56,9 @@ class StockLocalDatasource {
     );
     return rows.map(MovimientoStockModel.fromMap).toList();
   }
+
+  Future<void> eliminarMovimiento(String id) async {
+    final db = await _dbHelper.database;
+    await db.delete('movimientos_stock', where: 'id = ?', whereArgs: [id]);
+  }
 }

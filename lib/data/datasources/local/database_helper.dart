@@ -21,7 +21,7 @@ class DatabaseHelper {
     final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
     return openDatabase(
       path,
-      version: 5,
+      version: 6,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -47,6 +47,9 @@ class DatabaseHelper {
     }
     if (oldVersion < 5) {
       await db.execute("ALTER TABLE movimientos_caja ADD COLUMN metodo TEXT NOT NULL DEFAULT 'efectivo'");
+    }
+    if (oldVersion < 6) {
+      await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN fechaCreacion TEXT');
     }
   }
 
@@ -98,7 +101,8 @@ class DatabaseHelper {
         favorito INTEGER NOT NULL DEFAULT 0,
         costoUnitario REAL NOT NULL DEFAULT 0,
         tasaIIBB REAL NOT NULL DEFAULT 0,
-        tasaTSH REAL NOT NULL DEFAULT 0
+        tasaTSH REAL NOT NULL DEFAULT 0,
+        fechaCreacion TEXT
       )
     ''');
 

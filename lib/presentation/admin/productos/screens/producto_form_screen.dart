@@ -61,6 +61,7 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
         categoria: widget.producto?.categoria ?? 'Verduras', // ya no se elige por producto
         activo: _activo,
         costoUnitario: _leer(_costoCtrl),
+        fechaCreacion: widget.producto?.fechaCreacion ?? DateTime.now(),
       );
 
       final usecase = ref.read(gestionarProductosUseCaseProvider);

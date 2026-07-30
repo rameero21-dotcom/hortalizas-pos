@@ -25,6 +25,10 @@ class Producto {
   /// fijo por unidad vendida.
   final double tasaTSH;
 
+  /// Cuándo se cargó este producto por primera vez (para el historial
+  /// de stock: "cuándo se creó tal producto").
+  final DateTime? fechaCreacion;
+
   const Producto({
     required this.id,
     required this.nombre,
@@ -35,6 +39,7 @@ class Producto {
     this.costoUnitario = 0,
     this.tasaIIBB = 0,
     this.tasaTSH = 0,
+    this.fechaCreacion,
   });
 
   Producto copyWith({
@@ -47,6 +52,7 @@ class Producto {
     double? costoUnitario,
     double? tasaIIBB,
     double? tasaTSH,
+    DateTime? fechaCreacion,
   }) {
     return Producto(
       id: id ?? this.id,
@@ -58,6 +64,7 @@ class Producto {
       costoUnitario: costoUnitario ?? this.costoUnitario,
       tasaIIBB: tasaIIBB ?? this.tasaIIBB,
       tasaTSH: tasaTSH ?? this.tasaTSH,
+      fechaCreacion: fechaCreacion ?? this.fechaCreacion,
     );
   }
 }

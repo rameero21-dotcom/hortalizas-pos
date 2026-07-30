@@ -13,6 +13,7 @@ class ProductoModel extends Producto {
     super.costoUnitario,
     super.tasaIIBB,
     super.tasaTSH,
+    super.fechaCreacion,
   });
 
   /// Acepta tanto filas de SQLite (booleanos como 0/1) como futuros
@@ -27,6 +28,10 @@ class ProductoModel extends Producto {
         costoUnitario: (map['costoUnitario'] as num?)?.toDouble() ?? 0,
         tasaIIBB: (map['tasaIIBB'] as num?)?.toDouble() ?? 0,
         tasaTSH: (map['tasaTSH'] as num?)?.toDouble() ?? 0,
+        // Productos creados antes de este cambio no tienen fecha
+        // guardada: se deja en null (el historial los muestra sin
+        // fecha de alta, en vez de inventar una).
+        fechaCreacion: map['fechaCreacion'] != null ? DateTime.parse(map['fechaCreacion'] as String) : null,
       );
 
   static bool _parseBool(dynamic valor, {required bool porDefecto}) {
@@ -46,6 +51,7 @@ class ProductoModel extends Producto {
         'costoUnitario': costoUnitario,
         'tasaIIBB': tasaIIBB,
         'tasaTSH': tasaTSH,
+        'fechaCreacion': fechaCreacion?.toIso8601String(),
       };
 
   factory ProductoModel.fromEntity(Producto p) => ProductoModel(
@@ -58,5 +64,6 @@ class ProductoModel extends Producto {
         costoUnitario: p.costoUnitario,
         tasaIIBB: p.tasaIIBB,
         tasaTSH: p.tasaTSH,
+        fechaCreacion: p.fechaCreacion,
       );
 }

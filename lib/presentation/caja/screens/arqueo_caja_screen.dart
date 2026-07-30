@@ -8,7 +8,7 @@ import 'historial_cierres_screen.dart';
 
 /// Denominaciones de billetes en pesos argentinos, tal como se cuentan
 /// en la planilla (de mayor a menor).
-const _denominaciones = [20000, 10000, 2000, 1000, 500, 100, 50, 20, 10];
+const _denominaciones = [20000, 10000, 2000, 1000, 500, 100, 50];
 
 /// Cuántos billetes tiene un "fajo" en este negocio (ej: un fajo de
 /// $20.000 son 100 billetes = $2.000.000). Se usa para la "caja
@@ -447,91 +447,103 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
             ],
           ),
           const SizedBox(height: 24),
-          const Text('Caja grande (fajos)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          Text(
-            'Un fajo de cada denominación equivale a $_billetesPorFajo billetes.',
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-          ),
-          const SizedBox(height: 8),
-          ..._denominaciones.map((d) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  children: [
-                    SizedBox(width: 90, child: Text(Formatters.formatearMoneda(d))),
-                    Expanded(
-                      child: TextField(
-                        controller: _fajoCtrls[d],
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          labelText: 'Cantidad de fajos',
-                          border: OutlineInputBorder(),
-                          isDense: true,
-                        ),
-                        onChanged: (_) => setState(() {}),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    SizedBox(
-                      width: 100,
-                      child: Text(
-                        Formatters.formatearMoneda(
-                            d * (int.tryParse(_fajoCtrls[d]!.text) ?? 0) * _billetesPorFajo),
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Card(
+            child: ExpansionTile(
+              title: const Text('Caja grande (fajos)', style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text('Subtotal: ${Formatters.formatearMoneda(_totalCajaGrande)}'),
               children: [
-                const Text('Subtotal caja grande', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text(Formatters.formatearMoneda(_totalCajaGrande),
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Un fajo de cada denominación equivale a $_billetesPorFajo billetes.',
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: _denominaciones
+                        .map((d) => Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Row(
+                                children: [
+                                  SizedBox(width: 90, child: Text(Formatters.formatearMoneda(d))),
+                                  Expanded(
+                                    child: TextField(
+                                      controller: _fajoCtrls[d],
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Cantidad de fajos',
+                                        border: OutlineInputBorder(),
+                                        isDense: true,
+                                      ),
+                                      onChanged: (_) => setState(() {}),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      Formatters.formatearMoneda(d *
+                                          (int.tryParse(_fajoCtrls[d]!.text) ?? 0) *
+                                          _billetesPorFajo),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                ),
+                const SizedBox(height: 8),
               ],
             ),
           ),
-          const SizedBox(height: 24),
-          const Text('Caja chica (billetes sueltos)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          const SizedBox(height: 8),
-          ..._denominaciones.map((d) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  children: [
-                    SizedBox(width: 90, child: Text(Formatters.formatearMoneda(d))),
-                    Expanded(
-                      child: TextField(
-                        controller: _billeteCtrls[d],
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          labelText: 'Cantidad de billetes',
-                          border: OutlineInputBorder(),
-                          isDense: true,
-                        ),
-                        onChanged: (_) => setState(() {}),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    SizedBox(
-                      width: 100,
-                      child: Text(
-                        Formatters.formatearMoneda(d * (int.tryParse(_billeteCtrls[d]!.text) ?? 0)),
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          const SizedBox(height: 12),
+          Card(
+            child: ExpansionTile(
+              title: const Text('Caja chica (billetes sueltos)', style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text('Subtotal: ${Formatters.formatearMoneda(_totalCajaChica)}'),
               children: [
-                const Text('Subtotal caja chica', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text(Formatters.formatearMoneda(_totalCajaChica),
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: _denominaciones
+                        .map((d) => Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Row(
+                                children: [
+                                  SizedBox(width: 90, child: Text(Formatters.formatearMoneda(d))),
+                                  Expanded(
+                                    child: TextField(
+                                      controller: _billeteCtrls[d],
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Cantidad de billetes',
+                                        border: OutlineInputBorder(),
+                                        isDense: true,
+                                      ),
+                                      onChanged: (_) => setState(() {}),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      Formatters.formatearMoneda(
+                                          d * (int.tryParse(_billeteCtrls[d]!.text) ?? 0)),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                ),
+                const SizedBox(height: 8),
               ],
             ),
           ),

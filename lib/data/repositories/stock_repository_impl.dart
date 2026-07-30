@@ -145,6 +145,21 @@ class StockRepositoryImpl implements StockRepository {
   }
 
   @override
+  Future<List<MovimientoStock>> obtenerHistorialGlobal() => _remote.obtenerTodosLosMovimientos();
+
+  @override
+  Future<void> eliminarMovimiento(String id) async {
+    await _local.eliminarMovimiento(id);
+    await _syncQueue.encolar(
+      entidad: AppConstants.colMovimientosStock,
+      entidadId: id,
+      operacion: 'delete',
+      payload: const {},
+    );
+    await _syncService.sincronizarAhora();
+  }
+
+  @override
   Stream<List<Stock>> observarStockBajo() {
     // TODO Fase 5: notificación push en tiempo real de stock bajo.
     // Por ahora StockScreen calcula el stock bajo localmente filtrando

@@ -9,6 +9,16 @@ abstract class StockRepository {
   Future<void> ajusteManual(String productoId, double nuevaCantidad, String usuarioId, {String? nota});
   Future<void> registrarMerma(String productoId, double cantidad, String usuarioId, {String? nota});
   Future<List<MovimientoStock>> obtenerHistorial(String productoId);
+
+  /// Todos los movimientos de stock (ingresos, mermas, ajustes, ventas)
+  /// de TODOS los productos, sin importar el dispositivo. Se usa en el
+  /// historial de stock. Requiere conexión.
+  Future<List<MovimientoStock>> obtenerHistorialGlobal();
+
+  /// Borra un movimiento de stock puntual del historial (no revierte
+  /// la cantidad de stock, solo saca el registro del historial).
+  Future<void> eliminarMovimiento(String id);
+
   Stream<List<Stock>> observarStockBajo();
 
   /// Trae las cantidades de stock desde Firestore y actualiza la caché

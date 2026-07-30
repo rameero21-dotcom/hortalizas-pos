@@ -6,6 +6,7 @@ import '../../../../domain/entities/producto.dart';
 import '../../../../domain/entities/stock.dart';
 import 'ingreso_mercaderia_screen.dart';
 import 'ajuste_stock_screen.dart';
+import 'historial_stock_screen.dart';
 import 'registrar_merma_screen.dart';
 
 class _ProductoConStock {
@@ -37,6 +38,14 @@ class StockScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Stock'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            tooltip: 'Historial de stock',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const HistorialStockScreen()),
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             tooltip: 'Actualizar',
