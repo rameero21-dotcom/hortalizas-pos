@@ -1,3 +1,7 @@
+/// Condición fiscal del cliente frente a AFIP/ARCA, necesaria para que
+/// el contador sepa cómo facturarle.
+enum CondicionFiscal { monotributista, responsableInscripto }
+
 /// Entidad de dominio: Cliente (preparado para uso futuro - cuenta corriente).
 class Cliente {
   final String id;
@@ -5,6 +9,8 @@ class Cliente {
   final String telefono;
   final String direccion;
   final double saldoCuentaCorriente;
+  final String cuitODni;
+  final CondicionFiscal? condicionFiscal;
 
   const Cliente({
     required this.id,
@@ -12,6 +18,8 @@ class Cliente {
     required this.telefono,
     required this.direccion,
     this.saldoCuentaCorriente = 0,
+    this.cuitODni = '',
+    this.condicionFiscal,
   });
 }
 

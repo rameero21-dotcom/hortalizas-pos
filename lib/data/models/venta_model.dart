@@ -19,6 +19,7 @@ class VentaModel extends Venta {
     super.clienteId,
     super.nombreCliente,
     super.pagos,
+    super.cuitDniComprador,
   });
 
   static List<DetallePago> _parsePagos(dynamic raw) {
@@ -55,6 +56,7 @@ class VentaModel extends Venta {
         clienteId: map['clienteId'] as String?,
         nombreCliente: map['nombreCliente'] as String?,
         pagos: _parsePagos(map['pagos']),
+        cuitDniComprador: map['cuitDniComprador'] as String?,
       );
 
   /// Reconstruye la venta a partir de un documento de Firestore, donde
@@ -87,6 +89,7 @@ class VentaModel extends Venta {
         'clienteId': clienteId,
         'nombreCliente': nombreCliente,
         'pagos': jsonEncode(_encodePagos(pagos)),
+        'cuitDniComprador': cuitDniComprador,
       };
 
   /// Para Firestore: a diferencia de SQLite (donde el detalle vive en su

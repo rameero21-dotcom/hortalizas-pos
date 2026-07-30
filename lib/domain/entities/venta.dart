@@ -51,6 +51,11 @@ class Venta {
   /// elemento igual a [metodoPago]/[total].
   final List<DetallePago> pagos;
 
+  /// Cuando se cobra por transferencia y no se elige un Cliente
+  /// registrado, se pide este dato acá para que el contador pueda
+  /// facturar igual (ver pestaña Facturación en el panel de admin).
+  final String? cuitDniComprador;
+
   const Venta({
     required this.id,
     required this.numero,
@@ -66,6 +71,7 @@ class Venta {
     this.clienteId,
     this.nombreCliente,
     this.pagos = const [],
+    this.cuitDniComprador,
   });
 
   Venta copyWith({
@@ -76,6 +82,7 @@ class Venta {
     String? clienteId,
     String? nombreCliente,
     List<DetallePago>? pagos,
+    String? cuitDniComprador,
   }) {
     return Venta(
       id: id,
@@ -92,6 +99,7 @@ class Venta {
       clienteId: clienteId ?? this.clienteId,
       nombreCliente: nombreCliente ?? this.nombreCliente,
       pagos: pagos ?? this.pagos,
+      cuitDniComprador: cuitDniComprador ?? this.cuitDniComprador,
     );
   }
 }

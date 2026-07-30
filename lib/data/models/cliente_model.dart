@@ -7,6 +7,8 @@ class ClienteModel extends Cliente {
     required super.telefono,
     required super.direccion,
     super.saldoCuentaCorriente,
+    super.cuitODni,
+    super.condicionFiscal,
   });
 
   factory ClienteModel.fromMap(Map<String, dynamic> map) => ClienteModel(
@@ -15,6 +17,10 @@ class ClienteModel extends Cliente {
         telefono: map['telefono'] as String? ?? '',
         direccion: map['direccion'] as String? ?? '',
         saldoCuentaCorriente: (map['saldoCuentaCorriente'] as num?)?.toDouble() ?? 0,
+        cuitODni: map['cuitODni'] as String? ?? '',
+        condicionFiscal: map['condicionFiscal'] != null
+            ? CondicionFiscal.values.byName(map['condicionFiscal'] as String)
+            : null,
       );
 
   Map<String, dynamic> toMap() => {
@@ -23,6 +29,8 @@ class ClienteModel extends Cliente {
         'telefono': telefono,
         'direccion': direccion,
         'saldoCuentaCorriente': saldoCuentaCorriente,
+        'cuitODni': cuitODni,
+        'condicionFiscal': condicionFiscal?.name,
       };
 }
 
