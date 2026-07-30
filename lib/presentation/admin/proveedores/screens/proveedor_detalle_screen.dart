@@ -4,7 +4,6 @@ import 'package:uuid/uuid.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/proveedor.dart';
-import '../../../../domain/entities/producto.dart';
 
 /// Un ítem del historial combinado: puede ser un pedido (suma al saldo)
 /// o un pago (resta del saldo).
@@ -50,7 +49,7 @@ final _historialProveedorProvider =
       _ItemHistorialProveedor(
         fecha: p.fecha,
         titulo: '${p.productoNombre} · ${Formatters.formatearCantidad(p.cantidad)}',
-        subtitulo: 'Pedido · ${_labelMetodo(p.metodoPago)}${p.nota != null && p.nota!.isNotEmpty ? ' · ${p.nota}' : ''}',
+        subtitulo: 'Pedido${p.nota != null && p.nota!.isNotEmpty ? ' · ${p.nota}' : ''}',
         monto: p.monto,
         esPedido: true,
         idParaBorrar: p.id,
@@ -82,106 +81,61 @@ class ProveedorDetalleScreen extends ConsumerWidget {
   const ProveedorDetalleScreen({super.key, required this.proveedor});
 
   Future<void> _nuevoPedido(BuildContext context, WidgetRef ref) async {
-    final productos = await ref.read(productoRepositoryProvider).obtenerTodos();
-    Producto? productoSeleccionado;
-    final productoLibreCtrl = TextEditingController();
+    final productoCtrl = TextEditingController();
     final cantidadCtrl = TextEditingController();
     final montoCtrl = TextEditingController();
     final notaCtrl = TextEditingController();
-    MetodoPagoProveedor metodo = MetodoPagoProveedor.efectivo;
-    bool usarProductoLibre = productos.isEmpty;
 
     final confirmado = await showDialog<bool>(
       context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Nuevo pedido'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Esto suma el monto a lo que le debemos al proveedor.',
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
-                ),
-                const SizedBox(height: 12),
-                if (productos.isNotEmpty) ...[
-                  SegmentedButton<bool>(
-                    segments: const [
-                      ButtonSegment(value: false, label: Text('Del catálogo')),
-                      ButtonSegment(value: true, label: Text('Otro producto')),
-                    ],
-                    selected: {usarProductoLibre},
-                    onSelectionChanged: (s) => setDialogState(() => usarProductoLibre = s.first),
-                  ),
-                  const SizedBox(height: 12),
-                ],
-                if (!usarProductoLibre && productos.isNotEmpty)
-                  DropdownButtonFormField<Producto>(
-                    initialValue: productoSeleccionado,
-                    decoration: const InputDecoration(labelText: 'Producto', border: OutlineInputBorder()),
-                    items: productos
-                        .map((p) => DropdownMenuItem(value: p, child: Text(p.nombre)))
-                        .toList(),
-                    onChanged: (p) => setDialogState(() => productoSeleccionado = p),
-                  )
-                else
-                  TextField(
-                    controller: productoLibreCtrl,
-                    decoration: const InputDecoration(
-                        labelText: 'Producto (texto libre)', border: OutlineInputBorder()),
-                  ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: cantidadCtrl,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  decoration: const InputDecoration(labelText: 'Cantidad pedida', border: OutlineInputBorder()),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: montoCtrl,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  decoration: const InputDecoration(labelText: 'Monto del pedido', border: OutlineInputBorder()),
-                ),
-                const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('¿Cómo se piensa abonar?', style: TextStyle(color: Colors.grey.shade400)),
-                ),
-                const SizedBox(height: 4),
-                Wrap(
-                  spacing: 8,
-                  children: MetodoPagoProveedor.values.map((m) {
-                    return ChoiceChip(
-                      label: Text(_labelMetodo(m)),
-                      selected: metodo == m,
-                      onSelected: (_) => setDialogState(() => metodo = m),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: notaCtrl,
-                  decoration: const InputDecoration(labelText: 'Nota (opcional)', border: OutlineInputBorder()),
-                ),
-              ],
-            ),
+      builder: (context) => AlertDialog(
+        title: const Text('Nuevo pedido'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Esto suma el monto a lo que le debemos al proveedor.',
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: productoCtrl,
+                decoration: const InputDecoration(labelText: 'Producto', border: OutlineInputBorder()),
+                autofocus: true,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: cantidadCtrl,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(labelText: 'Cantidad pedida', border: OutlineInputBorder()),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: montoCtrl,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(labelText: 'Monto del pedido', border: OutlineInputBorder()),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: notaCtrl,
+                decoration: const InputDecoration(labelText: 'Nota (opcional)', border: OutlineInputBorder()),
+              ),
+            ],
           ),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
-            ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Guardar')),
-          ],
         ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
+          ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Guardar')),
+        ],
       ),
     );
     if (confirmado != true) return;
 
     final cantidad = double.tryParse(cantidadCtrl.text.replaceAll(',', '.'));
     final monto = double.tryParse(montoCtrl.text.replaceAll(',', '.'));
-    final nombreProducto = usarProductoLibre || productoSeleccionado == null
-        ? productoLibreCtrl.text.trim()
-        : productoSeleccionado!.nombre;
+    final nombreProducto = productoCtrl.text.trim();
     if (cantidad == null || cantidad <= 0 || monto == null || monto < 0 || nombreProducto.isEmpty) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -195,10 +149,13 @@ class ProveedorDetalleScreen extends ConsumerWidget {
     await ref.read(proveedorRepositoryProvider).registrarPedido(PedidoProveedor(
           id: const Uuid().v4(),
           proveedorId: proveedor.id,
-          productoId: usarProductoLibre ? null : productoSeleccionado?.id,
+          productoId: null,
           productoNombre: nombreProducto,
           cantidad: cantidad,
-          metodoPago: metodo,
+          // El método de pago ya no se carga acá: se define cuando se
+          // registra el pago propiamente dicho (este campo queda sin
+          // usar para pedidos, solo tiene sentido histórico interno).
+          metodoPago: MetodoPagoProveedor.efectivo,
           monto: monto,
           fecha: DateTime.now(),
           usuarioId: usuarioId,
