@@ -44,54 +44,87 @@ class ProveedoresScreen extends ConsumerWidget {
           if (proveedores.isEmpty) {
             return const Center(child: Text('No hay proveedores cargados. Tocá + para agregar uno.'));
           }
-          return ListView.builder(
-            itemCount: proveedores.length,
-            itemBuilder: (context, index) {
-              final p = proveedores[index];
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                child: ListTile(
-                  leading: Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0.18),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(Icons.local_shipping_rounded, color: Theme.of(context).colorScheme.primary),
+          final totalQueLesDebemos = proveedores
+              .where((p) => p.saldoCuentaCorriente > 0)
+              .fold(0.0, (acc, p) => acc + p.saldoCuentaCorriente);
+          return Column(
+            children: [
+              if (totalQueLesDebemos > 0)
+                Card(
+                  margin: const EdgeInsets.all(12),
+                  color: Colors.red.withOpacity(0.15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: const BorderSide(color: Colors.red),
                   ),
-                  title: Text(p.nombre),
-                  subtitle: Text(p.telefono.isEmpty ? 'Sin teléfono cargado' : p.telefono),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (p.saldoCuentaCorriente != 0)
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Total que les debemos a los proveedores'),
                         Text(
-                          Formatters.formatearMoneda(p.saldoCuentaCorriente.abs()),
+                          Formatters.formatearMoneda(totalQueLesDebemos),
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: p.saldoCuentaCorriente > 0 ? Colors.red : Colors.green,
-                          ),
+                              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red.shade300),
                         ),
-                      IconButton(
-                        icon: const Icon(Icons.edit, size: 20),
-                        onPressed: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => ProveedorFormScreen(proveedor: p)),
-                          );
-                          ref.invalidate(proveedoresListProvider);
-                        },
-                      ),
-                    ],
-                  ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => ProveedorDetalleScreen(proveedor: p)),
+                      ],
+                    ),
                   ),
                 ),
-              );
-            },
+              Expanded(
+                child: ListView.builder(
+                  itemCount: proveedores.length,
+                  itemBuilder: (context, index) {
+                    final p = proveedores[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      child: ListTile(
+                        leading: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.18),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(Icons.local_shipping_rounded,
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
+                        title: Text(p.nombre),
+                        subtitle: Text(p.telefono.isEmpty ? 'Sin teléfono cargado' : p.telefono),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (p.saldoCuentaCorriente != 0)
+                              Text(
+                                Formatters.formatearMoneda(p.saldoCuentaCorriente.abs()),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: p.saldoCuentaCorriente > 0 ? Colors.red : Colors.green,
+                                ),
+                              ),
+                            IconButton(
+                              icon: const Icon(Icons.edit, size: 20),
+                              onPressed: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => ProveedorFormScreen(proveedor: p)),
+                                );
+                                ref.invalidate(proveedoresListProvider);
+                              },
+                            ),
+                          ],
+                        ),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => ProveedorDetalleScreen(proveedor: p)),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
