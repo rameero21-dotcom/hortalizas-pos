@@ -6,6 +6,7 @@ import 'estadisticas/screens/estadisticas_screen.dart';
 import 'usuarios/screens/usuarios_screen.dart';
 import 'historial/screens/historial_screen.dart';
 import 'clientes/screens/clientes_screen.dart';
+import 'proveedores/screens/proveedores_screen.dart';
 import '../shared/utils/cerrar_sesion.dart';
 import '../shared/widgets/indicador_sincronizacion.dart';
 
@@ -23,6 +24,7 @@ class AdminDashboardScreen extends ConsumerWidget {
       _ModuloAdmin('Usuarios', Icons.people_alt_rounded, const UsuariosScreen(), colorScheme.primary),
       _ModuloAdmin('Historial', Icons.history_rounded, const HistorialScreen(), colorScheme.secondary),
       _ModuloAdmin('Clientes', Icons.contacts_rounded, const ClientesScreen(), colorScheme.primary),
+      _ModuloAdmin('Proveedores', Icons.local_shipping_rounded, const ProveedoresScreen(), colorScheme.secondary),
     ];
 
     return Scaffold(

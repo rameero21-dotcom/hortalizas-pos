@@ -21,7 +21,7 @@ class DatabaseHelper {
     final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
     return openDatabase(
       path,
-      version: 6,
+      version: 7,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -51,6 +51,34 @@ class DatabaseHelper {
     if (oldVersion < 6) {
       await db.execute('ALTER TABLE ${AppConstants.tablaProductos} ADD COLUMN fechaCreacion TEXT');
     }
+    if (oldVersion < 7) {
+      await _crearTablasProveedores(db);
+    }
+  }
+
+  Future<void> _crearTablasProveedores(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS ${AppConstants.tablaProveedores} (
+        id TEXT PRIMARY KEY,
+        nombre TEXT NOT NULL,
+        telefono TEXT NOT NULL DEFAULT '',
+        activo INTEGER NOT NULL DEFAULT 1
+      )
+    ''');
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS ${AppConstants.tablaPedidosProveedor} (
+        id TEXT PRIMARY KEY,
+        proveedorId TEXT NOT NULL,
+        productoId TEXT,
+        productoNombre TEXT NOT NULL,
+        cantidad REAL NOT NULL,
+        metodoPago TEXT NOT NULL,
+        monto REAL NOT NULL,
+        fecha TEXT NOT NULL,
+        usuarioId TEXT NOT NULL,
+        nota TEXT
+      )
+    ''');
   }
 
   Future<void> _crearTablasCaja(Database db) async {
@@ -190,6 +218,7 @@ class DatabaseHelper {
     ''');
 
     await _crearTablasCaja(db);
+    await _crearTablasProveedores(db);
 
     await _seedDatosIniciales(db);
   }

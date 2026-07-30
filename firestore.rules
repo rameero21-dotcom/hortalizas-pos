@@ -63,6 +63,16 @@ service cloud.firestore {
       allow write: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
     }
 
+    // Proveedores: solo el administrador los carga y les compra.
+    match /proveedores/{proveedorId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && miRol() == 'administrador';
+    }
+    match /pedidos_proveedor/{pedidoId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && miRol() == 'administrador';
+    }
+
     // Caja: ingresos/egresos manuales y cierres de arqueo. Los carga el
     // cajero al cerrar caja; el admin necesita leerlos para el
     // apartado de "Movimientos de caja" en Historial.

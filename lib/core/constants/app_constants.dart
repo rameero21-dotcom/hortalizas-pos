@@ -13,6 +13,8 @@ class AppConstants {
   static const String colMovimientosCaja = 'movimientos_caja';
   static const String colCierresCaja = 'cierres_caja';
   static const String colMovimientosCuentaCorriente = 'movimientos_cuenta_corriente';
+  static const String colProveedores = 'proveedores';
+  static const String colPedidosProveedor = 'pedidos_proveedor';
 
   // Tablas SQLite
   static const String tablaProductos = 'productos';
@@ -21,6 +23,8 @@ class AppConstants {
   static const String tablaStock = 'stock';
   static const String tablaClientes = 'clientes';
   static const String tablaUsuarios = 'usuarios';
+  static const String tablaProveedores = 'proveedores';
+  static const String tablaPedidosProveedor = 'pedidos_proveedor';
   static const String tablaSyncQueue = 'sync_queue'; // cola de cambios pendientes de sincronizar
 
   // Stock bajo (alerta) - umbral por defecto, override por producto
