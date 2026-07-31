@@ -25,6 +25,7 @@ import '../../data/repositories/stock_repository_impl.dart';
 import '../../data/repositories/usuario_repository_impl.dart';
 import '../../data/repositories/cliente_repository_impl.dart';
 import '../../data/repositories/proveedor_repository_impl.dart';
+import '../../data/repositories/facturacion_marcado_repository.dart';
 import '../../data/repositories/caja_repository_impl.dart';
 
 import '../../domain/repositories/producto_repository.dart';
@@ -159,6 +160,12 @@ final proveedorRepositoryProvider = Provider<ProveedorRepository>((ref) => Prove
       ref.watch(proveedorLocalDsProvider),
       ref.watch(syncQueueLocalDsProvider),
       ref.watch(proveedorRemoteDsProvider),
+      ref.watch(syncServiceProvider),
+    ));
+final facturacionMarcadoRepositoryProvider = Provider((ref) => FacturacionMarcadoRepository(
+      ref.watch(databaseHelperProvider),
+      ref.watch(syncQueueLocalDsProvider),
+      ref.watch(firestoreServiceProvider),
       ref.watch(syncServiceProvider),
     ));
 final cajaRepositoryProvider = Provider<CajaRepository>((ref) => CajaRepositoryImpl(

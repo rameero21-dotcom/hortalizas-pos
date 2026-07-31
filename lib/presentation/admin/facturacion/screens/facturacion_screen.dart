@@ -25,12 +25,14 @@ final _filtrosFacturacionProvider = StateProvider<_FiltrosFacturacion>((ref) {
 /// transferencia, o de un pago de cuenta corriente hecho por
 /// transferencia — cualquiera de los dos hay que facturarlo igual.
 class _ItemFacturacion {
+  final String id;
   final String titulo;
   final String subtitulo;
   final bool faltaCuitDni;
   final DateTime fecha;
   final double montoBruto;
   _ItemFacturacion({
+    required this.id,
     required this.titulo,
     required this.subtitulo,
     required this.faltaCuitDni,
@@ -59,6 +61,7 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
     if (montoTransferido > 0) {
       final tieneCuitDni = v.cuitDniComprador != null && v.cuitDniComprador!.isNotEmpty;
       items.add(_ItemFacturacion(
+        id: v.id,
         titulo: v.nombreCliente != null && v.nombreCliente!.isNotEmpty
             ? 'Venta #${v.numero} · ${v.nombreCliente}'
             : 'Venta #${v.numero}',
@@ -82,6 +85,7 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
     final cuitDni = cuitDniPorCliente[m.clienteId] ?? '';
     final tieneCuitDni = cuitDni.isNotEmpty;
     items.add(_ItemFacturacion(
+      id: m.id,
       titulo: 'Pago de cuenta corriente · $nombreCliente',
       subtitulo: tieneCuitDni ? 'CUIT/DNI: $cuitDni' : 'Sin CUIT/DNI cargado',
       faltaCuitDni: !tieneCuitDni,
@@ -89,6 +93,10 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
       montoBruto: m.monto,
     ));
   }
+
+  // Sacar los que ya se marcaron como facturados (deslizando).
+  final idsMarcados = await ref.watch(facturacionMarcadoRepositoryProvider).obtenerIdsMarcadosGlobal();
+  items.removeWhere((i) => idsMarcados.contains(i.id));
 
   items.sort((a, b) => b.fecha.compareTo(a.fecha));
   return items;
@@ -242,40 +250,80 @@ class FacturacionScreen extends ConsumerWidget {
                         itemCount: items.length,
                         itemBuilder: (context, i) {
                           final item = items[i];
-                          return Card(
-                            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                            child: ListTile(
-                              leading: Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.primary.withOpacity(0.18),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Icon(Icons.receipt_long_rounded,
-                                    size: 20, color: Theme.of(context).colorScheme.primary),
-                              ),
-                              title: Text(item.titulo),
-                              subtitle: Text(
-                                '${item.subtitulo} · ${Formatters.formatearFechaHora(item.fecha)}',
-                                style: TextStyle(color: item.faltaCuitDni ? Colors.orange.shade300 : null),
-                              ),
-                              trailing: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Bruto: ${Formatters.formatearMoneda(item.montoBruto)}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).colorScheme.secondary,
+                          return Dismissible(
+                            key: ValueKey(item.id),
+                            direction: DismissDirection.endToStart,
+                            background: Container(
+                              color: Colors.green,
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.only(right: 20),
+                              child: const Icon(Icons.check_circle, color: Colors.white),
+                            ),
+                            confirmDismiss: (_) async {
+                              return await showDialog<bool>(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Marcar como facturado'),
+                                      content: const Text(
+                                        '¿Marcar este movimiento como ya facturado? Va a desaparecer de '
+                                        'esta lista, pero la venta o el pago siguen intactos en el resto '
+                                        'de la app.',
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () => Navigator.pop(context, false),
+                                            child: const Text('Cancelar')),
+                                        ElevatedButton(
+                                          onPressed: () => Navigator.pop(context, true),
+                                          child: const Text('Marcar'),
+                                        ),
+                                      ],
                                     ),
+                                  ) ??
+                                  false;
+                            },
+                            onDismissed: (_) async {
+                              final usuarioId = ref.read(currentUserIdProvider);
+                              await ref
+                                  .read(facturacionMarcadoRepositoryProvider)
+                                  .marcarComoFacturado(item.id, usuarioId);
+                              ref.invalidate(_facturacionProvider);
+                            },
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                              child: ListTile(
+                                leading: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.primary.withOpacity(0.18),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  Text(
-                                    'Neto: ${Formatters.formatearMoneda(_montoNeto(item.montoBruto))}',
-                                    style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
-                                  ),
-                                ],
+                                  child: Icon(Icons.receipt_long_rounded,
+                                      size: 20, color: Theme.of(context).colorScheme.primary),
+                                ),
+                                title: Text(item.titulo),
+                                subtitle: Text(
+                                  '${item.subtitulo} · ${Formatters.formatearFechaHora(item.fecha)}',
+                                  style: TextStyle(color: item.faltaCuitDni ? Colors.orange.shade300 : null),
+                                ),
+                                trailing: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'Bruto: ${Formatters.formatearMoneda(item.montoBruto)}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context).colorScheme.secondary,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Neto: ${Formatters.formatearMoneda(_montoNeto(item.montoBruto))}',
+                                      style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );

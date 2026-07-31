@@ -19,6 +19,7 @@ class FirestoreService {
   CollectionReference get proveedores => _firestore.collection(AppConstants.colProveedores);
   CollectionReference get pedidosProveedor => _firestore.collection(AppConstants.colPedidosProveedor);
   CollectionReference get pagosProveedor => _firestore.collection(AppConstants.colPagosProveedor);
+  CollectionReference get facturacionMarcados => _firestore.collection(AppConstants.colFacturacionMarcados);
 
   /// Mapa entidad (nombre usado en sync_queue) -> colección real de Firestore.
   CollectionReference coleccionPara(String entidad) {
@@ -47,6 +48,8 @@ class FirestoreService {
         return pedidosProveedor;
       case AppConstants.colPagosProveedor:
         return pagosProveedor;
+      case AppConstants.colFacturacionMarcados:
+        return facturacionMarcados;
       default:
         throw ArgumentError('Entidad desconocida para Firestore: $entidad');
     }

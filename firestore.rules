@@ -77,6 +77,13 @@ service cloud.firestore {
       allow write: if estaLogueado() && miRol() == 'administrador';
     }
 
+    // Marcas de "ya facturado" en la pantalla de Facturación: no borra
+    // la venta/pago real, solo lo saca de esa lista para el contador.
+    match /facturacion_marcados/{itemId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && miRol() == 'administrador';
+    }
+
     // Caja: ingresos/egresos manuales y cierres de arqueo. Los carga el
     // cajero al cerrar caja; el admin necesita leerlos para el
     // apartado de "Movimientos de caja" en Historial.

@@ -21,7 +21,7 @@ class DatabaseHelper {
     final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
     return openDatabase(
       path,
-      version: 11,
+      version: 12,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -81,6 +81,15 @@ class DatabaseHelper {
     }
     if (oldVersion < 11) {
       await db.execute('ALTER TABLE movimientos_cuenta_corriente ADD COLUMN metodoPago TEXT');
+    }
+    if (oldVersion < 12) {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS facturacion_marcados (
+          id TEXT PRIMARY KEY,
+          fechaMarcado TEXT NOT NULL,
+          usuarioId TEXT NOT NULL
+        )
+      ''');
     }
   }
 
@@ -263,6 +272,13 @@ class DatabaseHelper {
 
     await _crearTablasCaja(db);
     await _crearTablasProveedores(db);
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS facturacion_marcados (
+        id TEXT PRIMARY KEY,
+        fechaMarcado TEXT NOT NULL,
+        usuarioId TEXT NOT NULL
+      )
+    ''');
 
     await _seedDatosIniciales(db);
   }
