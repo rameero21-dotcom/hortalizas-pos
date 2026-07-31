@@ -15,6 +15,11 @@ class _FiltrosFacturacion {
 /// para abajo), tal como lo pidió el contador.
 int _montoNeto(double bruto) => (bruto / 1.105).ceil();
 
+String _labelCondicion(CondicionFiscal c) => switch (c) {
+      CondicionFiscal.monotributista => 'Monotributista',
+      CondicionFiscal.responsableInscripto => 'Responsable Inscripto',
+    };
+
 final _filtrosFacturacionProvider = StateProvider<_FiltrosFacturacion>((ref) {
   final ahora = DateTime.now();
   final hoy = DateTime(ahora.year, ahora.month, ahora.day);
@@ -51,6 +56,12 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
   final idsMarcados = await facturacionRepo.obtenerIdsMarcadosGlobal();
   final idsOcultos = await facturacionRepo.obtenerIdsOcultosGlobal();
 
+  final clienteRepo = ref.watch(clienteRepositoryProvider);
+  final clientes = await clienteRepo.obtenerTodos();
+  final nombrePorCliente = {for (final c in clientes) c.id: c.nombre};
+  final cuitDniPorCliente = {for (final c in clientes) c.id: c.cuitODni};
+  final condicionPorCliente = {for (final c in clientes) c.id: c.condicionFiscal};
+
   // ---- Paso 1: Ventas cobradas (total o parcialmente) por transferencia ----
   final ventaRepo = ref.watch(ventaRepositoryProvider);
   final todasLasVentas = await ventaRepo.obtenerPorRangoFechaGlobal(filtros.desde, filtros.hasta);
@@ -67,12 +78,15 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
     }
     if (montoTransferido > 0) {
       final tieneCuitDni = v.cuitDniComprador != null && v.cuitDniComprador!.isNotEmpty;
+      final condicionCliente = v.clienteId != null ? condicionPorCliente[v.clienteId] : null;
       items.add(_ItemFacturacion(
         id: v.id,
         titulo: v.nombreCliente != null && v.nombreCliente!.isNotEmpty
             ? 'Venta #${v.numero} · ${v.nombreCliente}'
             : 'Venta #${v.numero}',
-        subtitulo: tieneCuitDni ? 'CUIT/DNI: ${v.cuitDniComprador}' : 'Sin CUIT/DNI cargado',
+        subtitulo: tieneCuitDni
+            ? 'CUIT/DNI: ${v.cuitDniComprador}${condicionCliente != null ? ' · ${_labelCondicion(condicionCliente)}' : ''}'
+            : 'Sin CUIT/DNI cargado',
         faltaCuitDni: !tieneCuitDni,
         fecha: v.fecha,
         montoBruto: montoTransferido,
@@ -82,10 +96,6 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
   }
 
   // ---- Paso 2: Pagos de cuenta corriente hechos por transferencia ----
-  final clienteRepo = ref.watch(clienteRepositoryProvider);
-  final clientes = await clienteRepo.obtenerTodos();
-  final nombrePorCliente = {for (final c in clientes) c.id: c.nombre};
-  final cuitDniPorCliente = {for (final c in clientes) c.id: c.cuitODni};
   final movimientos = await clienteRepo.obtenerMovimientosCuentaGlobal(filtros.desde, filtros.hasta);
   for (final m in movimientos) {
     if (m.tipo != TipoMovimientoCuenta.pago || m.metodoPago != MetodoPago.transferencia) continue;
@@ -93,10 +103,13 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
     final nombreCliente = nombrePorCliente[m.clienteId] ?? '(cliente eliminado)';
     final cuitDni = cuitDniPorCliente[m.clienteId] ?? '';
     final tieneCuitDni = cuitDni.isNotEmpty;
+    final condicionCliente = condicionPorCliente[m.clienteId];
     items.add(_ItemFacturacion(
       id: m.id,
       titulo: 'Pago de cuenta corriente · $nombreCliente',
-      subtitulo: tieneCuitDni ? 'CUIT/DNI: $cuitDni' : 'Sin CUIT/DNI cargado',
+      subtitulo: tieneCuitDni
+          ? 'CUIT/DNI: $cuitDni${condicionCliente != null ? ' · ${_labelCondicion(condicionCliente)}' : ''}'
+          : 'Sin CUIT/DNI cargado',
       faltaCuitDni: !tieneCuitDni,
       fecha: m.fecha,
       montoBruto: m.monto,

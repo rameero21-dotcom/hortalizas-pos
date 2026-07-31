@@ -51,10 +51,10 @@ class ClientesScreen extends ConsumerWidget {
               if (totalQueNosDeben > 0)
                 Card(
                   margin: const EdgeInsets.all(12),
-                  color: Colors.green.withOpacity(0.15),
+                  color: Colors.red.withOpacity(0.15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
-                    side: const BorderSide(color: Colors.green),
+                    side: const BorderSide(color: Colors.red),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -65,7 +65,7 @@ class ClientesScreen extends ConsumerWidget {
                         Text(
                           Formatters.formatearMoneda(totalQueNosDeben),
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green.shade300),
+                              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red.shade300),
                         ),
                       ],
                     ),
