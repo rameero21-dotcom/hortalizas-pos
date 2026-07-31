@@ -81,8 +81,9 @@ class ClienteRepositoryImpl implements ClienteRepository {
     final cliente = await obtenerPorId(clienteId);
     if (cliente == null) throw ArgumentError('Cliente no encontrado: $clienteId');
 
-    // Un cargo (venta fiada) AUMENTA la deuda; un pago la DISMINUYE.
-    final signo = tipo == TipoMovimientoCuenta.cargo ? 1 : -1;
+    // Un cargo (venta fiada) AUMENTA la deuda (el saldo se vuelve más
+    // negativo); un pago la DISMINUYE (el saldo sube hacia 0 o positivo).
+    final signo = tipo == TipoMovimientoCuenta.cargo ? -1 : 1;
     final nuevoSaldo = cliente.saldoCuentaCorriente + (signo * monto);
     await _local.actualizarSaldo(clienteId, nuevoSaldo);
 
