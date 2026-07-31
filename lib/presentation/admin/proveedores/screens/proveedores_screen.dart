@@ -77,7 +77,46 @@ class ProveedoresScreen extends ConsumerWidget {
                   itemCount: proveedores.length,
                   itemBuilder: (context, index) {
                     final p = proveedores[index];
-                    return Card(
+                    return Dismissible(
+                      key: ValueKey(p.id),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 20),
+                        child: const Icon(Icons.delete, color: Colors.white),
+                      ),
+                      confirmDismiss: (_) async {
+                        return await showDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Eliminar proveedor'),
+                                content: Text(
+                                  p.saldoCuentaCorriente != 0
+                                      ? '¿Eliminar a ${p.nombre}? Todavía hay un saldo de '
+                                          '${Formatters.formatearMoneda(p.saldoCuentaCorriente)} en su cuenta. '
+                                          'Esta acción no se puede deshacer.'
+                                      : '¿Eliminar a ${p.nombre}? Esta acción no se puede deshacer.',
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () => Navigator.pop(context, false),
+                                      child: const Text('Cancelar')),
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context, true),
+                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                    child: const Text('Eliminar'),
+                                  ),
+                                ],
+                              ),
+                            ) ??
+                            false;
+                      },
+                      onDismissed: (_) async {
+                        await ref.read(proveedorRepositoryProvider).eliminar(p.id);
+                        ref.invalidate(proveedoresListProvider);
+                      },
+                      child: Card(
                       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       child: ListTile(
                         leading: Container(
@@ -119,6 +158,7 @@ class ProveedoresScreen extends ConsumerWidget {
                           context,
                           MaterialPageRoute(builder: (_) => ProveedorDetalleScreen(proveedor: p)),
                         ),
+                      ),
                       ),
                     );
                   },

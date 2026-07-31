@@ -67,7 +67,7 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
 
   Future<void> _guardar() async {
     if (!_formKey.currentState!.validate()) return;
-    if (_condicionFiscal == null) {
+    if (!_esEdicion && _condicionFiscal == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Elegí la condición fiscal del cliente')),
       );
@@ -130,7 +130,7 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
                     helperText: 'Necesario para que el contador pueda facturarle',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (v) => Validators.requerido(v, campo: 'El CUIT o DNI'),
+                  validator: (v) => _esEdicion ? null : Validators.requerido(v, campo: 'El CUIT o DNI'),
                 ),
               ],
               if (nombreCargado && cuitDniCargado) ...[
