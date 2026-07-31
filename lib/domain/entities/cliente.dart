@@ -1,3 +1,5 @@
+import 'venta.dart' show MetodoPago;
+
 /// Condición fiscal del cliente frente a AFIP/ARCA, necesaria para que
 /// el contador sepa cómo facturarle.
 enum CondicionFiscal { monotributista, responsableInscripto }
@@ -37,6 +39,11 @@ class MovimientoCuentaCorriente {
   final DateTime fecha;
   final String usuarioId;
 
+  /// Cómo se pagó (solo tiene sentido para tipo == pago). Se usa para
+  /// que los pagos por transferencia también aparezcan en Facturación
+  /// (el contador los tiene que facturar igual que una venta).
+  final MetodoPago? metodoPago;
+
   const MovimientoCuentaCorriente({
     required this.id,
     required this.clienteId,
@@ -45,5 +52,6 @@ class MovimientoCuentaCorriente {
     required this.detalle,
     required this.fecha,
     required this.usuarioId,
+    this.metodoPago,
   });
 }

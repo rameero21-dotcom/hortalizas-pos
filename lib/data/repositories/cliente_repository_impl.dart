@@ -73,6 +73,7 @@ class ClienteRepositoryImpl implements ClienteRepository {
     required double monto,
     required String detalle,
     required String usuarioId,
+    MetodoPago? metodoPago,
   }) async {
     final cliente = await obtenerPorId(clienteId);
     if (cliente == null) throw ArgumentError('Cliente no encontrado: $clienteId');
@@ -90,6 +91,7 @@ class ClienteRepositoryImpl implements ClienteRepository {
       detalle: detalle,
       fecha: DateTime.now(),
       usuarioId: usuarioId,
+      metodoPago: metodoPago,
     );
     await _local.registrarMovimientoCuenta(movimiento);
 

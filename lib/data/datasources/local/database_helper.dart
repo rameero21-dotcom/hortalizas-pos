@@ -21,7 +21,7 @@ class DatabaseHelper {
     final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
     return openDatabase(
       path,
-      version: 10,
+      version: 11,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -78,6 +78,9 @@ class DatabaseHelper {
     }
     if (oldVersion < 10) {
       await db.execute('ALTER TABLE ${AppConstants.tablaVentas} ADD COLUMN cuitDniComprador TEXT');
+    }
+    if (oldVersion < 11) {
+      await db.execute('ALTER TABLE movimientos_cuenta_corriente ADD COLUMN metodoPago TEXT');
     }
   }
 
@@ -150,7 +153,8 @@ class DatabaseHelper {
         monto REAL NOT NULL,
         detalle TEXT NOT NULL,
         fecha TEXT NOT NULL,
-        usuarioId TEXT NOT NULL
+        usuarioId TEXT NOT NULL,
+        metodoPago TEXT
       )
     ''');
   }

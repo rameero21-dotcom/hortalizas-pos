@@ -50,6 +50,13 @@ final _ventasHoyProvider = FutureProvider.autoDispose<List<Venta>>((ref) async {
   return ventas.where((v) => v.estado == EstadoVenta.cobrada).toList();
 });
 
+/// Nombre real de cada cliente registrado (para mostrar en vez de
+/// "Fiado" en el desplegable de cuenta corriente).
+final _nombresClientesProvider = FutureProvider.autoDispose<Map<String, String>>((ref) async {
+  final clientes = await ref.watch(clienteRepositoryProvider).obtenerTodos();
+  return {for (final c in clientes) c.id: c.nombre};
+});
+
 /// Movimientos manuales de caja de hoy (ingresos/egresos aparte de ventas).
 final _movimientosCajaHoyProvider = FutureProvider.autoDispose<List<MovimientoCaja>>((ref) async {
   final ahora = DateTime.now();
@@ -270,7 +277,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
   /// devuelve los dos grupos que nos interesan: efectivo, y
   /// cuenta corriente (fiado + transferencia juntos).
   ({List<_ItemVentaCaja> efectivo, List<_ItemVentaCaja> cuentaCorriente}) _agruparVentas(
-      List<Venta> ventas) {
+      List<Venta> ventas, Map<String, String> nombresClientes) {
     final efectivo = <_ItemVentaCaja>[];
     final cuentaCorriente = <_ItemVentaCaja>[];
 
@@ -280,11 +287,17 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
           : (v.metodoPago != null ? [DetallePago(metodo: v.metodoPago!, monto: v.total)] : <DetallePago>[]);
 
       for (final p in pagos) {
+        // Para lo fiado, mostrar el nombre real del cliente registrado
+        // (no "Fiado") — para transferencia sí tiene sentido decir
+        // "Transferencia", ya que puede no haber un cliente vinculado.
+        final metodoLabel = p.metodo == MetodoPago.cuentaCorriente
+            ? (nombresClientes[v.clienteId] ?? v.nombreCliente ?? 'Fiado')
+            : _labelMetodo(p.metodo);
         final item = _ItemVentaCaja(
           numero: v.numero,
           nombreCliente: v.nombreCliente,
           monto: p.monto,
-          metodoLabel: _labelMetodo(p.metodo),
+          metodoLabel: metodoLabel,
         );
         if (p.metodo == MetodoPago.efectivo) {
           efectivo.add(item);
@@ -336,7 +349,8 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                     movimientos.where((m) => m.detalle != _detalleCajaInicio).toList();
                 final ingresosTodos = movimientosSinCajaInicio.where((m) => m.tipo == TipoMovimientoCaja.ingreso).toList();
                 final egresosTodos = movimientosSinCajaInicio.where((m) => m.tipo == TipoMovimientoCaja.egreso).toList();
-                final grupos = _agruparVentas(ventas);
+                final nombresClientes = ref.watch(_nombresClientesProvider).valueOrNull ?? {};
+                final grupos = _agruparVentas(ventas, nombresClientes);
                 final totalEfectivo = grupos.efectivo.fold(0.0, (acc, i) => acc + i.monto);
                 final ingresosEfectivo = ingresosTodos
                     .where((m) => m.metodo == MetodoMovimientoCaja.efectivo)

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/venta.dart';
+import '../../../../domain/entities/cliente.dart';
 
 class _FiltrosFacturacion {
   final DateTime desde;
@@ -20,21 +21,32 @@ final _filtrosFacturacionProvider = StateProvider<_FiltrosFacturacion>((ref) {
   return _FiltrosFacturacion(desde: hoy, hasta: hoy.add(const Duration(days: 1)));
 });
 
-/// Una parte transferida de una venta (una venta con pago dividido
-/// puede aportar solo una porción de su total acá).
+/// Una entrada para el contador: puede venir de una venta cobrada por
+/// transferencia, o de un pago de cuenta corriente hecho por
+/// transferencia — cualquiera de los dos hay que facturarlo igual.
 class _ItemFacturacion {
-  final Venta venta;
-  final double montoTransferido;
-  _ItemFacturacion({required this.venta, required this.montoTransferido});
+  final String titulo;
+  final String subtitulo;
+  final bool faltaCuitDni;
+  final DateTime fecha;
+  final double montoBruto;
+  _ItemFacturacion({
+    required this.titulo,
+    required this.subtitulo,
+    required this.faltaCuitDni,
+    required this.fecha,
+    required this.montoBruto,
+  });
 }
 
 final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>((ref) async {
   final filtros = ref.watch(_filtrosFacturacionProvider);
-  final repo = ref.watch(ventaRepositoryProvider);
-  final todas = await repo.obtenerPorRangoFechaGlobal(filtros.desde, filtros.hasta);
-  final cobradas = todas.where((v) => v.estado == EstadoVenta.cobrada);
-
   final items = <_ItemFacturacion>[];
+
+  // ---- Paso 1: Ventas cobradas (total o parcialmente) por transferencia ----
+  final ventaRepo = ref.watch(ventaRepositoryProvider);
+  final todasLasVentas = await ventaRepo.obtenerPorRangoFechaGlobal(filtros.desde, filtros.hasta);
+  final cobradas = todasLasVentas.where((v) => v.estado == EstadoVenta.cobrada);
   for (final v in cobradas) {
     double montoTransferido = 0;
     if (v.pagos.isNotEmpty) {
@@ -45,10 +57,40 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
       montoTransferido = v.total;
     }
     if (montoTransferido > 0) {
-      items.add(_ItemFacturacion(venta: v, montoTransferido: montoTransferido));
+      final tieneCuitDni = v.cuitDniComprador != null && v.cuitDniComprador!.isNotEmpty;
+      items.add(_ItemFacturacion(
+        titulo: v.nombreCliente != null && v.nombreCliente!.isNotEmpty
+            ? 'Venta #${v.numero} · ${v.nombreCliente}'
+            : 'Venta #${v.numero}',
+        subtitulo: tieneCuitDni ? 'CUIT/DNI: ${v.cuitDniComprador}' : 'Sin CUIT/DNI cargado',
+        faltaCuitDni: !tieneCuitDni,
+        fecha: v.fecha,
+        montoBruto: montoTransferido,
+      ));
     }
   }
-  items.sort((a, b) => b.venta.fecha.compareTo(a.venta.fecha));
+
+  // ---- Paso 2: Pagos de cuenta corriente hechos por transferencia ----
+  final clienteRepo = ref.watch(clienteRepositoryProvider);
+  final clientes = await clienteRepo.obtenerTodos();
+  final nombrePorCliente = {for (final c in clientes) c.id: c.nombre};
+  final cuitDniPorCliente = {for (final c in clientes) c.id: c.cuitODni};
+  final movimientos = await clienteRepo.obtenerMovimientosCuentaGlobal(filtros.desde, filtros.hasta);
+  for (final m in movimientos) {
+    if (m.tipo != TipoMovimientoCuenta.pago || m.metodoPago != MetodoPago.transferencia) continue;
+    final nombreCliente = nombrePorCliente[m.clienteId] ?? '(cliente eliminado)';
+    final cuitDni = cuitDniPorCliente[m.clienteId] ?? '';
+    final tieneCuitDni = cuitDni.isNotEmpty;
+    items.add(_ItemFacturacion(
+      titulo: 'Pago de cuenta corriente · $nombreCliente',
+      subtitulo: tieneCuitDni ? 'CUIT/DNI: $cuitDni' : 'Sin CUIT/DNI cargado',
+      faltaCuitDni: !tieneCuitDni,
+      fecha: m.fecha,
+      montoBruto: m.monto,
+    ));
+  }
+
+  items.sort((a, b) => b.fecha.compareTo(a.fecha));
   return items;
 });
 
@@ -147,9 +189,9 @@ class FacturacionScreen extends ConsumerWidget {
             child: itemsAsync.when(
               data: (items) {
                 if (items.isEmpty) {
-                  return const Center(child: Text('No hubo ventas por transferencia en este período.'));
+                  return const Center(child: Text('No hubo movimientos por transferencia en este período.'));
                 }
-                final total = items.fold(0.0, (acc, i) => acc + i.montoTransferido);
+                final total = items.fold(0.0, (acc, i) => acc + i.montoBruto);
                 return Column(
                   children: [
                     Card(
@@ -164,7 +206,7 @@ class FacturacionScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('${items.length} venta(s) por transferencia',
+                            Text('${items.length} movimiento(s) por transferencia',
                                 style: TextStyle(color: Colors.grey.shade300)),
                             const SizedBox(height: 8),
                             Row(
@@ -200,7 +242,6 @@ class FacturacionScreen extends ConsumerWidget {
                         itemCount: items.length,
                         itemBuilder: (context, i) {
                           final item = items[i];
-                          final v = item.venta;
                           return Card(
                             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                             child: ListTile(
@@ -214,35 +255,24 @@ class FacturacionScreen extends ConsumerWidget {
                                 child: Icon(Icons.receipt_long_rounded,
                                     size: 20, color: Theme.of(context).colorScheme.primary),
                               ),
-                              title: Text(
-                                v.nombreCliente != null && v.nombreCliente!.isNotEmpty
-                                    ? 'Venta #${v.numero} · ${v.nombreCliente}'
-                                    : 'Venta #${v.numero}',
-                              ),
+                              title: Text(item.titulo),
                               subtitle: Text(
-                                (v.cuitDniComprador != null && v.cuitDniComprador!.isNotEmpty
-                                        ? 'CUIT/DNI: ${v.cuitDniComprador} · '
-                                        : 'Sin CUIT/DNI cargado · ') +
-                                    Formatters.formatearFechaHora(v.fecha),
-                                style: TextStyle(
-                                  color: (v.cuitDniComprador == null || v.cuitDniComprador!.isEmpty)
-                                      ? Colors.orange.shade300
-                                      : null,
-                                ),
+                                '${item.subtitulo} · ${Formatters.formatearFechaHora(item.fecha)}',
+                                style: TextStyle(color: item.faltaCuitDni ? Colors.orange.shade300 : null),
                               ),
                               trailing: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Bruto: ${Formatters.formatearMoneda(item.montoTransferido)}',
+                                    'Bruto: ${Formatters.formatearMoneda(item.montoBruto)}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Theme.of(context).colorScheme.secondary,
                                     ),
                                   ),
                                   Text(
-                                    'Neto: ${Formatters.formatearMoneda(_montoNeto(item.montoTransferido))}',
+                                    'Neto: ${Formatters.formatearMoneda(_montoNeto(item.montoBruto))}',
                                     style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
                                   ),
                                 ],

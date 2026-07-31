@@ -47,6 +47,14 @@ final _ventasHistorialProvider = FutureProvider.autoDispose<List<Venta>>((ref) a
   }).toList();
 });
 
+/// Nombre real de cada cliente registrado, para mostrar a quién se le
+/// fio cada venta (en vez de solo el nombre de referencia libre que
+/// haya tipeado el vendedor).
+final _nombresClientesHistorialProvider = FutureProvider.autoDispose<Map<String, String>>((ref) async {
+  final clientes = await ref.watch(clienteRepositoryProvider).obtenerTodos();
+  return {for (final c in clientes) c.id: c.nombre};
+});
+
 /// Un ítem unificado de la línea de tiempo de caja: puede ser una venta
 /// cobrada o un movimiento manual (ingreso/egreso), todo junto y
 /// ordenado por fecha.
@@ -92,6 +100,23 @@ final _movimientosCajaHistorialProvider = FutureProvider.autoDispose<List<_Movim
   unificados.sort((a, b) => b.fecha.compareTo(a.fecha));
   return unificados;
 });
+
+/// Arma el título de la venta para la lista de historial: si es fiada
+/// (cuenta corriente), muestra el nombre real del cliente registrado
+/// junto al número — no el nombre de referencia libre que haya tipeado
+/// el vendedor, que puede no ser el mismo.
+String _tituloVenta(Venta venta, Map<String, String> nombresClientes) {
+  final esFiada = venta.metodoPago == MetodoPago.cuentaCorriente ||
+      venta.pagos.any((p) => p.metodo == MetodoPago.cuentaCorriente);
+  if (esFiada && venta.clienteId != null) {
+    final nombreReal = nombresClientes[venta.clienteId];
+    if (nombreReal != null) return 'Venta #${venta.numero} · Fiado a: $nombreReal';
+  }
+  if (venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty) {
+    return 'Venta #${venta.numero} · ${venta.nombreCliente}';
+  }
+  return 'Venta #${venta.numero}';
+}
 
 String _labelMetodoPago(MetodoPago m) => switch (m) {
       MetodoPago.efectivo => 'Efectivo',
@@ -197,6 +222,7 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
   Widget build(BuildContext context) {
     final filtros = ref.watch(_filtrosProvider);
     final ventasAsync = ref.watch(_ventasHistorialProvider);
+    final nombresClientes = ref.watch(_nombresClientesHistorialProvider).valueOrNull ?? {};
     final movimientosAsync = ref.watch(_movimientosCajaHistorialProvider);
 
     return Scaffold(
@@ -318,11 +344,7 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                                 child: Icon(Icons.receipt_long_rounded,
                                     size: 20, color: Theme.of(context).colorScheme.primary),
                               ),
-                              title: Text(
-                                venta.nombreCliente != null && venta.nombreCliente!.isNotEmpty
-                                    ? 'Venta #${venta.numero} · ${venta.nombreCliente}'
-                                    : 'Venta #${venta.numero}',
-                              ),
+                              title: Text(_tituloVenta(venta, nombresClientes)),
                               subtitle: Text(
                                   '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'
                                   '${venta.vendedorNombre != null ? ' · Vend: ${venta.vendedorNombre}' : ''}'),

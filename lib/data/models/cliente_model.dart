@@ -1,4 +1,5 @@
 import '../../domain/entities/cliente.dart';
+import '../../domain/entities/venta.dart' show MetodoPago;
 
 class ClienteModel extends Cliente {
   const ClienteModel({
@@ -43,6 +44,7 @@ class MovimientoCuentaCorrienteModel extends MovimientoCuentaCorriente {
     required super.detalle,
     required super.fecha,
     required super.usuarioId,
+    super.metodoPago,
   });
 
   factory MovimientoCuentaCorrienteModel.fromMap(Map<String, dynamic> map) =>
@@ -54,6 +56,7 @@ class MovimientoCuentaCorrienteModel extends MovimientoCuentaCorriente {
         detalle: map['detalle'] as String,
         fecha: DateTime.parse(map['fecha'] as String),
         usuarioId: map['usuarioId'] as String,
+        metodoPago: map['metodoPago'] != null ? MetodoPago.values.byName(map['metodoPago'] as String) : null,
       );
 
   Map<String, dynamic> toMap() => {
@@ -64,5 +67,6 @@ class MovimientoCuentaCorrienteModel extends MovimientoCuentaCorriente {
         'detalle': detalle,
         'fecha': fecha.toIso8601String(),
         'usuarioId': usuarioId,
+        'metodoPago': metodoPago?.name,
       };
 }

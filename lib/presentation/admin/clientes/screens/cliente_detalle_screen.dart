@@ -112,6 +112,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
           monto: monto,
           detalle: detalle,
           usuarioId: usuarioId,
+          metodoPago: metodoPago,
         );
 
     // Si el cliente pagó en EFECTIVO, esa plata entró de verdad a la

@@ -1,4 +1,5 @@
 import '../entities/cliente.dart';
+import '../entities/venta.dart' show MetodoPago;
 
 /// Contrato del repositorio de Clientes, incluyendo cuenta corriente
 /// (fiado/deuda) para clientes habituales.
@@ -17,6 +18,7 @@ abstract class ClienteRepository {
     required double monto,
     required String detalle,
     required String usuarioId,
+    MetodoPago? metodoPago,
   });
 
   Future<List<MovimientoCuentaCorriente>> obtenerMovimientosCuenta(String clienteId);
