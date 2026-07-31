@@ -2,6 +2,7 @@ import 'package:uuid/uuid.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/services/sync_service.dart';
 import '../../domain/entities/cliente.dart';
+import '../../domain/entities/venta.dart' show MetodoPago;
 import '../../domain/repositories/cliente_repository.dart';
 import '../datasources/local/cliente_local_datasource.dart';
 import '../datasources/local/sync_queue_local_datasource.dart';
