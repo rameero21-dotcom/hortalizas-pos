@@ -10,6 +10,7 @@ Uso: python3 test_integracion_firebase.py
 """
 import uuid
 import time
+import math
 import datetime
 import json
 from google.cloud import firestore
@@ -513,9 +514,125 @@ verificar("Se pudieron crear y leer las 300 ventas de volumen sin errores",
 verificar("La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos)",
           t_lectura < 5, f"(tardo {t_lectura:.2f}s)")
 
-print("\n" + "=" * 70)
-print("RESUMEN")
-print("=" * 70)
+# ============ 15) Proveedores: pedido sube saldo, pago lo baja ============
+print("\n--- 15) Proveedores: cuenta corriente ---")
+proveedor_id = str(uuid.uuid4())
+db.collection("proveedores").document(proveedor_id).set({
+    "id": proveedor_id, "nombre": f"{PREFIJO} Proveedor Verduras", "telefono": "",
+    "activo": True, "saldoCuentaCorriente": 0,
+})
+
+# Pedido de 50000: SUMA al saldo (positivo = les debemos)
+db.collection("proveedores").document(proveedor_id).update({"saldoCuentaCorriente": firestore.Increment(50000)})
+pedido_id = str(uuid.uuid4())
+db.collection("pedidos_proveedor").document(pedido_id).set({
+    "id": pedido_id, "proveedorId": proveedor_id, "productoId": None,
+    "productoNombre": f"{PREFIJO} Cajones de tomate", "cantidad": 20,
+    "metodoPago": "efectivo", "monto": 50000, "fecha": ahora_iso(),
+    "usuarioId": "test-admin", "nota": None,
+})
+saldo_tras_pedido = db.collection("proveedores").document(proveedor_id).get().to_dict()["saldoCuentaCorriente"]
+verificar("Proveedor: pedido de 50000 SUMA al saldo (0 -> 50000, les debemos)",
+          saldo_tras_pedido == 50000, f"(quedo en {saldo_tras_pedido})")
+
+# Pago de 20000: RESTA del saldo
+db.collection("proveedores").document(proveedor_id).update({"saldoCuentaCorriente": firestore.Increment(-20000)})
+pago_prov_id = str(uuid.uuid4())
+db.collection("pagos_proveedor").document(pago_prov_id).set({
+    "id": pago_prov_id, "proveedorId": proveedor_id, "monto": 20000,
+    "metodoPago": "transferencia", "fecha": ahora_iso(), "usuarioId": "test-admin", "nota": None,
+})
+saldo_tras_pago_prov = db.collection("proveedores").document(proveedor_id).get().to_dict()["saldoCuentaCorriente"]
+verificar("Proveedor: pago de 20000 RESTA del saldo (50000 -> 30000)",
+          saldo_tras_pago_prov == 30000, f"(quedo en {saldo_tras_pago_prov})")
+
+# ============ 16) Cliente: CUIT/DNI y condicion fiscal se guardan ============
+print("\n--- 16) Cliente: CUIT/DNI y condicion fiscal ---")
+cliente3_id = str(uuid.uuid4())
+db.collection("clientes").document(cliente3_id).set({
+    "id": cliente3_id, "nombre": f"{PREFIJO} Cliente Fiscal", "telefono": "",
+    "direccion": "", "saldoCuentaCorriente": 0,
+    "cuitODni": "20-12345678-9", "condicionFiscal": "responsableInscripto",
+})
+cliente3_leido = db.collection("clientes").document(cliente3_id).get().to_dict()
+verificar("CUIT/DNI del cliente se guarda y lee bien",
+          cliente3_leido.get("cuitODni") == "20-12345678-9")
+verificar("Condicion fiscal del cliente se guarda y lee bien",
+          cliente3_leido.get("condicionFiscal") == "responsableInscripto")
+
+# ============ 17) Signo del saldo de cliente: cargo resta, pago suma ============
+print("\n--- 17) Cliente: signo correcto del saldo (cargo resta, pago suma) ---")
+# Mismo cliente de arriba, arranca en 0.
+db.collection("clientes").document(cliente3_id).update({"saldoCuentaCorriente": firestore.Increment(-15000)})
+mov_cargo3_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_cargo3_id).set({
+    "id": mov_cargo3_id, "clienteId": cliente3_id, "tipo": "cargo", "monto": 15000,
+    "detalle": f"{PREFIJO} venta fiada", "fecha": ahora_iso(), "usuarioId": "test-cajero",
+    "metodoPago": None,
+})
+saldo_tras_cargo3 = db.collection("clientes").document(cliente3_id).get().to_dict()["saldoCuentaCorriente"]
+verificar("Cliente: un cargo de 15000 hace el saldo MAS negativo (0 -> -15000)",
+          saldo_tras_cargo3 == -15000, f"(quedo en {saldo_tras_cargo3})")
+
+db.collection("clientes").document(cliente3_id).update({"saldoCuentaCorriente": firestore.Increment(6000)})
+mov_pago3_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_pago3_id).set({
+    "id": mov_pago3_id, "clienteId": cliente3_id, "tipo": "pago", "monto": 6000,
+    "detalle": f"{PREFIJO} pago transferencia", "fecha": ahora_iso(), "usuarioId": "test-cajero",
+    "metodoPago": "transferencia",
+})
+saldo_tras_pago3 = db.collection("clientes").document(cliente3_id).get().to_dict()["saldoCuentaCorriente"]
+verificar("Cliente: un pago de 6000 hace el saldo MENOS negativo (-15000 -> -9000)",
+          saldo_tras_pago3 == -9000, f"(quedo en {saldo_tras_pago3})")
+
+# ============ 18) Facturacion: venta+cliente por transferencia con CUIT/DNI ============
+print("\n--- 18) Facturacion: datos completos para el contador ---")
+venta_fact_id = str(uuid.uuid4())
+db.collection("ventas").document(venta_fact_id).set({
+    "id": venta_fact_id, "numero": 9600, "fecha": ahora_iso(),
+    "vendedorId": "test-vendedor", "vendedorNombre": f"{PREFIJO} Vendedor",
+    "total": 12000, "estado": "cobrada", "metodoPago": "transferencia",
+    "cajeroId": "test-cajero", "fechaCobro": ahora_iso(), "clienteId": None,
+    "nombreCliente": f"{PREFIJO} comprador ocasional",
+    "pagos": [{"metodo": "transferencia", "monto": 12000}],
+    "cuitDniComprador": "27-98765432-1",
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": 1, "precioTotal": 12000}],
+})
+venta_fact_leida = db.collection("ventas").document(venta_fact_id).get().to_dict()
+verificar("Venta por transferencia guarda el CUIT/DNI del comprador",
+          venta_fact_leida.get("cuitDniComprador") == "27-98765432-1")
+bruto_esperado = venta_fact_leida["total"]
+neto_esperado = math.ceil(bruto_esperado / 1.105)
+verificar("Formula de neto (bruto/1.105, redondeado arriba) da un valor coherente",
+          neto_esperado > 0 and neto_esperado < bruto_esperado,
+          f"(bruto {bruto_esperado}, neto calculado {neto_esperado})")
+
+# ============ 19) Facturacion: marcado (tilde) y oculto (swipe) son independientes ============
+print("\n--- 19) Facturacion: tilde y swipe no se pisan entre si ---")
+# Marcar como facturado (tilde) NO debe ocultarlo de la lista.
+db.collection("facturacion_marcados").document(venta_fact_id).set({
+    "id": venta_fact_id, "fechaMarcado": ahora_iso(), "usuarioId": "test-admin",
+})
+marcado_existe = db.collection("facturacion_marcados").document(venta_fact_id).get().exists
+oculto_no_existe = not db.collection("facturacion_ocultos").document(venta_fact_id).get().exists
+verificar("Marcar como facturado (tilde) queda registrado en su propia coleccion",
+          marcado_existe)
+verificar("Marcar como facturado NO crea una entrada en 'ocultos' (no se esconde solo)",
+          oculto_no_existe)
+
+# Ahora, ocultar con swipe (separado del tilde de arriba).
+db.collection("facturacion_ocultos").document(venta_fact_id).set({
+    "id": venta_fact_id, "fechaOculto": ahora_iso(), "usuarioId": "test-admin",
+})
+oculto_existe = db.collection("facturacion_ocultos").document(venta_fact_id).get().exists
+venta_sigue_intacta = db.collection("ventas").document(venta_fact_id).get().exists
+verificar("Ocultar con swipe queda registrado en su propia coleccion (separada del tilde)",
+          oculto_existe)
+verificar("La venta original SIGUE existiendo despues de ocultarla de Facturacion (no se borro)",
+          venta_sigue_intacta)
+
+
 ok = sum(1 for _, e, _ in resultados if e == "OK")
 total = len(resultados)
 print(f"{ok}/{total} verificaciones pasaron correctamente.")
@@ -527,11 +644,17 @@ for nombre, estado, detalle in resultados:
 with open('/tmp/test_ids.json', 'w') as f:
     json.dump({
         "productos": list(ids_productos.values()) + productos_volumen_ids,
-        "clientes": [cliente_id, cliente2_id],
-        "ventas": [venta1_id, venta2_id, venta3_id, venta_qr_id] + ventas_stats_ids + ventas_volumen_ids,
-        "movimientos_cuenta_corriente": [mov_id, mov_pago_id, mov_cargo_id, mov_pago_efectivo_id, mov_pago_transf_id],
+        "clientes": [cliente_id, cliente2_id, cliente3_id],
+        "ventas": [venta1_id, venta2_id, venta3_id, venta_qr_id, venta_fact_id] + ventas_stats_ids + ventas_volumen_ids,
+        "movimientos_cuenta_corriente": [mov_id, mov_pago_id, mov_cargo_id, mov_pago_efectivo_id,
+                                          mov_pago_transf_id, mov_cargo3_id, mov_pago3_id],
         "movimientos_caja": [mov_caja_efectivo_id],
         "cierres_caja": [cierre_id],
+        "proveedores": [proveedor_id],
+        "pedidos_proveedor": [pedido_id],
+        "pagos_proveedor": [pago_prov_id],
+        "facturacion_marcados": [venta_fact_id],
+        "facturacion_ocultos": [venta_fact_id],
     }, f, indent=2)
 
 print("\nIDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.")
