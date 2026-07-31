@@ -34,6 +34,19 @@ class FacturacionMarcadoRepository {
     await _syncService.sincronizarAhora();
   }
 
+  /// Por si alguien lo marcó por error (ej: tocó el tilde sin querer).
+  Future<void> desmarcarComoFacturado(String id) async {
+    final db = await _dbHelper.database;
+    await db.delete('facturacion_marcados', where: 'id = ?', whereArgs: [id]);
+    await _syncQueue.encolar(
+      entidad: AppConstants.colFacturacionMarcados,
+      entidadId: id,
+      operacion: 'delete',
+      payload: const {},
+    );
+    await _syncService.sincronizarAhora();
+  }
+
   /// Todos los ids marcados como ya facturados, sin importar el
   /// dispositivo (para que si el admin marca uno desde el celular, no
   /// vuelva a aparecer al abrir la app desde la PC).
