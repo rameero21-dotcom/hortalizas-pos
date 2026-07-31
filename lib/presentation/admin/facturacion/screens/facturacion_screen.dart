@@ -307,20 +307,36 @@ class FacturacionScreen extends ConsumerWidget {
                                   '${item.subtitulo} · ${Formatters.formatearFechaHora(item.fecha)}',
                                   style: TextStyle(color: item.faltaCuitDni ? Colors.orange.shade300 : null),
                                 ),
-                                trailing: Column(
+                                trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      'Bruto: ${Formatters.formatearMoneda(item.montoBruto)}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).colorScheme.secondary,
-                                      ),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'Bruto: ${Formatters.formatearMoneda(item.montoBruto)}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context).colorScheme.secondary,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Neto: ${Formatters.formatearMoneda(_montoNeto(item.montoBruto))}',
+                                          style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      'Neto: ${Formatters.formatearMoneda(_montoNeto(item.montoBruto))}',
-                                      style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+                                    IconButton(
+                                      icon: const Icon(Icons.check_circle_outline),
+                                      tooltip: 'Marcar como facturado',
+                                      onPressed: () async {
+                                        final usuarioId = ref.read(currentUserIdProvider);
+                                        await ref
+                                            .read(facturacionMarcadoRepositoryProvider)
+                                            .marcarComoFacturado(item.id, usuarioId);
+                                        ref.invalidate(_facturacionProvider);
+                                      },
                                     ),
                                   ],
                                 ),

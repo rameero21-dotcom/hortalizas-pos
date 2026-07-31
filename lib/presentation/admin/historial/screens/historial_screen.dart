@@ -55,19 +55,6 @@ final _nombresClientesHistorialProvider = FutureProvider.autoDispose<Map<String,
   return {for (final c in clientes) c.id: c.nombre};
 });
 
-/// Ids ya marcados como "facturado" (ver pantalla de Facturación).
-final _idsFacturadosProvider = FutureProvider.autoDispose<Set<String>>((ref) async {
-  return ref.watch(facturacionMarcadoRepositoryProvider).obtenerIdsMarcadosGlobal();
-});
-
-/// Si una venta tiene aunque sea una parte pagada por transferencia
-/// (es la única que le interesa al contador, por eso solo a esas se
-/// les muestra el tilde de facturado).
-bool _tieneTransferencia(Venta v) {
-  if (v.pagos.isNotEmpty) return v.pagos.any((p) => p.metodo == MetodoPago.transferencia);
-  return v.metodoPago == MetodoPago.transferencia;
-}
-
 /// Un ítem unificado de la línea de tiempo de caja: puede ser una venta
 /// cobrada o un movimiento manual (ingreso/egreso), todo junto y
 /// ordenado por fecha.
@@ -236,7 +223,6 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
     final filtros = ref.watch(_filtrosProvider);
     final ventasAsync = ref.watch(_ventasHistorialProvider);
     final nombresClientes = ref.watch(_nombresClientesHistorialProvider).valueOrNull ?? {};
-    final idsFacturados = ref.watch(_idsFacturadosProvider).valueOrNull ?? {};
     final movimientosAsync = ref.watch(_movimientosCajaHistorialProvider);
 
     return Scaffold(
@@ -362,24 +348,12 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                               subtitle: Text(
                                   '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'
                                   '${venta.vendedorNombre != null ? ' · Vend: ${venta.vendedorNombre}' : ''}'),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    Formatters.formatearMoneda(venta.total),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).colorScheme.secondary,
-                                    ),
-                                  ),
-                                  if (_tieneTransferencia(venta)) ...[
-                                    const SizedBox(width: 8),
-                                    _TildeFacturado(
-                                      ventaId: venta.id,
-                                      facturado: idsFacturados.contains(venta.id),
-                                    ),
-                                  ],
-                                ],
+                              trailing: Text(
+                                Formatters.formatearMoneda(venta.total),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.secondary,
+                                ),
                               ),
                             onTap: () => showModalBottomSheet(
                               context: context,
@@ -519,32 +493,3 @@ class _DetalleVentaHistorial extends StatelessWidget {
   }
 }
 
-/// Tilde que indica si una venta con transferencia ya está facturada.
-/// Tocarlo lo marca/desmarca directo (comparte la misma marca que el
-/// swipe en la pantalla de Facturación).
-class _TildeFacturado extends ConsumerWidget {
-  final String ventaId;
-  final bool facturado;
-  const _TildeFacturado({required this.ventaId, required this.facturado});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return IconButton(
-      icon: Icon(
-        facturado ? Icons.check_circle : Icons.check_circle_outline,
-        color: facturado ? Colors.green.shade300 : Colors.grey.shade600,
-      ),
-      tooltip: facturado ? 'Ya facturada (tocá para desmarcar)' : 'Marcar como facturada',
-      onPressed: () async {
-        final repo = ref.read(facturacionMarcadoRepositoryProvider);
-        if (facturado) {
-          await repo.desmarcarComoFacturado(ventaId);
-        } else {
-          final usuarioId = ref.read(currentUserIdProvider);
-          await repo.marcarComoFacturado(ventaId, usuarioId);
-        }
-        ref.invalidate(_idsFacturadosProvider);
-      },
-    );
-  }
-}
