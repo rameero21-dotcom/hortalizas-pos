@@ -62,4 +62,34 @@ class FacturacionMarcadoRepository {
       return rows.map((r) => r['id'] as String).toSet();
     }
   }
+
+  /// Ocultar un ítem de la lista con el swipe (esto SÍ lo saca de la
+  /// vista, a diferencia del tilde de facturado que solo lo marca sin
+  /// esconderlo). Tampoco toca la venta/pago real.
+  Future<void> ocultarDeFacturacion(String id, String usuarioId) async {
+    final db = await _dbHelper.database;
+    await db.insert(
+      'facturacion_ocultos',
+      {'id': id, 'fechaOculto': DateTime.now().toIso8601String(), 'usuarioId': usuarioId},
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    await _syncQueue.encolar(
+      entidad: AppConstants.colFacturacionOcultos,
+      entidadId: id,
+      operacion: 'set',
+      payload: {'id': id, 'fechaOculto': DateTime.now().toIso8601String(), 'usuarioId': usuarioId},
+    );
+    await _syncService.sincronizarAhora();
+  }
+
+  Future<Set<String>> obtenerIdsOcultosGlobal() async {
+    try {
+      final snap = await _firestoreService.facturacionOcultos.get();
+      return snap.docs.map((d) => d.id).toSet();
+    } catch (_) {
+      final db = await _dbHelper.database;
+      final rows = await db.query('facturacion_ocultos');
+      return rows.map((r) => r['id'] as String).toSet();
+    }
+  }
 }

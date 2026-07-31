@@ -21,7 +21,7 @@ class DatabaseHelper {
     final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
     return openDatabase(
       path,
-      version: 12,
+      version: 13,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -87,6 +87,15 @@ class DatabaseHelper {
         CREATE TABLE IF NOT EXISTS facturacion_marcados (
           id TEXT PRIMARY KEY,
           fechaMarcado TEXT NOT NULL,
+          usuarioId TEXT NOT NULL
+        )
+      ''');
+    }
+    if (oldVersion < 13) {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS facturacion_ocultos (
+          id TEXT PRIMARY KEY,
+          fechaOculto TEXT NOT NULL,
           usuarioId TEXT NOT NULL
         )
       ''');
@@ -276,6 +285,13 @@ class DatabaseHelper {
       CREATE TABLE IF NOT EXISTS facturacion_marcados (
         id TEXT PRIMARY KEY,
         fechaMarcado TEXT NOT NULL,
+        usuarioId TEXT NOT NULL
+      )
+    ''');
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS facturacion_ocultos (
+        id TEXT PRIMARY KEY,
+        fechaOculto TEXT NOT NULL,
         usuarioId TEXT NOT NULL
       )
     ''');

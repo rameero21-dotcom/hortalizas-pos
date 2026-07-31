@@ -31,6 +31,7 @@ class _ItemFacturacion {
   final bool faltaCuitDni;
   final DateTime fecha;
   final double montoBruto;
+  final bool facturado;
   _ItemFacturacion({
     required this.id,
     required this.titulo,
@@ -38,6 +39,7 @@ class _ItemFacturacion {
     required this.faltaCuitDni,
     required this.fecha,
     required this.montoBruto,
+    required this.facturado,
   });
 }
 
@@ -45,11 +47,16 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
   final filtros = ref.watch(_filtrosFacturacionProvider);
   final items = <_ItemFacturacion>[];
 
+  final facturacionRepo = ref.watch(facturacionMarcadoRepositoryProvider);
+  final idsMarcados = await facturacionRepo.obtenerIdsMarcadosGlobal();
+  final idsOcultos = await facturacionRepo.obtenerIdsOcultosGlobal();
+
   // ---- Paso 1: Ventas cobradas (total o parcialmente) por transferencia ----
   final ventaRepo = ref.watch(ventaRepositoryProvider);
   final todasLasVentas = await ventaRepo.obtenerPorRangoFechaGlobal(filtros.desde, filtros.hasta);
   final cobradas = todasLasVentas.where((v) => v.estado == EstadoVenta.cobrada);
   for (final v in cobradas) {
+    if (idsOcultos.contains(v.id)) continue;
     double montoTransferido = 0;
     if (v.pagos.isNotEmpty) {
       montoTransferido = v.pagos
@@ -69,6 +76,7 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
         faltaCuitDni: !tieneCuitDni,
         fecha: v.fecha,
         montoBruto: montoTransferido,
+        facturado: idsMarcados.contains(v.id),
       ));
     }
   }
@@ -81,6 +89,7 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
   final movimientos = await clienteRepo.obtenerMovimientosCuentaGlobal(filtros.desde, filtros.hasta);
   for (final m in movimientos) {
     if (m.tipo != TipoMovimientoCuenta.pago || m.metodoPago != MetodoPago.transferencia) continue;
+    if (idsOcultos.contains(m.id)) continue;
     final nombreCliente = nombrePorCliente[m.clienteId] ?? '(cliente eliminado)';
     final cuitDni = cuitDniPorCliente[m.clienteId] ?? '';
     final tieneCuitDni = cuitDni.isNotEmpty;
@@ -91,12 +100,9 @@ final _facturacionProvider = FutureProvider.autoDispose<List<_ItemFacturacion>>(
       faltaCuitDni: !tieneCuitDni,
       fecha: m.fecha,
       montoBruto: m.monto,
+      facturado: idsMarcados.contains(m.id),
     ));
   }
-
-  // Sacar los que ya se marcaron como facturados (deslizando).
-  final idsMarcados = await ref.watch(facturacionMarcadoRepositoryProvider).obtenerIdsMarcadosGlobal();
-  items.removeWhere((i) => idsMarcados.contains(i.id));
 
   items.sort((a, b) => b.fecha.compareTo(a.fecha));
   return items;
@@ -287,7 +293,7 @@ class FacturacionScreen extends ConsumerWidget {
                               final usuarioId = ref.read(currentUserIdProvider);
                               await ref
                                   .read(facturacionMarcadoRepositoryProvider)
-                                  .marcarComoFacturado(item.id, usuarioId);
+                                  .ocultarDeFacturacion(item.id, usuarioId);
                               ref.invalidate(_facturacionProvider);
                             },
                             child: Card(
@@ -329,13 +335,21 @@ class FacturacionScreen extends ConsumerWidget {
                                       ],
                                     ),
                                     IconButton(
-                                      icon: const Icon(Icons.delete_outline),
-                                      tooltip: 'Eliminar de Facturación',
+                                      icon: Icon(
+                                        item.facturado ? Icons.check_circle : Icons.check_circle_outline,
+                                        color: item.facturado ? Colors.green.shade300 : Colors.grey.shade600,
+                                      ),
+                                      tooltip: item.facturado
+                                          ? 'Ya facturado (tocá para desmarcar)'
+                                          : 'Marcar como facturado',
                                       onPressed: () async {
-                                        final usuarioId = ref.read(currentUserIdProvider);
-                                        await ref
-                                            .read(facturacionMarcadoRepositoryProvider)
-                                            .marcarComoFacturado(item.id, usuarioId);
+                                        final repo = ref.read(facturacionMarcadoRepositoryProvider);
+                                        if (item.facturado) {
+                                          await repo.desmarcarComoFacturado(item.id);
+                                        } else {
+                                          final usuarioId = ref.read(currentUserIdProvider);
+                                          await repo.marcarComoFacturado(item.id, usuarioId);
+                                        }
                                         ref.invalidate(_facturacionProvider);
                                       },
                                     ),

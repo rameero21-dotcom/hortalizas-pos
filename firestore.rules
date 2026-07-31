@@ -83,6 +83,10 @@ service cloud.firestore {
       allow read: if estaLogueado();
       allow write: if estaLogueado() && miRol() == 'administrador';
     }
+    match /facturacion_ocultos/{itemId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && miRol() == 'administrador';
+    }
 
     // Caja: ingresos/egresos manuales y cierres de arqueo. Los carga el
     // cajero al cerrar caja; el admin necesita leerlos para el
