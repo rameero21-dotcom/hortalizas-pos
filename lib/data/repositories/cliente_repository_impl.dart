@@ -24,6 +24,8 @@ class ClienteRepositoryImpl implements ClienteRepository {
         telefono: c.telefono,
         direccion: c.direccion,
         saldoCuentaCorriente: c.saldoCuentaCorriente,
+        cuitODni: c.cuitODni,
+        condicionFiscal: c.condicionFiscal,
       );
 
   @override
