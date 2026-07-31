@@ -33,6 +33,10 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
   late final TextEditingController _saldoCtrl;
   CondicionFiscal? _condicionFiscal;
   bool _guardando = false;
+  // true = el cliente debe (se guarda en negativo); false = saldo a
+  // favor del cliente (positivo). Así el que carga el monto no tiene
+  // que acordarse de poner el signo menos a mano.
+  bool _clienteDebe = true;
 
   bool get _esEdicion => widget.cliente != null;
 
@@ -44,7 +48,8 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
     _telefonoCtrl = TextEditingController(text: widget.cliente?.telefono ?? '');
     _direccionCtrl = TextEditingController(text: widget.cliente?.direccion ?? '');
     _saldoCtrl = TextEditingController(
-        text: widget.cliente != null ? widget.cliente!.saldoCuentaCorriente.toStringAsFixed(0) : '0');
+        text: widget.cliente != null ? widget.cliente!.saldoCuentaCorriente.abs().toStringAsFixed(0) : '0');
+    _clienteDebe = widget.cliente == null || widget.cliente!.saldoCuentaCorriente <= 0;
     _condicionFiscal = widget.cliente?.condicionFiscal;
   }
 
@@ -70,12 +75,13 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
     }
     setState(() => _guardando = true);
     try {
+      final montoSaldo = double.tryParse(_saldoCtrl.text.replaceAll(',', '.'))?.abs() ?? 0;
       final cliente = Cliente(
         id: widget.cliente?.id ?? const Uuid().v4(),
         nombre: _nombreCtrl.text.trim(),
         telefono: _telefonoCtrl.text.trim(),
         direccion: _direccionCtrl.text.trim(),
-        saldoCuentaCorriente: double.tryParse(_saldoCtrl.text.replaceAll(',', '.')) ?? 0,
+        saldoCuentaCorriente: _clienteDebe ? -montoSaldo : montoSaldo,
         cuitODni: _cuitDniCtrl.text.trim(),
         condicionFiscal: _condicionFiscal,
       );
@@ -150,13 +156,27 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
                 controller: _direccionCtrl,
                 decoration: const InputDecoration(labelText: 'Dirección (opcional)', border: OutlineInputBorder()),
               ),
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Cuenta corriente al día de hoy', style: TextStyle(color: Colors.grey.shade400)),
+              ),
+              const SizedBox(height: 8),
+              SegmentedButton<bool>(
+                segments: const [
+                  ButtonSegment(value: true, label: Text('El cliente debe')),
+                  ButtonSegment(value: false, label: Text('Saldo a favor')),
+                ],
+                selected: {_clienteDebe},
+                onSelectionChanged: (s) => setState(() => _clienteDebe = s.first),
+              ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: _saldoCtrl,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
-                  labelText: 'Saldo cuenta corriente',
-                  helperText: 'Negativo si el cliente debe, positivo si tiene saldo a favor',
+                  labelText: 'Monto',
+                  helperText: 'Dejalo en 0 si el cliente arranca sin deuda ni saldo a favor',
                   border: OutlineInputBorder(),
                 ),
               ),
