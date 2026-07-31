@@ -1,10 +1,10 @@
 /home/runner/.local/lib/python3.12/site-packages/google/cloud/firestore_v1/base_collection.py:317: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
   return query.where(field_path, op_string, value)
-/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:221: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:222: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
   .where("detalle", "<", PREFIJO + "\uf8ff").stream()))
-/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:260: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:261: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
   .where("detalle", "<", PREFIJO + "\uf8ff").stream()))
-/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:506: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
+/home/runner/work/hortalizas-pos/hortalizas-pos/.github/scripts/test_integracion_firebase.py:507: UserWarning: Detected filter using positional arguments. Prefer using the 'filter' keyword argument instead.
   .where("fecha", "<=", hasta_vol.isoformat())
 ======================================================================
 PRUEBA DE INTEGRACION - HORTALIZAS POS
@@ -72,15 +72,33 @@ Utilidad esperada: 28270.00
 [OK] Al reescanear el mismo QR, el sistema ahora SI encuentra la venta como 'cobrada' (el guard la bloquearia) 
 
 --- 14) Volumen grande: 60 productos + 300 ventas ---
-Tiempo para crear 60 productos: 0.66s
-Tiempo para crear 300 ventas: 1.69s
-Tiempo para leer 307 ventas del rango: 0.48s
+Tiempo para crear 60 productos: 0.94s
+Tiempo para crear 300 ventas: 2.21s
+Tiempo para leer 307 ventas del rango: 0.88s
 [OK] Se pudieron crear y leer las 300 ventas de volumen sin errores (se leyeron 307)
-[OK] La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos) (tardo 0.48s)
+[OK] La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos) (tardo 0.88s)
 
-======================================================================
-RESUMEN
-======================================================================
-30/30 verificaciones pasaron correctamente.
+--- 15) Proveedores: cuenta corriente ---
+[OK] Proveedor: pedido de 50000 SUMA al saldo (0 -> 50000, les debemos) (quedo en 50000)
+[OK] Proveedor: pago de 20000 RESTA del saldo (50000 -> 30000) (quedo en 30000)
+
+--- 16) Cliente: CUIT/DNI y condicion fiscal ---
+[OK] CUIT/DNI del cliente se guarda y lee bien 
+[OK] Condicion fiscal del cliente se guarda y lee bien 
+
+--- 17) Cliente: signo correcto del saldo (cargo resta, pago suma) ---
+[OK] Cliente: un cargo de 15000 hace el saldo MAS negativo (0 -> -15000) (quedo en -15000)
+[OK] Cliente: un pago de 6000 hace el saldo MENOS negativo (-15000 -> -9000) (quedo en -9000)
+
+--- 18) Facturacion: datos completos para el contador ---
+[OK] Venta por transferencia guarda el CUIT/DNI del comprador 
+[OK] Formula de neto (bruto/1.105, redondeado arriba) da un valor coherente (bruto 12000, neto calculado 10860)
+
+--- 19) Facturacion: tilde y swipe no se pisan entre si ---
+[OK] Marcar como facturado (tilde) queda registrado en su propia coleccion 
+[OK] Marcar como facturado NO crea una entrada en 'ocultos' (no se esconde solo) 
+[OK] Ocultar con swipe queda registrado en su propia coleccion (separada del tilde) 
+[OK] La venta original SIGUE existiendo despues de ocultarla de Facturacion (no se borro) 
+42/42 verificaciones pasaron correctamente.
 
 IDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.
