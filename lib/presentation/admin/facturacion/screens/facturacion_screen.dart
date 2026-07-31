@@ -254,20 +254,20 @@ class FacturacionScreen extends ConsumerWidget {
                             key: ValueKey(item.id),
                             direction: DismissDirection.endToStart,
                             background: Container(
-                              color: Colors.green,
+                              color: Colors.red,
                               alignment: Alignment.centerRight,
                               padding: const EdgeInsets.only(right: 20),
-                              child: const Icon(Icons.check_circle, color: Colors.white),
+                              child: const Icon(Icons.delete, color: Colors.white),
                             ),
                             confirmDismiss: (_) async {
                               return await showDialog<bool>(
                                     context: context,
                                     builder: (context) => AlertDialog(
-                                      title: const Text('Marcar como facturado'),
+                                      title: const Text('Eliminar de Facturación'),
                                       content: const Text(
-                                        '¿Marcar este movimiento como ya facturado? Va a desaparecer de '
-                                        'esta lista, pero la venta o el pago siguen intactos en el resto '
-                                        'de la app.',
+                                        '¿Sacar este movimiento de la lista de Facturación? '
+                                        'La venta o el pago original NO se borra, sigue intacto '
+                                        'en el resto de la app.',
                                       ),
                                       actions: [
                                         TextButton(
@@ -275,7 +275,8 @@ class FacturacionScreen extends ConsumerWidget {
                                             child: const Text('Cancelar')),
                                         ElevatedButton(
                                           onPressed: () => Navigator.pop(context, true),
-                                          child: const Text('Marcar'),
+                                          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                          child: const Text('Eliminar'),
                                         ),
                                       ],
                                     ),
@@ -328,8 +329,8 @@ class FacturacionScreen extends ConsumerWidget {
                                       ],
                                     ),
                                     IconButton(
-                                      icon: const Icon(Icons.check_circle_outline),
-                                      tooltip: 'Marcar como facturado',
+                                      icon: const Icon(Icons.delete_outline),
+                                      tooltip: 'Eliminar de Facturación',
                                       onPressed: () async {
                                         final usuarioId = ref.read(currentUserIdProvider);
                                         await ref
