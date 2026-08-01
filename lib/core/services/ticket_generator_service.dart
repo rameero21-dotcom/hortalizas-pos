@@ -9,7 +9,7 @@ class TicketGeneratorService {
   static Future<List<int>> generarTicketVenta(Venta venta) async {
     final profile = await CapabilityProfile.load();
     final generator = Generator(PaperSize.mm80, profile);
-    final bytes = <int>[];
+    var bytes = <int>[];
 
     bytes += generator.text(
       'C&S Hortalizas',
