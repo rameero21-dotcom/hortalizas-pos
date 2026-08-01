@@ -36,6 +36,8 @@ dependencies:
 
   # Impresión térmica (58mm / 80mm, Bluetooth/USB)
   esc_pos_utils_plus: ^2.0.4
+  win32: ^5.5.4
+  ffi: ^2.1.3
   print_bluetooth_thermal: ^1.1.5
 
   # Gráficos para estadísticas

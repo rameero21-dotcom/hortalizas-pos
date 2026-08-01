@@ -8,6 +8,7 @@ import 'historial/screens/historial_screen.dart';
 import 'clientes/screens/clientes_screen.dart';
 import 'proveedores/screens/proveedores_screen.dart';
 import 'facturacion/screens/facturacion_screen.dart';
+import '../caja/screens/configuracion_impresora_screen.dart';
 import '../shared/utils/cerrar_sesion.dart';
 import '../shared/widgets/indicador_sincronizacion.dart';
 
@@ -27,6 +28,7 @@ class AdminDashboardScreen extends ConsumerWidget {
       _ModuloAdmin('Clientes', Icons.contacts_rounded, const ClientesScreen(), colorScheme.primary),
       _ModuloAdmin('Proveedores', Icons.local_shipping_rounded, const ProveedoresScreen(), colorScheme.secondary),
       _ModuloAdmin('Facturación', Icons.request_quote_rounded, const FacturacionScreen(), colorScheme.primary),
+      _ModuloAdmin('Impresora', Icons.print_rounded, const ConfiguracionImpresoraScreen(), colorScheme.secondary),
     ];
 
     return Scaffold(
