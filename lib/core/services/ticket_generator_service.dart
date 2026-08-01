@@ -15,7 +15,6 @@ class TicketGeneratorService {
       'C&S Hortalizas',
       styles: const PosStyles(align: PosAlign.center, bold: true, height: PosTextSize.size2, width: PosTextSize.size2),
     );
-    bytes += generator.text('Pesadas', styles: const PosStyles(align: PosAlign.center));
     bytes += generator.hr();
 
     bytes += generator.text('Venta #${venta.numero}', styles: const PosStyles(bold: true));
@@ -50,28 +49,21 @@ class TicketGeneratorService {
       ),
     ]);
 
-    if (venta.pagos.isNotEmpty) {
-      bytes += generator.feed(1);
-      for (final p in venta.pagos) {
-        bytes += generator.text('${_labelMetodo(p.metodo)}: ${Formatters.formatearMoneda(p.monto)}');
-      }
-    } else if (venta.metodoPago != null) {
-      bytes += generator.text('Pago: ${_labelMetodo(venta.metodoPago!)}');
-    }
-
-    bytes += generator.feed(1);
-    bytes += generator.text(
-      '¡Gracias por su compra!',
-      styles: const PosStyles(align: PosAlign.center),
-    );
-
-    // El mismo QR que se usa como respaldo offline: si el ticket tiene
-    // el QR igual sirve para que caja lo escanee si hiciera falta. Solo
-    // va en la primera copia (las otras dos son solo para archivo).
     if (incluirQr) {
       final qrPayload = QrService().generarPayload(venta);
       bytes += generator.feed(1);
+      bytes += generator.text(
+        '¡Gracias por su compra!',
+        styles: const PosStyles(align: PosAlign.center),
+      );
+      bytes += generator.feed(1);
       bytes += generator.qrcode(qrPayload, align: PosAlign.center, size: QRSize.size6);
+    } else {
+      bytes += generator.feed(1);
+      bytes += generator.text(
+        '¡Gracias por su compra!',
+        styles: const PosStyles(align: PosAlign.center),
+      );
     }
 
     bytes += generator.feed(3);
@@ -79,12 +71,4 @@ class TicketGeneratorService {
 
     return bytes;
   }
-
-  static String _labelMetodo(MetodoPago m) => switch (m) {
-        MetodoPago.efectivo => 'Efectivo',
-        MetodoPago.transferencia => 'Transferencia',
-        MetodoPago.debito => 'Débito',
-        MetodoPago.credito => 'Crédito',
-        MetodoPago.cuentaCorriente => 'Cuenta corriente',
-      };
 }
