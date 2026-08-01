@@ -6,7 +6,7 @@ import '../utils/formatters.dart';
 /// Arma el contenido del ticket (texto + QR) en formato ESC/POS listo
 /// para mandar a la impresora térmica de 80mm.
 class TicketGeneratorService {
-  static Future<List<int>> generarTicketVenta(Venta venta) async {
+  static Future<List<int>> generarTicketVenta(Venta venta, {bool incluirQr = true}) async {
     final profile = await CapabilityProfile.load();
     final generator = Generator(PaperSize.mm80, profile);
     var bytes = <int>[];
@@ -66,10 +66,13 @@ class TicketGeneratorService {
     );
 
     // El mismo QR que se usa como respaldo offline: si el ticket tiene
-    // el QR igual sirve para que caja lo escanee si hiciera falta.
-    final qrPayload = QrService().generarPayload(venta);
-    bytes += generator.feed(1);
-    bytes += generator.qrcode(qrPayload, align: PosAlign.center, size: QRSize.size6);
+    // el QR igual sirve para que caja lo escanee si hiciera falta. Solo
+    // va en la primera copia (las otras dos son solo para archivo).
+    if (incluirQr) {
+      final qrPayload = QrService().generarPayload(venta);
+      bytes += generator.feed(1);
+      bytes += generator.qrcode(qrPayload, align: PosAlign.center, size: QRSize.size6);
+    }
 
     bytes += generator.feed(3);
     bytes += generator.cut();

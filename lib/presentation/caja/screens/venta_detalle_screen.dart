@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:io';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
-import '../../../core/services/impresora_ticket_service.dart';
-import '../../../core/services/ticket_generator_service.dart';
 import '../../../domain/entities/venta.dart';
 import '../../../domain/entities/cliente.dart';
 import '../widgets/metodo_pago_selector.dart';
 import 'caja_home_screen.dart';
-import 'configuracion_impresora_screen.dart';
 
 /// Detalle de una venta pendiente y flujo de cobro: se puede pagar con
 /// un solo método o dividir el total entre varios (ej: parte en
@@ -224,22 +220,6 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
             clienteId: _clienteSeleccionado?.id,
             cuitDniComprador: _cuitDniComprador,
           );
-
-      // Imprimir el ticket es "mejor esfuerzo": si falla (impresora
-      // apagada, sin papel, sin configurar, etc.) no debe tirar abajo
-      // el cobro, que ya se guardó bien.
-      if (Platform.isWindows) {
-        try {
-          final nombreImpresora = await ConfigImpresora.obtenerNombreGuardado();
-          if (nombreImpresora != null) {
-            final bytesTicket = await TicketGeneratorService.generarTicketVenta(ventaCobrada);
-            ImpresoraTicketService.imprimirRaw(nombreImpresora, bytesTicket);
-          }
-        } catch (_) {
-          // No hay impresora configurada o falló: seguimos igual, el
-          // cobro ya está guardado.
-        }
-      }
 
       if (!mounted) return;
       Navigator.pop(context);

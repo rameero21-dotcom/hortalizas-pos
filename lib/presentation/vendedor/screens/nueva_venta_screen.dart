@@ -1,15 +1,18 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/services/ticket_print_orchestrator.dart';
 import '../../../domain/entities/detalle_venta.dart';
 import '../../../domain/entities/venta.dart';
 import '../providers/carrito_provider.dart';
 import '../widgets/producto_search_field.dart';
 import '../widgets/item_carrito_tile.dart';
 import '../../shared/utils/cerrar_sesion.dart';
+import '../../caja/screens/configuracion_impresora_screen.dart';
 import '../../shared/widgets/indicador_sincronizacion.dart';
 
 final _uuid = Uuid();
@@ -107,6 +110,14 @@ class NuevaVentaScreen extends ConsumerWidget {
             },
           ),
           IconButton(
+            icon: const Icon(Icons.print_outlined),
+            tooltip: 'Configurar impresora de tickets',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ConfiguracionImpresoraScreen()),
+            ),
+          ),
+          IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Cambiar de usuario',
             onPressed: () => cerrarSesionYVolver(context, ref),
@@ -190,9 +201,14 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
 
       // La venta se manda directo a caja: no se muestra el QR en pantalla
       // (se genera igual internamente como respaldo por si falla la
-      // sincronización, pero no bloquea al vendedor con un popup). En el
-      // futuro, este paso disparará la impresión del ticket con el QR.
+      // sincronización, pero no bloquea al vendedor con un popup).
       final ventaCreada = await ref.read(crearVentaUseCaseProvider).call(venta);
+
+      // Imprimir el ticket es "mejor esfuerzo": si no hay impresora
+      // configurada, está apagada, o falla la conexión, no debe tirar
+      // abajo la venta, que ya se guardó bien. Se imprimen 3 copias: la
+      // primera con el QR y el detalle, las otras dos solo el detalle.
+      unawaited(TicketPrintOrchestrator.imprimirTicketVenta(ventaCreada));
 
       carritoNotifier.limpiar();
       _nombreClienteCtrl.clear();
