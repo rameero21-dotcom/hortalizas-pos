@@ -48,8 +48,7 @@ class PedidoProveedorModel extends PedidoProveedor {
     super.productoId,
     required super.productoNombre,
     required super.cantidad,
-    required super.metodoPago,
-    required super.monto,
+    required super.precioUnitario,
     required super.fecha,
     required super.usuarioId,
     super.nota,
@@ -61,8 +60,13 @@ class PedidoProveedorModel extends PedidoProveedor {
         productoId: map['productoId'] as String?,
         productoNombre: map['productoNombre'] as String,
         cantidad: (map['cantidad'] as num).toDouble(),
-        metodoPago: MetodoPagoProveedor.values.byName(map['metodoPago'] as String),
-        monto: (map['monto'] as num).toDouble(),
+        // Compatibilidad con pedidos viejos guardados antes de este
+        // cambio, que tenían "monto" directo en vez de precio unitario.
+        precioUnitario: map['precioUnitario'] != null
+            ? (map['precioUnitario'] as num).toDouble()
+            : (map['cantidad'] as num).toDouble() == 0
+                ? 0
+                : (map['monto'] as num).toDouble() / (map['cantidad'] as num).toDouble(),
         fecha: DateTime.parse(map['fecha'] as String),
         usuarioId: map['usuarioId'] as String,
         nota: map['nota'] as String?,
@@ -74,8 +78,12 @@ class PedidoProveedorModel extends PedidoProveedor {
         'productoId': productoId,
         'productoNombre': productoNombre,
         'cantidad': cantidad,
-        'metodoPago': metodoPago.name,
+        // Ya no se usa (antes existía "método de pago" acá), pero se
+        // manda un valor no-nulo por compatibilidad con bases viejas
+        // donde esa columna todavía es obligatoria.
+        'metodoPago': '',
         'monto': monto,
+        'precioUnitario': precioUnitario,
         'fecha': fecha.toIso8601String(),
         'usuarioId': usuarioId,
         'nota': nota,

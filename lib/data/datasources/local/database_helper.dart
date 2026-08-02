@@ -21,7 +21,7 @@ class DatabaseHelper {
     final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
     return openDatabase(
       path,
-      version: 13,
+      version: 14,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -100,6 +100,17 @@ class DatabaseHelper {
         )
       ''');
     }
+    if (oldVersion < 14) {
+      await db.execute(
+          'ALTER TABLE ${AppConstants.tablaPedidosProveedor} ADD COLUMN precioUnitario REAL NOT NULL DEFAULT 0');
+      // Pedidos viejos: reconstruir el precio unitario a partir del
+      // monto que ya tenían cargado, para que no queden en 0.
+      await db.execute('''
+        UPDATE ${AppConstants.tablaPedidosProveedor}
+        SET precioUnitario = monto / cantidad
+        WHERE cantidad > 0 AND precioUnitario = 0
+      ''');
+    }
   }
 
   Future<void> _crearTablasProveedores(Database db) async {
@@ -119,8 +130,9 @@ class DatabaseHelper {
         productoId TEXT,
         productoNombre TEXT NOT NULL,
         cantidad REAL NOT NULL,
-        metodoPago TEXT NOT NULL,
+        metodoPago TEXT,
         monto REAL NOT NULL,
+        precioUnitario REAL NOT NULL DEFAULT 0,
         fecha TEXT NOT NULL,
         usuarioId TEXT NOT NULL,
         nota TEXT

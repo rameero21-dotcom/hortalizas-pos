@@ -62,8 +62,7 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
       productoId: pedido.productoId,
       productoNombre: pedido.productoNombre,
       cantidad: pedido.cantidad,
-      metodoPago: pedido.metodoPago,
-      monto: pedido.monto,
+      precioUnitario: pedido.precioUnitario,
       fecha: pedido.fecha,
       usuarioId: pedido.usuarioId,
       nota: pedido.nota,
@@ -107,6 +106,63 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
       operacion: 'delete',
       payload: const {},
     );
+    await _syncService.sincronizarAhora();
+  }
+
+  @override
+  Future<void> editarPedido(PedidoProveedor pedido) async {
+    // Buscar el pedido viejo para saber cuánto sumaba antes y poder
+    // ajustar el saldo por la diferencia (no simplemente re-sumar el
+    // monto nuevo, que lo duplicaría).
+    final pedidosDelProveedor = await _local.obtenerPedidos(pedido.proveedorId);
+    double montoViejo = 0;
+    for (final p in pedidosDelProveedor) {
+      if (p.id == pedido.id) {
+        montoViejo = p.monto;
+        break;
+      }
+    }
+
+    final model = PedidoProveedorModel(
+      id: pedido.id,
+      proveedorId: pedido.proveedorId,
+      productoId: pedido.productoId,
+      productoNombre: pedido.productoNombre,
+      cantidad: pedido.cantidad,
+      precioUnitario: pedido.precioUnitario,
+      fecha: pedido.fecha,
+      usuarioId: pedido.usuarioId,
+      nota: pedido.nota,
+    );
+    await _local.registrarPedido(model); // upsert por id
+    await _syncQueue.encolar(
+      entidad: AppConstants.colPedidosProveedor,
+      entidadId: model.id,
+      operacion: 'set',
+      payload: model.toMap(),
+    );
+
+    final diferencia = pedido.monto - montoViejo;
+    if (diferencia != 0) {
+      final proveedores = await _local.obtenerTodos();
+      Proveedor? proveedor;
+      for (final p in proveedores) {
+        if (p.id == pedido.proveedorId) {
+          proveedor = p;
+          break;
+        }
+      }
+      final saldoActual = proveedor?.saldoCuentaCorriente ?? 0;
+      final nuevoSaldo = saldoActual + diferencia;
+      await _local.actualizarSaldo(pedido.proveedorId, nuevoSaldo);
+      await _syncQueue.encolar(
+        entidad: AppConstants.colProveedores,
+        entidadId: pedido.proveedorId,
+        operacion: 'set',
+        payload: {'id': pedido.proveedorId, 'saldoCuentaCorriente': nuevoSaldo},
+      );
+    }
+
     await _syncService.sincronizarAhora();
   }
 

@@ -20,6 +20,11 @@ abstract class ProveedorRepository {
   Future<void> registrarPedido(PedidoProveedor pedido);
   Future<void> eliminarPedido(String id);
 
+  /// Edita un pedido ya cargado (producto/cantidad/precio). Recalcula
+  /// el saldo del proveedor por la diferencia entre el monto viejo y
+  /// el nuevo.
+  Future<void> editarPedido(PedidoProveedor pedido);
+
   /// Registra un pago al proveedor: RESTA el monto del saldo (lo que
   /// le debemos baja).
   Future<void> registrarPago(PagoProveedor pago);

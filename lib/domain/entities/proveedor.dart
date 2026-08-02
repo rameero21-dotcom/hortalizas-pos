@@ -31,17 +31,18 @@ class Proveedor {
 enum MetodoPagoProveedor { efectivo, transferencia, cheque }
 
 /// Un pedido/compra hecho a un proveedor: qué producto, cuánto se pidió,
-/// y cómo se le abonó. "productoId" es opcional: si el producto ya
+/// y a qué precio unitario. "productoId" es opcional: si el producto ya
 /// existe en el catálogo se puede vincular, o cargarse como texto
 /// libre (ej: algo que se compra pero no se vende, como bolsas o cajones).
+/// El monto total del pedido es siempre cantidad × precioUnitario (como
+/// una calculadora), nunca se carga a mano.
 class PedidoProveedor {
   final String id;
   final String proveedorId;
   final String? productoId;
   final String productoNombre;
   final double cantidad;
-  final MetodoPagoProveedor metodoPago;
-  final double monto;
+  final double precioUnitario;
   final DateTime fecha;
   final String usuarioId;
   final String? nota;
@@ -52,12 +53,13 @@ class PedidoProveedor {
     this.productoId,
     required this.productoNombre,
     required this.cantidad,
-    required this.metodoPago,
-    required this.monto,
+    required this.precioUnitario,
     required this.fecha,
     required this.usuarioId,
     this.nota,
   });
+
+  double get monto => cantidad * precioUnitario;
 }
 
 /// Un pago hecho al proveedor (para saldar lo que se le debe). Cada

@@ -6,7 +6,8 @@ import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/proveedor.dart';
 
 /// Un ítem del historial combinado: puede ser un pedido (suma al saldo)
-/// o un pago (resta del saldo).
+/// o un pago (resta del saldo). Para los pedidos se guarda el objeto
+/// original completo, para poder editarlo con el lápiz.
 class _ItemHistorialProveedor {
   final DateTime fecha;
   final String titulo;
@@ -14,6 +15,7 @@ class _ItemHistorialProveedor {
   final double monto;
   final bool esPedido; // true = pedido (suma), false = pago (resta)
   final String idParaBorrar;
+  final PedidoProveedor? pedidoOriginal;
 
   _ItemHistorialProveedor({
     required this.fecha,
@@ -22,6 +24,7 @@ class _ItemHistorialProveedor {
     required this.monto,
     required this.esPedido,
     required this.idParaBorrar,
+    this.pedidoOriginal,
   });
 }
 
@@ -53,6 +56,7 @@ final _historialProveedorProvider =
         monto: p.monto,
         esPedido: true,
         idParaBorrar: p.id,
+        pedidoOriginal: p,
       ),
     for (final p in pagos)
       _ItemHistorialProveedor(
@@ -76,91 +80,133 @@ String _labelMetodo(MetodoPagoProveedor m) => switch (m) {
 
 /// Detalle de un proveedor: saldo de cuenta corriente (positivo = le
 /// debemos), historial combinado de pedidos (suman) y pagos (restan).
+/// Cada pedido se puede desplegar para ver el cálculo (cantidad ×
+/// precio unitario = total), y editar con el lápiz.
 class ProveedorDetalleScreen extends ConsumerWidget {
   final Proveedor proveedor;
   const ProveedorDetalleScreen({super.key, required this.proveedor});
 
-  Future<void> _nuevoPedido(BuildContext context, WidgetRef ref) async {
-    final productoCtrl = TextEditingController();
-    final cantidadCtrl = TextEditingController();
-    final montoCtrl = TextEditingController();
-    final notaCtrl = TextEditingController();
+  /// Diálogo compartido para cargar o editar un pedido. Si "pedido" no
+  /// es null, arranca precargado con esos datos (modo edición).
+  Future<void> _dialogoPedido(BuildContext context, WidgetRef ref, {PedidoProveedor? pedido}) async {
+    final esEdicion = pedido != null;
+    final productoCtrl = TextEditingController(text: pedido?.productoNombre ?? '');
+    final cantidadCtrl = TextEditingController(text: pedido != null ? Formatters.formatearCantidad(pedido.cantidad) : '');
+    final precioCtrl = TextEditingController(text: pedido != null ? pedido.precioUnitario.toStringAsFixed(0) : '');
+    final notaCtrl = TextEditingController(text: pedido?.nota ?? '');
 
     final confirmado = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Nuevo pedido'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Esto suma el monto a lo que le debemos al proveedor.',
-                style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          final cantidad = double.tryParse(cantidadCtrl.text.replaceAll(',', '.')) ?? 0;
+          final precio = double.tryParse(precioCtrl.text.replaceAll(',', '.')) ?? 0;
+          final total = cantidad * precio;
+          return AlertDialog(
+            title: Text(esEdicion ? 'Editar pedido' : 'Nuevo pedido'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Esto suma el monto a lo que le debemos al proveedor.',
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: productoCtrl,
+                    decoration: const InputDecoration(labelText: 'Producto', border: OutlineInputBorder()),
+                    autofocus: !esEdicion,
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: cantidadCtrl,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    decoration: const InputDecoration(labelText: 'Cantidad pedida', border: OutlineInputBorder()),
+                    onChanged: (_) => setDialogState(() {}),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: precioCtrl,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    decoration: const InputDecoration(labelText: 'Precio unitario', border: OutlineInputBorder()),
+                    onChanged: (_) => setDialogState(() {}),
+                  ),
+                  const SizedBox(height: 12),
+                  // El "calculadora": se recalcula solo a medida que se
+                  // completan cantidad y precio.
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Theme.of(context).colorScheme.secondary),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${Formatters.formatearCantidad(cantidad)} × ${Formatters.formatearMoneda(precio)}'),
+                        Text(
+                          '= ${Formatters.formatearMoneda(total)}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: notaCtrl,
+                    decoration: const InputDecoration(labelText: 'Nota (opcional)', border: OutlineInputBorder()),
+                  ),
+                ],
               ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: productoCtrl,
-                decoration: const InputDecoration(labelText: 'Producto', border: OutlineInputBorder()),
-                autofocus: true,
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: cantidadCtrl,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(labelText: 'Cantidad pedida', border: OutlineInputBorder()),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: montoCtrl,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(labelText: 'Monto del pedido', border: OutlineInputBorder()),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: notaCtrl,
-                decoration: const InputDecoration(labelText: 'Nota (opcional)', border: OutlineInputBorder()),
-              ),
+            ),
+            actions: [
+              TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
+              ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Guardar')),
             ],
-          ),
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
-          ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Guardar')),
-        ],
+          );
+        },
       ),
     );
     if (confirmado != true) return;
 
     final cantidad = double.tryParse(cantidadCtrl.text.replaceAll(',', '.'));
-    final monto = double.tryParse(montoCtrl.text.replaceAll(',', '.'));
+    final precio = double.tryParse(precioCtrl.text.replaceAll(',', '.'));
     final nombreProducto = productoCtrl.text.trim();
-    if (cantidad == null || cantidad <= 0 || monto == null || monto < 0 || nombreProducto.isEmpty) {
+    if (cantidad == null || cantidad <= 0 || precio == null || precio < 0 || nombreProducto.isEmpty) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Completá producto, cantidad y monto correctamente')),
+          const SnackBar(content: Text('Completá producto, cantidad y precio unitario correctamente')),
         );
       }
       return;
     }
 
     final usuarioId = ref.read(currentUserIdProvider);
-    await ref.read(proveedorRepositoryProvider).registrarPedido(PedidoProveedor(
-          id: const Uuid().v4(),
-          proveedorId: proveedor.id,
-          productoId: null,
-          productoNombre: nombreProducto,
-          cantidad: cantidad,
-          // El método de pago ya no se carga acá: se define cuando se
-          // registra el pago propiamente dicho (este campo queda sin
-          // usar para pedidos, solo tiene sentido histórico interno).
-          metodoPago: MetodoPagoProveedor.efectivo,
-          monto: monto,
-          fecha: DateTime.now(),
-          usuarioId: usuarioId,
-          nota: notaCtrl.text.trim().isEmpty ? null : notaCtrl.text.trim(),
-        ));
+    final repo = ref.read(proveedorRepositoryProvider);
+    final nuevoPedido = PedidoProveedor(
+      id: esEdicion ? pedido.id : const Uuid().v4(),
+      proveedorId: proveedor.id,
+      productoId: null,
+      productoNombre: nombreProducto,
+      cantidad: cantidad,
+      precioUnitario: precio,
+      fecha: esEdicion ? pedido.fecha : DateTime.now(),
+      usuarioId: esEdicion ? pedido.usuarioId : usuarioId,
+      nota: notaCtrl.text.trim().isEmpty ? null : notaCtrl.text.trim(),
+    );
+
+    if (esEdicion) {
+      await repo.editarPedido(nuevoPedido);
+    } else {
+      await repo.registrarPedido(nuevoPedido);
+    }
     ref.invalidate(_historialProveedorProvider(proveedor.id));
   }
 
@@ -288,7 +334,7 @@ class ProveedorDetalleScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () => _nuevoPedido(context, ref),
+                    onPressed: () => _dialogoPedido(context, ref),
                     icon: const Icon(Icons.add_shopping_cart),
                     label: const Text('Nuevo pedido'),
                   ),
@@ -357,27 +403,79 @@ class ProveedorDetalleScreen extends ConsumerWidget {
                       },
                       child: Card(
                         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                        child: ListTile(
-                          leading: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: color.withOpacity(0.18),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Icon(
-                              item.esPedido ? Icons.shopping_bag_rounded : Icons.check_circle_outline,
-                              size: 20,
-                              color: color,
-                            ),
-                          ),
-                          title: Text(item.titulo),
-                          subtitle: Text('${item.subtitulo} · ${Formatters.formatearFechaHora(item.fecha)}'),
-                          trailing: Text(
-                            '${item.esPedido ? '+' : '-'}${Formatters.formatearMoneda(item.monto)}',
-                            style: TextStyle(fontWeight: FontWeight.bold, color: color),
-                          ),
-                        ),
+                        child: item.esPedido
+                            ? ExpansionTile(
+                                leading: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: color.withOpacity(0.18),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Icon(Icons.shopping_bag_rounded, size: 20, color: color),
+                                ),
+                                title: Text(item.titulo),
+                                subtitle: Text('${item.subtitulo} · ${Formatters.formatearFechaHora(item.fecha)}'),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      '+${Formatters.formatearMoneda(item.monto)}',
+                                      style: TextStyle(fontWeight: FontWeight.bold, color: color),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.edit, size: 20),
+                                      onPressed: () =>
+                                          _dialogoPedido(context, ref, pedido: item.pedidoOriginal),
+                                    ),
+                                    const Icon(Icons.expand_more),
+                                  ],
+                                ),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.15),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '${Formatters.formatearCantidad(item.pedidoOriginal!.cantidad)} '
+                                            '× ${Formatters.formatearMoneda(item.pedidoOriginal!.precioUnitario)}',
+                                            style: TextStyle(color: Colors.grey.shade300),
+                                          ),
+                                          Text(
+                                            '= ${Formatters.formatearMoneda(item.monto)}',
+                                            style: const TextStyle(fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : ListTile(
+                                leading: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: color.withOpacity(0.18),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Icon(Icons.check_circle_outline, size: 20, color: color),
+                                ),
+                                title: Text(item.titulo),
+                                subtitle: Text('${item.subtitulo} · ${Formatters.formatearFechaHora(item.fecha)}'),
+                                trailing: Text(
+                                  '-${Formatters.formatearMoneda(item.monto)}',
+                                  style: TextStyle(fontWeight: FontWeight.bold, color: color),
+                                ),
+                              ),
                       ),
                     );
                   },
