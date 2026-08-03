@@ -35,26 +35,48 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
     _cargar();
   }
 
+  String? _errorCarga;
+
   Future<void> _cargar() async {
-    if (Platform.isWindows) {
-      final guardada = await ConfigImpresora.obtenerNombreGuardado();
-      final lista = ImpresoraTicketService.listarImpresoras();
+    setState(() {
+      _cargando = true;
+      _errorCarga = null;
+    });
+    try {
+      if (Platform.isWindows) {
+        final guardada = await ConfigImpresora.obtenerNombreGuardado();
+        final lista = ImpresoraTicketService.listarImpresoras();
+        setState(() {
+          _impresorasWindows = lista;
+          _impresoraSeleccionada = guardada != null && lista.contains(guardada) ? guardada : null;
+          _cargando = false;
+        });
+      } else if (Platform.isAndroid) {
+        final permisosOk = await ImpresoraBluetoothService.pedirPermisos();
+        if (!permisosOk) {
+          setState(() {
+            _cargando = false;
+            _errorCarga =
+                'Hace falta el permiso de Bluetooth (y Ubicación, que Android pide junto con Bluetooth) para ver los dispositivos emparejados. Dalo desde Configuración > Apps > esta app > Permisos.';
+          });
+          return;
+        }
+        final guardada = await ConfigImpresora.obtenerMacBluetoothGuardada();
+        final lista = await ImpresoraBluetoothService.dispositivosEmparejados();
+        setState(() {
+          _dispositivosBt = lista;
+          _macSeleccionada =
+              guardada != null && lista.any((d) => d.macAdress == guardada) ? guardada : null;
+          _cargando = false;
+        });
+      } else {
+        setState(() => _cargando = false);
+      }
+    } catch (e) {
       setState(() {
-        _impresorasWindows = lista;
-        _impresoraSeleccionada = guardada != null && lista.contains(guardada) ? guardada : null;
         _cargando = false;
+        _errorCarga = 'Error: $e';
       });
-    } else if (Platform.isAndroid) {
-      final guardada = await ConfigImpresora.obtenerMacBluetoothGuardada();
-      final lista = await ImpresoraBluetoothService.dispositivosEmparejados();
-      setState(() {
-        _dispositivosBt = lista;
-        _macSeleccionada =
-            guardada != null && lista.any((d) => d.macAdress == guardada) ? guardada : null;
-        _cargando = false;
-      });
-    } else {
-      setState(() => _cargando = false);
     }
   }
 
@@ -109,14 +131,30 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
       ),
       body: _cargando
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16),
-              child: Platform.isWindows
-                  ? _buildWindows()
-                  : Platform.isAndroid
-                      ? _buildAndroid()
-                      : const Text('Esta plataforma todavía no tiene impresión de tickets soportada.'),
-            ),
+          : _errorCarga != null
+              ? Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(_errorCarga!, style: const TextStyle(color: Colors.red)),
+                      const SizedBox(height: 16),
+                      OutlinedButton.icon(
+                        onPressed: _cargar,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Reintentar'),
+                      ),
+                    ],
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Platform.isWindows
+                      ? _buildWindows()
+                      : Platform.isAndroid
+                          ? _buildAndroid()
+                          : const Text('Esta plataforma todavía no tiene impresión de tickets soportada.'),
+                ),
     );
   }
 
