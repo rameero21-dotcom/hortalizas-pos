@@ -35,6 +35,9 @@ jobs:
         if: steps.create_android.outcome == 'failure'
         run: exit 1
 
+      - name: Agregar permisos de Bluetooth al manifest (Android 12+)
+        run: python3 .github/scripts/agregar_permisos_bluetooth.py
+
       - name: Instalar dependencias (con reintentos por si falla la red)
         id: pub_get_android
         run: |
