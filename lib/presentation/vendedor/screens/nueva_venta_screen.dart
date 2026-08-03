@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
@@ -19,9 +18,9 @@ final _uuid = Uuid();
 
 /// Pantalla principal del vendedor: buscar producto, ingresar cantidad
 /// y precio (total o por unidad), agregar al carrito, y finalizar la
-/// venta. Al finalizar, la venta se envía a caja y se muestra el QR en
-/// pantalla como respaldo para escanear manualmente (útil para probar
-/// sin lector físico, o si la sincronización automática tarda).
+/// venta. Al finalizar, la venta se envía a caja y se manda a imprimir
+/// el ticket (con el QR incluido en la primera copia, como respaldo
+/// para escanear si hiciera falta) — no se muestra ningún QR en pantalla.
 class NuevaVentaScreen extends ConsumerWidget {
   const NuevaVentaScreen({super.key});
 
@@ -199,9 +198,9 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
         nombreCliente: nombreCliente.isEmpty ? null : nombreCliente,
       );
 
-      // La venta se manda directo a caja: no se muestra el QR en pantalla
-      // (se genera igual internamente como respaldo por si falla la
-      // sincronización, pero no bloquea al vendedor con un popup).
+      // La venta se manda directo a caja: no se muestra el QR en
+      // pantalla (se genera igual internamente y va impreso en el
+      // ticket, como respaldo por si falla la sincronización).
       final ventaCreada = await ref.read(crearVentaUseCaseProvider).call(venta);
 
       // Imprimir el ticket es "mejor esfuerzo": si no hay impresora
@@ -214,31 +213,8 @@ class _ResumenTotalYFinalizarState extends ConsumerState<_ResumenTotalYFinalizar
       _nombreClienteCtrl.clear();
 
       if (mounted) {
-        final qrPayload = ref.read(qrServiceProvider).generarPayload(ventaCreada);
-        await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Venta #${ventaCreada.numero} enviada'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('Mostrale esto a la caja para escanear (o esperá a que llegue solo):'),
-                const SizedBox(height: 16),
-                QrImageView(data: qrPayload, size: 220),
-                const SizedBox(height: 12),
-                Text(
-                  Formatters.formatearMoneda(ventaCreada.total),
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            actions: [
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Listo'),
-              ),
-            ],
-          ),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Venta #${ventaCreada.numero} enviada a caja')),
         );
       }
     } catch (e) {
