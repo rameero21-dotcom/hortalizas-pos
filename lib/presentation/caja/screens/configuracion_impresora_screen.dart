@@ -57,7 +57,7 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
           setState(() {
             _cargando = false;
             _errorCarga =
-                'Hace falta el permiso de Bluetooth (y Ubicación, que Android pide junto con Bluetooth) para ver los dispositivos emparejados. Dalo desde Configuración > Apps > esta app > Permisos.';
+                'Hace falta el permiso de Bluetooth ("Dispositivos cercanos") para ver los dispositivos emparejados. Dalo desde Configuración > Apps > esta app > Permisos.';
           });
           return;
         }

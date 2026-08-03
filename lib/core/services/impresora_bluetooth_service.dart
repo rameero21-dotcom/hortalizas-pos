@@ -11,10 +11,14 @@ class ImpresoraBluetoothService {
   /// dispositivos Bluetooth emparejados o conectarse a ellos.
   static Future<bool> pedirPermisos() async {
     if (!Platform.isAndroid) return true;
+    // Nota: no se pide Permission.location porque el permiso de
+    // Bluetooth está declarado con "neverForLocation" (no lo
+    // necesitamos, solo nos conectamos a una impresora ya emparejada).
+    // En Android 12+ ni siquiera está declarado ACCESS_FINE_LOCATION,
+    // así que pedirlo ahí siempre fallaba y tiraba abajo todo el chequeo.
     final resultados = await [
       Permission.bluetoothScan,
       Permission.bluetoothConnect,
-      Permission.location,
     ].request();
     return resultados.values.every((s) => s.isGranted || s.isLimited);
   }
