@@ -157,27 +157,29 @@ class VentaRepositoryImpl implements VentaRepository {
   Future<Venta> reconstruirDesdeQr(String qrPayload) async {
     // El QR es solo un respaldo: si falla la sincronización por red, la
     // caja puede reconstruir la venta completa leyendo únicamente el QR,
-    // sin necesitar conexión ni consultar Firestore/SQLite.
+    // sin necesitar conexión ni consultar Firestore/SQLite. Las claves
+    // son cortas (i, n, f, etc.) para que el contenido entre en el
+    // límite de bytes del comando de QR de la impresora térmica.
     final data = _qrService.decodificarPayload(qrPayload);
 
-    final detalle = (data['productos'] as List<dynamic>)
+    final detalle = (data['p'] as List<dynamic>)
         .map((p) => DetalleVenta(
-              productoId: p['productoId'] as String,
-              nombreProducto: p['nombre'] as String,
-              cantidad: (p['cantidad'] as num).toDouble(),
-              precioTotal: (p['precioTotal'] as num).toDouble(),
+              productoId: p['pi'] as String,
+              nombreProducto: p['pn'] as String,
+              cantidad: (p['c'] as num).toDouble(),
+              precioTotal: (p['pt'] as num).toDouble(),
             ))
         .toList();
 
     return Venta(
-      id: data['id'] as String,
-      numero: data['numero'] as int,
-      fecha: DateTime.parse(data['fecha'] as String),
-      vendedorId: data['vendedorId'] as String,
-      vendedorNombre: data['vendedorNombre'] as String?,
+      id: data['i'] as String,
+      numero: data['n'] as int,
+      fecha: DateTime.fromMillisecondsSinceEpoch(data['f'] as int),
+      vendedorId: data['v'] as String,
+      vendedorNombre: data['vn'] as String?,
       detalle: detalle,
-      total: (data['total'] as num).toDouble(),
-      nombreCliente: data['nombreCliente'] as String?,
+      total: (data['t'] as num).toDouble(),
+      nombreCliente: data['nc'] as String?,
     );
   }
 }

@@ -1,27 +1,30 @@
 import 'dart:convert';
 import '../../domain/entities/venta.dart';
 
-/// Codifica y decodifica una Venta completa dentro de un QR,
-/// para que la caja pueda reconstruir la venta sin conexión (solo respaldo).
+/// Codifica y decodifica una Venta completa dentro de un QR, para que
+/// la caja pueda reconstruir la venta sin conexión (solo respaldo) —
+/// y, ahora también, para que quepa en el comando nativo de QR de la
+/// impresora térmica (que tiene un límite chico de bytes; por eso las
+/// claves son cortas y la fecha va como número, no como texto ISO).
 class QrService {
   /// Genera el string JSON compacto que se codifica en el QR.
   String generarPayload(Venta venta) {
     final data = {
-      'id': venta.id,
-      'numero': venta.numero,
-      'fecha': venta.fecha.toIso8601String(),
-      'vendedorId': venta.vendedorId,
-      'vendedorNombre': venta.vendedorNombre,
-      'productos': venta.detalle
+      'i': venta.id,
+      'n': venta.numero,
+      'f': venta.fecha.millisecondsSinceEpoch,
+      'v': venta.vendedorId,
+      'vn': venta.vendedorNombre,
+      'p': venta.detalle
           .map((d) => {
-                'productoId': d.productoId,
-                'nombre': d.nombreProducto,
-                'cantidad': d.cantidad,
-                'precioTotal': d.precioTotal,
+                'pi': d.productoId,
+                'pn': d.nombreProducto,
+                'c': d.cantidad,
+                'pt': d.precioTotal,
               })
           .toList(),
-      'total': venta.total,
-      'nombreCliente': venta.nombreCliente,
+      't': venta.total,
+      'nc': venta.nombreCliente,
     };
     return jsonEncode(data);
   }
