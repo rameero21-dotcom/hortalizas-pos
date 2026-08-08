@@ -7,6 +7,7 @@ import 'ticket_generator_service.dart';
 
 const _kClaveImpresoraWindows = 'nombre_impresora_ticket';
 const _kClaveImpresoraBluetoothMac = 'mac_impresora_bluetooth';
+const _kClaveCopiasExtra = 'ticket_copias_extra';
 
 /// Guarda/lee qué impresora usa cada plataforma: nombre de impresora de
 /// Windows (USB, cable) o dirección MAC Bluetooth (Android/tablet).
@@ -29,6 +30,19 @@ class ConfigImpresora {
   static Future<void> guardarMacBluetooth(String mac) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_kClaveImpresoraBluetoothMac, mac);
+  }
+
+  /// Cuántas copias EXTRA se imprimen además del ticket con QR (que
+  /// siempre se imprime). Va de 0 a 2. Por defecto 2 (como venía
+  /// siendo hasta ahora: 1 con QR + 2 sin QR = 3 en total).
+  static Future<int> obtenerCopiasExtra() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_kClaveCopiasExtra) ?? 2;
+  }
+
+  static Future<void> guardarCopiasExtra(int cantidad) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_kClaveCopiasExtra, cantidad.clamp(0, 2));
   }
 }
 
@@ -58,9 +72,12 @@ class TicketPrintOrchestrator {
   static Future<bool> _imprimirEnWindows(Venta venta) async {
     final nombreImpresora = await ConfigImpresora.obtenerNombreGuardado();
     if (nombreImpresora == null) return false;
+    final copiasExtra = await ConfigImpresora.obtenerCopiasExtra();
 
     var huboExito = true;
-    for (var copia = 0; copia < 3; copia++) {
+    // El primer ticket (con QR) siempre se imprime; después, tantas
+    // copias extra sin QR como esté configurado (0 a 2).
+    for (var copia = 0; copia < 1 + copiasExtra; copia++) {
       final bytes = await TicketGeneratorService.generarTicketVenta(venta, incluirQr: copia == 0);
       final ok = ImpresoraTicketService.imprimirRaw(nombreImpresora, bytes);
       huboExito = huboExito && ok;
@@ -71,6 +88,7 @@ class TicketPrintOrchestrator {
   static Future<bool> _imprimirEnAndroid(Venta venta) async {
     final mac = await ConfigImpresora.obtenerMacBluetoothGuardada();
     if (mac == null) return false;
+    final copiasExtra = await ConfigImpresora.obtenerCopiasExtra();
 
     final yaConectado = await ImpresoraBluetoothService.yaConectado();
     if (!yaConectado) {
@@ -79,7 +97,7 @@ class TicketPrintOrchestrator {
     }
 
     var huboExito = true;
-    for (var copia = 0; copia < 3; copia++) {
+    for (var copia = 0; copia < 1 + copiasExtra; copia++) {
       final bytes = await TicketGeneratorService.generarTicketVenta(venta, incluirQr: copia == 0);
       final ok = await ImpresoraBluetoothService.imprimir(bytes);
       huboExito = huboExito && ok;

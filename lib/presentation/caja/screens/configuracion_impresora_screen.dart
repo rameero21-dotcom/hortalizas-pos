@@ -28,6 +28,7 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
 
   bool _cargando = true;
   String? _resultadoPrueba;
+  int _copiasExtra = 2;
 
   @override
   void initState() {
@@ -42,6 +43,8 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
       _cargando = true;
       _errorCarga = null;
     });
+    final copiasGuardadas = await ConfigImpresora.obtenerCopiasExtra();
+    _copiasExtra = copiasGuardadas;
     try {
       if (Platform.isWindows) {
         final guardada = await ConfigImpresora.obtenerNombreGuardado();
@@ -149,12 +152,55 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
                 )
               : Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Platform.isWindows
-                      ? _buildWindows()
-                      : Platform.isAndroid
-                          ? _buildAndroid()
-                          : const Text('Esta plataforma todavía no tiene impresión de tickets soportada.'),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _selectorCopiasExtra(),
+                      const Divider(height: 32),
+                      Platform.isWindows
+                          ? _buildWindows()
+                          : Platform.isAndroid
+                              ? _buildAndroid()
+                              : const Text('Esta plataforma todavía no tiene impresión de tickets soportada.'),
+                    ],
+                  ),
                 ),
+    );
+  }
+
+  Widget _selectorCopiasExtra() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('Copias extra del ticket', style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 4),
+        Text(
+          'El primer ticket (con el QR) siempre se imprime. Elegí cuántas '
+          'copias extra sin QR se imprimen además.',
+          style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+        ),
+        const SizedBox(height: 8),
+        SegmentedButton<int>(
+          segments: const [
+            ButtonSegment(value: 0, label: Text('0 extra')),
+            ButtonSegment(value: 1, label: Text('1 extra')),
+            ButtonSegment(value: 2, label: Text('2 extra')),
+          ],
+          selected: {_copiasExtra},
+          onSelectionChanged: (s) async {
+            final valor = s.first;
+            setState(() => _copiasExtra = valor);
+            await ConfigImpresora.guardarCopiasExtra(valor);
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text(
+                        'Ahora se van a imprimir ${1 + valor} ticket(s) por venta en total')),
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 
