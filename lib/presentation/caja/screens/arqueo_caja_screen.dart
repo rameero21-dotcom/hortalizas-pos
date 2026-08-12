@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/services/dia_laboral_service.dart';
 import '../../../domain/entities/caja.dart';
 import '../../../domain/entities/venta.dart';
 import 'historial_cierres_screen.dart';
@@ -43,10 +44,9 @@ String _labelMetodo(MetodoPago m) => switch (m) {
 /// Todas las ventas cobradas HOY (se procesan acá mismo para armar
 /// tanto los totales como el detalle de cada venta en los desplegables).
 final _ventasHoyProvider = FutureProvider.autoDispose<List<Venta>>((ref) async {
-  final ahora = DateTime.now();
-  final inicio = DateTime(ahora.year, ahora.month, ahora.day);
-  final fin = inicio.add(const Duration(days: 1));
-  final ventas = await ref.watch(ventaRepositoryProvider).obtenerPorRangoFechaGlobal(inicio, fin);
+  final rango = await DiaLaboralService.rangoDeHoy();
+  final ventas =
+      await ref.watch(ventaRepositoryProvider).obtenerPorRangoFechaGlobal(rango.inicio, rango.fin);
   return ventas.where((v) => v.estado == EstadoVenta.cobrada).toList();
 });
 
@@ -59,10 +59,8 @@ final _nombresClientesProvider = FutureProvider.autoDispose<Map<String, String>>
 
 /// Movimientos manuales de caja de hoy (ingresos/egresos aparte de ventas).
 final _movimientosCajaHoyProvider = FutureProvider.autoDispose<List<MovimientoCaja>>((ref) async {
-  final ahora = DateTime.now();
-  final inicio = DateTime(ahora.year, ahora.month, ahora.day);
-  final fin = inicio.add(const Duration(days: 1));
-  return ref.watch(cajaRepositoryProvider).obtenerMovimientos(inicio, fin);
+  final rango = await DiaLaboralService.rangoDeHoy();
+  return ref.watch(cajaRepositoryProvider).obtenerMovimientos(rango.inicio, rango.fin);
 });
 
 /// Marca especial en el detalle para reconocer el ingreso que representa
