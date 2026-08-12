@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/services/dia_laboral_service.dart';
@@ -86,6 +88,8 @@ class ArqueoCajaScreen extends ConsumerStatefulWidget {
 }
 
 class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
+  static const _claveBorrador = 'arqueo_caja_borrador_conteo';
+
   final _cajaInicioCtrl = TextEditingController(text: '0');
   final Map<int, TextEditingController> _billeteCtrls = {
     for (final d in _denominaciones) d: TextEditingController(text: '0'),
@@ -96,6 +100,54 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
   bool _guardando = false;
   bool _guardandoCajaInicio = false;
   bool _cajaInicioYaCargada = false; // para no pisar lo que el cajero está escribiendo
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarBorrador();
+    // Cualquier cambio en los contadores de billetes (chica o grande)
+    // se guarda como borrador, para que no se pierda si el cajero sale
+    // de esta pantalla sin llegar a cerrar la caja todavía.
+    for (final c in _billeteCtrls.values) {
+      c.addListener(_guardarBorrador);
+    }
+    for (final c in _fajoCtrls.values) {
+      c.addListener(_guardarBorrador);
+    }
+  }
+
+  Future<void> _cargarBorrador() async {
+    final prefs = await SharedPreferences.getInstance();
+    final guardado = prefs.getString(_claveBorrador);
+    if (guardado == null) return;
+    try {
+      final data = jsonDecode(guardado) as Map<String, dynamic>;
+      final sueltos = (data['sueltos'] as Map<String, dynamic>?) ?? {};
+      final fajos = (data['fajos'] as Map<String, dynamic>?) ?? {};
+      for (final d in _denominaciones) {
+        final valorSuelto = sueltos[d.toString()];
+        if (valorSuelto != null) _billeteCtrls[d]!.text = valorSuelto.toString();
+        final valorFajo = fajos[d.toString()];
+        if (valorFajo != null) _fajoCtrls[d]!.text = valorFajo.toString();
+      }
+    } catch (_) {
+      // Borrador corrupto o de un formato viejo: se ignora, arranca en 0.
+    }
+  }
+
+  Future<void> _guardarBorrador() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = {
+      'sueltos': {for (final d in _denominaciones) d.toString(): _billeteCtrls[d]!.text},
+      'fajos': {for (final d in _denominaciones) d.toString(): _fajoCtrls[d]!.text},
+    };
+    await prefs.setString(_claveBorrador, jsonEncode(data));
+  }
+
+  Future<void> _borrarBorrador() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_claveBorrador);
+  }
 
   /// Guarda (o actualiza, si ya había uno hoy) el ingreso especial que
   /// representa la caja inicio del día. Es siempre en efectivo.
@@ -183,6 +235,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
             billetes: billetes,
             usuarioId: usuarioId,
           );
+      await _borrarBorrador();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Caja cerrada y guardada (${Formatters.formatearMoneda(_totalContado)})')),
