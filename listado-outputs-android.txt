@@ -1,4 +1,5 @@
-e
+ission_handler_android/intermediates/merged_manifest
+build/permission_handler_android/intermediates/merged_manifest/release
 build/permission_handler_android/intermediates/incremental
 build/permission_handler_android/intermediates/incremental/mergeReleaseAssets
 build/permission_handler_android/intermediates/incremental/release-mergeJavaRes
@@ -53,6 +54,8 @@ build/permission_handler_android/intermediates/android_res_source_set_path_map
 build/permission_handler_android/intermediates/android_res_source_set_path_map/release
 build/permission_handler_android/intermediates/generated_proguard_file
 build/permission_handler_android/intermediates/generated_proguard_file/release
+build/permission_handler_android/intermediates/compiled_local_resources
+build/permission_handler_android/intermediates/compiled_local_resources/release
 build/permission_handler_android/intermediates/default_proguard_files
 build/permission_handler_android/intermediates/default_proguard_files/global
 build/permission_handler_android/intermediates/aar_libs_directory
@@ -106,8 +109,6 @@ build/jni_flutter/intermediates/navigation_json
 build/jni_flutter/intermediates/navigation_json/release
 build/jni_flutter/intermediates/library_jni
 build/jni_flutter/intermediates/library_jni/release
-build/jni_flutter/intermediates/compiled_navigation_res
-build/jni_flutter/intermediates/compiled_navigation_res/release
 build/jni_flutter/intermediates/aar_main_jar
 build/jni_flutter/intermediates/aar_main_jar/release
 build/jni_flutter/intermediates/lint_vital_partial_results
@@ -170,6 +171,8 @@ build/jni_flutter/intermediates/android_res_source_set_path_map
 build/jni_flutter/intermediates/android_res_source_set_path_map/release
 build/jni_flutter/intermediates/generated_proguard_file
 build/jni_flutter/intermediates/generated_proguard_file/release
+build/jni_flutter/intermediates/compiled_local_resources
+build/jni_flutter/intermediates/compiled_local_resources/release
 build/jni_flutter/intermediates/default_proguard_files
 build/jni_flutter/intermediates/default_proguard_files/global
 build/jni_flutter/intermediates/aar_libs_directory
@@ -223,8 +226,6 @@ build/sqflite_android/intermediates/navigation_json
 build/sqflite_android/intermediates/navigation_json/release
 build/sqflite_android/intermediates/library_jni
 build/sqflite_android/intermediates/library_jni/release
-build/sqflite_android/intermediates/compiled_navigation_res
-build/sqflite_android/intermediates/compiled_navigation_res/release
 build/sqflite_android/intermediates/aar_main_jar
 build/sqflite_android/intermediates/aar_main_jar/release
 build/sqflite_android/intermediates/lint_vital_partial_results
@@ -287,6 +288,8 @@ build/sqflite_android/intermediates/android_res_source_set_path_map
 build/sqflite_android/intermediates/android_res_source_set_path_map/release
 build/sqflite_android/intermediates/generated_proguard_file
 build/sqflite_android/intermediates/generated_proguard_file/release
+build/sqflite_android/intermediates/compiled_local_resources
+build/sqflite_android/intermediates/compiled_local_resources/release
 build/sqflite_android/intermediates/default_proguard_files
 build/sqflite_android/intermediates/default_proguard_files/global
 build/sqflite_android/intermediates/aar_libs_directory
@@ -340,8 +343,6 @@ build/printing/intermediates/navigation_json
 build/printing/intermediates/navigation_json/release
 build/printing/intermediates/library_jni
 build/printing/intermediates/library_jni/release
-build/printing/intermediates/compiled_navigation_res
-build/printing/intermediates/compiled_navigation_res/release
 build/printing/intermediates/aar_main_jar
 build/printing/intermediates/aar_main_jar/release
 build/printing/intermediates/lint_vital_partial_results
@@ -404,6 +405,8 @@ build/printing/intermediates/android_res_source_set_path_map
 build/printing/intermediates/android_res_source_set_path_map/release
 build/printing/intermediates/generated_proguard_file
 build/printing/intermediates/generated_proguard_file/release
+build/printing/intermediates/compiled_local_resources
+build/printing/intermediates/compiled_local_resources/release
 build/printing/intermediates/default_proguard_files
 build/printing/intermediates/default_proguard_files/global
 build/printing/intermediates/aar_libs_directory
@@ -457,8 +460,6 @@ build/connectivity_plus/intermediates/navigation_json
 build/connectivity_plus/intermediates/navigation_json/release
 build/connectivity_plus/intermediates/library_jni
 build/connectivity_plus/intermediates/library_jni/release
-build/connectivity_plus/intermediates/compiled_navigation_res
-build/connectivity_plus/intermediates/compiled_navigation_res/release
 build/connectivity_plus/intermediates/aar_main_jar
 build/connectivity_plus/intermediates/aar_main_jar/release
 build/connectivity_plus/intermediates/lint_vital_partial_results
@@ -521,6 +522,8 @@ build/connectivity_plus/intermediates/android_res_source_set_path_map
 build/connectivity_plus/intermediates/android_res_source_set_path_map/release
 build/connectivity_plus/intermediates/generated_proguard_file
 build/connectivity_plus/intermediates/generated_proguard_file/release
+build/connectivity_plus/intermediates/compiled_local_resources
+build/connectivity_plus/intermediates/compiled_local_resources/release
 build/connectivity_plus/intermediates/default_proguard_files
 build/connectivity_plus/intermediates/default_proguard_files/global
 build/connectivity_plus/intermediates/aar_libs_directory
@@ -574,8 +577,6 @@ build/firebase_auth/intermediates/navigation_json
 build/firebase_auth/intermediates/navigation_json/release
 build/firebase_auth/intermediates/library_jni
 build/firebase_auth/intermediates/library_jni/release
-build/firebase_auth/intermediates/compiled_navigation_res
-build/firebase_auth/intermediates/compiled_navigation_res/release
 build/firebase_auth/intermediates/aar_main_jar
 build/firebase_auth/intermediates/aar_main_jar/release
 build/firebase_auth/intermediates/lint_vital_partial_results
@@ -638,6 +639,8 @@ build/firebase_auth/intermediates/android_res_source_set_path_map
 build/firebase_auth/intermediates/android_res_source_set_path_map/release
 build/firebase_auth/intermediates/generated_proguard_file
 build/firebase_auth/intermediates/generated_proguard_file/release
+build/firebase_auth/intermediates/compiled_local_resources
+build/firebase_auth/intermediates/compiled_local_resources/release
 build/firebase_auth/intermediates/default_proguard_files
 build/firebase_auth/intermediates/default_proguard_files/global
 build/firebase_auth/intermediates/aar_libs_directory
@@ -701,8 +704,6 @@ build/print_bluetooth_thermal/intermediates/navigation_json
 build/print_bluetooth_thermal/intermediates/navigation_json/release
 build/print_bluetooth_thermal/intermediates/library_jni
 build/print_bluetooth_thermal/intermediates/library_jni/release
-build/print_bluetooth_thermal/intermediates/compiled_navigation_res
-build/print_bluetooth_thermal/intermediates/compiled_navigation_res/release
 build/print_bluetooth_thermal/intermediates/aar_main_jar
 build/print_bluetooth_thermal/intermediates/aar_main_jar/release
 build/print_bluetooth_thermal/intermediates/lint_vital_partial_results
@@ -763,6 +764,8 @@ build/print_bluetooth_thermal/intermediates/android_res_source_set_path_map
 build/print_bluetooth_thermal/intermediates/android_res_source_set_path_map/release
 build/print_bluetooth_thermal/intermediates/generated_proguard_file
 build/print_bluetooth_thermal/intermediates/generated_proguard_file/release
+build/print_bluetooth_thermal/intermediates/compiled_local_resources
+build/print_bluetooth_thermal/intermediates/compiled_local_resources/release
 build/print_bluetooth_thermal/intermediates/default_proguard_files
 build/print_bluetooth_thermal/intermediates/default_proguard_files/global
 build/print_bluetooth_thermal/intermediates/aar_libs_directory
@@ -816,8 +819,6 @@ build/cloud_firestore/intermediates/navigation_json
 build/cloud_firestore/intermediates/navigation_json/release
 build/cloud_firestore/intermediates/library_jni
 build/cloud_firestore/intermediates/library_jni/release
-build/cloud_firestore/intermediates/compiled_navigation_res
-build/cloud_firestore/intermediates/compiled_navigation_res/release
 build/cloud_firestore/intermediates/aar_main_jar
 build/cloud_firestore/intermediates/aar_main_jar/release
 build/cloud_firestore/intermediates/lint_vital_partial_results
@@ -880,6 +881,8 @@ build/cloud_firestore/intermediates/android_res_source_set_path_map
 build/cloud_firestore/intermediates/android_res_source_set_path_map/release
 build/cloud_firestore/intermediates/generated_proguard_file
 build/cloud_firestore/intermediates/generated_proguard_file/release
+build/cloud_firestore/intermediates/compiled_local_resources
+build/cloud_firestore/intermediates/compiled_local_resources/release
 build/cloud_firestore/intermediates/default_proguard_files
 build/cloud_firestore/intermediates/default_proguard_files/global
 build/cloud_firestore/intermediates/aar_libs_directory
@@ -1018,8 +1021,6 @@ build/app/intermediates/merged_art_profile
 build/app/intermediates/merged_art_profile/release
 build/app/intermediates/symbol_list_with_package_name
 build/app/intermediates/symbol_list_with_package_name/release
-build/app/intermediates/cxx
-build/app/intermediates/cxx/release
 build/app/intermediates/lint_vital_return_value
 build/app/intermediates/lint_vital_return_value/release
 build/app/intermediates/merged_res_blame_folder
@@ -1121,8 +1122,6 @@ build/mobile_scanner/intermediates/navigation_json
 build/mobile_scanner/intermediates/navigation_json/release
 build/mobile_scanner/intermediates/library_jni
 build/mobile_scanner/intermediates/library_jni/release
-build/mobile_scanner/intermediates/compiled_navigation_res
-build/mobile_scanner/intermediates/compiled_navigation_res/release
 build/mobile_scanner/intermediates/aar_main_jar
 build/mobile_scanner/intermediates/aar_main_jar/release
 build/mobile_scanner/intermediates/lint_vital_partial_results
@@ -1183,6 +1182,8 @@ build/mobile_scanner/intermediates/android_res_source_set_path_map
 build/mobile_scanner/intermediates/android_res_source_set_path_map/release
 build/mobile_scanner/intermediates/generated_proguard_file
 build/mobile_scanner/intermediates/generated_proguard_file/release
+build/mobile_scanner/intermediates/compiled_local_resources
+build/mobile_scanner/intermediates/compiled_local_resources/release
 build/mobile_scanner/intermediates/default_proguard_files
 build/mobile_scanner/intermediates/default_proguard_files/global
 build/mobile_scanner/intermediates/aar_libs_directory
@@ -1238,8 +1239,6 @@ build/jni/intermediates/merged_test_only_native_libs
 build/jni/intermediates/merged_test_only_native_libs/release
 build/jni/intermediates/library_jni
 build/jni/intermediates/library_jni/release
-build/jni/intermediates/compiled_navigation_res
-build/jni/intermediates/compiled_navigation_res/release
 build/jni/intermediates/aar_main_jar
 build/jni/intermediates/aar_main_jar/release
 build/jni/intermediates/lint_vital_partial_results
@@ -1368,8 +1367,6 @@ build/share_plus/intermediates/navigation_json
 build/share_plus/intermediates/navigation_json/release
 build/share_plus/intermediates/library_jni
 build/share_plus/intermediates/library_jni/release
-build/share_plus/intermediates/compiled_navigation_res
-build/share_plus/intermediates/compiled_navigation_res/release
 build/share_plus/intermediates/aar_main_jar
 build/share_plus/intermediates/aar_main_jar/release
 build/share_plus/intermediates/lint_vital_partial_results
@@ -1430,6 +1427,8 @@ build/share_plus/intermediates/android_res_source_set_path_map
 build/share_plus/intermediates/android_res_source_set_path_map/release
 build/share_plus/intermediates/generated_proguard_file
 build/share_plus/intermediates/generated_proguard_file/release
+build/share_plus/intermediates/compiled_local_resources
+build/share_plus/intermediates/compiled_local_resources/release
 build/share_plus/intermediates/default_proguard_files
 build/share_plus/intermediates/default_proguard_files/global
 build/share_plus/intermediates/aar_libs_directory
@@ -1483,8 +1482,6 @@ build/firebase_core/intermediates/navigation_json
 build/firebase_core/intermediates/navigation_json/release
 build/firebase_core/intermediates/library_jni
 build/firebase_core/intermediates/library_jni/release
-build/firebase_core/intermediates/compiled_navigation_res
-build/firebase_core/intermediates/compiled_navigation_res/release
 build/firebase_core/intermediates/aar_main_jar
 build/firebase_core/intermediates/aar_main_jar/release
 build/firebase_core/intermediates/lint_vital_partial_results
