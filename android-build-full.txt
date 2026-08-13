@@ -1,302 +1,651 @@
-ry_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_preference_category_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/preference_information.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_preference_information.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/preference_recyclerview.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_preference_recyclerview.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/preference_widget_switch.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_preference_widget_switch.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/select_dialog_singlechoice_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_select_dialog_singlechoice_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout-v21/notification_template_custom_big.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout-v21_notification_template_custom_big.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout-watch-v20/abc_alert_dialog_title_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout-watch-v20_abc_alert_dialog_title_material.xml.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ar/values-ar.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ar_values-ar.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-be/values-be.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-be_values-be.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ca/values-ca.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ca_values-ca.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-el/values-el.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-el_values-el.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-en-rIN/values-en-rIN.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-en-rIN_values-en-rIN.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-et/values-et.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-et_values-et.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-fr/values-fr.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-fr_values-fr.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-h720dp-v13/values-h720dp-v13.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-h720dp-v13_values-h720dp-v13.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-hu/values-hu.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-hu_values-hu.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-it/values-it.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-it_values-it.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-kk/values-kk.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-kk_values-kk.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ky/values-ky.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ky_values-ky.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-lo/values-lo.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-lo_values-lo.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ml/values-ml.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ml_values-ml.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-my/values-my.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-my_values-my.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-nl/values-nl.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-nl_values-nl.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-port/values-port.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-port_values-port.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ro/values-ro.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ro_values-ro.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-sl/values-sl.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-sl_values-sl.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-sw/values-sw.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-sw_values-sw.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-te/values-te.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-te_values-te.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-uk/values-uk.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-uk_values-uk.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-v17/values-v17.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-v17_values-v17.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-v23/values-v23.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-v23_values-v23.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-v28/values-v28.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-v28_values-v28.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-xlarge-v4/values-xlarge-v4.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-xlarge-v4_values-xlarge-v4.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-zu/values-zu.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-zu_values-zu.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-as/values-as.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-as_values-as.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-bg/values-bg.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-bg_values-bg.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-cs/values-cs.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-cs_values-cs.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-en-rAU/values-en-rAU.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-en-rAU_values-en-rAU.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-en-rXC/values-en-rXC.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-en-rXC_values-en-rXC.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-eu/values-eu.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-eu_values-eu.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-fr-rCA/values-fr-rCA.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-fr-rCA_values-fr-rCA.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-hdpi-v4/values-hdpi-v4.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-hdpi-v4_values-hdpi-v4.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-hy/values-hy.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-hy_values-hy.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-iw/values-iw.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-iw_values-iw.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-km/values-km.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-km_values-km.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-land/values-land.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-land_values-land.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-lt/values-lt.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-lt_values-lt.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-mn/values-mn.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-mn_values-mn.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-nb/values-nb.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-nb_values-nb.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-or/values-or.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-or_values-or.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-pt/values-pt.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-pt_values-pt.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ru/values-ru.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ru_values-ru.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-sq/values-sq.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-sq_values-sq.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-sw360dp-v13/values-sw360dp-v13.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-sw360dp-v13_values-sw360dp-v13.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-th/values-th.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-th_values-th.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ur/values-ur.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ur_values-ur.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-v18/values-v18.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-v18_values-v18.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-v24/values-v24.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-v24_values-v24.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-vi/values-vi.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-vi_values-vi.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-zh-rCN/values-zh-rCN.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-zh-rCN_values-zh-rCN.arsc.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/anim/abc_grow_fade_in_from_bottom.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/anim_abc_grow_fade_in_from_bottom.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/anim/abc_slide_in_bottom.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/anim_abc_slide_in_bottom.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/anim/abc_tooltip_enter.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/anim_abc_tooltip_enter.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/anim/btn_checkbox_to_checked_icon_null_animation.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/anim_btn_checkbox_to_checked_icon_null_animation.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/anim/btn_radio_to_off_mtrl_dot_group_animation.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/anim_btn_radio_to_off_mtrl_dot_group_animation.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/anim/btn_radio_to_on_mtrl_ring_outer_animation.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/anim_btn_radio_to_on_mtrl_ring_outer_animation.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/animator/fragment_close_exit.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/animator_fragment_close_exit.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/animator/fragment_open_exit.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/animator_fragment_open_exit.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/color/abc_hint_foreground_material_light.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/color_abc_hint_foreground_material_light.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/color/abc_primary_text_material_light.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/color_abc_primary_text_material_light.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/color/switch_thumb_material_dark.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/color_switch_thumb_material_dark.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/color-v23/abc_color_highlight_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/color-v23_abc_color_highlight_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/color-v23/abc_tint_seek_thumb.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/color-v23_abc_tint_seek_thumb.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/abc_btn_check_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_abc_btn_check_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/abc_btn_radio_material_anim.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_abc_btn_radio_material_anim.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/abc_ic_arrow_drop_right_black_24dp.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_abc_ic_arrow_drop_right_black_24dp.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/abc_ic_search_api_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_abc_ic_search_api_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/abc_list_selector_background_transition_holo_dark.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_abc_list_selector_background_transition_holo_dark.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/abc_ratingbar_indicator_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_abc_ratingbar_indicator_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/abc_seekbar_tick_mark_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_abc_seekbar_tick_mark_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/abc_tab_indicator_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_abc_tab_indicator_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/btn_checkbox_checked_mtrl.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_btn_checkbox_checked_mtrl.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/btn_radio_off_mtrl.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_btn_radio_off_mtrl.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/notification_bg.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_notification_bg.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable/tooltip_frame_dark.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable_tooltip_frame_dark.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-anydpi-v21/ic_call_answer_video.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-anydpi-v21_ic_call_answer_video.xml.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_btn_check_to_on_mtrl_000.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_btn_check_to_on_mtrl_000.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-hdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-hdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png
-[   +1 ms] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-hdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_ic_star_black_48dp.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_ic_star_black_48dp.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-hdpi-v4_abc_ic_star_black_48dp.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_scrubber_control_off_mtrl_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_scrubber_control_off_mtrl_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-hdpi-v4_abc_scrubber_control_off_mtrl_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_text_select_handle_left_mtrl_light.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_text_select_handle_left_mtrl_light.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-hdpi-v4_abc_text_select_handle_left_mtrl_light.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_text_select_handle_right_mtrl_light.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/abc_text_select_handle_right_mtrl_light.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-hdpi-v4_abc_text_select_handle_right_mtrl_light.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/ic_call_answer_video_low.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/ic_call_answer_video_low.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-hdpi-v4_ic_call_answer_video_low.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/notify_panel_notification_icon_bg.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-hdpi-v4/notify_panel_notification_icon_bg.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-hdpi-v4_notify_panel_notification_icon_bg.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-ldpi-v4/ic_call_answer_video_low.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-ldpi-v4/ic_call_answer_video_low.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-ldpi-v4_ic_call_answer_video_low.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-ldrtl-hdpi-v17/abc_ic_menu_cut_mtrl_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-ldrtl-hdpi-v17/abc_ic_menu_cut_mtrl_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-ldrtl-hdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-ldrtl-xhdpi-v17/abc_ic_menu_cut_mtrl_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-ldrtl-xhdpi-v17/abc_ic_menu_cut_mtrl_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-ldrtl-xhdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-ldrtl-xxxhdpi-v17/abc_ic_menu_cut_mtrl_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-ldrtl-xxxhdpi-v17/abc_ic_menu_cut_mtrl_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-ldrtl-xxxhdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_btn_radio_to_on_mtrl_015.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_btn_radio_to_on_mtrl_015.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-mdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_ic_menu_paste_mtrl_am_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_ic_menu_paste_mtrl_am_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-mdpi-v4_abc_ic_menu_paste_mtrl_am_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_ic_star_black_36dp.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_ic_star_black_36dp.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-mdpi-v4_abc_ic_star_black_36dp.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_ic_star_half_black_48dp.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_ic_star_half_black_48dp.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-mdpi-v4_abc_ic_star_half_black_48dp.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_text_select_handle_left_mtrl_dark.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_text_select_handle_left_mtrl_dark.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-mdpi-v4_abc_text_select_handle_left_mtrl_dark.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_text_select_handle_right_mtrl_dark.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/abc_text_select_handle_right_mtrl_dark.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-mdpi-v4_abc_text_select_handle_right_mtrl_dark.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/ic_call_answer_video.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/ic_call_answer_video.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-mdpi-v4_ic_call_answer_video.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/notify_panel_notification_icon_bg.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-mdpi-v4/notify_panel_notification_icon_bg.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-mdpi-v4_notify_panel_notification_icon_bg.png.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-v21/abc_edit_text_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-v21_abc_edit_text_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-v21/preference_list_divider_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-v21_preference_list_divider_material.xml.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_015.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_015.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xhdpi-v4_abc_btn_check_to_on_mtrl_015.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xhdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_ic_menu_share_mtrl_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_ic_menu_share_mtrl_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xhdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_ic_star_half_black_16dp.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_ic_star_half_black_16dp.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xhdpi-v4_abc_ic_star_half_black_16dp.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xhdpi-v4_abc_scrubber_control_to_pressed_mtrl_000.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_text_select_handle_middle_mtrl_dark.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/abc_text_select_handle_middle_mtrl_dark.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xhdpi-v4_abc_text_select_handle_middle_mtrl_dark.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/ic_call_answer.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/ic_call_answer.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xhdpi-v4_ic_call_answer.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/ic_call_decline.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xhdpi-v4/ic_call_decline.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xhdpi-v4_ic_call_decline.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_btn_check_to_on_mtrl_015.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_btn_check_to_on_mtrl_015.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxhdpi-v4_abc_btn_check_to_on_mtrl_015.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxhdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_ic_menu_share_mtrl_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_ic_menu_share_mtrl_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxhdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_ic_star_half_black_16dp.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_ic_star_half_black_16dp.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxhdpi-v4_abc_ic_star_half_black_16dp.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxhdpi-v4_abc_scrubber_control_to_pressed_mtrl_000.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_text_select_handle_middle_mtrl_dark.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/abc_text_select_handle_middle_mtrl_dark.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxhdpi-v4_abc_text_select_handle_middle_mtrl_dark.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/ic_call_answer.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/ic_call_answer.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxhdpi-v4_ic_call_answer.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/ic_call_decline.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxhdpi-v4/ic_call_decline.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxhdpi-v4_ic_call_decline.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/abc_btn_radio_to_on_mtrl_000.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/abc_btn_radio_to_on_mtrl_000.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxxhdpi-v4_abc_btn_radio_to_on_mtrl_000.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/abc_ic_menu_paste_mtrl_am_alpha.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/abc_ic_menu_paste_mtrl_am_alpha.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxxhdpi-v4_abc_ic_menu_paste_mtrl_am_alpha.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/abc_ic_star_black_36dp.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/abc_ic_star_black_36dp.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxxhdpi-v4_abc_ic_star_black_36dp.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/abc_ic_star_half_black_48dp.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/abc_ic_star_half_black_48dp.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxxhdpi-v4_abc_ic_star_half_black_48dp.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/abc_text_select_handle_left_mtrl_light.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/abc_text_select_handle_left_mtrl_light.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxxhdpi-v4_abc_text_select_handle_left_mtrl_light.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/ic_call_answer_low.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/ic_call_answer_low.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxxhdpi-v4_ic_call_answer_low.png.flat
-[        ] Compiling image file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/ic_call_decline_low.png
-[        ] Compiling file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/drawable-xxxhdpi-v4/ic_call_decline_low.png to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/drawable-xxxhdpi-v4_ic_call_decline_low.png.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/interpolator/btn_checkbox_unchecked_mtrl_animation_interpolator_1.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/interpolator_btn_checkbox_unchecked_mtrl_animation_interpolator_1.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/abc_action_bar_title_item.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_abc_action_bar_title_item.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/abc_action_mode_bar.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_abc_action_mode_bar.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/abc_alert_dialog_button_bar_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_abc_alert_dialog_button_bar_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/abc_dialog_title_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_abc_dialog_title_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/abc_list_menu_item_layout.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_abc_list_menu_item_layout.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/abc_screen_content_include.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_abc_screen_content_include.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/abc_search_dropdown_item_icons_2line.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_abc_search_dropdown_item_icons_2line.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/custom_dialog.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_custom_dialog.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/ime_secondary_split_test_activity.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_ime_secondary_split_test_activity.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/preference_category.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_preference_category.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/preference_dropdown_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_preference_dropdown_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/preference_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_preference_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/preference_widget_seekbar_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_preference_widget_seekbar_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout/select_dialog_multichoice_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout_select_dialog_multichoice_material.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout-v21/notification_action_tombstone.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout-v21_notification_action_tombstone.xml.flat
-[        ] Compiling xml file /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/layout-watch-v20/abc_alert_dialog_button_bar_material.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/layout-watch-v20_abc_alert_dialog_button_bar_material.xml.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-am/values-am.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-am_values-am.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-b+sr+Latn/values-b+sr+Latn.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-b+sr+Latn_values-b+sr+Latn.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-bs/values-bs.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-bs_values-bs.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-de/values-de.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-de_values-de.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-en-rGB/values-en-rGB.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-en-rGB_values-en-rGB.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-es-rUS/values-es-rUS.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-es-rUS_values-es-rUS.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-fi/values-fi.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-fi_values-fi.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-gu/values-gu.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-gu_values-gu.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-hr/values-hr.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-hr_values-hr.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-is/values-is.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-is_values-is.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ka/values-ka.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ka_values-ka.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ko/values-ko.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ko_values-ko.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ldltr-v21/values-ldltr-v21.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ldltr-v21_values-ldltr-v21.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-mk/values-mk.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-mk_values-mk.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ms/values-ms.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ms_values-ms.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-night-v8/values-night-v8.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-night-v8_values-night-v8.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-pl/values-pl.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-pl_values-pl.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-pt-rPT/values-pt-rPT.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-pt-rPT_values-pt-rPT.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-sk/values-sk.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-sk_values-sk.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-sv/values-sv.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-sv_values-sv.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-ta/values-ta.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-ta_values-ta.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-tr/values-tr.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-tr_values-tr.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-v16/values-v16.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-v16_values-v16.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-v22/values-v22.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-v22_values-v22.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-v26/values-v26.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-v26_values-v26.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-watch-v21/values-watch-v21.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-watch-v21_values-watch-v21.arsc.flat
-[        ] Compiling XML table /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/merged_res/release/mergeReleaseResources/values-zh-rTW/values-zh-rTW.xml to /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/verified_library_resources/release/verifyReleaseResources/compiled/values-zh-rTW_values-zh-rTW.arsc.flat
-[        ] Resolve mutations for :shared_preferences_android:assembleRelease (Thread[Execution worker Thread 3,5,main]) started.
-[        ] :shared_preferences_android:assembleRelease (Thread[Execution worker Thread 3,5,main]) started.
-[        ] > Task :shared_preferences_android:assembleRelease
-[        ] Skipping task ':shared_preferences_android:assembleRelease' as it has no actions.
-[+76074 ms] > Task :app:minifyReleaseWithR8
-[        ] INFO: R8: InnerClasses attribute has entries missing a corresponding EnclosingMethod attribute. Such InnerClasses attribute entries are ignored.
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/23716c5c96a3540488224c059dc245f2/transformed/play-services-mlkit-barcode-scanning-18.3.1-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzdz$zza
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/23716c5c96a3540488224c059dc245f2/transformed/play-services-mlkit-barcode-scanning-18.3.1-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzdz$zzb
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/23716c5c96a3540488224c059dc245f2/transformed/play-services-mlkit-barcode-scanning-18.3.1-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzdz$zzc
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/23716c5c96a3540488224c059dc245f2/transformed/play-services-mlkit-barcode-scanning-18.3.1-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzdz$zzd
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/23716c5c96a3540488224c059dc245f2/transformed/play-services-mlkit-barcode-scanning-18.3.1-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzdz$zze
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/23716c5c96a3540488224c059dc245f2/transformed/play-services-mlkit-barcode-scanning-18.3.1-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzdz$zzf
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/23716c5c96a3540488224c059dc245f2/transformed/play-services-mlkit-barcode-scanning-18.3.1-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzdz$zzg
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/23716c5c96a3540488224c059dc245f2/transformed/play-services-mlkit-barcode-scanning-18.3.1-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzdz$zzh
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/23716c5c96a3540488224c059dc245f2/transformed/play-services-mlkit-barcode-scanning-18.3.1-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzdz$zzi
-[        ] INFO: /home/runner/.gradle/caches/9.1.0/transforms/23716c5c96a3540488224c059dc245f2/transformed/play-services-mlkit-barcode-scanning-18.3.1-runtime.jar: R8: Classes with missing EnclosingMethod: com.google.android.gms.internal.mlkit_vision_barcode.zzdz$zzj
-[ +105 ms] Resolve mutations for :app:compileReleaseArtProfile (Thread[Execution worker Thread 3,5,main]) started.
-[        ] :app:compileReleaseArtProfile (Thread[Execution worker Thread 3,5,main]) started.
-[        ] Resolve mutations for :app:convertShrunkResourcesToBinaryRelease (Thread[included builds Thread 2,5,main]) started.
-[        ] :app:convertShrunkResourcesToBinaryRelease (Thread[included builds Thread 2,5,main]) started.
-[  +93 ms] > Task :app:convertShrunkResourcesToBinaryRelease
-[        ] Custom actions are attached to task ':app:convertShrunkResourcesToBinaryRelease'.
-[        ] Caching disabled for task ':app:convertShrunkResourcesToBinaryRelease' because:
+2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-embeddable/2.4.0/1ecabef3a8ba6a8e25654573d54edb7e4136e903/kotlin-daemon-embeddable-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.0/ac1dc37a30a93150b704022f8d895ee1bd3a36b3/kotlinx-coroutines-core-jvm-1.8.0.jar -Djava.awt.headless=true -Djava.rmi.server.hostname=127.0.0.1 -Xmx8G -XX:MaxMetaspaceSize=4G -XX:ReservedCodeCacheSize=512m -Dkotlin.environment.keepalive -ea -Dkotlin.daemon.custom.run.files.path.for.tests=/home/runner/.kotlin/daemon -XX:+UseCodeCacheFlushing -XX:+UseParallelGC -Dkotlin.daemon.initiator.marker.file=/tmp/kotlin-compiler-client-11799208288523645839-is-running --add-exports java.base/sun.nio.ch=ALL-UNNAMED org.jetbrains.kotlin.daemon.KotlinCompileDaemon --daemon-logsPath /tmp --daemon-logsFileSizeLimit=1048576 --daemon-logsFileCountLimit=3 --daemon-runFilesPath /home/runner/.kotlin/daemon --daemon-autoshutdownIdleSeconds=7200 --daemon-compilerClasspath /home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-tools-compat/2.4.0/209372718c8759fbcb47402dc130d45f00c3f81/kotlin-build-tools-compat-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-tools-impl/2.4.0/3dde5b4075cd7963afd0b0b2835627f40abc1149/kotlin-build-tools-impl-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-tooling-core/2.4.0/75970f5a2a9cb4d25557965bbec0a7ccd55bfbcf/kotlin-tooling-core-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-tools-cri-impl/2.4.0/7fdfe4b4de70b7e6d81c054572e862121aa1603a/kotlin-build-tools-cri-impl-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/2.4.0/d2b2336d493d2d3a8047c826cb27606f67029da8/kotlin-compiler-runner-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.4.0/f1a24af8bd111a83950236b1aec7a6d72a97e92c/kotlin-compiler-embeddable-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-tools-api/2.4.0/46429d5887df2d02f33fe11a0c8444c5be5fd8da/kotlin-build-tools-api-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/2.4.0/e9080614f98d07554367b7e5810529963e9f43e2/kotlin-daemon-client-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.0/4e9f4b531dce5c7dee58ed2de9a8b9a763c8dc6c/kotlin-stdlib-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/2.4.0/1de03f0ef3e208ab5f97ee6a587e9b8480447df6/kotlin-script-runtime-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-embeddable/2.4.0/1ecabef3a8ba6a8e25654573d54edb7e4136e903/kotlin-daemon-embeddable-2.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.0/ac1dc37a30a93150b704022f8d895ee1bd3a36b3/kotlinx-coroutines-core-jvm-1.8.0.jar
+[        ] i: #1 retrying connecting to the daemon 
+[        ] i: Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[], generateCompilerRefIndex=false), sourceChanges=org.jetbrains.kotlin.buildtools.api.SourcesChanges$Unknown@b2bd1c0, classpathChanges=NotAvailableDueToMissingClasspathSnapshot, workingDir=/home/runner/work/hortalizas-pos/hortalizas-pos/build/mobile_scanner/kotlin/compileReleaseKotlin/cacheable, multiModuleICSettings=null, icFeatures=IncrementalCompilationFeatures(usePreciseJavaTracking=true, withAbiSnapshot=false, preciseCompilationResultsBackup=true, keepIncrementalCompilationCachesInMemory=true, enableUnsafeIncrementalCompilationForMultiplatform=false, enableMonotonousIncrementalCompileSetExpansion=true), outputFiles=[/home/runner/work/hortalizas-pos/hortalizas-pos/build/mobile_scanner/tmp/kotlin-classes/release, /home/runner/work/hortalizas-pos/hortalizas-pos/build/mobile_scanner/kotlin/compileReleaseKotlin/cacheable, /home/runner/work/hortalizas-pos/hortalizas-pos/build/mobile_scanner/kotlin/compileReleaseKotlin/local-state])
+[+4498 ms] > Task :print_bluetooth_thermal:compileReleaseKotlin FAILED
+[        ] Adding -Xuse-inline-scopes-numbers Kotlin compiler flag for task :print_bluetooth_thermal:compileDebugAndroidTestKotlin
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /usr/local/lib/android/sdk/platforms/android-34/android.jar because:
 [        ]   Build cache is disabled
-[        ] Task ':app:convertShrunkResourcesToBinaryRelease' is not up-to-date because:
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/print_bluetooth_thermal/intermediates/compile_r_class_jar/release/generateReleaseRFile/R.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/7657cbabe48eeea3c7d4edc4511db6d3/transformed/annotation-experimental-1.4.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.8.20/73576ddf378c5b4f1f6b449fe6b119b8183fc078/kotlin-stdlib-jdk8-1.8.20.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.8.20/3aa51faf20aae8b31e1a4bc54f8370673d7b7df4/kotlin-stdlib-jdk7-1.8.20.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-android/1.7.1/c2d86b569f10b7fc7e28d3f50c0eed97897d77a7/kotlinx-coroutines-android-1.7.1.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.7.1/63a0779cf668e2a47d13fda7c3b0c4f8dc7762f4/kotlinx-coroutines-core-jvm-1.7.1.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for task ':print_bluetooth_thermal:compileReleaseKotlin' because:
+[        ]   Build cache is disabled
+[        ] Task ':print_bluetooth_thermal:compileReleaseKotlin' is not up-to-date because:
 [        ]   No history is available.
-[        ] Resolve mutations for :app:optimizeReleaseResources (Thread[included builds Thread 2,5,main]) started.
-[        ] :app:optimizeReleaseResources (Thread[included builds Thread 2,5,main]) started.
-[        ] > Task :app:optimizeReleaseResources
-[        ] Custom actions are attached to task ':app:optimizeReleaseResources'.
-[        ] Caching disabled for task ':app:optimizeReleaseResources' because:
+[        ] The input changes require a full rebuild for incremental task ':print_bluetooth_thermal:compileReleaseKotlin'.
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[   +3 ms] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/release/kotlin', not found
+[        ] Kotlin source files: /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/kotlin/app/web/groons/print_bluetooth_thermal/PrintBluetoothThermalPlugin.kt
+[        ] Java source files: 
+[        ] Script source files: 
+[        ] Script file extensions: 
+[        ] Using Kotlin/JVM incremental compilation
+[        ] [KOTLIN] Kotlin compilation 'jdkHome' argument: null
+[        ] i: Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[], generateCompilerRefIndex=false), sourceChanges=org.jetbrains.kotlin.buildtools.api.SourcesChanges$Unknown@b2bd1c0, classpathChanges=NotAvailableDueToMissingClasspathSnapshot, workingDir=/home/runner/work/hortalizas-pos/hortalizas-pos/build/print_bluetooth_thermal/kotlin/compileReleaseKotlin/cacheable, multiModuleICSettings=null, icFeatures=IncrementalCompilationFeatures(usePreciseJavaTracking=true, withAbiSnapshot=false, preciseCompilationResultsBackup=true, keepIncrementalCompilationCachesInMemory=true, enableUnsafeIncrementalCompilationForMultiplatform=false, enableMonotonousIncrementalCompileSetExpansion=true), outputFiles=[/home/runner/work/hortalizas-pos/hortalizas-pos/build/print_bluetooth_thermal/tmp/kotlin-classes/release, /home/runner/work/hortalizas-pos/hortalizas-pos/build/print_bluetooth_thermal/kotlin/compileReleaseKotlin/cacheable, /home/runner/work/hortalizas-pos/hortalizas-pos/build/print_bluetooth_thermal/kotlin/compileReleaseKotlin/local-state])
+[        ] i: Finished executing kotlin compiler using DAEMON strategy
+[        ] > Task :share_plus:compileReleaseKotlin
+[        ] Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/2.2.0/kotlin-stdlib-common-2.2.0.pom]
+[        ] Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/2.2.0/kotlin-stdlib-common-2.2.0.pom to /home/runner/.gradle/.tmp/gradle_download17072865326230106604bin
+[        ] Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/2.2.0/kotlin-stdlib-common-2.2.0.module to /home/runner/.gradle/.tmp/gradle_download17919308272765075032bin
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.core/core/1.16.0/3a0b0bf75b4649cad42a39b6356fec1eea63cfc8/core-1.16.0.aar because:
 [        ]   Build cache is disabled
-[        ] Task ':app:optimizeReleaseResources' is not up-to-date because:
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.core/core-ktx/1.16.0/fb0ea209ea2411dc5106cd1c95b513c81ce8aedb/core-ktx-1.16.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for IdentityTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation-jvm/1.9.1/b17951747e38bf3986a24431b9ba0d039958aa5f/annotation-jvm-1.9.1.jar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.core/core-viewtree/1.0.0/449ba4f495b4d10d18edd01f32f9328be40d5749/core-viewtree-1.0.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for IdentityTransform: /home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.0/fdfc65fbc42fda253a26f61dac3c0aca335fae96/kotlin-stdlib-2.2.0.jar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Adding -Xuse-inline-scopes-numbers Kotlin compiler flag for task :share_plus:compileDebugAndroidTestKotlin
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/intermediates/compile_r_class_jar/release/generateReleaseRFile/R.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/22cbc235653e33dd1a1830cbbba1ddcb/transformed/core-viewtree-1.0.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.0/fdfc65fbc42fda253a26f61dac3c0aca335fae96/kotlin-stdlib-2.2.0.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/58024893ea0871a503b4a23adebbc0f7/transformed/core-1.16.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation-jvm/1.9.1/b17951747e38bf3986a24431b9ba0d039958aa5f/annotation-jvm-1.9.1.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/f3fc22a4f524b0370a243e1343c95a8b/transformed/core-ktx-1.16.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for task ':share_plus:compileReleaseKotlin' because:
+[        ]   Build cache is disabled
+[        ] Task ':share_plus:compileReleaseKotlin' is not up-to-date because:
 [        ]   No history is available.
-[  +99 ms] > Task :app:compileReleaseArtProfile
-[        ] Caching disabled for task ':app:compileReleaseArtProfile' because:
+[        ] The input changes require a full rebuild for incremental task ':share_plus:compileReleaseKotlin'.
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[   +2 ms] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/release/kotlin', not found
+[        ] Kotlin source files: /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/kotlin/dev/fluttercommunity/plus/share/ShareFileProvider.kt, /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/kotlin/dev/fluttercommunity/plus/share/ShareSuccessManager.kt, /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/kotlin/dev/fluttercommunity/plus/share/MethodCallHandler.kt, /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/kotlin/dev/fluttercommunity/plus/share/Share.kt, /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/kotlin/dev/fluttercommunity/plus/share/SharePlusPendingIntent.kt, /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/share_plus-12.0.2/android/src/main/kotlin/dev/fluttercommunity/plus/share/SharePlusPlugin.kt
+[        ] Java source files: 
+[        ] Script source files: 
+[        ] Script file extensions: 
+[        ] Using Kotlin/JVM incremental compilation
+[        ] [KOTLIN] Kotlin compilation 'jdkHome' argument: null
+[   +3 ms] i: Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[], generateCompilerRefIndex=false), sourceChanges=org.jetbrains.kotlin.buildtools.api.SourcesChanges$Unknown@b2bd1c0, classpathChanges=NotAvailableDueToMissingClasspathSnapshot, workingDir=/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/kotlin/compileReleaseKotlin/cacheable, multiModuleICSettings=null, icFeatures=IncrementalCompilationFeatures(usePreciseJavaTracking=true, withAbiSnapshot=false, preciseCompilationResultsBackup=true, keepIncrementalCompilationCachesInMemory=true, enableUnsafeIncrementalCompilationForMultiplatform=false, enableMonotonousIncrementalCompileSetExpansion=true), outputFiles=[/home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/tmp/kotlin-classes/release, /home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/kotlin/compileReleaseKotlin/cacheable, /home/runner/work/hortalizas-pos/hortalizas-pos/build/share_plus/kotlin/compileReleaseKotlin/local-state])
+[        ] e: file:///home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/print_bluetooth_thermal-1.1.5/android/src/main/kotlin/app/web/groons/print_bluetooth_thermal/PrintBluetoothThermalPlugin.kt:30:48 Unresolved reference 'Registrar'.
+[+2883 ms] i: Finished executing kotlin compiler using DAEMON strategy
+[        ] > Task :shared_preferences_android:compileReleaseKotlin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/annotation/annotation/1.2.0/annotation-1.2.0.pom to /home/runner/.gradle/.tmp/gradle_download8490903471660074442bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/annotation/annotation/1.2.0/annotation-1.2.0.module to /home/runner/.gradle/.tmp/gradle_download8850182433916188720bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/core/core/1.6.0/core-1.6.0.pom to /home/runner/.gradle/.tmp/gradle_download2748590409920560123bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/core/core/1.6.0/core-1.6.0.module to /home/runner/.gradle/.tmp/gradle_download7283554773670474010bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/appcompat/appcompat-resources/1.1.0/appcompat-resources-1.1.0.pom to /home/runner/.gradle/.tmp/gradle_download7175318220066542287bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/activity/activity/1.5.1/activity-1.5.1.pom to /home/runner/.gradle/.tmp/gradle_download953587005096904107bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/activity/activity/1.5.1/activity-1.5.1.module to /home/runner/.gradle/.tmp/gradle_download3383611967192156573bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/core/core-ktx/1.1.0/core-ktx-1.1.0.pom to /home/runner/.gradle/.tmp/gradle_download16208431107865216166bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-viewmodel-ktx/2.5.1/lifecycle-viewmodel-ktx-2.5.1.pom to /home/runner/.gradle/.tmp/gradle_download6043587540985202701bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-viewmodel-ktx/2.5.1/lifecycle-viewmodel-ktx-2.5.1.module to /home/runner/.gradle/.tmp/gradle_download4264978752340172683bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-ktx/2.5.1/lifecycle-runtime-ktx-2.5.1.pom to /home/runner/.gradle/.tmp/gradle_download9735917573149869470bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-ktx/2.5.1/lifecycle-runtime-ktx-2.5.1.module to /home/runner/.gradle/.tmp/gradle_download14906023626886030440bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-livedata-core-ktx/2.3.1/lifecycle-livedata-core-ktx-2.3.1.pom to /home/runner/.gradle/.tmp/gradle_download3341908476076607775bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-livedata-core-ktx/2.3.1/lifecycle-livedata-core-ktx-2.3.1.module to /home/runner/.gradle/.tmp/gradle_download1541872797496730071bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/core/core-ktx/1.9.0/core-ktx-1.9.0.pom to /home/runner/.gradle/.tmp/gradle_download5366825257473661527bin
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/core/core-ktx/1.9.0/core-ktx-1.9.0.module to /home/runner/.gradle/.tmp/gradle_download2099821792297200076bin
+[        ] Caching disabled for IdentityTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.datastore/datastore-core-okio-jvm/1.1.7/ce08f132812044a9778547b299fd812e34dbd602/datastore-core-okio-jvm-1.1.7.jar because:
 [        ]   Build cache is disabled
-[        ] Task ':app:compileReleaseArtProfile' is not up-to-date because:
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.datastore/datastore-android/1.1.7/4c12c47f19bc951e572ddd78fd7917630bae27f9/datastore-release.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.preference/preference/1.2.1/f85542e0d2335b3cd4910ab29a942ebaeb0d5b39/preference-1.2.1.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/appcompat/appcompat/1.1.0/appcompat-1.1.0.aar to /home/runner/.gradle/.tmp/gradle_download7350109476101488617bin
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.1.0/351d3409fe51f3d862bd2b1bcc0f3b6ded29460e/appcompat-1.1.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.0.0/ee3a2ad35bcfa91ab9eeebe991b0893ab40009cf/recyclerview-1.0.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/appcompat/appcompat-resources/1.1.0/appcompat-resources-1.1.0.aar to /home/runner/.gradle/.tmp/gradle_download14965277312477135722bin
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat-resources/1.1.0/a573b2ab146d686244721ef1038d08043f18c67f/appcompat-resources-1.1.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.legacy/legacy-support-core-ui/1.0.0/61a264f996046e059f889914050fae1e75d3b702/legacy-support-core-ui-1.0.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.slidingpanelayout/slidingpanelayout/1.2.0/5374897c7fd146ecadae4eeb96fb66c7795db0a7/slidingpanelayout-1.2.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.fragment/fragment-ktx/1.7.1/8d2b3390a01789b8212f5126a78560746baf46bb/fragment-ktx-1.7.1.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.coordinatorlayout/coordinatorlayout/1.0.0/7664385a7e39112b780baf8819ee880dcd3c4094/coordinatorlayout-1.0.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.customview/customview/1.1.0/a030aaf64c5419a89f7d91a33755c4629a43471/customview-1.1.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.activity/activity-ktx/1.8.1/2367fda01826526e5948ebb9fd5faae9213ac7bc/activity-ktx-1.8.1.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.legacy/legacy-support-core-utils/1.0.0/9b9570042115da8629519090dfeb71df75da59fc/legacy-support-core-utils-1.0.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.swiperefreshlayout/swiperefreshlayout/1.0.0/4fd265b80a2b0fbeb062ab2bc4b1487521507762/swiperefreshlayout-1.0.0.aar because:
+[        ]   Build cache is disabled
+[   +1 ms]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.asynclayoutinflater/asynclayoutinflater/1.0.0/5ffa788d19a6863799f25cb50d4fdfb0ec649037/asynclayoutinflater-1.0.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-runtime-ktx/2.7.0/99b5608d5971ae4cb95dea85cd0a2bdb1519b89d/lifecycle-runtime-ktx-2.7.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-viewmodel-ktx/2.7.0/421575b66dd75fa2a1bd425f9ab335461dd10721/lifecycle-viewmodel-ktx-2.7.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/core/core-ktx/1.9.0/core-ktx-1.9.0.aar to /home/runner/.gradle/.tmp/gradle_download17815278069982289007bin
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.core/core-ktx/1.9.0/b56f6b1bcb7882a9933c963907818da2094ae3a4/core-ktx-1.9.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Downloading https://dl.google.com/dl/android/maven2/androidx/collection/collection-ktx/1.1.0/collection-ktx-1.1.0.jar to /home/runner/.gradle/.tmp/gradle_download15508522016933729553bin
+[        ] Caching disabled for IdentityTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.collection/collection-ktx/1.1.0/f807b2f366f7b75142a67d2f3c10031065b5168/collection-ktx-1.1.0.jar because:
+[        ]   Build cache is disabled
+[   +2 ms]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.savedstate/savedstate-ktx/1.2.1/b86d338d91b1c26193a42b1d87be9bb02123fa16/savedstate-ktx-1.2.1.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.documentfile/documentfile/1.0.0/66104345c90cd8c2fd5ad2d3aad692b280e10c32/documentfile-1.0.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.print/print/1.0.0/7722094652c48ebe27acc94d74a55e759e4635ff/print-1.0.0.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for IdentityTransform: /home/runner/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio-jvm/3.4.0/4e8bd78a52ab935ce383d0092646922154295e54/okio-jvm-3.4.0.jar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.datastore/datastore-preferences-core-android/1.1.7/cf1746c62f09840ecc48ce52d7d946464eb790af/datastore-preferences-core-release.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.datastore/datastore-preferences-android/1.1.7/d6e8fe9a0acdc43bac566188694c9f5fdb72bca1/datastore-preferences-release.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Caching disabled for AarToClassTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.datastore/datastore-core-android/1.1.7/a9f2c979b8890eece47fadf583fe9647107c624a/datastore-core-release.aar because:
+[        ]   Build cache is disabled
+[        ]   Caching not enabled.
+[        ] Adding -Xuse-inline-scopes-numbers Kotlin compiler flag for task :shared_preferences_android:compileDebugAndroidTestKotlin
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/intermediates/compile_r_class_jar/release/generateReleaseRFile/R.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/c1b0cb3962d54a4fba1e507cee4eec19/transformed/datastore-preferences-release-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/a9b1f3faeca5f164a82128d9c4674107/transformed/datastore-release-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/469b5f21336437c66f12bf649275b3e8/transformed/preference-1.2.1-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/8b931e55e169f69b97aa053a4156500f/transformed/appcompat-1.1.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/e4d59aa1ce5eb93499455c743b848e15/transformed/recyclerview-1.0.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/951530b1fdcb25f794d78f383690d528/transformed/appcompat-resources-1.1.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/d41740d0db40ea7727da453f16d7ffaf/transformed/legacy-support-core-ui-1.0.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/dc2b9258cfcd27dc00a7e5e81cc98510/transformed/slidingpanelayout-1.2.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/ba6d227b02edd53157c83521148ff623/transformed/fragment-ktx-1.7.1-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/d68f40283527e69c4aab1a9ecb85bee6/transformed/coordinatorlayout-1.0.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/a204b648fdf35d6be07526f52a07f042/transformed/customview-1.1.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/1239baea2b530b2d67ec79170c19c03f/transformed/activity-ktx-1.8.1-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/2d39882407bd881ff41ec20724ede8e6/transformed/legacy-support-core-utils-1.0.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/9f86bcb8baa06a90fac39b951725c6d6/transformed/swiperefreshlayout-1.0.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/9c653475f21b80959825bf181eaae44b/transformed/asynclayoutinflater-1.0.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/13bd81d05d5e9ee2aa38822423a1fc71/transformed/lifecycle-runtime-ktx-2.7.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/fe0dc1f79b1e83ec55867ff7c0fbf0b7/transformed/lifecycle-viewmodel-ktx-2.7.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/63503da9d174eea7cac42f68e685767f/transformed/core-ktx-1.9.0-api.jar because:
+[        ]   Build cache is disabled
+[   +2 ms] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.collection/collection-ktx/1.1.0/f807b2f366f7b75142a67d2f3c10031065b5168/collection-ktx-1.1.0.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/7da184353e1ba6bdb3f34a042474dc5d/transformed/savedstate-ktx-1.2.1-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/b78ee695ae6122d3cb3df3da6e7a86d4/transformed/documentfile-1.0.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/3ca28156298a90fc6157eca795c468a8/transformed/localbroadcastmanager-1.0.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/295c4277bb3a752b501680a553697fe3/transformed/print-1.0.0-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-android/1.7.3/38d9cad3a0b03a10453b56577984bdeb48edeed5/kotlinx-coroutines-android-1.7.3.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.7.3/2b09627576f0989a436a00a4a54b55fa5026fb86/kotlinx-coroutines-core-jvm-1.7.3.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio-jvm/3.4.0/4e8bd78a52ab935ce383d0092646922154295e54/okio-jvm-3.4.0.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/6249460386bf71e842a2184494690f8e/transformed/datastore-preferences-core-release-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/9.3.1/transforms/6f0f51168b99b4f5fab65f4aac982276/transformed/datastore-core-release-api.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for ClasspathEntrySnapshotTransform: /home/runner/.gradle/caches/modules-2/files-2.1/androidx.datastore/datastore-core-okio-jvm/1.1.7/ce08f132812044a9778547b299fd812e34dbd602/datastore-core-okio-jvm-1.1.7.jar because:
+[        ]   Build cache is disabled
+[        ] Caching disabled for task ':shared_preferences_android:compileReleaseKotlin' because:
+[        ]   Build cache is disabled
+[        ] Task ':shared_preferences_android:compileReleaseKotlin' is not up-to-date because:
 [        ]   No history is available.
-[        ] Resolve mutations for :app:packageRelease (Thread[Execution worker Thread 3,5,main]) started.
-[        ] :app:packageRelease (Thread[Execution worker Thread 3,5,main]) started.
-[ +599 ms] > Task :app:packageRelease
-[        ] Custom actions are attached to task ':app:packageRelease'.
-[        ] Caching disabled for task ':app:packageRelease' because:
-[        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':app:packageRelease' is not up-to-date because:
-[        ]   No history is available.
-[        ] The input changes require a full rebuild for incremental task ':app:packageRelease'.
-[        ] Resolve mutations for :app:createReleaseApkListingFileRedirect (Thread[Execution worker Thread 3,5,main]) started.
-[        ] :app:createReleaseApkListingFileRedirect (Thread[Execution worker Thread 3,5,main]) started.
-[        ] > Task :app:createReleaseApkListingFileRedirect
-[        ] Caching disabled for task ':app:createReleaseApkListingFileRedirect' because:
-[        ]   Build cache is disabled
-[        ]   Caching has been disabled for the task
-[        ] Task ':app:createReleaseApkListingFileRedirect' is not up-to-date because:
-[        ]   No history is available.
-[        ] Resolve mutations for :app:assembleRelease (Thread[Execution worker Thread 3,5,main]) started.
-[        ] :app:assembleRelease (Thread[Execution worker Thread 3,5,main]) started.
-[  +99 ms] > Task :app:assembleRelease
-[        ] Caching disabled for task ':app:assembleRelease' because:
-[        ]   Build cache is disabled
-[        ] Task ':app:assembleRelease' is not up-to-date because:
-[        ]   Task has not declared any outputs despite executing actions.
-[        ] AAPT2 aapt2-9.0.1-14304508-linux Daemon #0: shutdown
-[        ] AAPT2 aapt2-9.0.1-14304508-linux Daemon #1: shutdown
-[        ] AAPT2 aapt2-9.0.1-14304508-linux Daemon #2: shutdown
-[        ] Android Lint: Disposing Uast application environment in lint classloader [32.0.1_true]
-[  +96 ms] [Incubating] Problems report is available at: file:///home/runner/work/hortalizas-pos/hortalizas-pos/build/reports/problems/problems-report.html
+[        ] The input changes require a full rebuild for incremental task ':shared_preferences_android:compileReleaseKotlin'.
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[   +1 ms] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/java', not found
+[        ] file or directory '/home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/release/kotlin', not found
+[        ] Kotlin source files: /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/kotlin/io/flutter/plugins/sharedpreferences/SharedPreferencesPlugin.kt, /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/kotlin/io/flutter/plugins/sharedpreferences/MessagesAsync.g.kt, /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/kotlin/io/flutter/plugins/sharedpreferences/StringListObjectInputStream.kt, /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/kotlin/io/flutter/plugins/sharedpreferences/LegacySharedPreferencesPlugin.kt, /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/kotlin/io/flutter/plugins/sharedpreferences/Messages.g.kt, /home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/kotlin/io/flutter/plugins/sharedpreferences/SharedPreferencesListEncoder.kt
+[        ] Java source files: 
+[        ] Script source files: 
+[        ] Script file extensions: 
+[        ] Using Kotlin/JVM incremental compilation
+[        ] [KOTLIN] Kotlin compilation 'jdkHome' argument: null
+[        ] i: Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[], generateCompilerRefIndex=false), sourceChanges=org.jetbrains.kotlin.buildtools.api.SourcesChanges$Unknown@b2bd1c0, classpathChanges=NotAvailableDueToMissingClasspathSnapshot, workingDir=/home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/kotlin/compileReleaseKotlin/cacheable, multiModuleICSettings=null, icFeatures=IncrementalCompilationFeatures(usePreciseJavaTracking=true, withAbiSnapshot=false, preciseCompilationResultsBackup=true, keepIncrementalCompilationCachesInMemory=true, enableUnsafeIncrementalCompilationForMultiplatform=false, enableMonotonousIncrementalCompileSetExpansion=true), outputFiles=[/home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/tmp/kotlin-classes/release, /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/kotlin/compileReleaseKotlin/cacheable, /home/runner/work/hortalizas-pos/hortalizas-pos/build/shared_preferences_android/kotlin/compileReleaseKotlin/local-state])
+[ +982 ms] w: file:///home/runner/work/hortalizas-pos/hortalizas-pos/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.27/android/src/main/kotlin/io/flutter/plugins/sharedpreferences/SharedPreferencesPlugin.kt:450:52 Unnecessary non-null assertion (!!) on a non-null receiver of type 'String'.
+[ +200 ms] i: Finished executing kotlin compiler using DAEMON strategy
+[ +100 ms] > Task :mobile_scanner:compileReleaseKotlin
+[        ] i: Finished executing kotlin compiler using DAEMON strategy
+[        ] [Incubating] Problems report is available at: file:///home/runner/work/hortalizas-pos/hortalizas-pos/build/reports/problems/problems-report.html
 [        ] Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
 [        ] You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
-[        ] For more on this, please refer to https://docs.gradle.org/9.1.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
-[        ] BUILD SUCCESSFUL in 6m 53s
-[        ] 619 actionable tasks: 618 executed, 1 up-to-date
-[        ] Gradle was unable to watch the file system for changes. Unable to watch same file twice via different paths: Already watching path: /home/runner/work/hortalizas-pos/hortalizas-pos/android.
-[ +328 ms] Running Gradle task 'assembleRelease'... (completed in 413.7s)
-[   +1 ms] Calculate SHA1: LocalDirectory: '/home/runner/work/hortalizas-pos/hortalizas-pos/build/app/outputs/flutter-apk'/app-release.apk
-[+1141 ms] ✓ Built build/app/outputs/flutter-apk/app-release.apk (77.3MB)
-[   +5 ms] "flutter apk" took 415,378ms.
-[  +10 ms] Running 1 shutdown hook
+[        ] For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+[        ] 164 actionable tasks: 164 executed
+[        ] FAILURE: Build failed with an exception.
+[        ] * What went wrong:
+[        ] Execution failed for task ':print_bluetooth_thermal:compileReleaseKotlin'.
+[        ] > A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+[        ]    > Compilation error. See log for more details
+[        ] * Try:
+[        ] > Run with --debug option to get more log output.
+[        ] > Run with --scan to get full insights from a Build Scan (powered by Develocity).
+[        ] > Get more help at https://help.gradle.org.
+[        ] * Exception is:
+[        ] org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':print_bluetooth_thermal:compileReleaseKotlin'.
+[        ] 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:135)
+[        ] 	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:288)
+[        ] 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:133)
+[        ] 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:121)
+[        ] 	at org.gradle.api.internal.tasks.execution.ProblemsTaskPathTrackingTaskExecuter.execute(ProblemsTaskPathTrackingTaskExecuter.java:41)
+[        ] 	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+[        ] 	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+[        ] 	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+[        ] 	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+[        ] 	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+[        ] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+[        ] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+[        ] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+[        ] 	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+[        ] 	at org.gradle.execution.plan.DefaultNodeExecutor.executeLocalTaskNode(DefaultNodeExecutor.java:55)
+[        ] 	at org.gradle.execution.plan.DefaultNodeExecutor.execute(DefaultNodeExecutor.java:34)
+[        ] 	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:355)
+[        ] 	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:343)
+[        ] 	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:339)
+[        ] 	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:84)
+[        ] 	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:339)
+[        ] 	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:328)
+[        ] 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
+[        ] 	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
+[        ] 	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+[        ] 	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+[        ] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+[        ] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+[        ] 	at java.base/java.lang.Thread.run(Thread.java:840)
+[        ] Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+[        ] 	at org.gradle.workers.internal.DefaultWorkerExecutor$WorkItemExecution.waitForCompletion(DefaultWorkerExecutor.java:289)
+[        ] 	at org.gradle.internal.work.DefaultAsyncWorkTracker.lambda$waitForItemsAndGatherFailures$2(DefaultAsyncWorkTracker.java:130)
+[        ] 	at org.gradle.internal.Factories$1.create(Factories.java:30)
+[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withoutLocks$2(DefaultWorkerLeaseService.java:344)
+[        ] 	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.withoutLocks(DefaultWorkerLeaseService.java:342)
+[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.withoutLocks(DefaultWorkerLeaseService.java:326)
+[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.withoutLock(DefaultWorkerLeaseService.java:331)
+[        ] 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForItemsAndGatherFailures(DefaultAsyncWorkTracker.java:126)
+[        ] 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForItemsAndGatherFailures(DefaultAsyncWorkTracker.java:92)
+[        ] 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForAll(DefaultAsyncWorkTracker.java:78)
+[        ] 	at org.gradle.internal.work.DefaultAsyncWorkTracker.waitForCompletion(DefaultAsyncWorkTracker.java:66)
+[        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:267)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:26)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:47)
+[        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:244)
+[        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:227)
+[        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:210)
+[        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:176)
+[        ] 	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:110)
+[        ] 	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:47)
+[        ] 	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:64)
+[        ] 	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:61)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+[        ] 	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:61)
+[        ] 	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:47)
+[        ] 	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)
+[        ] 	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)
+[        ] 	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+[        ] 	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:51)
+[        ] 	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:29)
+[        ] 	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.executeMutable(RemovePreviousOutputsStep.java:70)
+[        ] 	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.executeMutable(RemovePreviousOutputsStep.java:40)
+[        ] 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:25)
+[        ] 	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:62)
+[        ] 	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:27)
+[   +1 ms] 	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)
+[        ] 	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)
+[        ] 	at org.gradle.internal.execution.steps.ResolveInputChangesStep.executeMutable(ResolveInputChangesStep.java:39)
+[        ] 	at org.gradle.internal.execution.steps.ResolveInputChangesStep.executeMutable(ResolveInputChangesStep.java:28)
+[        ] 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:25)
+[        ] 	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:192)
+[        ] 	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:76)
+[        ] 	at org.gradle.internal.Either$Right.fold(Either.java:176)
+[        ] 	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
+[        ] 	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:74)
+[        ] 	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:49)
+[        ] 	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:46)
+[        ] 	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:35)
+[        ] 	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)
+[        ] 	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)
+[        ] 	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+[        ] 	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)
+[        ] 	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)
+[        ] 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+[        ] 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+[        ] 	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:49)
+[        ] 	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:27)
+[        ] 	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:71)
+[        ] 	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:39)
+[        ] 	at org.gradle.internal.execution.steps.ResolveChangesStep.executeMutable(ResolveChangesStep.java:63)
+[        ] 	at org.gradle.internal.execution.steps.ResolveChangesStep.executeMutable(ResolveChangesStep.java:34)
+[        ] 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:25)
+[        ] 	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:64)
+[        ] 	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:42)
+[        ] 	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:77)
+[        ] 	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:46)
+[        ] 	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:133)
+[        ] 	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:64)
+[        ] 	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
+[        ] 	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+[        ] 	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
+[        ] 	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
+[        ] 	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:77)
+[        ] 	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.executeMutable(HandleStaleOutputsStep.java:43)
+[        ] 	at org.gradle.internal.execution.steps.MutableStep.execute(MutableStep.java:25)
+[        ] 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
+[        ] 	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:305)
+[        ] 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
+[        ] 	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
+[        ] 	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
+[        ] 	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
+[        ] 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+[        ] 	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+[        ] 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
+[        ] 	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
+[        ] 	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
+[        ] 	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
+[        ] 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:44)
+[        ] 	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:31)
+[        ] 	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:68)
+[        ] 	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:132)
+[        ] 	... 33 more
+[        ] Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Compilation error. See log for more details
+[        ] 	at org.jetbrains.kotlin.gradle.tasks.TasksUtilsKt.throwExceptionIfCompilationFailed(tasksUtils.kt:21)
+[        ] 	at org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork.execute(BuildToolsApiCompilationWork.kt:320)
+[        ] 	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:68)
+[        ] 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:64)
+[        ] 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:61)
+[        ] 	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:102)
+[        ] 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:61)
+[        ] 	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+[        ] 	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+[        ] 	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+[        ] 	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+[        ] 	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:58)
+[        ] 	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:176)
+[        ] 	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+[        ] 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+[        ] 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+[        ] 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+[        ] 	at org.gradle.internal.Factories$1.create(Factories.java:30)
+[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.lambda$withLocksAcquired$0(DefaultWorkerLeaseService.java:269)
+[        ] 	at org.gradle.internal.work.ResourceLockStatistics$1.measure(ResourceLockStatistics.java:42)
+[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocksAcquired(DefaultWorkerLeaseService.java:267)
+[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:259)
+[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+[        ] 	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+[        ] 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+[        ] 	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+[        ] 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+[        ] 	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+[        ] 	... 5 more
+[        ] BUILD FAILED in 4m 6s
+[ +435 ms] Running Gradle task 'assembleRelease'... (completed in 247.5s)
+[   +1 ms] executing: /usr/lib/jvm/temurin-17-jdk-amd64/bin/java --version
+[  +29 ms] Exit code 0 from: /usr/lib/jvm/temurin-17-jdk-amd64/bin/java --version
+[        ] openjdk 17.0.19 2026-04-21
+           OpenJDK Runtime Environment Temurin-17.0.19+10 (build 17.0.19+10)
+           OpenJDK 64-Bit Server VM Temurin-17.0.19+10 (build 17.0.19+10, mixed mode, sharing)
+[   +3 ms] "flutter apk" took 247,890ms.
+[  +37 ms] Gradle task assembleRelease failed with exit code 1
+[        ] 
+           #0      throwToolExit (package:flutter_tools/src/base/common.dart:34:3)
+           #1      AndroidGradleBuilder.buildGradleApp (package:flutter_tools/src/android/gradle.dart:653:7)
+           <asynchronous suspension>
+           #2      AndroidGradleBuilder.buildApk (package:flutter_tools/src/android/gradle.dart:246:5)
+           <asynchronous suspension>
+           #3      BuildApkCommand.runCommand (package:flutter_tools/src/commands/build_apk.dart:132:5)
+           <asynchronous suspension>
+           #4      FlutterCommand.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command.dart:1663:27)
+           <asynchronous suspension>
+           #5      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #6      CommandRunner.runCommand (package:args/command_runner.dart:212:13)
+           <asynchronous suspension>
+           #7      FlutterCommandRunner.runCommand.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:496:9)
+           <asynchronous suspension>
+           #8      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #9      FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:431:5)
+           <asynchronous suspension>
+           #10     FlutterCommandRunner.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:307:33)
+           <asynchronous suspension>
+           #11     run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:104:11)
+           <asynchronous suspension>
+           #12     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #13     main (package:flutter_tools/executable.dart:103:3)
+           <asynchronous suspension>
+
+
+[        ] Running 1 shutdown hook
 [        ] Shutdown hooks complete
-[   +1 ms] exiting with code 0
+[        ] exiting with code 1
