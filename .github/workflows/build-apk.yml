@@ -51,6 +51,14 @@ jobs:
           done
         continue-on-error: true
 
+      - name: Guardar y subir pubspec.lock resuelto (para congelar versiones)
+        if: steps.pub_get_android.outcome == 'success'
+        run: |
+          cp pubspec.lock /tmp/pubspec.lock.resuelto
+          python3 .github/scripts/upload_log.py pubspec-lock-resuelto.txt /tmp/pubspec.lock.resuelto
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Guardar log si fallo pub get (android)
         if: steps.pub_get_android.outcome == 'failure'
         run: python3 .github/scripts/upload_log.py pubget-android-error.txt /tmp/pubget_android.log
