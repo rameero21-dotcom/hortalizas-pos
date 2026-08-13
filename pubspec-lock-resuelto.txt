@@ -884,10 +884,10 @@ packages:
     dependency: "direct main"
     description:
       name: print_bluetooth_thermal
-      sha256: b83bb176b984fbb35a75f888f1ca8fb2c4015f01f9a6ef9504b7406692ff4264
+      sha256: d97e21e2f59cdfab6868e3c2369b7dbb53aa77609064423c8ef9d18007bafc51
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.5"
+    version: "1.2.2"
   printing:
     dependency: "direct main"
     description:
