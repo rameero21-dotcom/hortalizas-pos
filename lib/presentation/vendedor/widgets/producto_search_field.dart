@@ -7,7 +7,6 @@ import '../../../core/utils/formatters.dart';
 import '../providers/carrito_provider.dart';
 
 /// Cómo se interpreta el número que carga el vendedor en el campo de precio.
-enum _ModoPrecio { total, unitario }
 
 /// Buscador de productos con lista desplegable + campos de cantidad y
 /// precio (total o por unidad, con cálculo automático) + botón Agregar.
@@ -35,7 +34,6 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
   Producto? _productoSeleccionado;
   bool _cargando = true;
   String? _error;
-  _ModoPrecio _modoPrecio = _ModoPrecio.total;
   bool _ignorarProximoCambioDeTexto = false; // ver _seleccionar()
 
   @override
@@ -113,12 +111,11 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
     _busquedaFocus.unfocus();
   }
 
-  /// Calcula el precio TOTAL a partir de lo que cargó el vendedor, según el
-  /// modo elegido: si es "unitario", multiplica por la cantidad.
+  /// Calcula el precio TOTAL: siempre precio unitario × cantidad.
   double? _calcularPrecioTotal(double cantidad) {
     final valor = double.tryParse(_precioCtrl.text.replaceAll(',', '.'));
     if (valor == null) return null;
-    return _modoPrecio == _ModoPrecio.unitario ? valor * cantidad : valor;
+    return valor * cantidad;
   }
 
   void _agregar() {
@@ -259,9 +256,9 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
               child: TextField(
                 controller: _precioCtrl,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: _modoPrecio == _ModoPrecio.total ? 'Precio total' : 'Precio por unidad',
-                  border: const OutlineInputBorder(),
+                decoration: const InputDecoration(
+                  labelText: 'Precio por unidad',
+                  border: OutlineInputBorder(),
                 ),
                 onChanged: (_) => setState(() {}),
               ),
@@ -269,29 +266,17 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
           ],
         ),
         const SizedBox(height: 8),
-        SegmentedButton<_ModoPrecio>(
-          segments: const [
-            ButtonSegment(value: _ModoPrecio.total, label: Text('Precio total')),
-            ButtonSegment(value: _ModoPrecio.unitario, label: Text('Precio por unidad')),
-          ],
-          selected: {_modoPrecio},
-          onSelectionChanged: (nuevo) => setState(() => _modoPrecio = nuevo.first),
-        ),
-        if (_modoPrecio == _ModoPrecio.unitario)
-          Builder(builder: (context) {
-            final cantidad = double.tryParse(_cantidadCtrl.text.replaceAll(',', '.'));
-            final total = cantidad != null ? _calcularPrecioTotal(cantidad) : null;
-            return Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  total != null ? 'Total calculado: \$${total.toStringAsFixed(0)}' : 'Total calculado: —',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-            );
-          }),
+        Builder(builder: (context) {
+          final cantidad = double.tryParse(_cantidadCtrl.text.replaceAll(',', '.'));
+          final total = cantidad != null ? _calcularPrecioTotal(cantidad) : null;
+          return Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              total != null ? 'Total calculado: \$${total.toStringAsFixed(0)}' : 'Total calculado: —',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          );
+        }),
         const SizedBox(height: 8),
         ElevatedButton.icon(
           onPressed: _agregar,
