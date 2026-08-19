@@ -65,6 +65,10 @@ final _movimientosCajaHoyProvider = FutureProvider.autoDispose<List<MovimientoCa
   return ref.watch(cajaRepositoryProvider).obtenerMovimientos(rango.inicio, rango.fin);
 });
 
+/// El rango del día laboral actual, para mostrarlo en pantalla.
+final _rangoDiaLaboralProvider =
+    FutureProvider.autoDispose<({DateTime inicio, DateTime fin})>((ref) => DiaLaboralService.rangoDeHoy());
+
 /// Marca especial en el detalle para reconocer el ingreso que representa
 /// la "caja inicio" del día (el efectivo con el que arrancó la jornada),
 /// para poder guardarlo, mostrarlo aparte, y no contarlo dos veces
@@ -360,6 +364,74 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
     return (efectivo: efectivo, cuentaCorriente: cuentaCorriente);
   }
 
+  Future<void> _editarHoraCorte() async {
+    final horaActual = await DiaLaboralService.obtenerHoraCorte();
+    if (!mounted) return;
+    int horaElegida = horaActual;
+    final confirmado = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: const Text('Hora de corte del día'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'A esta hora "termina" el día anterior y arranca el día '
+                'nuevo (para Arqueo de Caja y Estadísticas). Útil si se '
+                'trabaja de noche hasta la mañana siguiente.',
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<int>(
+                initialValue: horaElegida,
+                decoration: const InputDecoration(labelText: 'Hora de corte', border: OutlineInputBorder()),
+                items: List.generate(24, (h) => h)
+                    .map((h) => DropdownMenuItem(value: h, child: Text('${h.toString().padLeft(2, '0')}:00')))
+                    .toList(),
+                onChanged: (h) => setDialogState(() => horaElegida = h ?? horaElegida),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
+            ElevatedButton(onPressed: () => Navigator.pop(context, true), child: const Text('Guardar')),
+          ],
+        ),
+      ),
+    );
+    if (confirmado == true) {
+      await DiaLaboralService.guardarHoraCorte(horaElegida);
+      ref.invalidate(_rangoDiaLaboralProvider);
+      ref.invalidate(_ventasHoyProvider);
+      ref.invalidate(_movimientosCajaHoyProvider);
+    }
+  }
+
+  Widget _carteRangoDiaLaboral() {
+    final rangoAsync = ref.watch(_rangoDiaLaboralProvider);
+    return rangoAsync.when(
+      data: (rango) => Card(
+        margin: const EdgeInsets.only(bottom: 12),
+        child: ListTile(
+          leading: const Icon(Icons.schedule),
+          title: const Text('Mostrando'),
+          subtitle: Text(
+            '${Formatters.formatearFechaHora(rango.inicio)} — ${Formatters.formatearFechaHora(rango.fin)}',
+          ),
+          trailing: IconButton(
+            icon: const Icon(Icons.edit, size: 20),
+            tooltip: 'Cambiar hora de corte del día',
+            onPressed: _editarHoraCorte,
+          ),
+        ),
+      ),
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final ventasAsync = ref.watch(_ventasHoyProvider);
@@ -382,6 +454,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          _carteRangoDiaLaboral(),
           ventasAsync.when(
             data: (ventas) => movimientosAsync.when(
               data: (movimientos) {

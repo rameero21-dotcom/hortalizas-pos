@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../core/services/dia_laboral_service.dart';
 import '../../../../domain/entities/venta.dart';
 import '../../../../domain/usecases/estadisticas/obtener_estadisticas_usecase.dart';
 import 'configuracion_impuestos_screen.dart';
@@ -15,27 +16,32 @@ class _RangoFechas {
   _RangoFechas(this.desde, this.hasta);
 }
 
-_RangoFechas _rangoParaPeriodo(_Periodo periodo) {
-  final ahora = DateTime.now();
-  final hoyInicio = DateTime(ahora.year, ahora.month, ahora.day);
+/// Usa la MISMA hora de corte configurada en Arqueo de Caja, para que
+/// "el día" signifique lo mismo en las dos pantallas — si el negocio
+/// trabaja de noche hasta la mañana siguiente, esa jornada completa
+/// cuenta como un solo día en las estadísticas también, en vez de
+/// partirse en dos por cruzar la medianoche.
+Future<_RangoFechas> _rangoParaPeriodo(_Periodo periodo) async {
+  final rangoHoy = await DiaLaboralService.rangoDeHoy();
   switch (periodo) {
     case _Periodo.dia:
-      return _RangoFechas(hoyInicio, hoyInicio.add(const Duration(days: 1)));
+      return _RangoFechas(rangoHoy.inicio, rangoHoy.fin);
     case _Periodo.semana:
-      final inicioSemana = hoyInicio.subtract(Duration(days: hoyInicio.weekday - 1));
+      final inicioSemana = rangoHoy.inicio.subtract(Duration(days: rangoHoy.inicio.weekday - 1));
       return _RangoFechas(inicioSemana, inicioSemana.add(const Duration(days: 7)));
     case _Periodo.mes:
-      final inicioMes = DateTime(ahora.year, ahora.month, 1);
-      final inicioProximoMes = DateTime(ahora.year, ahora.month + 1, 1);
+      final horaCorte = rangoHoy.inicio.hour;
+      final inicioMes = DateTime(rangoHoy.inicio.year, rangoHoy.inicio.month, 1, horaCorte);
+      final inicioProximoMes = DateTime(rangoHoy.inicio.year, rangoHoy.inicio.month + 1, 1, horaCorte);
       return _RangoFechas(inicioMes, inicioProximoMes);
   }
 }
 
 final _periodoSeleccionadoProvider = StateProvider<_Periodo>((ref) => _Periodo.dia);
 
-final _estadisticasProvider = FutureProvider.autoDispose<EstadisticasResumen>((ref) {
+final _estadisticasProvider = FutureProvider.autoDispose<EstadisticasResumen>((ref) async {
   final periodo = ref.watch(_periodoSeleccionadoProvider);
-  final rango = _rangoParaPeriodo(periodo);
+  final rango = await _rangoParaPeriodo(periodo);
   return ref.watch(obtenerEstadisticasUseCaseProvider).call(rango.desde, rango.hasta);
 });
 
