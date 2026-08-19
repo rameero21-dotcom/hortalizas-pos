@@ -35,6 +35,12 @@ jobs:
         if: steps.create_android.outcome == 'failure'
         run: exit 1
 
+      - name: Usar una clave de firma fija (para que Android permita actualizar en vez de "conflicto con un paquete")
+        run: |
+          mkdir -p ~/.android
+          cp .github/keys/debug.keystore ~/.android/debug.keystore
+          echo "Clave de depuración fija instalada."
+
       - name: Agregar permisos de Bluetooth al manifest (Android 12+)
         run: python3 .github/scripts/agregar_permisos_bluetooth.py
 
