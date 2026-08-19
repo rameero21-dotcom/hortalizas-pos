@@ -164,20 +164,60 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
       );
       return;
     }
+    clientes.sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
+
     final elegido = await showModalBottomSheet<Cliente>(
       context: context,
-      builder: (context) => SafeArea(
-        child: ListView(
-          shrinkWrap: true,
-          children: clientes
-              .map((c) => ListTile(
-                    title: Text(c.nombre),
-                    subtitle: Text(Formatters.formatearMoneda(c.saldoCuentaCorriente)),
-                    onTap: () => Navigator.pop(context, c),
-                  ))
-              .toList(),
-        ),
-      ),
+      isScrollControlled: true,
+      builder: (context) {
+        String busqueda = '';
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            final filtrados = busqueda.isEmpty
+                ? clientes
+                : clientes
+                    .where((c) => c.nombre.toLowerCase().contains(busqueda.toLowerCase()))
+                    .toList();
+            return SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                        child: TextField(
+                          autofocus: true,
+                          decoration: const InputDecoration(
+                            hintText: 'Buscar cliente...',
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (v) => setSheetState(() => busqueda = v),
+                        ),
+                      ),
+                      Expanded(
+                        child: filtrados.isEmpty
+                            ? const Center(child: Text('Ningún cliente coincide con la búsqueda.'))
+                            : ListView(
+                                children: filtrados
+                                    .map((c) => ListTile(
+                                          title: Text(c.nombre),
+                                          subtitle: Text(Formatters.formatearMoneda(c.saldoCuentaCorriente)),
+                                          onTap: () => Navigator.pop(context, c),
+                                        ))
+                                    .toList(),
+                              ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
     if (elegido != null) setState(() => _clienteSeleccionado = elegido);
   }
