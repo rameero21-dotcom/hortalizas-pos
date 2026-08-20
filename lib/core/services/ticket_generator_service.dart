@@ -87,7 +87,7 @@ class TicketGeneratorService {
     final qrCode = QrCode.fromData(data: contenido, errorCorrectLevel: QrErrorCorrectLevel.M);
     final qrImage = QrImage(qrCode);
 
-    const escala = 6; // cuántos píxeles ocupa cada "módulo" del QR
+    const escala = 3; // cuántos píxeles ocupa cada "módulo" del QR
     const margen = 2; // módulos de margen blanco alrededor
     final ladoModulos = qrImage.moduleCount + margen * 2;
     final ladoPixeles = ladoModulos * escala;
