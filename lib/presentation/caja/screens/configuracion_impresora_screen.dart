@@ -103,13 +103,10 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
     if (_macSeleccionada == null) return;
     setState(() => _resultadoPrueba = null);
     try {
-      final yaConectado = await ImpresoraBluetoothService.yaConectado();
-      if (!yaConectado) {
-        final conectado = await ImpresoraBluetoothService.conectar(_macSeleccionada!);
-        if (!conectado) {
-          setState(() => _resultadoPrueba = 'error: no se pudo conectar por Bluetooth');
-          return;
-        }
+      final conectado = await ImpresoraBluetoothService.conectar(_macSeleccionada!);
+      if (!conectado) {
+        setState(() => _resultadoPrueba = 'error: no se pudo conectar por Bluetooth');
+        return;
       }
       final bytes = <int>[
         ...'C&S Hortalizas\n'.codeUnits,
@@ -120,6 +117,10 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
       setState(() => _resultadoPrueba = ok ? 'ok' : 'error');
     } catch (e) {
       setState(() => _resultadoPrueba = 'error: $e');
+    } finally {
+      // Igual que al imprimir un ticket real: soltar la conexión
+      // apenas se termina, para no bloquear a otros dispositivos.
+      await ImpresoraBluetoothService.desconectar();
     }
   }
 

@@ -40,6 +40,13 @@ class ImpresoraBluetoothService {
 
   static Future<bool> yaConectado() => PrintBluetoothThermal.connectionStatus;
 
+  /// Corta la conexión con la impresora. Importante: el Bluetooth
+  /// clásico solo admite UNA conexión activa a la vez — si esta app se
+  /// queda conectada después de imprimir, cualquier OTRO celular/tablet
+  /// que use la misma impresora se queda sin poder conectarse. Por eso
+  /// desconectamos apenas se termina de imprimir, para dejarla libre.
+  static Future<bool> desconectar() => PrintBluetoothThermal.disconnect;
+
   /// Manda los bytes ESC/POS ya generados (ver TicketGeneratorService) a
   /// la impresora Bluetooth actualmente conectada.
   static Future<bool> imprimir(List<int> bytes) {

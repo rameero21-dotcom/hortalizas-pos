@@ -90,18 +90,27 @@ class TicketPrintOrchestrator {
     if (mac == null) return false;
     final copiasExtra = await ConfigImpresora.obtenerCopiasExtra();
 
-    final yaConectado = await ImpresoraBluetoothService.yaConectado();
-    if (!yaConectado) {
+    try {
+      // Siempre se conecta de nuevo (no se reutiliza una conexión
+      // vieja): si otro celular/tablet imprimió antes y no llegó a
+      // desconectarse bien por algún motivo, esto fuerza una conexión
+      // limpia en vez de asumir que "ya estaba conectado".
       final conectado = await ImpresoraBluetoothService.conectar(mac);
       if (!conectado) return false;
-    }
 
-    var huboExito = true;
-    for (var copia = 0; copia < 1 + copiasExtra; copia++) {
-      final bytes = await TicketGeneratorService.generarTicketVenta(venta, incluirQr: copia == 0);
-      final ok = await ImpresoraBluetoothService.imprimir(bytes);
-      huboExito = huboExito && ok;
+      var huboExito = true;
+      for (var copia = 0; copia < 1 + copiasExtra; copia++) {
+        final bytes = await TicketGeneratorService.generarTicketVenta(venta, incluirQr: copia == 0);
+        final ok = await ImpresoraBluetoothService.imprimir(bytes);
+        huboExito = huboExito && ok;
+      }
+      return huboExito;
+    } finally {
+      // Pase lo que pase (éxito o error), soltar la conexión: el
+      // Bluetooth clásico solo admite un dispositivo conectado a la
+      // vez, así que si este celular no la suelta, el próximo que
+      // quiera vender e imprimir se queda sin poder usarla.
+      await ImpresoraBluetoothService.desconectar();
     }
-    return huboExito;
   }
 }
