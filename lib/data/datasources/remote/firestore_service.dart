@@ -76,8 +76,12 @@ class FirestoreService {
   /// Firestore aplica ambos incrementos sin que ninguno se pierda,
   /// mientras que con un "set" de un total ya calculado, el que
   /// sincroniza último pisaría al otro.
-  Future<void> incrementarCampo(String entidad, String id, String campo, num delta) {
-    return coleccionPara(entidad).doc(id).set({campo: FieldValue.increment(delta)}, SetOptions(merge: true));
+  Future<void> incrementarCampo(String entidad, String id, String campo, num delta,
+      {Map<String, dynamic>? extra}) {
+    return coleccionPara(entidad).doc(id).set(
+      {campo: FieldValue.increment(delta), ...?extra},
+      SetOptions(merge: true),
+    );
   }
 
   /// Crea/actualiza una venta SOLO SI todavía no está cobrada en el

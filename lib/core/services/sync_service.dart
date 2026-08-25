@@ -65,6 +65,7 @@ class SyncService {
               item.entidadId,
               item.payload['campo'] as String,
               item.payload['delta'] as num,
+              extra: item.payload['extra'] as Map<String, dynamic>?,
             );
           } else if (item.operacion == 'crear_venta_segura') {
             await _firestoreService.crearVentaSiNoCobrada(item.entidadId, item.payload);

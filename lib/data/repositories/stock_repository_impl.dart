@@ -51,7 +51,7 @@ class StockRepositoryImpl implements StockRepository {
       entidad: AppConstants.colStock,
       entidadId: productoId,
       operacion: 'incrementar',
-      payload: {'campo': 'cantidadDisponible', 'delta': delta},
+      payload: {'campo': 'cantidadDisponible', 'delta': delta, 'extra': {'productoId': productoId}},
     );
     await _syncQueue.encolar(
       entidad: AppConstants.colMovimientosStock,

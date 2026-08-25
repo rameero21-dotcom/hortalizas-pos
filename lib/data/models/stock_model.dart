@@ -7,9 +7,15 @@ class StockModel extends Stock {
     required super.umbralStockBajo,
   });
 
-  factory StockModel.fromMap(Map<String, dynamic> map) => StockModel(
-        productoId: map['productoId'] as String,
-        cantidadDisponible: (map['cantidadDisponible'] as num).toDouble(),
+  /// [idDocumento] es un respaldo por si el documento quedó corrupto (sin
+  /// el campo "productoId" adentro) — pasó con algunos productos que se
+  /// crearon por primera vez con un incremento atómico antes de que ese
+  /// campo se empezara a guardar ahí también. El id del documento en
+  /// Firestore siempre ES el productoId (así están armados), así que
+  /// sirve como respaldo seguro.
+  factory StockModel.fromMap(Map<String, dynamic> map, {String? idDocumento}) => StockModel(
+        productoId: (map['productoId'] as String?) ?? idDocumento ?? '',
+        cantidadDisponible: (map['cantidadDisponible'] as num?)?.toDouble() ?? 0,
         umbralStockBajo: (map['umbralStockBajo'] as num?)?.toDouble() ?? 10.0,
       );
 

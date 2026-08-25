@@ -10,7 +10,7 @@ class StockRemoteDatasource {
   Future<List<StockModel>> obtenerTodos() async {
     final snap = await _firestoreService.stock.get();
     return snap.docs
-        .map((d) => StockModel.fromMap(d.data() as Map<String, dynamic>))
+        .map((d) => StockModel.fromMap(d.data() as Map<String, dynamic>, idDocumento: d.id))
         .toList();
   }
 
@@ -20,7 +20,7 @@ class StockRemoteDatasource {
   /// pantalla ni esperar ningún refresh manual.
   Stream<List<StockModel>> observarTodos() {
     return _firestoreService.stock.snapshots().map((snap) => snap.docs
-        .map((d) => StockModel.fromMap(d.data() as Map<String, dynamic>))
+        .map((d) => StockModel.fromMap(d.data() as Map<String, dynamic>, idDocumento: d.id))
         .toList());
   }
 
