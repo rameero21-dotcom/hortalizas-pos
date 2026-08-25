@@ -25,4 +25,9 @@ abstract class StockRepository {
   /// local. Ver ProductoRepository.refrescarDesdeRemoto para el mismo
   /// criterio.
   Future<void> refrescarDesdeRemoto();
+
+  /// Stream en tiempo real de todo el stock, directo de Firestore (no
+  /// pasa por la caché local): se usa en pantallas donde hace falta ver
+  /// los cambios apenas pasan, sin esperar un refresh manual.
+  Stream<List<Stock>> observarTodos();
 }

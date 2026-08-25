@@ -168,6 +168,9 @@ class StockRepositoryImpl implements StockRepository {
   }
 
   @override
+  Stream<List<Stock>> observarTodos() => _remote.observarTodos();
+
+  @override
   Future<void> refrescarDesdeRemoto() async {
     try {
       await _syncService.sincronizarAhora();

@@ -16,13 +16,17 @@ class _ProductoConStock {
 }
 
 /// Junta productos + su fila de stock para mostrar todo en una sola lista.
-final stockConProductosProvider = FutureProvider.autoDispose<List<_ProductoConStock>>((ref) async {
+/// El stock se escucha en tiempo real: cualquier cambio hecho desde
+/// Windows o Android llega acá en segundos, sin esperar ningún refresh.
+final stockConProductosProvider = StreamProvider.autoDispose<List<_ProductoConStock>>((ref) async* {
   final productos = await ref.watch(productoRepositoryProvider).obtenerTodos();
-  final stocks = await ref.watch(stockRepositoryProvider).obtenerTodos();
-  final stockPorProducto = {for (final s in stocks) s.productoId: s};
   final ordenados = List.of(productos)
     ..sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
-  return ordenados.map((p) => _ProductoConStock(p, stockPorProducto[p.id])).toList();
+
+  await for (final stocks in ref.watch(stockRepositoryProvider).observarTodos()) {
+    final stockPorProducto = {for (final s in stocks) s.productoId: s};
+    yield ordenados.map((p) => _ProductoConStock(p, stockPorProducto[p.id])).toList();
+  }
 });
 
 /// Listado de stock por producto con indicador de stock bajo,
