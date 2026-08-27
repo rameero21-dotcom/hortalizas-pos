@@ -38,6 +38,7 @@ import '../../domain/repositories/caja_repository.dart';
 
 import '../../domain/usecases/venta/crear_venta_usecase.dart';
 import '../../domain/usecases/venta/finalizar_cobro_usecase.dart';
+import '../../domain/usecases/venta/anular_venta_usecase.dart';
 import '../../domain/usecases/venta/reconstruir_venta_qr_usecase.dart';
 import '../../domain/usecases/estadisticas/obtener_estadisticas_usecase.dart';
 import '../../domain/usecases/stock/ingresar_mercaderia_usecase.dart';
@@ -179,6 +180,8 @@ final cajaRepositoryProvider = Provider<CajaRepository>((ref) => CajaRepositoryI
 final crearVentaUseCaseProvider =
     Provider((ref) => CrearVentaUseCase(ref.watch(ventaRepositoryProvider)));
 final finalizarCobroUseCaseProvider = Provider((ref) => FinalizarCobroUseCase(
+    ref.watch(ventaRepositoryProvider), ref.watch(stockRepositoryProvider), ref.watch(clienteRepositoryProvider)));
+final anularVentaUseCaseProvider = Provider((ref) => AnularVentaUseCase(
     ref.watch(ventaRepositoryProvider), ref.watch(stockRepositoryProvider), ref.watch(clienteRepositoryProvider)));
 final reconstruirVentaQrUseCaseProvider =
     Provider((ref) => ReconstruirVentaQrUseCase(ref.watch(ventaRepositoryProvider)));

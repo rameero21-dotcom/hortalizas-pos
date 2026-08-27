@@ -460,12 +460,50 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
   }
 }
 
-class _DetalleVentaHistorial extends StatelessWidget {
+class _DetalleVentaHistorial extends ConsumerWidget {
   final Venta venta;
   const _DetalleVentaHistorial({required this.venta});
 
+  Future<void> _anularVenta(BuildContext context, WidgetRef ref) async {
+    final confirmado = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Anular venta'),
+        content: Text(
+          '¿Anular la venta #${venta.numero}? Se va a devolver el stock de cada producto'
+          '${venta.clienteId != null ? ", y si tenía saldo fiado se le va a descontar de la cuenta del cliente" : ""}.'
+          ' La venta queda marcada como anulada, no se borra.',
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Anular'),
+          ),
+        ],
+      ),
+    );
+    if (confirmado != true) return;
+
+    try {
+      final usuarioId = ref.read(currentUserIdProvider);
+      await ref.read(anularVentaUseCaseProvider).call(venta, usuarioId);
+      if (context.mounted) {
+        Navigator.pop(context); // cerrar el detalle
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Venta #${venta.numero} anulada. Se devolvió el stock.')),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error al anular: $e')));
+      }
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -486,6 +524,16 @@ class _DetalleVentaHistorial extends StatelessWidget {
             Text('Total: ${Formatters.formatearMoneda(venta.total)}',
                 style: const TextStyle(fontWeight: FontWeight.bold)),
             if (venta.metodoPago != null) Text('Pago: ${_labelMetodoPago(venta.metodoPago!)}'),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () => _anularVenta(context, ref),
+                style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
+                icon: const Icon(Icons.undo),
+                label: const Text('Anular venta'),
+              ),
+            ),
           ],
         ),
       ),
