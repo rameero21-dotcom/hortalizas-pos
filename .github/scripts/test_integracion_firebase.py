@@ -633,6 +633,77 @@ verificar("La venta original SIGUE existiendo despues de ocultarla de Facturacio
           venta_sigue_intacta)
 
 
+# ============ 20) Anular venta: devuelve stock y revierte fiado ============
+print("\n--- 20) Anular venta (devolver stock, revertir fiado) ---")
+
+# Cliente y stock inicial de referencia.
+cliente_anular_id = str(uuid.uuid4())
+db.collection("clientes").document(cliente_anular_id).set({
+    "id": cliente_anular_id, "nombre": f"{PREFIJO} Cliente Anulacion", "telefono": "",
+    "direccion": "", "saldoCuentaCorriente": 0, "cuitODni": "", "condicionFiscal": None,
+})
+
+stock_antes_doc = db.collection("stock").document(papa_id).get()
+stock_antes = stock_antes_doc.to_dict()["cantidadDisponible"] if stock_antes_doc.exists else 0
+
+# Venta fiada de 8 papas a $1000 c/u = $8000, tal como la cobraria
+# FinalizarCobroUseCase: descuenta stock y carga la cuenta corriente.
+venta_anular_id = str(uuid.uuid4())
+cantidad_vendida = 8
+precio_vendido = 1000
+total_vendido = cantidad_vendida * precio_vendido
+db.collection("ventas").document(venta_anular_id).set({
+    "id": venta_anular_id, "numero": 9700, "fecha": ahora_iso(),
+    "vendedorId": "test-vendedor", "vendedorNombre": f"{PREFIJO} Vendedor",
+    "total": total_vendido, "estado": "cobrada", "metodoPago": "cuentaCorriente",
+    "cajeroId": "test-cajero", "fechaCobro": ahora_iso(), "clienteId": cliente_anular_id,
+    "nombreCliente": f"{PREFIJO} Cliente Anulacion", "pagos": [], "cuitDniComprador": None,
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": cantidad_vendida, "precioTotal": total_vendido}],
+})
+db.collection("stock").document(papa_id).update({"cantidadDisponible": firestore.Increment(-cantidad_vendida)})
+db.collection("clientes").document(cliente_anular_id).update(
+    {"saldoCuentaCorriente": firestore.Increment(-total_vendido)})
+mov_cargo_anular_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_cargo_anular_id).set({
+    "id": mov_cargo_anular_id, "clienteId": cliente_anular_id, "tipo": "cargo", "monto": total_vendido,
+    "detalle": f"Venta #9700", "fecha": ahora_iso(), "usuarioId": "test-cajero", "metodoPago": None,
+})
+
+stock_tras_venta = db.collection("stock").document(papa_id).get().to_dict()["cantidadDisponible"]
+saldo_tras_venta = db.collection("clientes").document(cliente_anular_id).get().to_dict()["saldoCuentaCorriente"]
+verificar("Venta fiada de prueba: el stock bajo la cantidad vendida",
+          abs(stock_tras_venta - (stock_antes - cantidad_vendida)) < 0.01,
+          f"(antes {stock_antes}, despues {stock_tras_venta})")
+verificar("Venta fiada de prueba: el cliente quedo debiendo el total",
+          saldo_tras_venta == -total_vendido, f"(saldo {saldo_tras_venta})")
+
+# Ahora anular, replicando EXACTAMENTE los pasos de AnularVentaUseCase:
+# 1) devolver stock, 2) pago compensatorio por el monto fiado, 3) marcar cancelada.
+db.collection("stock").document(papa_id).update({"cantidadDisponible": firestore.Increment(cantidad_vendida)})
+db.collection("clientes").document(cliente_anular_id).update(
+    {"saldoCuentaCorriente": firestore.Increment(total_vendido)})
+mov_pago_anular_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_pago_anular_id).set({
+    "id": mov_pago_anular_id, "clienteId": cliente_anular_id, "tipo": "pago", "monto": total_vendido,
+    "detalle": "Anulación de venta #9700", "fecha": ahora_iso(), "usuarioId": "test-admin", "metodoPago": None,
+})
+db.collection("ventas").document(venta_anular_id).update({"estado": "cancelada"})
+
+stock_tras_anular = db.collection("stock").document(papa_id).get().to_dict()["cantidadDisponible"]
+saldo_tras_anular = db.collection("clientes").document(cliente_anular_id).get().to_dict()["saldoCuentaCorriente"]
+venta_tras_anular = db.collection("ventas").document(venta_anular_id).get().to_dict()
+
+verificar("Anular venta: el stock vuelve exactamente al valor de antes de la venta",
+          abs(stock_tras_anular - stock_antes) < 0.01,
+          f"(antes {stock_antes}, despues de anular {stock_tras_anular})")
+verificar("Anular venta: el saldo del cliente vuelve a 0 (deuda revertida del todo)",
+          saldo_tras_anular == 0, f"(saldo quedo en {saldo_tras_anular})")
+verificar("Anular venta: la venta queda marcada 'cancelada' (no se borra)",
+          venta_tras_anular is not None and venta_tras_anular.get("estado") == "cancelada")
+verificar("Anular venta: el registro de la venta SIGUE existiendo (auditable)",
+          db.collection("ventas").document(venta_anular_id).get().exists)
+
 ok = sum(1 for _, e, _ in resultados if e == "OK")
 total = len(resultados)
 print(f"{ok}/{total} verificaciones pasaron correctamente.")
@@ -644,10 +715,12 @@ for nombre, estado, detalle in resultados:
 with open('/tmp/test_ids.json', 'w') as f:
     json.dump({
         "productos": list(ids_productos.values()) + productos_volumen_ids,
-        "clientes": [cliente_id, cliente2_id, cliente3_id],
-        "ventas": [venta1_id, venta2_id, venta3_id, venta_qr_id, venta_fact_id] + ventas_stats_ids + ventas_volumen_ids,
+        "clientes": [cliente_id, cliente2_id, cliente3_id, cliente_anular_id],
+        "ventas": [venta1_id, venta2_id, venta3_id, venta_qr_id, venta_fact_id, venta_anular_id]
+                  + ventas_stats_ids + ventas_volumen_ids,
         "movimientos_cuenta_corriente": [mov_id, mov_pago_id, mov_cargo_id, mov_pago_efectivo_id,
-                                          mov_pago_transf_id, mov_cargo3_id, mov_pago3_id],
+                                          mov_pago_transf_id, mov_cargo3_id, mov_pago3_id,
+                                          mov_cargo_anular_id, mov_pago_anular_id],
         "movimientos_caja": [mov_caja_efectivo_id],
         "cierres_caja": [cierre_id],
         "proveedores": [proveedor_id],
