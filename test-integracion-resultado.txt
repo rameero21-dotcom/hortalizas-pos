@@ -72,11 +72,11 @@ Utilidad esperada: 28270.00
 [OK] Al reescanear el mismo QR, el sistema ahora SI encuentra la venta como 'cobrada' (el guard la bloquearia) 
 
 --- 14) Volumen grande: 60 productos + 300 ventas ---
-Tiempo para crear 60 productos: 0.96s
-Tiempo para crear 300 ventas: 2.11s
-Tiempo para leer 307 ventas del rango: 0.84s
+Tiempo para crear 60 productos: 0.92s
+Tiempo para crear 300 ventas: 1.89s
+Tiempo para leer 307 ventas del rango: 0.85s
 [OK] Se pudieron crear y leer las 300 ventas de volumen sin errores (se leyeron 307)
-[OK] La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos) (tardo 0.84s)
+[OK] La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos) (tardo 0.85s)
 
 --- 15) Proveedores: cuenta corriente ---
 [OK] Proveedor: pedido de 50000 SUMA al saldo (0 -> 50000, les debemos) (quedo en 50000)
