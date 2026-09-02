@@ -5,6 +5,8 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/venta.dart';
 import '../../../../domain/entities/caja.dart';
+import '../../../../core/services/ticket_print_orchestrator.dart';
+import 'editar_venta_screen.dart';
 
 class _FiltrosHistorial {
   final DateTime desde;
@@ -464,6 +466,35 @@ class _DetalleVentaHistorial extends ConsumerWidget {
   final Venta venta;
   const _DetalleVentaHistorial({required this.venta});
 
+  Future<void> _reimprimirTicket(BuildContext context, WidgetRef ref) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Mandando a imprimir...'), duration: Duration(seconds: 1)),
+    );
+    final ok = await TicketPrintOrchestrator.imprimirTicketVenta(venta);
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(ok
+              ? 'Ticket reimpreso.'
+              : 'No se pudo imprimir (revisá que la impresora esté configurada y conectada).'),
+        ),
+      );
+    }
+  }
+
+  Future<void> _editarVenta(BuildContext context, WidgetRef ref) async {
+    final cambio = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(builder: (_) => EditarVentaScreen(venta: venta)),
+    );
+    if (cambio == true && context.mounted) {
+      Navigator.pop(context); // cerrar el detalle, ya no refleja los datos viejos
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Venta actualizada.')),
+      );
+    }
+  }
+
   Future<void> _anularVenta(BuildContext context, WidgetRef ref) async {
     final confirmado = await showDialog<bool>(
       context: context,
@@ -525,6 +556,26 @@ class _DetalleVentaHistorial extends ConsumerWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold)),
             if (venta.metodoPago != null) Text('Pago: ${_labelMetodoPago(venta.metodoPago!)}'),
             const SizedBox(height: 16),
+            if (venta.estado != EstadoVenta.cancelada) ...[
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => _reimprimirTicket(context, ref),
+                  icon: const Icon(Icons.print),
+                  label: const Text('Reimprimir ticket'),
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => _editarVenta(context, ref),
+                  icon: const Icon(Icons.edit),
+                  label: const Text('Editar venta'),
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(

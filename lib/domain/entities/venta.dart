@@ -75,6 +75,8 @@ class Venta {
   });
 
   Venta copyWith({
+    List<DetalleVenta>? detalle,
+    double? total,
     EstadoVenta? estado,
     MetodoPago? metodoPago,
     String? cajeroId,
@@ -90,8 +92,8 @@ class Venta {
       fecha: fecha,
       vendedorId: vendedorId,
       vendedorNombre: vendedorNombre,
-      detalle: detalle,
-      total: total,
+      detalle: detalle ?? this.detalle,
+      total: total ?? this.total,
       estado: estado ?? this.estado,
       metodoPago: metodoPago ?? this.metodoPago,
       cajeroId: cajeroId ?? this.cajeroId,
