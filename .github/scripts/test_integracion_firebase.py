@@ -711,16 +711,101 @@ for nombre, estado, detalle in resultados:
     if estado != "OK":
         print(f"  FALLO: {nombre} {detalle}")
 
+# ============ 21) Editar venta: reconciliar stock y cuenta corriente ============
+print("\n--- 21) Editar venta (agregar/sacar cantidad, reconciliar stock y fiado) ---")
+
+cliente_editar_id = str(uuid.uuid4())
+db.collection("clientes").document(cliente_editar_id).set({
+    "id": cliente_editar_id, "nombre": f"{PREFIJO} Cliente Edicion", "telefono": "",
+    "direccion": "", "saldoCuentaCorriente": 0, "cuitODni": "", "condicionFiscal": None,
+})
+
+stock_antes_editar_doc = db.collection("stock").document(papa_id).get()
+stock_antes_editar = stock_antes_editar_doc.to_dict()["cantidadDisponible"] if stock_antes_editar_doc.exists else 0
+
+# Venta original fiada: 5 papas a $1000 = $5000 (ya cobrada).
+venta_editar_id = str(uuid.uuid4())
+db.collection("ventas").document(venta_editar_id).set({
+    "id": venta_editar_id, "numero": 9701, "fecha": ahora_iso(),
+    "vendedorId": "test-vendedor", "vendedorNombre": f"{PREFIJO} Vendedor",
+    "total": 5000, "estado": "cobrada", "metodoPago": "cuentaCorriente",
+    "cajeroId": "test-cajero", "fechaCobro": ahora_iso(), "clienteId": cliente_editar_id,
+    "nombreCliente": f"{PREFIJO} Cliente Edicion", "pagos": [], "cuitDniComprador": None,
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": 5, "precioTotal": 5000}],
+})
+db.collection("stock").document(papa_id).update({"cantidadDisponible": firestore.Increment(-5)})
+db.collection("clientes").document(cliente_editar_id).update({"saldoCuentaCorriente": firestore.Increment(-5000)})
+mov_cargo_editar_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_cargo_editar_id).set({
+    "id": mov_cargo_editar_id, "clienteId": cliente_editar_id, "tipo": "cargo", "monto": 5000,
+    "detalle": "Venta #9701", "fecha": ahora_iso(), "usuarioId": "test-cajero", "metodoPago": None,
+})
+
+# --- Edicion 1: subir de 5 a 8 papas (el cliente pide 3 mas). Replica
+# EditarVentaUseCase: descuenta la DIFERENCIA de stock, carga la
+# DIFERENCIA de saldo (no el total entero de nuevo).
+db.collection("stock").document(papa_id).update({"cantidadDisponible": firestore.Increment(-3)})
+db.collection("clientes").document(cliente_editar_id).update({"saldoCuentaCorriente": firestore.Increment(-3000)})
+mov_cargo_editar2_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_cargo_editar2_id).set({
+    "id": mov_cargo_editar2_id, "clienteId": cliente_editar_id, "tipo": "cargo", "monto": 3000,
+    "detalle": "Edición de venta #9701", "fecha": ahora_iso(), "usuarioId": "test-admin", "metodoPago": None,
+})
+db.collection("ventas").document(venta_editar_id).update({
+    "total": 8000,
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": 8, "precioTotal": 8000}],
+})
+
+stock_tras_subir = db.collection("stock").document(papa_id).get().to_dict()["cantidadDisponible"]
+saldo_tras_subir = db.collection("clientes").document(cliente_editar_id).get().to_dict()["saldoCuentaCorriente"]
+verificar("Editar venta (subir cantidad): el stock baja SOLO la diferencia (3 mas)",
+          abs(stock_tras_subir - (stock_antes_editar - 8)) < 0.01,
+          f"(esperado {stock_antes_editar - 8}, quedo en {stock_tras_subir})")
+verificar("Editar venta (subir cantidad): la deuda sube a $8000 (no se duplica)",
+          saldo_tras_subir == -8000, f"(saldo quedo en {saldo_tras_subir})")
+
+# --- Edicion 2: bajar de 8 a 2 papas (se sacaron 6). Debe devolver
+# stock y registrar un PAGO compensatorio (la deuda baja).
+db.collection("stock").document(papa_id).update({"cantidadDisponible": firestore.Increment(6)})
+db.collection("clientes").document(cliente_editar_id).update({"saldoCuentaCorriente": firestore.Increment(6000)})
+mov_pago_editar_id = str(uuid.uuid4())
+db.collection("movimientos_cuenta_corriente").document(mov_pago_editar_id).set({
+    "id": mov_pago_editar_id, "clienteId": cliente_editar_id, "tipo": "pago", "monto": 6000,
+    "detalle": "Edición de venta #9701", "fecha": ahora_iso(), "usuarioId": "test-admin", "metodoPago": None,
+})
+db.collection("ventas").document(venta_editar_id).update({
+    "total": 2000,
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": 2, "precioTotal": 2000}],
+})
+
+stock_tras_bajar = db.collection("stock").document(papa_id).get().to_dict()["cantidadDisponible"]
+saldo_tras_bajar = db.collection("clientes").document(cliente_editar_id).get().to_dict()["saldoCuentaCorriente"]
+venta_editar_final = db.collection("ventas").document(venta_editar_id).get().to_dict()
+
+verificar("Editar venta (bajar cantidad): el stock vuelve a subir por la diferencia (6)",
+          abs(stock_tras_bajar - (stock_antes_editar - 2)) < 0.01,
+          f"(esperado {stock_antes_editar - 2}, quedo en {stock_tras_bajar})")
+verificar("Editar venta (bajar cantidad): la deuda baja a $2000 (coincide con el total final)",
+          saldo_tras_bajar == -2000, f"(saldo quedo en {saldo_tras_bajar})")
+verificar("Editar venta: el detalle final de la venta tiene la cantidad correcta (2)",
+          venta_editar_final["detalle"][0]["cantidad"] == 2)
+verificar("Editar venta: el total final de la venta coincide ($2000)",
+          venta_editar_final["total"] == 2000)
+
 # Guardar ids creados para poder limpiarlos despues
 with open('/tmp/test_ids.json', 'w') as f:
     json.dump({
         "productos": list(ids_productos.values()) + productos_volumen_ids,
-        "clientes": [cliente_id, cliente2_id, cliente3_id, cliente_anular_id],
-        "ventas": [venta1_id, venta2_id, venta3_id, venta_qr_id, venta_fact_id, venta_anular_id]
+        "clientes": [cliente_id, cliente2_id, cliente3_id, cliente_anular_id, cliente_editar_id],
+        "ventas": [venta1_id, venta2_id, venta3_id, venta_qr_id, venta_fact_id, venta_anular_id, venta_editar_id]
                   + ventas_stats_ids + ventas_volumen_ids,
         "movimientos_cuenta_corriente": [mov_id, mov_pago_id, mov_cargo_id, mov_pago_efectivo_id,
                                           mov_pago_transf_id, mov_cargo3_id, mov_pago3_id,
-                                          mov_cargo_anular_id, mov_pago_anular_id],
+                                          mov_cargo_anular_id, mov_pago_anular_id,
+                                          mov_cargo_editar_id, mov_cargo_editar2_id, mov_pago_editar_id],
         "movimientos_caja": [mov_caja_efectivo_id],
         "cierres_caja": [cierre_id],
         "proveedores": [proveedor_id],
