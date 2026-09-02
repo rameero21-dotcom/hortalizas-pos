@@ -72,11 +72,11 @@ Utilidad esperada: 28270.00
 [OK] Al reescanear el mismo QR, el sistema ahora SI encuentra la venta como 'cobrada' (el guard la bloquearia) 
 
 --- 14) Volumen grande: 60 productos + 300 ventas ---
-Tiempo para crear 60 productos: 0.64s
-Tiempo para crear 300 ventas: 1.63s
-Tiempo para leer 307 ventas del rango: 0.49s
+Tiempo para crear 60 productos: 0.82s
+Tiempo para crear 300 ventas: 1.75s
+Tiempo para leer 307 ventas del rango: 0.55s
 [OK] Se pudieron crear y leer las 300 ventas de volumen sin errores (se leyeron 307)
-[OK] La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos) (tardo 0.49s)
+[OK] La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos) (tardo 0.55s)
 
 --- 15) Proveedores: cuenta corriente ---
 [OK] Proveedor: pedido de 50000 SUMA al saldo (0 -> 50000, les debemos) (quedo en 50000)
@@ -116,5 +116,12 @@ Tiempo para leer 307 ventas del rango: 0.49s
 [OK] Editar venta (bajar cantidad): la deuda baja a $2000 (coincide con el total final) (saldo quedo en -2000)
 [OK] Editar venta: el detalle final de la venta tiene la cantidad correcta (2) 
 [OK] Editar venta: el total final de la venta coincide ($2000) 
+
+--- 22) Editar venta con efectivo / transferencia / pago dividido ---
+[OK] Editar venta en EFECTIVO: el total que veria Arqueo de Caja ya es el nuevo ($6000) (quedo en 6000)
+[OK] Editar venta en EFECTIVO: el stock bajo por la diferencia (2 mas) (esperado 87, quedo en 87)
+[OK] Editar venta en TRANSFERENCIA: el bruto que veria Facturacion ya es el nuevo ($7000) (quedo en 7000)
+[OK] Editar venta en TRANSFERENCIA: el CUIT/DNI del comprador se conserva tras editar 
+[OK] Venta con pago dividido: se detecta como tal (mas de 1 metodo en 'pagos'), EditarVentaUseCase la rechaza 
 
 IDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.
