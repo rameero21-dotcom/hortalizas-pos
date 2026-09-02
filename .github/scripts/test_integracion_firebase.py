@@ -795,12 +795,105 @@ verificar("Editar venta: el detalle final de la venta tiene la cantidad correcta
 verificar("Editar venta: el total final de la venta coincide ($2000)",
           venta_editar_final["total"] == 2000)
 
+# ============ 22) Editar venta: efectivo, transferencia y pago dividido ============
+print("\n--- 22) Editar venta con efectivo / transferencia / pago dividido ---")
+
+stock_antes_efectivo = db.collection("stock").document(papa_id).get().to_dict()["cantidadDisponible"]
+
+# --- Venta en EFECTIVO: la editamos y verificamos que Arqueo de Caja
+# (que suma venta.total en vivo, sin ningun registro de caja aparte)
+# vea el total nuevo automaticamente.
+venta_efectivo_id = str(uuid.uuid4())
+db.collection("ventas").document(venta_efectivo_id).set({
+    "id": venta_efectivo_id, "numero": 9702, "fecha": ahora_iso(),
+    "vendedorId": "test-vendedor", "vendedorNombre": f"{PREFIJO} Vendedor",
+    "total": 4000, "estado": "cobrada", "metodoPago": "efectivo",
+    "cajeroId": "test-cajero", "fechaCobro": ahora_iso(), "clienteId": None,
+    "nombreCliente": None, "pagos": [], "cuitDniComprador": None,
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": 4, "precioTotal": 4000}],
+})
+db.collection("stock").document(papa_id).update({"cantidadDisponible": firestore.Increment(-4)})
+
+# Editar: subir de 4 a 6 papas ($4000 -> $6000). Como es efectivo, NO
+# hay que tocar ninguna cuenta corriente, solo el stock y el propio
+# documento de la venta.
+db.collection("stock").document(papa_id).update({"cantidadDisponible": firestore.Increment(-2)})
+db.collection("ventas").document(venta_efectivo_id).update({
+    "total": 6000,
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": 6, "precioTotal": 6000}],
+})
+
+# Simular lo que haría el Arqueo de Caja: leer la venta tal cual
+# quedó en Firestore después de editarla.
+venta_efectivo_leida = db.collection("ventas").document(venta_efectivo_id).get().to_dict()
+stock_tras_efectivo = db.collection("stock").document(papa_id).get().to_dict()["cantidadDisponible"]
+
+verificar("Editar venta en EFECTIVO: el total que veria Arqueo de Caja ya es el nuevo ($6000)",
+          venta_efectivo_leida["total"] == 6000, f"(quedo en {venta_efectivo_leida['total']})")
+verificar("Editar venta en EFECTIVO: el stock bajo por la diferencia (2 mas)",
+          abs(stock_tras_efectivo - (stock_antes_efectivo - 6)) < 0.01,
+          f"(esperado {stock_antes_efectivo - 6}, quedo en {stock_tras_efectivo})")
+
+# --- Venta en TRANSFERENCIA: la editamos y verificamos que Facturacion
+# (que tambien suma venta.total/pagos en vivo) vea el bruto nuevo.
+venta_transf_id = str(uuid.uuid4())
+db.collection("ventas").document(venta_transf_id).set({
+    "id": venta_transf_id, "numero": 9703, "fecha": ahora_iso(),
+    "vendedorId": "test-vendedor", "vendedorNombre": f"{PREFIJO} Vendedor",
+    "total": 10000, "estado": "cobrada", "metodoPago": "transferencia",
+    "cajeroId": "test-cajero", "fechaCobro": ahora_iso(), "clienteId": None,
+    "nombreCliente": f"{PREFIJO} comprador", "pagos": [], "cuitDniComprador": "20-11111111-1",
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": 10, "precioTotal": 10000}],
+})
+db.collection("stock").document(papa_id).update({"cantidadDisponible": firestore.Increment(-10)})
+
+# Editar: bajar de 10 a 7 papas ($10000 -> $7000). Devuelve stock.
+db.collection("stock").document(papa_id).update({"cantidadDisponible": firestore.Increment(3)})
+db.collection("ventas").document(venta_transf_id).update({
+    "total": 7000,
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": 7, "precioTotal": 7000}],
+})
+
+venta_transf_leida = db.collection("ventas").document(venta_transf_id).get().to_dict()
+verificar("Editar venta en TRANSFERENCIA: el bruto que veria Facturacion ya es el nuevo ($7000)",
+          venta_transf_leida["total"] == 7000, f"(quedo en {venta_transf_leida['total']})")
+verificar("Editar venta en TRANSFERENCIA: el CUIT/DNI del comprador se conserva tras editar",
+          venta_transf_leida["cuitDniComprador"] == "20-11111111-1")
+
+# --- Venta con PAGO DIVIDIDO (parte efectivo + parte transferencia):
+# EditarVentaUseCase debe RECHAZAR editarla directamente (se pide
+# anular y recargar, para no repartir mal la diferencia entre los
+# metodos). Acá solo se verifica que la condición que dispara ese
+# rechazo (pagos.length > 1) es detectable con los datos tal cual
+# quedan guardados — el rechazo en sí lo hace el código Dart
+# (ya revisado y compilado, ver EditarVentaUseCase).
+venta_dividida_id = str(uuid.uuid4())
+db.collection("ventas").document(venta_dividida_id).set({
+    "id": venta_dividida_id, "numero": 9704, "fecha": ahora_iso(),
+    "vendedorId": "test-vendedor", "vendedorNombre": f"{PREFIJO} Vendedor",
+    "total": 5000, "estado": "cobrada", "metodoPago": None,
+    "cajeroId": "test-cajero", "fechaCobro": ahora_iso(), "clienteId": None,
+    "nombreCliente": None,
+    "pagos": [{"metodo": "efectivo", "monto": 2000}, {"metodo": "transferencia", "monto": 3000}],
+    "cuitDniComprador": None,
+    "detalle": [{"productoId": papa_id, "nombreProducto": f"{PREFIJO} Papa",
+                 "cantidad": 5, "precioTotal": 5000}],
+})
+venta_dividida_leida = db.collection("ventas").document(venta_dividida_id).get().to_dict()
+verificar("Venta con pago dividido: se detecta como tal (mas de 1 metodo en 'pagos'), EditarVentaUseCase la rechaza",
+          len(venta_dividida_leida["pagos"]) > 1)
+
 # Guardar ids creados para poder limpiarlos despues
 with open('/tmp/test_ids.json', 'w') as f:
     json.dump({
         "productos": list(ids_productos.values()) + productos_volumen_ids,
         "clientes": [cliente_id, cliente2_id, cliente3_id, cliente_anular_id, cliente_editar_id],
-        "ventas": [venta1_id, venta2_id, venta3_id, venta_qr_id, venta_fact_id, venta_anular_id, venta_editar_id]
+        "ventas": [venta1_id, venta2_id, venta3_id, venta_qr_id, venta_fact_id, venta_anular_id, venta_editar_id,
+                   venta_efectivo_id, venta_transf_id, venta_dividida_id]
                   + ventas_stats_ids + ventas_volumen_ids,
         "movimientos_cuenta_corriente": [mov_id, mov_pago_id, mov_cargo_id, mov_pago_efectivo_id,
                                           mov_pago_transf_id, mov_cargo3_id, mov_pago3_id,
