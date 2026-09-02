@@ -72,11 +72,11 @@ Utilidad esperada: 28270.00
 [OK] Al reescanear el mismo QR, el sistema ahora SI encuentra la venta como 'cobrada' (el guard la bloquearia) 
 
 --- 14) Volumen grande: 60 productos + 300 ventas ---
-Tiempo para crear 60 productos: 0.92s
-Tiempo para crear 300 ventas: 1.89s
-Tiempo para leer 307 ventas del rango: 0.85s
+Tiempo para crear 60 productos: 0.64s
+Tiempo para crear 300 ventas: 1.63s
+Tiempo para leer 307 ventas del rango: 0.49s
 [OK] Se pudieron crear y leer las 300 ventas de volumen sin errores (se leyeron 307)
-[OK] La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos) (tardo 0.85s)
+[OK] La lectura de ~300 ventas es razonablemente rapida (menos de 5 segundos) (tardo 0.49s)
 
 --- 15) Proveedores: cuenta corriente ---
 [OK] Proveedor: pedido de 50000 SUMA al saldo (0 -> 50000, les debemos) (quedo en 50000)
@@ -108,5 +108,13 @@ Tiempo para leer 307 ventas del rango: 0.85s
 [OK] Anular venta: la venta queda marcada 'cancelada' (no se borra) 
 [OK] Anular venta: el registro de la venta SIGUE existiendo (auditable) 
 48/48 verificaciones pasaron correctamente.
+
+--- 21) Editar venta (agregar/sacar cantidad, reconciliar stock y fiado) ---
+[OK] Editar venta (subir cantidad): el stock baja SOLO la diferencia (3 mas) (esperado 87, quedo en 87)
+[OK] Editar venta (subir cantidad): la deuda sube a $8000 (no se duplica) (saldo quedo en -8000)
+[OK] Editar venta (bajar cantidad): el stock vuelve a subir por la diferencia (6) (esperado 93, quedo en 93)
+[OK] Editar venta (bajar cantidad): la deuda baja a $2000 (coincide con el total final) (saldo quedo en -2000)
+[OK] Editar venta: el detalle final de la venta tiene la cantidad correcta (2) 
+[OK] Editar venta: el total final de la venta coincide ($2000) 
 
 IDs de prueba guardados en /tmp/test_ids.json para limpieza posterior.
