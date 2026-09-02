@@ -21,6 +21,9 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
   Future<List<Proveedor>> obtenerTodos() => _local.obtenerTodos();
 
   @override
+  Stream<List<Proveedor>> observarTodos() => _remote.observarTodos();
+
+  @override
   Future<void> crear(Proveedor proveedor) async {
     final model = ProveedorModel.fromEntity(proveedor);
     await _local.upsert(model);

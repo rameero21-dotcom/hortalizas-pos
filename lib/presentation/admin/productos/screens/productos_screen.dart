@@ -5,12 +5,14 @@ import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/producto.dart';
 import 'producto_form_screen.dart';
 
-/// Recarga la lista de productos. Se invalida manualmente después de
-/// crear/editar/eliminar (no hay stream local de productos todavía).
-final productosListProvider = FutureProvider.autoDispose((ref) async {
-  final productos = await ref.watch(productoRepositoryProvider).obtenerTodos();
-  productos.sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
-  return productos;
+/// Escucha en tiempo real: un producto creado/editado desde CUALQUIER
+/// dispositivo aparece acá sin necesitar refrescar manualmente.
+final productosListProvider = StreamProvider.autoDispose((ref) {
+  return ref.watch(productoRepositoryProvider).observarTodos().map((productos) {
+    final ordenados = List.of(productos);
+    ordenados.sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
+    return ordenados;
+  });
 });
 
 /// Administración de productos: listar, buscar, activar/desactivar,

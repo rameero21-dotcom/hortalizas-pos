@@ -32,6 +32,9 @@ class ClienteRepositoryImpl implements ClienteRepository {
   Future<List<Cliente>> obtenerTodos() => _local.obtenerTodos();
 
   @override
+  Stream<List<Cliente>> observarTodos() => _remote.observarTodos();
+
+  @override
   Future<Cliente?> obtenerPorId(String id) async {
     final todos = await _local.obtenerTodos();
     try {

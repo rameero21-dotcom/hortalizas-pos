@@ -34,4 +34,11 @@ class ProveedorRemoteDatasource {
     pagos.sort((a, b) => b.fecha.compareTo(a.fecha));
     return pagos;
   }
+
+  /// Stream en tiempo real de la lista de proveedores.
+  Stream<List<ProveedorModel>> observarTodos() {
+    return _firestoreService.proveedores.snapshots().map((snap) => snap.docs
+        .map((d) => ProveedorModel.fromMap(d.data() as Map<String, dynamic>))
+        .toList());
+  }
 }

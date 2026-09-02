@@ -14,4 +14,12 @@ class ProductoRemoteDatasource {
         .map((d) => ProductoModel.fromMap(d.data() as Map<String, dynamic>))
         .toList();
   }
+
+  /// Stream en tiempo real: un producto creado/editado desde CUALQUIER
+  /// dispositivo aparece acá en segundos.
+  Stream<List<ProductoModel>> observarTodos() {
+    return _firestoreService.productos.snapshots().map((snap) => snap.docs
+        .map((d) => ProductoModel.fromMap(d.data() as Map<String, dynamic>))
+        .toList());
+  }
 }

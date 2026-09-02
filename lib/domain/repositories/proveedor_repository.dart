@@ -2,6 +2,9 @@ import '../entities/proveedor.dart';
 
 abstract class ProveedorRepository {
   Future<List<Proveedor>> obtenerTodos();
+
+  /// Stream en tiempo real de la lista de proveedores.
+  Stream<List<Proveedor>> observarTodos();
   Future<void> crear(Proveedor proveedor);
   Future<void> actualizar(Proveedor proveedor);
   Future<void> eliminar(String id);

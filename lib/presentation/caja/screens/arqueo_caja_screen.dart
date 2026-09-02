@@ -62,7 +62,7 @@ final _nombresClientesProvider = FutureProvider.autoDispose<Map<String, String>>
 /// Movimientos manuales de caja de hoy (ingresos/egresos aparte de ventas).
 final _movimientosCajaHoyProvider = FutureProvider.autoDispose<List<MovimientoCaja>>((ref) async {
   final rango = await DiaLaboralService.rangoDeHoy();
-  return ref.watch(cajaRepositoryProvider).obtenerMovimientos(rango.inicio, rango.fin);
+  return ref.watch(cajaRepositoryProvider).obtenerMovimientosGlobal(rango.inicio, rango.fin);
 });
 
 /// El rango del día laboral actual, para mostrarlo en pantalla.

@@ -5,6 +5,9 @@ import '../entities/venta.dart' show MetodoPago;
 /// (fiado/deuda) para clientes habituales.
 abstract class ClienteRepository {
   Future<List<Cliente>> obtenerTodos();
+
+  /// Stream en tiempo real de la lista de clientes.
+  Stream<List<Cliente>> observarTodos();
   Future<Cliente?> obtenerPorId(String id);
   Future<void> crear(Cliente cliente);
   Future<void> actualizar(Cliente cliente);

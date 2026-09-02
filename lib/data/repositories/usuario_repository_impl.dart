@@ -51,7 +51,24 @@ class UsuarioRepositoryImpl implements UsuarioRepository {
   }
 
   @override
-  Future<List<Usuario>> obtenerTodos() => _local.obtenerTodos();
+  Future<List<Usuario>> obtenerTodos() async {
+    // Antes esto solo leía la caché local, que únicamente tiene los
+    // usuarios que alguna vez iniciaron sesión EN ESTE dispositivo — un
+    // admin nuevo, o uno que nunca usó esta PC/celular, no aparecía en
+    // la lista aunque sí existiera en Firestore. Ahora se trae la
+    // lista completa real.
+    final snap = await _firestoreService.usuarios.get();
+    return snap.docs
+        .map((d) => UsuarioModel.fromMap({'id': d.id, ...d.data() as Map<String, dynamic>}))
+        .toList();
+  }
+
+  /// Stream en tiempo real de la lista completa de usuarios.
+  Stream<List<Usuario>> observarTodos() {
+    return _firestoreService.usuarios.snapshots().map((snap) => snap.docs
+        .map((d) => UsuarioModel.fromMap({'id': d.id, ...d.data() as Map<String, dynamic>}))
+        .toList());
+  }
 
   @override
   Future<void> crear(Usuario usuario, String password) async {

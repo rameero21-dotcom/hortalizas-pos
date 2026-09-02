@@ -15,6 +15,13 @@ class ClienteRemoteDatasource {
         .toList();
   }
 
+  /// Stream en tiempo real de la lista de clientes.
+  Stream<List<ClienteModel>> observarTodos() {
+    return _firestoreService.clientes.snapshots().map((snap) => snap.docs
+        .map((d) => ClienteModel.fromMap(d.data() as Map<String, dynamic>))
+        .toList());
+  }
+
   /// Todos los movimientos de cuenta corriente (cargos/pagos) de TODOS
   /// los clientes en un rango de fechas, sin importar en qué dispositivo
   /// se cargaron. Se usa para el reporte exportable en PDF, que necesita

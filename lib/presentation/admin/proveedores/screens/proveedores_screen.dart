@@ -5,16 +5,14 @@ import '../../../../core/utils/formatters.dart';
 import 'proveedor_form_screen.dart';
 import 'proveedor_detalle_screen.dart';
 
-final proveedoresListProvider = FutureProvider.autoDispose((ref) async {
-  final repo = ref.watch(proveedorRepositoryProvider);
-  try {
-    await repo.refrescarDesdeRemoto();
-  } catch (_) {
-    // Sin conexión: seguimos con la caché local.
-  }
-  final proveedores = await repo.obtenerTodos();
-  proveedores.sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
-  return proveedores;
+/// Escucha en tiempo real: un proveedor creado/editado desde CUALQUIER
+/// dispositivo aparece acá sin necesitar refrescar manualmente.
+final proveedoresListProvider = StreamProvider.autoDispose((ref) {
+  return ref.watch(proveedorRepositoryProvider).observarTodos().map((proveedores) {
+    final ordenados = List.of(proveedores);
+    ordenados.sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
+    return ordenados;
+  });
 });
 
 /// Listado de proveedores: de quién se compra mercadería. Cada uno

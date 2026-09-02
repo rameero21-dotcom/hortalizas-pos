@@ -8,7 +8,7 @@ final _cierresProvider = FutureProvider.autoDispose<List<CierreCaja>>((ref) asyn
   final ahora = DateTime.now();
   // Últimos 30 días, para ver cierres de días anteriores también.
   final desde = ahora.subtract(const Duration(days: 30));
-  return ref.watch(cajaRepositoryProvider).obtenerCierres(desde, ahora.add(const Duration(days: 1)));
+  return ref.watch(cajaRepositoryProvider).obtenerCierresGlobal(desde, ahora.add(const Duration(days: 1)));
 });
 
 /// Lista los cierres de caja ya guardados, para poder confirmar que un

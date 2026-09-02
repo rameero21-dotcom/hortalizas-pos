@@ -19,4 +19,17 @@ class CajaRemoteDatasource {
     movimientos.sort((a, b) => b.fecha.compareTo(a.fecha));
     return movimientos;
   }
+
+  /// Cierres de caja de cualquier dispositivo, en un rango de fechas —
+  /// para el historial de cierres, que antes solo mostraba los cierres
+  /// hechos desde el celular/PC que se estuviera usando en ese momento.
+  Future<List<CierreCajaModel>> obtenerCierresPorRango(DateTime desde, DateTime hasta) async {
+    final snap = await _firestoreService.cierresCaja
+        .where('fecha', isGreaterThanOrEqualTo: desde.toIso8601String())
+        .where('fecha', isLessThanOrEqualTo: hasta.toIso8601String())
+        .get();
+    final cierres = snap.docs.map((d) => CierreCajaModel.fromMap(d.data() as Map<String, dynamic>)).toList();
+    cierres.sort((a, b) => b.fecha.compareTo(a.fecha));
+    return cierres;
+  }
 }

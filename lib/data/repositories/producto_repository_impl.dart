@@ -69,12 +69,7 @@ class ProductoRepositoryImpl implements ProductoRepository {
   }
 
   @override
-  Stream<List<Producto>> observarTodos() {
-    // TODO Fase 3+: combinar snapshot local (polling/stream sqflite) con remoto
-    // si se necesita reflejar en tiempo real productos creados desde otro
-    // dispositivo/admin. Por ahora, la pantalla debe releer con obtenerTodos().
-    throw UnimplementedError('observarTodos - pendiente de stream local/remoto');
-  }
+  Stream<List<Producto>> observarTodos() => _remote.observarTodos();
 
   @override
   Future<void> refrescarDesdeRemoto() async {

@@ -92,4 +92,8 @@ class CajaRepositoryImpl implements CajaRepository {
   @override
   Future<List<CierreCaja>> obtenerCierres(DateTime desde, DateTime hasta) =>
       _local.obtenerCierres(desde, hasta);
+
+  @override
+  Future<List<CierreCaja>> obtenerCierresGlobal(DateTime desde, DateTime hasta) =>
+      _remote.obtenerCierresPorRango(desde, hasta);
 }

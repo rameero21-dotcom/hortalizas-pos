@@ -31,4 +31,8 @@ abstract class CajaRepository {
   });
 
   Future<List<CierreCaja>> obtenerCierres(DateTime desde, DateTime hasta);
+
+  /// A diferencia de `obtenerCierres` (SQLite de este dispositivo), trae
+  /// los cierres de TODOS los dispositivos vía Firestore. Requiere conexión.
+  Future<List<CierreCaja>> obtenerCierresGlobal(DateTime desde, DateTime hasta);
 }

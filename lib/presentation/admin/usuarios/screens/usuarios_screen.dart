@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../domain/entities/usuario.dart';
 
-final usuariosListProvider = FutureProvider.autoDispose((ref) {
-  return ref.watch(usuarioRepositoryProvider).obtenerTodos();
+final usuariosListProvider = StreamProvider.autoDispose((ref) {
+  return ref.watch(usuarioRepositoryProvider).observarTodos();
 });
 
 /// Administración de usuarios: administrador, vendedor, cajero,

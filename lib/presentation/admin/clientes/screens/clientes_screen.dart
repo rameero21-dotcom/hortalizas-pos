@@ -5,16 +5,14 @@ import '../../../../core/utils/formatters.dart';
 import 'cliente_form_screen.dart';
 import 'cliente_detalle_screen.dart';
 
-final clientesListProvider = FutureProvider.autoDispose((ref) async {
-  final repo = ref.watch(clienteRepositoryProvider);
-  try {
-    await repo.refrescarDesdeRemoto();
-  } catch (_) {
-    // Sin conexión: seguimos con la caché local.
-  }
-  final clientes = await repo.obtenerTodos();
-  clientes.sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
-  return clientes;
+/// Escucha en tiempo real: un cliente creado/editado desde CUALQUIER
+/// dispositivo aparece acá sin necesitar refrescar manualmente.
+final clientesListProvider = StreamProvider.autoDispose((ref) {
+  return ref.watch(clienteRepositoryProvider).observarTodos().map((clientes) {
+    final ordenados = List.of(clientes);
+    ordenados.sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
+    return ordenados;
+  });
 });
 
 /// Listado de clientes (preparado para el futuro): nombre, teléfono,
