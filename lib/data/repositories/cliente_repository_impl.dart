@@ -119,6 +119,10 @@ class ClienteRepositoryImpl implements ClienteRepository {
       _local.obtenerMovimientosCuenta(clienteId);
 
   @override
+  Stream<List<MovimientoCuentaCorriente>> observarMovimientosDeCliente(String clienteId) =>
+      _remote.observarMovimientosDeCliente(clienteId);
+
+  @override
   Future<List<MovimientoCuentaCorriente>> obtenerMovimientosCuentaGlobal(DateTime desde, DateTime hasta) =>
       _remote.obtenerMovimientosPorRango(desde, hasta);
 

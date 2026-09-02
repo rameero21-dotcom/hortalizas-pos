@@ -23,6 +23,11 @@ abstract class ClienteRepository {
 
   Future<List<MovimientoCuentaCorriente>> obtenerMovimientosCuenta(String clienteId);
 
+  /// Stream en tiempo real (directo de Firestore) de los movimientos de
+  /// un cliente puntual — para que un pago/cargo cargado desde
+  /// cualquier dispositivo aparezca acá sin depender de la copia local.
+  Stream<List<MovimientoCuentaCorriente>> observarMovimientosDeCliente(String clienteId);
+
   /// Todos los movimientos de cuenta corriente de TODOS los clientes en
   /// un rango de fechas, sin importar el dispositivo. Se usa en el
   /// reporte exportable en PDF. Requiere conexión.

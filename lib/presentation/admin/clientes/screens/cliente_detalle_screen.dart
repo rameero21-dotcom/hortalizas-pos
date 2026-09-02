@@ -7,8 +7,8 @@ import '../../../../domain/entities/venta.dart';
 import '../../../../domain/entities/caja.dart';
 
 final _movimientosClienteProvider =
-    FutureProvider.autoDispose.family<List<MovimientoCuentaCorriente>, String>((ref, clienteId) {
-  return ref.watch(clienteRepositoryProvider).obtenerMovimientosCuenta(clienteId);
+    StreamProvider.autoDispose.family<List<MovimientoCuentaCorriente>, String>((ref, clienteId) {
+  return ref.watch(clienteRepositoryProvider).observarMovimientosDeCliente(clienteId);
 });
 
 final _boletasClienteProvider =

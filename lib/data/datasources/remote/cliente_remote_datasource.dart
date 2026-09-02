@@ -31,4 +31,23 @@ class ClienteRemoteDatasource {
     movimientos.sort((a, b) => a.fecha.compareTo(b.fecha));
     return movimientos;
   }
+
+  /// Stream en tiempo real de los movimientos de cuenta corriente de UN
+  /// cliente puntual — para la pestaña "Pagos y cargos" de su detalle.
+  /// Antes esa pestaña solo leía la copia local del dispositivo, así
+  /// que un pago cargado desde otro celular/PC (u otro cajero) nunca
+  /// aparecía ahí, aunque el saldo del cliente sí se actualizara bien
+  /// (eso sincroniza aparte, en el propio documento del cliente).
+  Stream<List<MovimientoCuentaCorrienteModel>> observarMovimientosDeCliente(String clienteId) {
+    return _firestoreService.movimientosCuentaCorriente
+        .where('clienteId', isEqualTo: clienteId)
+        .snapshots()
+        .map((snap) {
+      final movimientos = snap.docs
+          .map((d) => MovimientoCuentaCorrienteModel.fromMap(d.data() as Map<String, dynamic>))
+          .toList();
+      movimientos.sort((a, b) => b.fecha.compareTo(a.fecha));
+      return movimientos;
+    });
+  }
 }
