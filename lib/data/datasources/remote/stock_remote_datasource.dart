@@ -24,6 +24,16 @@ class StockRemoteDatasource {
         .toList());
   }
 
+  /// Stream en tiempo real del stock de UN SOLO producto — para
+  /// mostrarle al vendedor cuánto queda mientras está vendiendo, sin
+  /// necesitar traer el stock de todo el catálogo para eso.
+  Stream<StockModel?> observarStockDeProducto(String productoId) {
+    return _firestoreService.stock.doc(productoId).snapshots().map((doc) {
+      if (!doc.exists) return null;
+      return StockModel.fromMap(doc.data() as Map<String, dynamic>, idDocumento: doc.id);
+    });
+  }
+
   /// Todos los movimientos de stock (ingresos, mermas, ajustes, ventas)
   /// de TODOS los productos, sin importar el dispositivo. Se usa en el
   /// historial de stock. Requiere conexión.

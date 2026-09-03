@@ -30,4 +30,9 @@ abstract class StockRepository {
   /// pasa por la caché local): se usa en pantallas donde hace falta ver
   /// los cambios apenas pasan, sin esperar un refresh manual.
   Stream<List<Stock>> observarTodos();
+
+  /// Stream en tiempo real del stock de UN producto puntual — para
+  /// mostrarle al vendedor cuánto queda mientras está cargando la
+  /// venta, sin esperar a salir y volver a entrar a la pantalla.
+  Stream<Stock?> observarStockDeProducto(String productoId);
 }

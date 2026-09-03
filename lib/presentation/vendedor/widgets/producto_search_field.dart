@@ -8,6 +8,13 @@ import '../providers/carrito_provider.dart';
 
 /// Cómo se interpreta el número que carga el vendedor en el campo de precio.
 
+/// Stock en tiempo real de un producto puntual, para mostrarle al
+/// vendedor cuánto queda mientras está cargando la venta.
+final _stockProductoProvider =
+    StreamProvider.autoDispose.family<double?, String>((ref, productoId) {
+  return ref.watch(stockRepositoryProvider).observarStockDeProducto(productoId).map((s) => s?.cantidadDisponible);
+});
+
 /// Buscador de productos con lista desplegable + campos de cantidad y
 /// precio (total o por unidad, con cálculo automático) + botón Agregar.
 /// Si el producto buscado no existe, permite darlo de alta al toque sin
@@ -158,6 +165,36 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
     super.dispose();
   }
 
+  Widget _stockEnTiempoReal(String productoId) {
+    final stockAsync = ref.watch(_stockProductoProvider(productoId));
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: stockAsync.when(
+        data: (cantidad) {
+          final sinStock = cantidad == null || cantidad <= 0;
+          final color = sinStock ? Colors.red : Theme.of(context).colorScheme.secondary;
+          return Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.15),
+              border: Border.all(color: color),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              cantidad == null
+                  ? '📦  Sin datos de stock para este producto'
+                  : '📦  Stock disponible: ${Formatters.formatearCantidad(cantidad)}',
+              style: TextStyle(color: color, fontWeight: FontWeight.w700),
+            ),
+          );
+        },
+        loading: () => const SizedBox(height: 40),
+        error: (_, __) => const SizedBox.shrink(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mostrarDropdown = _busquedaFocus.hasFocus && _productoSeleccionado == null;
@@ -221,26 +258,7 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
             ),
           ),
         const SizedBox(height: 8),
-        if (_productoSeleccionado != null && _productoSeleccionado!.costoUnitario > 0)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary.withOpacity(0.15),
-                border: Border.all(color: Theme.of(context).colorScheme.secondary),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                '💰  Costo de referencia: ${Formatters.formatearMoneda(_productoSeleccionado!.costoUnitario)} por unidad',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
+        if (_productoSeleccionado != null) _stockEnTiempoReal(_productoSeleccionado!.id),
         Row(
           children: [
             Expanded(
