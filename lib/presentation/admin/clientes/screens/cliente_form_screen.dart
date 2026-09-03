@@ -88,6 +88,24 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
       final usecase = ref.read(gestionarClientesUseCaseProvider);
       if (_esEdicion) {
         await usecase.actualizar(cliente);
+        // Si el admin cambió el saldo a mano en este formulario, eso se
+        // registra como un movimiento (ajuste manual), por dos motivos:
+        // 1) que quede en el historial de "Pagos y cargos" (antes un
+        //    ajuste así era invisible), y 2) que suba como incremento
+        //    atómico y no pise movimientos hechos desde otro dispositivo.
+        final saldoNuevo = _clienteDebe ? -montoSaldo : montoSaldo;
+        final diferencia = saldoNuevo - widget.cliente!.saldoCuentaCorriente;
+        if (diferencia.abs() >= 0.01) {
+          final usuarioId = ref.read(currentUserIdProvider);
+          await ref.read(clienteRepositoryProvider).registrarMovimientoCuenta(
+                clienteId: cliente.id,
+                // Saldo que sube (menos deuda) = pago; saldo que baja = cargo.
+                tipo: diferencia > 0 ? TipoMovimientoCuenta.pago : TipoMovimientoCuenta.cargo,
+                monto: diferencia.abs(),
+                detalle: 'Ajuste manual de saldo',
+                usuarioId: usuarioId,
+              );
+        }
       } else {
         await usecase.crear(cliente);
       }

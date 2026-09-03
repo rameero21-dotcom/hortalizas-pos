@@ -32,6 +32,14 @@ class EditarVentaUseCase {
   EditarVentaUseCase(this._ventaRepository, this._stockRepository, this._clienteRepository);
 
   Future<void> call(Venta ventaOriginal, List<DetalleVenta> nuevoDetalle, String usuarioId) async {
+    // Se confirma contra el estado REAL del servidor antes de tocar nada
+    // — el objeto que llega acá puede venir de una pantalla que se abrió
+    // hace un rato (por ejemplo, Historial), y mientras tanto otro admin
+    // pudo haber anulado o editado esta misma venta. Si no hay conexión,
+    // se sigue con lo que ya se tenía (offline-first), igual que al cobrar.
+    final estadoReal = await _ventaRepository.obtenerEstadoActualDesdeRemoto(ventaOriginal.id);
+    if (estadoReal != null) ventaOriginal = estadoReal;
+
     if (ventaOriginal.estado == EstadoVenta.cancelada) {
       throw ArgumentError('No se puede editar una venta anulada.');
     }

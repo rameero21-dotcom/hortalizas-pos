@@ -27,6 +27,16 @@ class AnularVentaUseCase {
       throw ArgumentError('Solo se puede anular una venta que ya fue cobrada.');
     }
 
+    // Chequeo contra el estado REAL en el servidor, no solo el objeto
+    // que ya se tenía en mano (que puede estar desactualizado si otro
+    // admin la anuló o editó en el momento). Sin esto, dos anulaciones
+    // casi simultáneas devolverían el stock DOS VECES.
+    final estadoReal = await _ventaRepository.obtenerEstadoActualDesdeRemoto(venta.id);
+    if (estadoReal != null && estadoReal.estado != EstadoVenta.cobrada) {
+      throw ArgumentError(
+          'Esta venta ya no está cobrada (puede que otro usuario la haya anulado o editado recién) — recargá la pantalla.');
+    }
+
     // Devolver el stock de cada producto vendido.
     for (final item in venta.detalle) {
       await _stockRepository.ingresarMercaderia(

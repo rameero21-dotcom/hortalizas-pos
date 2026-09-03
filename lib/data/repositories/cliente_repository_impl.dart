@@ -58,7 +58,34 @@ class ClienteRepositoryImpl implements ClienteRepository {
   }
 
   @override
-  Future<void> actualizar(Cliente cliente) => crear(cliente);
+  Future<void> actualizar(Cliente cliente) async {
+    // Al editar datos del cliente (nombre, teléfono, CUIT, etc.) NO se
+    // reenvía el saldo: el valor que tiene la copia local puede estar
+    // viejo, y como el set es con merge, si se lo incluyera pisaría el
+    // saldo real de Firestore con uno desactualizado. Los cambios de
+    // saldo van SOLO por registrarMovimientoCuenta (incremento atómico
+    // + registro en el historial de pagos y cargos).
+    final actualLocal = await obtenerPorId(cliente.id);
+    final saldoLocalIntacto = actualLocal?.saldoCuentaCorriente ?? cliente.saldoCuentaCorriente;
+    final model = _toModel(Cliente(
+      id: cliente.id,
+      nombre: cliente.nombre,
+      telefono: cliente.telefono,
+      direccion: cliente.direccion,
+      saldoCuentaCorriente: saldoLocalIntacto,
+      cuitODni: cliente.cuitODni,
+      condicionFiscal: cliente.condicionFiscal,
+    ));
+    await _local.upsert(model);
+    final payload = Map<String, dynamic>.from(model.toMap())..remove('saldoCuentaCorriente');
+    await _syncQueue.encolar(
+      entidad: AppConstants.colClientes,
+      entidadId: model.id,
+      operacion: 'set',
+      payload: payload,
+    );
+    await _syncService.sincronizarAhora();
+  }
 
   @override
   Future<void> eliminar(String id) async {
@@ -102,11 +129,23 @@ class ClienteRepositoryImpl implements ClienteRepository {
     );
     await _local.registrarMovimientoCuenta(movimiento);
 
+    // El saldo se sube a Firestore como INCREMENTO relativo (igual que el
+    // stock), nunca como valor absoluto. Motivo: si dos dispositivos
+    // tocan la cuenta del mismo cliente casi al mismo tiempo (la caja le
+    // fía, el admin le carga un pago desde otra PC), con un "set" del
+    // valor absoluto calculado desde la copia local de cada uno, el
+    // último en subir pisa al otro y se pierde plata. Con increment(),
+    // Firestore suma las dos diferencias y el saldo queda bien aunque la
+    // copia local de alguno estuviera vieja.
     await _syncQueue.encolar(
       entidad: AppConstants.colClientes,
       entidadId: clienteId,
-      operacion: 'set',
-      payload: {'id': clienteId, 'saldoCuentaCorriente': nuevoSaldo},
+      operacion: 'incrementar',
+      payload: {
+        'campo': 'saldoCuentaCorriente',
+        'delta': signo * monto,
+        'extra': {'id': clienteId},
+      },
     );
     await _syncQueue.encolar(
       entidad: AppConstants.colMovimientosCuentaCorriente,

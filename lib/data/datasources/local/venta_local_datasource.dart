@@ -13,7 +13,7 @@ class VentaLocalDatasource {
   /// Crea la venta dentro de una transacción, asignando el número
   /// correlativo automáticamente (MAX(numero) + 1) para evitar
   /// depender de conexión a Firebase en esta fase.
-  Future<VentaModel> crear(VentaModel venta) async {
+  Future<VentaModel> crear(VentaModel venta, {int pisoNumero = 0}) async {
     final db = await _dbHelper.database;
     late VentaModel ventaConNumero;
 
@@ -21,7 +21,12 @@ class VentaLocalDatasource {
       final resultado = await txn.rawQuery(
         'SELECT COALESCE(MAX(numero), 0) + 1 AS proximoNumero FROM ${AppConstants.tablaVentas}',
       );
-      final numero = resultado.first['proximoNumero'] as int;
+      final proximoLocal = resultado.first['proximoNumero'] as int;
+      // El número final es el mayor entre "lo que dice la copia local"
+      // y "lo que dice Firestore + 1" — así no se repite un número que
+      // otro dispositivo ya usó, aunque la copia local de este celular
+      // esté atrasada.
+      final numero = proximoLocal > pisoNumero + 1 ? proximoLocal : pisoNumero + 1;
 
       ventaConNumero = VentaModel(
         id: venta.id,

@@ -18,7 +18,16 @@ Future<void> main() async {
     databaseFactory = databaseFactoryFfi;
   }
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Si esto falla (por ejemplo, sin conexión en el primerísimo arranque
+  // de un dispositivo que todavía no tiene nada guardado localmente), la
+  // app entera se cerraba de golpe sin ningún aviso. Ahora se muestra
+  // una pantalla explicando qué pasó, en vez de un cierre silencioso.
+  try {
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  } catch (e) {
+    runApp(_ErrorInicioApp(error: e.toString()));
+    return;
+  }
 
   final container = ProviderContainer();
   await container.read(syncServiceProvider).iniciar();
@@ -29,6 +38,49 @@ Future<void> main() async {
       child: const HortalizasPosApp(),
     ),
   );
+}
+
+/// Pantalla mínima que se muestra si la app no pudo arrancar porque
+/// falló la conexión inicial con Firebase (normalmente: sin internet en
+/// el primer uso de este dispositivo, antes de tener algo guardado
+/// localmente).
+class _ErrorInicioApp extends StatelessWidget {
+  final String error;
+  const _ErrorInicioApp({required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.wifi_off, size: 56, color: Colors.orange),
+                const SizedBox(height: 16),
+                const Text(
+                  'No se pudo conectar',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Este dispositivo necesita conexión a internet la primera vez que se abre la app. '
+                  'Conectate a wifi o datos móviles y volvé a intentar.',
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                Text(error, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class HortalizasPosApp extends StatelessWidget {

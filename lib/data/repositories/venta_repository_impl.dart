@@ -30,7 +30,24 @@ class VentaRepositoryImpl implements VentaRepository {
       total: venta.total,
       nombreCliente: venta.nombreCliente,
     );
-    final ventaCreada = await _local.crear(model); // asigna el número correlativo real
+
+    // Piso para la numeración: el número más alto que YA existe en
+    // Firestore (todos los dispositivos), si hay conexión. Sin esto,
+    // dos celulares numerando cada uno "MAX local + 1" pueden terminar
+    // generando el MISMO número de venta si ninguno sincronizó
+    // recientemente. Con timeout corto para no trabar una venta
+    // offline esperando una consulta que nunca va a llegar.
+    var pisoNumero = 0;
+    try {
+      pisoNumero = await _remote.obtenerNumeroMaximo().timeout(const Duration(seconds: 3));
+    } catch (_) {
+      // Sin conexión (o se colgó la consulta): se sigue solo con lo
+      // local, como antes. Es el único caso donde el riesgo de
+      // duplicado sigue existiendo, y no hay forma de evitarlo del
+      // todo sin dejar de poder vender offline.
+    }
+
+    final ventaCreada = await _local.crear(model, pisoNumero: pisoNumero); // asigna el número correlativo real
 
     final modelConNumero = VentaModel(
       id: ventaCreada.id,

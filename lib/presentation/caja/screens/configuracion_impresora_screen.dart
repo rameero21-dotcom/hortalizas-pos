@@ -44,10 +44,12 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
       _errorCarga = null;
     });
     final copiasGuardadas = await ConfigImpresora.obtenerCopiasExtra();
+    if (!mounted) return;
     _copiasExtra = copiasGuardadas;
     try {
       if (Platform.isWindows) {
         final guardada = await ConfigImpresora.obtenerNombreGuardado();
+        if (!mounted) return;
         final lista = ImpresoraTicketService.listarImpresoras();
         setState(() {
           _impresorasWindows = lista;
@@ -55,7 +57,11 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
           _cargando = false;
         });
       } else if (Platform.isAndroid) {
+        // Pedir permiso muestra un cartel del sistema que puede tardar
+        // en cerrarse (o el usuario puede volver atrás mientras tanto):
+        // hay que confirmar que la pantalla siga viva antes de tocarla.
         final permisosOk = await ImpresoraBluetoothService.pedirPermisos();
+        if (!mounted) return;
         if (!permisosOk) {
           setState(() {
             _cargando = false;
@@ -65,7 +71,9 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
           return;
         }
         final guardada = await ConfigImpresora.obtenerMacBluetoothGuardada();
+        if (!mounted) return;
         final lista = await ImpresoraBluetoothService.dispositivosEmparejados();
+        if (!mounted) return;
         setState(() {
           _dispositivosBt = lista;
           _macSeleccionada =
@@ -76,6 +84,7 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
         setState(() => _cargando = false);
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _cargando = false;
         _errorCarga = 'Error: $e';

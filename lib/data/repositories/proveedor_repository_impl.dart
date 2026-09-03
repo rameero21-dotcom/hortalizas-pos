@@ -37,7 +37,36 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
   }
 
   @override
-  Future<void> actualizar(Proveedor proveedor) => crear(proveedor);
+  Future<void> actualizar(Proveedor proveedor) async {
+    // Igual que en Cliente: no reenviar el saldo al editar datos (nombre,
+    // teléfono, activo/inactivo) — el saldo cambia solo por pedidos y
+    // pagos, con incremento atómico. Se preserva el saldo que ya tenía
+    // la copia local, para no pisarlo ni siquiera ahí.
+    final actuales = await _local.obtenerTodos();
+    double saldoLocalIntacto = proveedor.saldoCuentaCorriente;
+    for (final p in actuales) {
+      if (p.id == proveedor.id) {
+        saldoLocalIntacto = p.saldoCuentaCorriente;
+        break;
+      }
+    }
+    final model = ProveedorModel.fromEntity(Proveedor(
+      id: proveedor.id,
+      nombre: proveedor.nombre,
+      telefono: proveedor.telefono,
+      activo: proveedor.activo,
+      saldoCuentaCorriente: saldoLocalIntacto,
+    ));
+    await _local.upsert(model);
+    final payload = Map<String, dynamic>.from(model.toMap())..remove('saldoCuentaCorriente');
+    await _syncQueue.encolar(
+      entidad: AppConstants.colProveedores,
+      entidadId: model.id,
+      operacion: 'set',
+      payload: payload,
+    );
+    await _syncService.sincronizarAhora();
+  }
 
   @override
   Future<void> eliminar(String id) async {
@@ -90,11 +119,13 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
     final saldoActual = proveedor?.saldoCuentaCorriente ?? 0;
     final nuevoSaldo = saldoActual + pedido.monto;
     await _local.actualizarSaldo(pedido.proveedorId, nuevoSaldo);
+    // Saldo como INCREMENTO atómico (no valor absoluto): así dos
+    // dispositivos que toquen el mismo proveedor no se pisan entre sí.
     await _syncQueue.encolar(
       entidad: AppConstants.colProveedores,
       entidadId: pedido.proveedorId,
-      operacion: 'set',
-      payload: {'id': pedido.proveedorId, 'saldoCuentaCorriente': nuevoSaldo},
+      operacion: 'incrementar',
+      payload: {'campo': 'saldoCuentaCorriente', 'delta': pedido.monto, 'extra': {'id': pedido.proveedorId}},
     );
 
     await _syncService.sincronizarAhora();
@@ -161,8 +192,8 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
       await _syncQueue.encolar(
         entidad: AppConstants.colProveedores,
         entidadId: pedido.proveedorId,
-        operacion: 'set',
-        payload: {'id': pedido.proveedorId, 'saldoCuentaCorriente': nuevoSaldo},
+        operacion: 'incrementar',
+        payload: {'campo': 'saldoCuentaCorriente', 'delta': diferencia, 'extra': {'id': pedido.proveedorId}},
       );
     }
 
@@ -203,8 +234,8 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
     await _syncQueue.encolar(
       entidad: AppConstants.colProveedores,
       entidadId: pago.proveedorId,
-      operacion: 'set',
-      payload: {'id': pago.proveedorId, 'saldoCuentaCorriente': nuevoSaldo},
+      operacion: 'incrementar',
+      payload: {'campo': 'saldoCuentaCorriente', 'delta': -pago.monto, 'extra': {'id': pago.proveedorId}},
     );
 
     await _syncService.sincronizarAhora();

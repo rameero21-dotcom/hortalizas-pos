@@ -53,4 +53,21 @@ class VentaRemoteDatasource {
     if (!doc.exists) return null;
     return VentaModel.fromRemoteMap(doc.data() as Map<String, dynamic>);
   }
+
+  /// El número de venta más alto que existe en TODO el negocio (todos
+  /// los dispositivos), no solo en la copia local de este celular.
+  /// Se usa como piso al numerar una venta nueva: la numeración
+  /// puramente local (MAX+1 de la caché del dispositivo) puede
+  /// duplicarse entre dos celulares que vendan casi al mismo tiempo, o
+  /// si uno de los dos no sincronizó hace rato. Con conexión, esto
+  /// reduce mucho ese riesgo (no lo elimina del todo: dos ventas
+  /// simultáneas con conexión, en el instante exacto entre esta
+  /// consulta y la siguiente, todavía podrían coincidir — pero es una
+  /// ventana mucho más chica que confiar solo en lo local).
+  Future<int> obtenerNumeroMaximo() async {
+    final snap = await _firestoreService.ventas.orderBy('numero', descending: true).limit(1).get();
+    if (snap.docs.isEmpty) return 0;
+    final data = snap.docs.first.data() as Map<String, dynamic>;
+    return (data['numero'] as num?)?.toInt() ?? 0;
+  }
 }

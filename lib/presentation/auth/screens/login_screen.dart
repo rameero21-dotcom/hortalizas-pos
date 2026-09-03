@@ -56,6 +56,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   /// y deja que escriban la contraseña una vez más.
   Future<void> _elegirCuenta(CuentaReciente cuenta) async {
     final passwordGuardada = await CuentasRecientes.obtenerPassword(cuenta.email);
+    if (!mounted) return;
     if (passwordGuardada == null) {
       setState(() {
         _emailCtrl.text = cuenta.email;
@@ -98,6 +99,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             _passwordCtrl.text,
           );
       if (usuario == null) {
+        if (!mounted) return;
         setState(() => _error = 'Email o contraseña incorrectos');
         return;
       }
@@ -113,9 +115,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (!mounted) return;
       _navegarSegunRol(usuario);
     } on FailureAutenticacion catch (e) {
-      setState(() => _error = e.mensaje);
+      if (mounted) setState(() => _error = e.mensaje);
     } catch (e) {
-      setState(() => _error = 'Error al iniciar sesión: $e');
+      if (mounted) setState(() => _error = 'Error al iniciar sesión: $e');
     } finally {
       if (mounted) setState(() => _cargando = false);
     }
