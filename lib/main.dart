@@ -93,7 +93,13 @@ class HortalizasPosApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
+      // Se fuerza oscuro siempre (sin seguir el tema del sistema): toda
+      // la app se diseñó y probó pensando en el tema oscuro (colores de
+      // marca en la barra superior, tarjetas, etc.), mientras que
+      // AppTheme.light quedó sin terminar (literalmente tiene un TODO
+      // pendiente). Si algún dispositivo tuviera el sistema en modo
+      // claro, se vería roto/inconsistente sin este forzado.
+      themeMode: ThemeMode.dark,
       home: const AuthGate(),
     );
   }
