@@ -4,6 +4,7 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/venta.dart';
 import '../../../../domain/entities/cliente.dart';
+import '../../../../core/services/dia_laboral_service.dart';
 
 class _FiltrosFacturacion {
   final DateTime desde;
@@ -144,25 +145,25 @@ class FacturacionScreen extends ConsumerWidget {
     }
   }
 
-  void _elegirDia(WidgetRef ref) {
-    final hoy = DateTime.now();
-    final inicio = DateTime(hoy.year, hoy.month, hoy.day);
+  Future<void> _elegirDia(WidgetRef ref) async {
+    final rango = await DiaLaboralService.rangoDeHoy();
     ref.read(_filtrosFacturacionProvider.notifier).state =
-        _FiltrosFacturacion(desde: inicio, hasta: inicio.add(const Duration(days: 1)));
+        _FiltrosFacturacion(desde: rango.inicio, hasta: rango.fin);
   }
 
-  void _elegirSemana(WidgetRef ref) {
-    final hoy = DateTime.now();
-    final inicioSemana = DateTime(hoy.year, hoy.month, hoy.day).subtract(Duration(days: hoy.weekday - 1));
+  Future<void> _elegirSemana(WidgetRef ref) async {
+    final rango = await DiaLaboralService.rangoDeHoy();
+    final inicioSemana = rango.inicio.subtract(Duration(days: rango.inicio.weekday - 1));
     ref.read(_filtrosFacturacionProvider.notifier).state =
         _FiltrosFacturacion(desde: inicioSemana, hasta: inicioSemana.add(const Duration(days: 7)));
   }
 
-  void _elegirMes(WidgetRef ref) {
-    final hoy = DateTime.now();
+  Future<void> _elegirMes(WidgetRef ref) async {
+    final rango = await DiaLaboralService.rangoDeHoy();
+    final horaCorte = rango.inicio.hour;
     ref.read(_filtrosFacturacionProvider.notifier).state = _FiltrosFacturacion(
-      desde: DateTime(hoy.year, hoy.month, 1),
-      hasta: DateTime(hoy.year, hoy.month + 1, 1),
+      desde: DateTime(rango.inicio.year, rango.inicio.month, 1, horaCorte),
+      hasta: DateTime(rango.inicio.year, rango.inicio.month + 1, 1, horaCorte),
     );
   }
 
