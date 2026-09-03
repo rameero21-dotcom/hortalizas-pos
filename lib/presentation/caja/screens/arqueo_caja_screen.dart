@@ -402,10 +402,20 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
       ),
     );
     if (confirmado == true) {
-      await DiaLaboralService.guardarHoraCorte(horaElegida);
+      final subioOk = await DiaLaboralService.guardarHoraCorte(horaElegida);
       ref.invalidate(_rangoDiaLaboralProvider);
       ref.invalidate(_ventasHoyProvider);
       ref.invalidate(_movimientosCajaHoyProvider);
+      if (!subioOk && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+                'Se guardó en este dispositivo, pero no se pudo subir a la nube (revisá la conexión). '
+                'Los demás dispositivos van a seguir usando la hora anterior hasta que haya señal acá.'),
+            duration: Duration(seconds: 6),
+          ),
+        );
+      }
     }
   }
 

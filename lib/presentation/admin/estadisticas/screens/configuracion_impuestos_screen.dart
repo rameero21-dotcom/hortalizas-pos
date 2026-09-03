@@ -37,12 +37,19 @@ class _ConfiguracionImpuestosScreenState extends State<ConfiguracionImpuestosScr
     setState(() => _guardando = true);
     final iibb = (double.tryParse(_iibbCtrl.text.replaceAll(',', '.')) ?? 3.5) / 100;
     final tsh = (double.tryParse(_tshCtrl.text.replaceAll(',', '.')) ?? 1.0) / 100;
-    await ConfiguracionImpuestos.guardarTasaIIBB(iibb);
-    await ConfiguracionImpuestos.guardarTasaTSH(tsh);
+    final subioIIBB = await ConfiguracionImpuestos.guardarTasaIIBB(iibb);
+    final subioTSH = await ConfiguracionImpuestos.guardarTasaTSH(tsh);
     if (mounted) {
       setState(() => _guardando = false);
+      final subioOk = subioIIBB && subioTSH;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Porcentajes guardados')),
+        SnackBar(
+          content: Text(subioOk
+              ? 'Porcentajes guardados'
+              : 'Se guardó en este dispositivo, pero no se pudo subir a la nube (revisá la conexión). '
+                  'Los demás dispositivos van a seguir usando el valor anterior hasta que haya señal acá.'),
+          duration: subioOk ? const Duration(seconds: 3) : const Duration(seconds: 6),
+        ),
       );
       Navigator.pop(context);
     }

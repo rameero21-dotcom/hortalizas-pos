@@ -22,6 +22,13 @@ class FirestoreService {
   CollectionReference get facturacionMarcados => _firestore.collection(AppConstants.colFacturacionMarcados);
   CollectionReference get facturacionOcultos => _firestore.collection(AppConstants.colFacturacionOcultos);
 
+  /// Configuración general del negocio (no por venta/producto/etc.):
+  /// hora de corte del día laboral, tasas de impuestos. Es UN SOLO
+  /// documento fijo ("general"), para que sea igual en todos los
+  /// dispositivos en vez de cada uno guardar su propio valor local.
+  DocumentReference get configuracionNegocio =>
+      _firestore.collection(AppConstants.colConfiguracion).doc('general');
+
   /// Mapa entidad (nombre usado en sync_queue) -> colección real de Firestore.
   CollectionReference coleccionPara(String entidad) {
     switch (entidad) {

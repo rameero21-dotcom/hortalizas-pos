@@ -100,5 +100,15 @@ service cloud.firestore {
       allow read: if estaLogueado();
       allow write: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
     }
+
+    // Configuración general del negocio (hora de corte del día
+    // laboral, tasas de impuestos): un solo documento fijo, igual
+    // para todos los dispositivos. Cajero puede cambiar la hora de
+    // corte (se edita desde Arqueo de Caja); admin puede cambiar todo
+    // (tasas de impuestos, en Estadísticas).
+    match /configuracion/{docId} {
+      allow read: if estaLogueado();
+      allow write: if estaLogueado() && (miRol() == 'cajero' || miRol() == 'administrador');
+    }
   }
 }

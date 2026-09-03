@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _kClaveHoraCorte = 'hora_corte_dia_laboral';
@@ -7,17 +8,52 @@ const _kClaveHoraCorte = 'hora_corte_dia_laboral';
 /// defecto 10:00 AM) — así una venta a la 1am sigue contando como
 /// parte del día anterior, en vez de cortarse la caja/historial a la
 /// mitad de una jornada que sigue de largo hasta la mañana.
+///
+/// La hora de corte se guarda en Firestore (un solo documento, igual
+/// para todo el negocio) además de una copia local para que funcione
+/// sin conexión — así cambiarla desde un dispositivo se refleja en
+/// todos los demás, en vez de que cada uno use un valor distinto.
 class DiaLaboralService {
   static const int _horaCortePorDefecto = 10;
 
+  static DocumentReference get _docConfig =>
+      FirebaseFirestore.instance.collection('configuracion').doc('general');
+
   static Future<int> obtenerHoraCorte() async {
+    // Firestore primero (fuente de verdad compartida entre
+    // dispositivos), con un timeout corto para no trabar pantallas
+    // que se usan seguido (Arqueo, Estadísticas, Facturación) si no
+    // hay señal en ese momento.
+    try {
+      final doc = await _docConfig.get().timeout(const Duration(seconds: 3));
+      final data = doc.data() as Map<String, dynamic>?;
+      final valor = data?['horaCorteDiaLaboral'] as int?;
+      if (valor != null) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setInt(_kClaveHoraCorte, valor);
+        return valor;
+      }
+    } catch (_) {
+      // Sin conexión o tardó demasiado: se sigue con la copia local.
+    }
     final prefs = await SharedPreferences.getInstance();
     return prefs.getInt(_kClaveHoraCorte) ?? _horaCortePorDefecto;
   }
 
-  static Future<void> guardarHoraCorte(int hora) async {
+  /// Guarda la hora de corte nueva. Devuelve `true` si se pudo subir a
+  /// Firestore (así se sabe si de verdad va a quedar igual en todos los
+  /// dispositivos, o si por ahora solo cambió en este); en cualquier
+  /// caso queda guardada localmente.
+  static Future<bool> guardarHoraCorte(int hora) async {
+    final horaClamp = hora.clamp(0, 23);
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_kClaveHoraCorte, hora.clamp(0, 23));
+    await prefs.setInt(_kClaveHoraCorte, horaClamp);
+    try {
+      await _docConfig.set({'horaCorteDiaLaboral': horaClamp}, SetOptions(merge: true));
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   /// Devuelve el rango (inicio, fin) del "día laboral" al que pertenece
