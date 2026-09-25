@@ -7,6 +7,7 @@ import '../../admin/admin_dashboard_screen.dart';
 import '../../caja/screens/caja_home_screen.dart';
 import '../../vendedor/screens/nueva_venta_screen.dart';
 import 'login_screen.dart';
+import '../../shared/widgets/loading_widget.dart';
 
 /// Se muestra al arrancar la app: decide si hay que ir directo a la
 /// pantalla del rol correspondiente (porque quedó una sesión guardada y
@@ -65,7 +66,7 @@ class _AuthGateState extends ConsumerState<AuthGate> {
   @override
   Widget build(BuildContext context) {
     if (_cargando) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(body: LoadingWidget());
     }
     return _destino!;
   }

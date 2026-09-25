@@ -6,6 +6,9 @@ import '../../../../core/utils/formatters.dart';
 import '../../../../core/services/dia_laboral_service.dart';
 import '../../../../domain/entities/venta.dart';
 import '../../../../domain/usecases/estadisticas/obtener_estadisticas_usecase.dart';
+import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/loading_widget.dart';
+import '../../../shared/widgets/stat_card.dart';
 import 'configuracion_impuestos_screen.dart';
 
 enum _Periodo { dia, semana, mes }
@@ -90,7 +93,7 @@ class EstadisticasScreen extends ConsumerWidget {
           Expanded(
             child: estadisticasAsync.when(
               data: (stats) => _ContenidoEstadisticas(stats: stats),
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const LoadingWidget(),
               error: (err, __) => Center(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
@@ -120,38 +123,38 @@ class _ContenidoEstadisticas extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: _TarjetaMetrica(
-                titulo: 'Facturación',
-                valor: Formatters.formatearMoneda(stats.facturacionTotal),
+              child: StatCard(
+                label: 'Facturación',
+                value: Formatters.formatearMoneda(stats.facturacionTotal),
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: _TarjetaMetrica(titulo: 'Ventas', valor: '${stats.cantidadVentas}'),
+              child: StatCard(label: 'Ventas', value: '${stats.cantidadVentas}'),
             ),
           ],
         ),
         const SizedBox(height: 12),
-        _TarjetaMetrica(
-          titulo: 'Promedio por venta',
-          valor: Formatters.formatearMoneda(stats.promedioPorVenta),
+        StatCard(
+          label: 'Promedio por venta',
+          value: Formatters.formatearMoneda(stats.promedioPorVenta),
         ),
         const SizedBox(height: 24),
-        const Text('Costo, impuestos y utilidad', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        Text('Costo, impuestos y utilidad', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 12),
         Row(
           children: [
             Expanded(
-              child: _TarjetaMetrica(
-                titulo: 'Costo total',
-                valor: Formatters.formatearMoneda(stats.costoTotalGeneral),
+              child: StatCard(
+                label: 'Costo total',
+                value: Formatters.formatearMoneda(stats.costoTotalGeneral),
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: _TarjetaMetrica(
-                titulo: 'Utilidad',
-                valor: Formatters.formatearMoneda(stats.utilidadTotalGeneral),
+              child: StatCard(
+                label: 'Utilidad',
+                value: Formatters.formatearMoneda(stats.utilidadTotalGeneral),
                 destacado: true,
               ),
             ),
@@ -161,30 +164,33 @@ class _ContenidoEstadisticas extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: _TarjetaMetrica(
-                titulo: 'IIBB',
-                valor: Formatters.formatearMoneda(stats.iibbTotalGeneral),
+              child: StatCard(
+                label: 'IIBB',
+                value: Formatters.formatearMoneda(stats.iibbTotalGeneral),
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: _TarjetaMetrica(
-                titulo: 'TSH',
-                valor: Formatters.formatearMoneda(stats.tshTotalGeneral),
+              child: StatCard(
+                label: 'TSH',
+                value: Formatters.formatearMoneda(stats.tshTotalGeneral),
               ),
             ),
           ],
         ),
         const SizedBox(height: 24),
-        const Text('Productos', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        Text('Productos', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 4),
-        const Text(
+        Text(
           'Costo, IIBB y TSH calculados automáticamente sobre cada venta.',
-          style: TextStyle(fontSize: 12, color: Colors.grey),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
         ),
         const SizedBox(height: 8),
         if (stats.resumenPorProducto.isEmpty)
-          const Text('Sin datos en este período.')
+          const EmptyState(icon: Icons.bar_chart_rounded, message: 'Sin datos en este período.')
         else
           ...stats.resumenPorProducto.values.map(
             (r) => Card(
@@ -214,12 +220,12 @@ class _ContenidoEstadisticas extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 24),
-        const Text('Productos más vendidos', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        Text('Productos más vendidos', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 12),
         if (masVendidos.isEmpty)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 24),
-            child: Text('No hay ventas cobradas en este período todavía.'),
+          const EmptyState(
+            icon: Icons.shopping_basket_outlined,
+            message: 'No hay ventas cobradas en este período todavía.',
           )
         else
           Card(
@@ -277,10 +283,10 @@ class _ContenidoEstadisticas extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 24),
-        const Text('Ventas por método de pago', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        Text('Ventas por método de pago', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
         if (stats.facturacionPorMetodoPago.isEmpty)
-          const Text('Sin datos en este período.')
+          const EmptyState(icon: Icons.payments_outlined, message: 'Sin datos en este período.')
         else
           ...stats.facturacionPorMetodoPago.entries.map(
             (e) => ListTile(
@@ -323,45 +329,6 @@ class _FilaDetalleProducto extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _TarjetaMetrica extends StatelessWidget {
-  final String titulo;
-  final String valor;
-  final bool destacado;
-  const _TarjetaMetrica({required this.titulo, required this.valor, this.destacado = false});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Card(
-      color: destacado ? colorScheme.secondary.withOpacity(0.15) : null,
-      shape: destacado
-          ? RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-              side: BorderSide(color: colorScheme.secondary),
-            )
-          : null,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(titulo, style: TextStyle(color: Colors.grey.shade400)),
-            const SizedBox(height: 4),
-            Text(
-              valor,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: destacado ? colorScheme.secondary : null,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

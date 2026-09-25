@@ -8,6 +8,7 @@ import '../../../domain/entities/usuario.dart';
 import '../../admin/admin_dashboard_screen.dart';
 import '../../caja/screens/caja_home_screen.dart';
 import '../../vendedor/screens/nueva_venta_screen.dart';
+import '../../shared/widgets/loading_widget.dart';
 
 /// Pantalla de login. Según el rol del usuario autenticado (Firebase Auth
 /// + Firestore), navega a NuevaVentaScreen (vendedor), CajaHomeScreen
@@ -158,7 +159,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               SizedBox(
                 height: 96,
                 child: _cargando
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const LoadingWidget()
                     : ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: _cuentasRecientes.length,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../shared/widgets/loading_widget.dart';
 
 /// Escanea el QR de respaldo de una venta (para cuando falla la
 /// sincronización automática por red). Devuelve el contenido crudo del
@@ -63,7 +64,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
 
   Widget _buildBody() {
     if (_verificandoPermiso) {
-      return const Center(child: CircularProgressIndicator());
+      return const LoadingWidget();
     }
 
     if (!_permisoConcedido) {

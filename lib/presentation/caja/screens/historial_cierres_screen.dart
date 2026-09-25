@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/entities/caja.dart';
+import '../../shared/widgets/loading_widget.dart';
 
 final _cierresProvider = FutureProvider.autoDispose<List<CierreCaja>>((ref) async {
   final ahora = DateTime.now();
@@ -70,7 +71,7 @@ class HistorialCierresScreen extends ConsumerWidget {
             },
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const LoadingWidget(),
         error: (e, __) => Center(child: Text('Error: $e')),
       ),
     );

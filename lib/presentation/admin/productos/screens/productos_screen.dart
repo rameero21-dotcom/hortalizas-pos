@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/producto.dart';
+import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/loading_widget.dart';
 import 'producto_form_screen.dart';
 
 /// Escucha en tiempo real: un producto creado/editado desde CUALQUIER
@@ -58,9 +60,9 @@ class ProductosScreen extends ConsumerWidget {
             if (productos.isEmpty) {
               return ListView(
                 children: const [
-                  Padding(
-                    padding: EdgeInsets.all(24),
-                    child: Text('No hay productos cargados todavía. Tocá + para agregar uno.'),
+                  EmptyState(
+                    icon: Icons.eco_outlined,
+                    message: 'No hay productos cargados todavía. Tocá + para agregar uno.',
                   ),
                 ],
               );
@@ -149,7 +151,7 @@ class ProductosScreen extends ConsumerWidget {
               },
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const LoadingWidget(),
           error: (err, __) => Center(child: Text('Error al cargar productos: $err')),
         ),
       ),
