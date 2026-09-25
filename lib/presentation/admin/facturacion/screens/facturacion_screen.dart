@@ -5,6 +5,7 @@ import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/venta.dart';
 import '../../../../domain/entities/cliente.dart';
 import '../../../../core/services/dia_laboral_service.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 class _FiltrosFacturacion {
   final DateTime desde;
@@ -378,7 +379,7 @@ class FacturacionScreen extends ConsumerWidget {
                   ],
                 );
               },
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const LoadingWidget(),
               error: (err, __) => Center(child: Text('Error: $err')),
             ),
           ),

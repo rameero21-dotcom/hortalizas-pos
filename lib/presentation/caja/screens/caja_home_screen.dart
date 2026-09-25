@@ -12,6 +12,7 @@ import '../../admin/historial/screens/historial_screen.dart';
 import '../../admin/clientes/screens/clientes_screen.dart';
 import '../../shared/utils/cerrar_sesion.dart';
 import '../../shared/widgets/indicador_sincronizacion.dart';
+import '../../shared/widgets/loading_widget.dart';
 
 bool get _tieneCamaraDeQr => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
@@ -219,7 +220,7 @@ class CajaHomeScreen extends ConsumerWidget {
               },
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const LoadingWidget(),
           error: (err, __) => ListView(
             children: [
               Padding(

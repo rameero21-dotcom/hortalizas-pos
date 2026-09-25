@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/stock.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 /// Un ítem del historial: puede ser "se creó este producto" o un
 /// movimiento de stock real (ingreso, ajuste, merma).
@@ -157,7 +158,7 @@ class HistorialStockScreen extends ConsumerWidget {
             },
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const LoadingWidget(),
         error: (e, __) => Center(child: Text('Error: $e')),
       ),
     );

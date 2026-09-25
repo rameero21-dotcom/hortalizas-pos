@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/services/configuracion_impuestos.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 /// Permite ajustar los porcentajes de IIBB y TSH que se aplican
 /// automáticamente sobre cada venta para calcular el reporte de
@@ -67,7 +68,7 @@ class _ConfiguracionImpuestosScreenState extends State<ConfiguracionImpuestosScr
     return Scaffold(
       appBar: AppBar(title: const Text('Porcentajes de impuestos')),
       body: _cargando
-          ? const Center(child: CircularProgressIndicator())
+          ? const LoadingWidget()
           : Padding(
               padding: const EdgeInsets.all(16),
               child: Column(

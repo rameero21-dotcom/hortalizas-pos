@@ -6,6 +6,7 @@ import '../../../domain/entities/venta.dart';
 import '../../../domain/entities/cliente.dart';
 import '../widgets/metodo_pago_selector.dart';
 import 'caja_home_screen.dart';
+import '../../shared/widgets/loading_widget.dart';
 
 /// Detalle de una venta pendiente y flujo de cobro: se puede pagar con
 /// un solo método o dividir el total entre varios (ej: parte en
@@ -147,7 +148,7 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
+      builder: (context) => const LoadingWidget(),
     );
     try {
       await ref.read(clienteRepositoryProvider).refrescarDesdeRemoto();
@@ -434,7 +435,7 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
           }
           return _buildContenido(context, matches.first);
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const LoadingWidget(),
         error: (err, __) => Center(child: Text('Error: $err')),
       ),
     );

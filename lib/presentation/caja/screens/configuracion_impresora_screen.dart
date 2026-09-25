@@ -4,6 +4,7 @@ import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 import '../../../core/services/impresora_ticket_service.dart';
 import '../../../core/services/impresora_bluetooth_service.dart';
 import '../../../core/services/ticket_print_orchestrator.dart';
+import '../../shared/widgets/loading_widget.dart';
 
 /// Pantalla para elegir la impresora térmica de tickets. En Windows
 /// (cable USB) muestra las impresoras ya instaladas en el sistema; en
@@ -143,7 +144,7 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
         ],
       ),
       body: _cargando
-          ? const Center(child: CircularProgressIndicator())
+          ? const LoadingWidget()
           : _errorCarga != null
               ? Padding(
                   padding: const EdgeInsets.all(16),

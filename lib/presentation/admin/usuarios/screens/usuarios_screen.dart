@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../domain/entities/usuario.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 final usuariosListProvider = StreamProvider.autoDispose((ref) {
   return ref.watch(usuarioRepositoryProvider).observarTodos();
@@ -68,7 +69,7 @@ class UsuariosScreen extends ConsumerWidget {
                   },
                 );
               },
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const LoadingWidget(),
               error: (err, __) => Center(child: Text('Error: $err')),
             ),
           ),

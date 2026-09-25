@@ -4,6 +4,8 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import 'proveedor_form_screen.dart';
 import 'proveedor_detalle_screen.dart';
+import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 /// Escucha en tiempo real: un proveedor creado/editado desde CUALQUIER
 /// dispositivo aparece acá sin necesitar refrescar manualmente.
@@ -40,7 +42,10 @@ class ProveedoresScreen extends ConsumerWidget {
       body: proveedoresAsync.when(
         data: (proveedores) {
           if (proveedores.isEmpty) {
-            return const Center(child: Text('No hay proveedores cargados. Tocá + para agregar uno.'));
+            return const EmptyState(
+              icon: Icons.local_shipping_outlined,
+              message: 'No hay proveedores cargados. Tocá + para agregar uno.',
+            );
           }
           final totalQueLesDebemos = proveedores
               .where((p) => p.saldoCuentaCorriente > 0)
@@ -165,7 +170,7 @@ class ProveedoresScreen extends ConsumerWidget {
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const LoadingWidget(),
         error: (err, __) => Center(child: Text('Error: $err')),
       ),
     );

@@ -5,6 +5,8 @@ import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/cliente.dart';
 import '../../../../domain/entities/venta.dart';
 import '../../../../domain/entities/caja.dart';
+import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 final _movimientosClienteProvider =
     StreamProvider.autoDispose.family<List<MovimientoCuentaCorriente>, String>((ref, clienteId) {
@@ -246,14 +248,17 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
                       },
                     );
                   },
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () => const LoadingWidget(),
                   error: (e, __) => Center(child: Text('Error: $e')),
                 ),
                 // ===== Pagos y cargos manuales (aparte de boletas) =====
                 movimientosAsync.when(
                   data: (movimientos) {
                     if (movimientos.isEmpty) {
-                      return const Center(child: Text('Sin movimientos manuales todavía.'));
+                      return const EmptyState(
+                        icon: Icons.receipt_long_outlined,
+                        message: 'Sin movimientos manuales todavía.',
+                      );
                     }
                     return ListView.builder(
                       itemCount: movimientos.length,
@@ -278,7 +283,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
                       },
                     );
                   },
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () => const LoadingWidget(),
                   error: (e, __) => Center(child: Text('Error: $e')),
                 ),
               ],

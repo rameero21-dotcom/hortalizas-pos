@@ -4,6 +4,8 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import 'cliente_form_screen.dart';
 import 'cliente_detalle_screen.dart';
+import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 /// Escucha en tiempo real: un cliente creado/editado desde CUALQUIER
 /// dispositivo aparece acá sin necesitar refrescar manualmente.
@@ -39,7 +41,10 @@ class ClientesScreen extends ConsumerWidget {
       body: clientesAsync.when(
         data: (clientes) {
           if (clientes.isEmpty) {
-            return const Center(child: Text('No hay clientes cargados. Tocá + para agregar uno.'));
+            return const EmptyState(
+              icon: Icons.contacts_outlined,
+              message: 'No hay clientes cargados. Tocá + para agregar uno.',
+            );
           }
           final totalQueNosDeben = clientes
               .where((c) => c.saldoCuentaCorriente < 0)
@@ -163,7 +168,7 @@ class ClientesScreen extends ConsumerWidget {
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const LoadingWidget(),
         error: (err, __) => Center(child: Text('Error: $err')),
       ),
     );

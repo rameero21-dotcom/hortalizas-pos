@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/proveedor.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 /// Un ítem del historial combinado: puede ser un pedido (suma al saldo)
 /// o un pago (resta del saldo). Para los pedidos se guarda el objeto
@@ -481,7 +482,7 @@ class ProveedorDetalleScreen extends ConsumerWidget {
                   },
                 );
               },
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const LoadingWidget(),
               error: (err, __) => Center(child: Text('Error: $err')),
             ),
           ),

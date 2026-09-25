@@ -8,6 +8,7 @@ import '../../../core/services/dia_laboral_service.dart';
 import '../../../domain/entities/caja.dart';
 import '../../../domain/entities/venta.dart';
 import 'historial_cierres_screen.dart';
+import '../../shared/widgets/loading_widget.dart';
 
 /// Denominaciones de billetes en pesos argentinos, tal como se cuentan
 /// en la planilla (de mayor a menor).
@@ -568,10 +569,10 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                   ],
                 );
               },
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const LoadingWidget(),
               error: (e, __) => Text('Error: $e'),
             ),
-            loading: () => const Center(child: CircularProgressIndicator()),
+            loading: () => const LoadingWidget(),
             error: (e, __) => Text('Error: $e'),
           ),
           const SizedBox(height: 16),

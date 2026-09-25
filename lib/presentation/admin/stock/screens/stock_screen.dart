@@ -8,6 +8,8 @@ import 'ingreso_mercaderia_screen.dart';
 import 'ajuste_stock_screen.dart';
 import 'historial_stock_screen.dart';
 import 'registrar_merma_screen.dart';
+import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 class _ProductoConStock {
   final Producto producto;
@@ -72,9 +74,9 @@ class StockScreen extends ConsumerWidget {
             if (items.isEmpty) {
               return ListView(
                 children: const [
-                  Padding(
-                    padding: EdgeInsets.all(24),
-                    child: Text('No hay productos cargados. Cargalos primero en Admin > Productos.'),
+                  EmptyState(
+                    icon: Icons.balance_outlined,
+                    message: 'No hay productos cargados. Cargalos primero en Admin > Productos.',
                   ),
                 ],
               );
@@ -130,7 +132,7 @@ class StockScreen extends ConsumerWidget {
               },
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const LoadingWidget(),
           error: (err, __) => Center(child: Text('Error al cargar stock: $err')),
         ),
       ),

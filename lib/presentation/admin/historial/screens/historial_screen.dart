@@ -7,6 +7,8 @@ import '../../../../domain/entities/venta.dart';
 import '../../../../domain/entities/caja.dart';
 import '../../../../core/services/ticket_print_orchestrator.dart';
 import 'editar_venta_screen.dart';
+import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 class _FiltrosHistorial {
   final DateTime desde;
@@ -291,7 +293,10 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                 ventasAsync.when(
                   data: (ventas) {
                     if (ventas.isEmpty) {
-                      return const Center(child: Text('No hay ventas cobradas en este rango.'));
+                      return const EmptyState(
+                        icon: Icons.receipt_long_outlined,
+                        message: 'No hay ventas cobradas en este rango.',
+                      );
                     }
                     return ListView.builder(
                       itemCount: ventas.length,
@@ -367,14 +372,17 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                       },
                     );
                   },
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () => const LoadingWidget(),
                   error: (err, __) => Center(child: Text('Error: $err')),
                 ),
                 // ===== Pestaña: Movimientos de caja (ventas + ingresos + egresos) =====
                 movimientosAsync.when(
                   data: (movimientos) {
                     if (movimientos.isEmpty) {
-                      return const Center(child: Text('No hay movimientos en este rango.'));
+                      return const EmptyState(
+                        icon: Icons.swap_horiz_rounded,
+                        message: 'No hay movimientos en este rango.',
+                      );
                     }
                     return ListView.builder(
                       itemCount: movimientos.length,
@@ -450,7 +458,7 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                       },
                     );
                   },
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () => const LoadingWidget(),
                   error: (err, __) => Center(child: Text('Error: $err')),
                 ),
               ],
