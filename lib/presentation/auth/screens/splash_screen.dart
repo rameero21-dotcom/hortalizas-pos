@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../../../core/theme/app_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// Pantalla de bienvenida mostrada mientras AuthGate decide a qué
 /// pantalla ir (sesión guardada, rol del usuario, etc.).
@@ -17,44 +17,48 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppTheme.primaryColor, Color(0xFF0C1B7A)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/logo.png',
-                height: 120,
-                errorBuilder: (_, __, ___) =>
-                    const Icon(Icons.storefront, size: 96, color: Colors.white),
-              ).animate().fadeIn(duration: 400.ms).scale(
-                    begin: const Offset(0.9, 0.9),
-                    end: const Offset(1, 1),
-                    duration: 400.ms,
-                    curve: Curves.easeOut,
-                  ),
-              const SizedBox(height: 16),
-              const Text(
-                'Hortalizas POS',
-                style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
-              ).animate().fadeIn(delay: 150.ms, duration: 400.ms),
-              const SizedBox(height: 40),
-              const SizedBox(
-                width: 22,
-                height: 22,
-                child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.white70),
-              ).animate().fadeIn(delay: 400.ms, duration: 300.ms),
-            ],
-          ),
+      backgroundColor: const Color(0xFF0D1030),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/logo.png',
+              height: 64,
+              errorBuilder: (_, __, ___) =>
+                  const Icon(Icons.storefront, size: 56, color: Colors.white),
+            ).animate().fadeIn(duration: 400.ms).scale(
+                  begin: const Offset(0.9, 0.9),
+                  end: const Offset(1, 1),
+                  duration: 400.ms,
+                  curve: Curves.easeOut,
+                ),
+            const SizedBox(height: 26),
+            Text(
+              'Hortalizas',
+              style: GoogleFonts.fraunces(
+                fontSize: 34,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFFF8F7F3),
+                letterSpacing: -0.3,
+              ),
+            ).animate().fadeIn(delay: 150.ms, duration: 400.ms),
+            const SizedBox(height: 10),
+            Text(
+              'PUNTO DE VENTA',
+              style: TextStyle(
+                fontSize: 10.5,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 3.2,
+                color: Colors.white.withOpacity(0.5),
+              ),
+            ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+            const SizedBox(height: 22),
+            Container(width: 32, height: 1, color: const Color(0xFFFE9015).withOpacity(0.85))
+                .animate()
+                .fadeIn(delay: 400.ms, duration: 300.ms),
+          ],
         ),
       ),
     );

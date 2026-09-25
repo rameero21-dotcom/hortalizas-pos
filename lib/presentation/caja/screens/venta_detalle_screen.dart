@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../domain/entities/venta.dart';
 import '../../../domain/entities/cliente.dart';
@@ -351,7 +352,7 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
                               : 'Sobran: ${Formatters.formatearMoneda(-restante)}'),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: restante.abs() < 0.5 ? Colors.green.shade300 : Colors.orange.shade300,
+                        color: restante.abs() < 0.5 ? AppTheme.successColor : AppTheme.secondaryColor,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -388,26 +389,32 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Container(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('TOTAL', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Text(Formatters.formatearMoneda(venta.total),
-                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              Text('TOTAL', style: AppTheme.eyebrowStyle(context)),
+              const SizedBox(height: 4),
+              Text(
+                Formatters.formatearMoneda(venta.total),
+                style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 34),
+              ),
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: ElevatedButton(
             onPressed: _cobrando ? null : () => _cobrar(venta),
             child: _cobrando
                 ? const SizedBox(
                     height: 20, width: 20,
                     child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                : const Text('COBRAR'),
+                : const Text('Confirmar cobro'),
           ),
         ),
       ],

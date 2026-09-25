@@ -93,14 +93,17 @@ class HortalizasPosApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      // Se fuerza oscuro siempre (sin seguir el tema del sistema): toda
-      // la app se diseñó y probó pensando en el tema oscuro, y muchas
-      // pantallas todavía tienen colores de texto hardcodeados (ej.
-      // `color: Colors.white`) que asumen un fondo oscuro debajo. Ya se
-      // completó AppTheme.light para que tenga la misma estructura que
-      // el oscuro, pero hasta auditar esos hardcodeos, habilitarlo
-      // dejaría texto invisible en varias pantallas.
-      themeMode: ThemeMode.dark,
+      // Se fuerza claro siempre (sin seguir el tema del sistema): el
+      // rediseño "premium" (marfil, tinta, Fraunces en los montos) es
+      // pensado para tema claro, igual que las apps de punto de venta
+      // que se tomaron de referencia (Square, Stripe). Se auditaron
+      // los ~25 usos de `color: Colors.white` del código (spinners
+      // dentro de botones sólidos, íconos sobre el rojo del swipe-to-
+      // delete, overlays sobre la cámara) y ninguno depende del tema
+      // de fondo, así que no hay riesgo de texto invisible al fijar
+      // claro. AppTheme.dark queda disponible por si se retoma más
+      // adelante, pero hoy no se usa.
+      themeMode: ThemeMode.light,
       home: const AuthGate(),
     );
   }
