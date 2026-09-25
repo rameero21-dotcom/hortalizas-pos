@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'productos/screens/productos_screen.dart';
 import 'stock/screens/stock_screen.dart';
@@ -79,7 +80,18 @@ class AdminDashboardScreen extends ConsumerWidget {
                 ],
               ),
             ),
-          );
+          )
+              // Entrada escalonada: cada tarjeta aparece un poco después que
+              // la anterior, en vez de que las 9 salten juntas de golpe.
+              .animate()
+              .fadeIn(delay: (i * 30).ms, duration: 250.ms, curve: Curves.easeOut)
+              .scale(
+                begin: const Offset(0.9, 0.9),
+                end: const Offset(1, 1),
+                delay: (i * 30).ms,
+                duration: 250.ms,
+                curve: Curves.easeOut,
+              );
         },
       ),
     );
