@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
@@ -174,7 +175,7 @@ class FacturacionScreen extends ConsumerWidget {
     final itemsAsync = ref.watch(_facturacionProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Facturación'),
         actions: [
           IconButton(

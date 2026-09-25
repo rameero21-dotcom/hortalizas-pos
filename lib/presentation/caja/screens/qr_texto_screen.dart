@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../shared/widgets/gradient_app_bar.dart';
 
 class QrTextoScreen extends StatefulWidget {
   const QrTextoScreen({super.key});
@@ -19,7 +20,7 @@ class _QrTextoScreenState extends State<QrTextoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Ingresar código QR de venta')),
+      appBar: const GradientAppBar(title: Text('Ingresar código QR de venta')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

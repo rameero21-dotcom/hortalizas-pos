@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../../core/di/providers.dart';
@@ -92,7 +93,7 @@ class NuevaVentaScreen extends ConsumerWidget {
     final total = ref.watch(carritoProvider.notifier).total;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Nueva venta'),
         actions: [
           const IndicadorSincronizacion(),

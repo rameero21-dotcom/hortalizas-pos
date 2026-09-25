@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/services/configuracion_impuestos.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
 
 /// Permite ajustar los porcentajes de IIBB y TSH que se aplican
@@ -66,7 +67,7 @@ class _ConfiguracionImpuestosScreenState extends State<ConfiguracionImpuestosScr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Porcentajes de impuestos')),
+      appBar: const GradientAppBar(title: Text('Porcentajes de impuestos')),
       body: _cargando
           ? const LoadingWidget()
           : Padding(

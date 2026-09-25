@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
@@ -149,7 +150,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
     final boletasAsync = ref.watch(_boletasClienteProvider(cliente.id));
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: Text(cliente.nombre),
         bottom: TabBar(
           controller: _tabController,

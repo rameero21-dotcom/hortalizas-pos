@@ -6,6 +6,7 @@ import '../../../../core/utils/formatters.dart';
 import 'cliente_form_screen.dart';
 import 'cliente_detalle_screen.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
 
 /// Escucha en tiempo real: un cliente creado/editado desde CUALQUIER
@@ -28,7 +29,7 @@ class ClientesScreen extends ConsumerWidget {
     final clientesAsync = ref.watch(clientesListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Clientes')),
+      appBar: const GradientAppBar(title: Text('Clientes')),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(

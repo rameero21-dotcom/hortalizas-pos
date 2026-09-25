@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/validators.dart';
@@ -54,7 +55,7 @@ class _RegistrarMermaScreenState extends ConsumerState<RegistrarMermaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Merma: ${widget.producto.nombre}')),
+      appBar: GradientAppBar(title: Text('Merma: ${widget.producto.nombre}')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
