@@ -111,15 +111,13 @@ class ProductosScreen extends ConsumerWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     child: ListTile(
                       leading: Container(
-                        width: 44,
-                        height: 44,
+                        width: 10,
+                        height: 10,
+                        margin: const EdgeInsets.only(top: 4),
                         decoration: BoxDecoration(
-                          color: (p.activo ? Theme.of(context).colorScheme.secondary : Colors.grey)
-                              .withOpacity(0.18),
-                          borderRadius: BorderRadius.circular(12),
+                          color: p.activo ? _colorCategoria(p.categoria) : Colors.grey.shade400,
+                          shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.eco_rounded,
-                            color: p.activo ? Theme.of(context).colorScheme.secondary : Colors.grey),
                       ),
                       title: Text(
                         p.nombre,
@@ -164,4 +162,19 @@ class ProductosScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// Asigna a cada categoría un color estable (siempre el mismo para la
+/// misma categoría) tomado de una paleta reducida, para que el punto de
+/// color funcione como una referencia visual rápida al recorrer la lista.
+Color _colorCategoria(String categoria) {
+  const paleta = [
+    Color(0xFFC0392B),
+    Color(0xFF2F7D5A),
+    Color(0xFF1226A9),
+    Color(0xFFFE9015),
+    Color(0xFF6E4E9E),
+    Color(0xFF1B7A8C),
+  ];
+  return paleta[categoria.hashCode.abs() % paleta.length];
 }

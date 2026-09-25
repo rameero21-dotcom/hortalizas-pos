@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../core/di/providers.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/services/dia_laboral_service.dart';
 import '../../../../domain/entities/venta.dart';
@@ -94,7 +95,7 @@ class EstadisticasScreen extends ConsumerWidget {
           ),
           Expanded(
             child: estadisticasAsync.when(
-              data: (stats) => _ContenidoEstadisticas(stats: stats),
+              data: (stats) => _ContenidoEstadisticas(stats: stats, periodo: periodo),
               loading: () => const LoadingWidget(),
               error: (err, __) => Center(
                 child: Padding(
@@ -113,7 +114,8 @@ class EstadisticasScreen extends ConsumerWidget {
 
 class _ContenidoEstadisticas extends StatelessWidget {
   final EstadisticasResumen stats;
-  const _ContenidoEstadisticas({required this.stats});
+  final _Periodo periodo;
+  const _ContenidoEstadisticas({required this.stats, required this.periodo});
 
   @override
   Widget build(BuildContext context) {
@@ -123,35 +125,22 @@ class _ContenidoEstadisticas extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        const _SectionHeader(icon: Icons.insights_rounded, titulo: 'Resumen del período'),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            Expanded(
-              child: StatCard(
-                label: 'Facturación',
-                value: Formatters.formatearMoneda(stats.facturacionTotal),
-                icon: Icons.payments_rounded,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: StatCard(
-                label: 'Ventas',
-                value: '${stats.cantidadVentas}',
-                icon: Icons.receipt_long_rounded,
-              ),
-            ),
-          ],
+        Text(_eyebrowPeriodo(periodo), style: AppTheme.eyebrowStyle(context)),
+        const SizedBox(height: 6),
+        Text(
+          Formatters.formatearMoneda(stats.facturacionTotal),
+          style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 40),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 4),
+        Text('${stats.cantidadVentas} ventas', style: Theme.of(context).textTheme.bodyMedium),
+        const SizedBox(height: 20),
         StatCard(
           label: 'Promedio por venta',
           value: Formatters.formatearMoneda(stats.promedioPorVenta),
           icon: Icons.equalizer_rounded,
         ),
         const SizedBox(height: 24),
-        const _SectionHeader(icon: Icons.account_balance_wallet_rounded, titulo: 'Costo, impuestos y utilidad'),
+        const _SectionHeader(titulo: 'Costo, impuestos y utilidad'),
         const SizedBox(height: 12),
         Row(
           children: [
@@ -195,7 +184,6 @@ class _ContenidoEstadisticas extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         const _SectionHeader(
-          icon: Icons.eco_rounded,
           titulo: 'Productos',
           subtitulo: 'Costo, IIBB y TSH calculados automáticamente sobre cada venta.',
         ),
@@ -206,7 +194,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
           ...stats.resumenPorProducto.values.map(
             (r) => Card(
               child: ExpansionTile(
-                leading: Icon(Icons.eco_rounded, color: colorScheme.secondary),
+                leading: Icon(Icons.eco_rounded, color: colorScheme.onSurfaceVariant),
                 title: Text(r.nombreProducto),
                 subtitle: Text(
                   'Cant: ${r.cantidadVendida.toStringAsFixed(0)} · '
@@ -232,7 +220,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 24),
-        const _SectionHeader(icon: Icons.leaderboard_rounded, titulo: 'Productos más vendidos'),
+        const _SectionHeader(titulo: 'Productos más vendidos'),
         const SizedBox(height: 12),
         if (masVendidos.isEmpty)
           const EmptyState(
@@ -268,7 +256,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
                             toY: masVendidos[i].value,
                             width: 24,
                             borderRadius: BorderRadius.circular(6),
-                            color: i == 0 ? colorScheme.secondary : colorScheme.primary,
+                            color: i == 0 ? colorScheme.primary : colorScheme.primary.withOpacity(0.35),
                           ),
                         ]),
                     ],
@@ -309,7 +297,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
             ),
           ).animate().fadeIn(duration: 300.ms),
         const SizedBox(height: 24),
-        const _SectionHeader(icon: Icons.pie_chart_rounded, titulo: 'Ventas por método de pago'),
+        const _SectionHeader(titulo: 'Ventas por método de pago'),
         const SizedBox(height: 12),
         if (stats.facturacionPorMetodoPago.isEmpty)
           const EmptyState(icon: Icons.payments_outlined, message: 'Sin datos en este período.')
@@ -331,44 +319,34 @@ class _ContenidoEstadisticas extends StatelessWidget {
   }
 }
 
-/// Encabezado de sección con ícono en caja tintada, mismo lenguaje
-/// visual que usan las tarjetas de módulos del dashboard de admin y
-/// los íconos de listado (productos, proveedores, etc.).
+String _eyebrowPeriodo(_Periodo periodo) => switch (periodo) {
+      _Periodo.dia => 'HOY',
+      _Periodo.semana => 'ESTA SEMANA',
+      _Periodo.mes => 'ESTE MES',
+    };
+
+/// Encabezado de sección: solo tipografía (etiqueta en versalitas +
+/// título), sin ícono en caja tintada — el acento de color de la marca
+/// se reserva para un solo elemento por pantalla.
 class _SectionHeader extends StatelessWidget {
-  final IconData icon;
   final String titulo;
   final String? subtitulo;
-  const _SectionHeader({required this.icon, required this.titulo, this.subtitulo});
+  const _SectionHeader({required this.titulo, this.subtitulo});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.secondary.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(10),
+        Text(titulo, style: theme.textTheme.titleMedium),
+        if (subtitulo != null) ...[
+          const SizedBox(height: 2),
+          Text(
+            subtitulo!,
+            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
-          child: Icon(icon, size: 18, color: theme.colorScheme.secondary),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(titulo, style: theme.textTheme.titleMedium),
-              if (subtitulo != null)
-                Text(
-                  subtitulo!,
-                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                ),
-            ],
-          ),
-        ),
+        ],
       ],
     );
   }
@@ -394,7 +372,7 @@ class _FilaMetodoPago extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(_iconoMetodoPago(metodo), size: 18, color: colorScheme.secondary),
+              Icon(_iconoMetodoPago(metodo), size: 18, color: colorScheme.onSurfaceVariant),
               const SizedBox(width: 10),
               Expanded(child: Text(_labelMetodoPago(metodo), style: theme.textTheme.bodyLarge)),
               Text(

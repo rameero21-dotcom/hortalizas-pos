@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/errors/failures.dart';
 import '../../../core/services/sesion_prefs.dart';
@@ -140,63 +141,96 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => destino));
   }
 
+  Widget _campoLabel(String texto) => Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Text(
+          texto.toUpperCase(),
+          style: const TextStyle(
+            fontSize: 10.5,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1.3,
+            color: Color(0xFF8B8B93),
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: const GradientAppBar(title: Text('Iniciar sesión')),
+      appBar: const GradientAppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(horizontal: 28),
         child: ListView(
           children: [
-            const SizedBox(height: 24),
-            Center(
-              child: Image.asset('assets/images/logo.png', height: 96, errorBuilder: (_, __, ___) =>
-                  const Icon(Icons.storefront, size: 96)),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  height: 22,
+                  errorBuilder: (_, __, ___) => const Icon(Icons.storefront, size: 20),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'HORTALIZAS POS',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.6,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 32),
+            Text('Bienvenido',
+                style: textTheme.displayMedium?.copyWith(fontSize: 30, letterSpacing: -0.3)),
+            const SizedBox(height: 6),
+            Text('Ingresá para continuar', style: textTheme.bodyMedium),
+            const SizedBox(height: 28),
             if (_cuentasRecientes.isNotEmpty) ...[
-              const Text('Cuentas recientes', style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
+              Text('Cuentas recientes', style: AppTheme.eyebrowStyle(context)),
+              const SizedBox(height: 12),
               SizedBox(
-                height: 96,
+                height: 92,
                 child: _cargando
                     ? const LoadingWidget()
                     : ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: _cuentasRecientes.length,
-                        separatorBuilder: (context, i) => const SizedBox(width: 8),
+                        separatorBuilder: (context, i) => const SizedBox(width: 18),
                         itemBuilder: (context, i) {
                           final c = _cuentasRecientes[i];
                           return GestureDetector(
                             onTap: () => _elegirCuenta(c),
                             onLongPress: () => _quitarCuenta(c),
-                            child: Container(
-                              width: 110,
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Theme.of(context).dividerColor),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
+                            child: SizedBox(
+                              width: 72,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  CircleAvatar(
-                                    radius: 16,
-                                    child: Text(c.nombre.isNotEmpty ? c.nombre[0] : '?'),
+                                  Container(
+                                    width: 42,
+                                    height: 42,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: const Color(0xFFE4E1D8)),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      c.nombre.isNotEmpty ? c.nombre[0].toUpperCase() : '?',
+                                      style: textTheme.displayMedium
+                                          ?.copyWith(fontSize: 15, letterSpacing: 0),
+                                    ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: 7),
                                   Text(c.nombre,
                                       textAlign: TextAlign.center,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontSize: 12)),
-                                  const SizedBox(height: 2),
-                                  Text(c.rol,
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                                      style: textTheme.bodySmall),
                                 ],
                               ),
                             ),
@@ -204,20 +238,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         },
                       ),
               ),
-              const Text('Tocá para entrar directo · mantené presionado para quitar',
-                  style: TextStyle(fontSize: 11, color: Colors.grey)),
-              const SizedBox(height: 24),
+              const SizedBox(height: 28),
             ],
+            _campoLabel('Usuario'),
             TextField(
               controller: _emailCtrl,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
+              decoration: const InputDecoration(hintText: 'usuario@ejemplo.com'),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 18),
+            _campoLabel('Contraseña'),
             TextField(
               controller: _passwordCtrl,
               focusNode: _passwordFocus,
-              decoration: const InputDecoration(labelText: 'Contraseña', border: OutlineInputBorder()),
+              decoration: const InputDecoration(hintText: '••••••••'),
               obscureText: true,
               onSubmitted: (_) => _login(),
             ),
@@ -232,7 +266,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 12),
               Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
             ],
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _cargando ? null : _login,
               child: _cargando
@@ -241,6 +275,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                   : const Text('Ingresar'),
             ),
+            const SizedBox(height: 24),
           ],
         ),
       ),

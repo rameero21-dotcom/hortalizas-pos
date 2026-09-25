@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/theme/app_theme.dart';
 import 'productos/screens/productos_screen.dart';
 import 'stock/screens/stock_screen.dart';
 import 'estadisticas/screens/estadisticas_screen.dart';
@@ -20,17 +21,16 @@ class AdminDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorScheme = Theme.of(context).colorScheme;
     final modulos = <_ModuloAdmin>[
-      _ModuloAdmin('Productos', Icons.eco_rounded, const ProductosScreen(), colorScheme.secondary),
-      _ModuloAdmin('Stock', Icons.balance_rounded, const StockScreen(), colorScheme.primary),
-      _ModuloAdmin('Estadísticas', Icons.insights_rounded, const EstadisticasScreen(), colorScheme.secondary),
-      _ModuloAdmin('Usuarios', Icons.people_alt_rounded, const UsuariosScreen(), colorScheme.primary),
-      _ModuloAdmin('Historial', Icons.history_rounded, const HistorialScreen(), colorScheme.secondary),
-      _ModuloAdmin('Clientes', Icons.contacts_rounded, const ClientesScreen(), colorScheme.primary),
-      _ModuloAdmin('Proveedores', Icons.local_shipping_rounded, const ProveedoresScreen(), colorScheme.secondary),
-      _ModuloAdmin('Facturación', Icons.request_quote_rounded, const FacturacionScreen(), colorScheme.primary),
-      _ModuloAdmin('Impresora', Icons.print_rounded, const ConfiguracionImpresoraScreen(), colorScheme.secondary),
+      _ModuloAdmin('Productos', Icons.eco_outlined, const ProductosScreen()),
+      _ModuloAdmin('Stock', Icons.balance_outlined, const StockScreen()),
+      _ModuloAdmin('Estadísticas', Icons.insights_outlined, const EstadisticasScreen()),
+      _ModuloAdmin('Usuarios', Icons.people_alt_outlined, const UsuariosScreen()),
+      _ModuloAdmin('Historial', Icons.history_outlined, const HistorialScreen()),
+      _ModuloAdmin('Clientes', Icons.contacts_outlined, const ClientesScreen()),
+      _ModuloAdmin('Proveedores', Icons.local_shipping_outlined, const ProveedoresScreen()),
+      _ModuloAdmin('Facturación', Icons.request_quote_outlined, const FacturacionScreen()),
+      _ModuloAdmin('Impresora', Icons.print_outlined, const ConfiguracionImpresoraScreen()),
     ];
 
     return Scaffold(
@@ -45,55 +45,51 @@ class AdminDashboardScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: GridView.builder(
+      body: ListView(
         padding: const EdgeInsets.all(16),
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          // En vez de una cantidad fija de columnas (que en una ventana
-          // ancha de Windows deja cada ícono gigante), esto arma tantas
-          // columnas como entren manteniendo cada tarjeta en un tamaño
-          // razonable — así entran todos los accesos sin desplazarse.
-          maxCrossAxisExtent: 160,
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
-          childAspectRatio: 1,
-        ),
-        itemCount: modulos.length,
-        itemBuilder: (context, i) {
-          final m = modulos[i];
-          return Card(
-            child: InkWell(
-              borderRadius: BorderRadius.circular(16),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => m.pantalla)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 52,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      color: m.color.withOpacity(0.18),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Icon(m.icono, size: 26, color: m.color),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(m.titulo, style: const TextStyle(fontWeight: FontWeight.bold)),
+        children: [
+          Text('ACCESOS', style: AppTheme.eyebrowStyle(context)),
+          const SizedBox(height: 12),
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
+                for (int i = 0; i < modulos.length; i++) ...[
+                  if (i > 0) const Divider(height: 1),
+                  _FilaModulo(modulo: modulos[i])
+                      // Entrada escalonada: cada fila aparece un poco después
+                      // que la anterior, en vez de que las 9 salten de golpe.
+                      .animate()
+                      .fadeIn(delay: (i * 25).ms, duration: 220.ms, curve: Curves.easeOut),
                 ],
-              ),
+              ],
             ),
-          )
-              // Entrada escalonada: cada tarjeta aparece un poco después que
-              // la anterior, en vez de que las 9 salten juntas de golpe.
-              .animate()
-              .fadeIn(delay: (i * 30).ms, duration: 250.ms, curve: Curves.easeOut)
-              .scale(
-                begin: const Offset(0.9, 0.9),
-                end: const Offset(1, 1),
-                delay: (i * 30).ms,
-                duration: 250.ms,
-                curve: Curves.easeOut,
-              );
-        },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FilaModulo extends StatelessWidget {
+  final _ModuloAdmin modulo;
+  const _FilaModulo({required this.modulo});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => modulo.pantalla)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Row(
+          children: [
+            Icon(modulo.icono, size: 20, color: colorScheme.onSurfaceVariant),
+            const SizedBox(width: 16),
+            Expanded(child: Text(modulo.titulo, style: Theme.of(context).textTheme.bodyLarge)),
+            Icon(Icons.chevron_right_rounded, size: 20, color: colorScheme.onSurfaceVariant),
+          ],
+        ),
       ),
     );
   }
@@ -103,6 +99,5 @@ class _ModuloAdmin {
   final String titulo;
   final IconData icono;
   final Widget pantalla;
-  final Color color;
-  _ModuloAdmin(this.titulo, this.icono, this.pantalla, this.color);
+  _ModuloAdmin(this.titulo, this.icono, this.pantalla);
 }
