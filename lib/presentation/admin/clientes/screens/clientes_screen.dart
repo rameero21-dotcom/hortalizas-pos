@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
@@ -161,7 +162,10 @@ class ClientesScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-                    );
+                    )
+                        .animate(delay: (index.clamp(0, 12) * 40).ms)
+                        .fadeIn(duration: 220.ms)
+                        .slideX(begin: 0.04, end: 0, duration: 220.ms, curve: Curves.easeOut);
                   },
                 ),
               ),

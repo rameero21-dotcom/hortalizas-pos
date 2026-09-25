@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 /// Tarjeta para métricas tipo KPI (ventas del día, facturación,
 /// utilidad, etc.). Antes cada pantalla de estadísticas/resumen
@@ -55,6 +56,9 @@ class StatCard extends StatelessWidget {
           ],
         ),
       ),
-    );
+    )
+        .animate()
+        .fadeIn(duration: 250.ms, curve: Curves.easeOut)
+        .slideY(begin: 0.08, end: 0, duration: 250.ms, curve: Curves.easeOut);
   }
 }
