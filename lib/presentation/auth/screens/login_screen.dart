@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/errors/failures.dart';
@@ -142,7 +143,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Iniciar sesión')),
+      appBar: const GradientAppBar(title: Text('Iniciar sesión')),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: ListView(

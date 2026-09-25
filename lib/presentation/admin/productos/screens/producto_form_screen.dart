@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../core/di/providers.dart';
@@ -86,7 +87,7 @@ class _ProductoFormScreenState extends ConsumerState<ProductoFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_esEdicion ? 'Editar producto' : 'Nuevo producto')),
+      appBar: GradientAppBar(title: Text(_esEdicion ? 'Editar producto' : 'Nuevo producto')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(

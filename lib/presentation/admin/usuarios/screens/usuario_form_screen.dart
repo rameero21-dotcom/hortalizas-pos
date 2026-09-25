@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 
 /// Formulario de creación/edición de usuario (nombre, email, rol, activo).
 class UsuarioFormScreen extends StatelessWidget {
@@ -8,7 +9,7 @@ class UsuarioFormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(usuarioId == null ? 'Nuevo usuario' : 'Editar usuario')),
+      appBar: GradientAppBar(title: Text(usuarioId == null ? 'Nuevo usuario' : 'Editar usuario')),
       body: const Center(child: Text('TODO Fase 4: formulario de usuario + selección de rol')),
     );
   }

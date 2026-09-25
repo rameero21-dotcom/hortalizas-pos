@@ -7,6 +7,7 @@ import '../../../../core/services/dia_laboral_service.dart';
 import '../../../../domain/entities/venta.dart';
 import '../../../../domain/usecases/estadisticas/obtener_estadisticas_usecase.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
 import '../../../shared/widgets/stat_card.dart';
 import 'configuracion_impuestos_screen.dart';
@@ -60,7 +61,7 @@ class EstadisticasScreen extends ConsumerWidget {
     final estadisticasAsync = ref.watch(_estadisticasProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Estadísticas'),
         actions: [
           IconButton(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../core/di/providers.dart';
@@ -300,7 +301,7 @@ class ProveedorDetalleScreen extends ConsumerWidget {
     final leDebemos = proveedor.saldoCuentaCorriente > 0;
 
     return Scaffold(
-      appBar: AppBar(title: Text(proveedor.nombre)),
+      appBar: GradientAppBar(title: Text(proveedor.nombre)),
       body: Column(
         children: [
           Card(

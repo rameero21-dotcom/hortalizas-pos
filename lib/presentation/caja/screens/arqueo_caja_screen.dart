@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -449,7 +450,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
     final movimientosAsync = ref.watch(_movimientosCajaHoyProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Arqueo de caja'),
         actions: [
           IconButton(

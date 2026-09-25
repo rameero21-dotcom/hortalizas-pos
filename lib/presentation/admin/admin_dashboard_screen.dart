@@ -11,6 +11,7 @@ import 'proveedores/screens/proveedores_screen.dart';
 import 'facturacion/screens/facturacion_screen.dart';
 import '../caja/screens/configuracion_impresora_screen.dart';
 import '../shared/utils/cerrar_sesion.dart';
+import '../shared/widgets/gradient_app_bar.dart';
 import '../shared/widgets/indicador_sincronizacion.dart';
 
 /// Menú principal del administrador: acceso a todos los módulos de gestión.
@@ -33,7 +34,7 @@ class AdminDashboardScreen extends ConsumerWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Panel de administración'),
         actions: [
           const IndicadorSincronizacion(),

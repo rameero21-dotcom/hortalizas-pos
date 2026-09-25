@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
@@ -22,7 +23,7 @@ class HistorialCierresScreen extends ConsumerWidget {
     final cierresAsync = ref.watch(_cierresProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Cierres de caja guardados'),
         actions: [
           IconButton(

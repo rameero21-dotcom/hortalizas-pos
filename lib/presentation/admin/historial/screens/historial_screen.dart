@@ -8,6 +8,7 @@ import '../../../../domain/entities/caja.dart';
 import '../../../../core/services/ticket_print_orchestrator.dart';
 import 'editar_venta_screen.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
 
 class _FiltrosHistorial {
@@ -230,7 +231,7 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
     final movimientosAsync = ref.watch(_movimientosCajaHistorialProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Historial'),
         actions: [
           IconButton(

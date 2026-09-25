@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/validators.dart';
@@ -51,7 +52,7 @@ class _IngresoMercaderiaScreenState extends ConsumerState<IngresoMercaderiaScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Ingreso: ${widget.producto.nombre}')),
+      appBar: GradientAppBar(title: Text('Ingreso: ${widget.producto.nombre}')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(

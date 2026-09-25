@@ -10,6 +10,7 @@ import 'ajuste_stock_screen.dart';
 import 'historial_stock_screen.dart';
 import 'registrar_merma_screen.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
 
 class _ProductoConStock {
@@ -42,7 +43,7 @@ class StockScreen extends ConsumerWidget {
     final stockAsync = ref.watch(stockConProductosProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Stock'),
         actions: [
           IconButton(

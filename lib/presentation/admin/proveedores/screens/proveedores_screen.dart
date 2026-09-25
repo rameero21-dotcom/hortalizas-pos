@@ -6,6 +6,7 @@ import '../../../../core/utils/formatters.dart';
 import 'proveedor_form_screen.dart';
 import 'proveedor_detalle_screen.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
 
 /// Escucha en tiempo real: un proveedor creado/editado desde CUALQUIER
@@ -29,7 +30,7 @@ class ProveedoresScreen extends ConsumerWidget {
     final proveedoresAsync = ref.watch(proveedoresListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Proveedores')),
+      appBar: const GradientAppBar(title: Text('Proveedores')),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(

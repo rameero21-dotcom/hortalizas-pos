@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import '../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
@@ -72,7 +73,7 @@ class CajaHomeScreen extends ConsumerWidget {
     final ventasAsync = ref.watch(ventasPendientesStreamProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Ventas pendientes'),
         actions: [
           const IndicadorSincronizacion(),

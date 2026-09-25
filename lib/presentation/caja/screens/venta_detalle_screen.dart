@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
@@ -418,7 +419,7 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
     // Flujo QR: la venta ya la tenemos completa, sin depender del stream.
     if (widget.ventaDesdeQr != null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Venta (desde QR)')),
+        appBar: const GradientAppBar(title: Text('Venta (desde QR)')),
         body: _buildContenido(context, widget.ventaDesdeQr!),
       );
     }
@@ -426,7 +427,7 @@ class _VentaDetalleScreenState extends ConsumerState<VentaDetalleScreen> {
     // Flujo normal: la venta viene del stream en tiempo real de Firestore.
     final ventasAsync = ref.watch(ventasPendientesStreamProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Detalle de venta')),
+      appBar: const GradientAppBar(title: Text('Detalle de venta')),
       body: ventasAsync.when(
         data: (ventas) {
           final matches = ventas.where((v) => v.id == widget.ventaId);

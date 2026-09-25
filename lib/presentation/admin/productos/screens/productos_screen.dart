@@ -5,6 +5,7 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/producto.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
 import 'producto_form_screen.dart';
 
@@ -28,7 +29,7 @@ class ProductosScreen extends ConsumerWidget {
     final productosAsync = ref.watch(productosListProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Productos'),
         actions: [
           IconButton(

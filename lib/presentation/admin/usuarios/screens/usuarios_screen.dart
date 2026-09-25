@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../domain/entities/usuario.dart';
@@ -26,7 +27,7 @@ class UsuariosScreen extends ConsumerWidget {
     final usuariosAsync = ref.watch(usuariosListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Usuarios')),
+      appBar: const GradientAppBar(title: Text('Usuarios')),
       body: Column(
         children: [
           Container(

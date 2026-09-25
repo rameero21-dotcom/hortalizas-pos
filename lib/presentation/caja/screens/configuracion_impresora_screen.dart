@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../../shared/widgets/gradient_app_bar.dart';
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 import '../../../core/services/impresora_ticket_service.dart';
 import '../../../core/services/impresora_bluetooth_service.dart';
@@ -137,7 +138,7 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: GradientAppBar(
         title: const Text('Impresora de tickets'),
         actions: [
           IconButton(icon: const Icon(Icons.refresh), onPressed: _cargar),

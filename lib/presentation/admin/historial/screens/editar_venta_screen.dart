@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
@@ -171,7 +172,7 @@ class _EditarVentaScreenState extends ConsumerState<EditarVentaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Editar venta #${widget.venta.numero}')),
+      appBar: GradientAppBar(title: Text('Editar venta #${widget.venta.numero}')),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _agregarOEditarItem(),
         child: const Icon(Icons.add),
