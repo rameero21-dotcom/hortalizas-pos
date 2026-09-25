@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../core/di/providers.dart';
@@ -117,21 +118,29 @@ class _ContenidoEstadisticas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final masVendidos = stats.productosMasVendidos();
+    final colorScheme = Theme.of(context).colorScheme;
 
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        const _SectionHeader(icon: Icons.insights_rounded, titulo: 'Resumen del período'),
+        const SizedBox(height: 12),
         Row(
           children: [
             Expanded(
               child: StatCard(
                 label: 'Facturación',
                 value: Formatters.formatearMoneda(stats.facturacionTotal),
+                icon: Icons.payments_rounded,
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: StatCard(label: 'Ventas', value: '${stats.cantidadVentas}'),
+              child: StatCard(
+                label: 'Ventas',
+                value: '${stats.cantidadVentas}',
+                icon: Icons.receipt_long_rounded,
+              ),
             ),
           ],
         ),
@@ -139,9 +148,10 @@ class _ContenidoEstadisticas extends StatelessWidget {
         StatCard(
           label: 'Promedio por venta',
           value: Formatters.formatearMoneda(stats.promedioPorVenta),
+          icon: Icons.equalizer_rounded,
         ),
         const SizedBox(height: 24),
-        Text('Costo, impuestos y utilidad', style: Theme.of(context).textTheme.titleMedium),
+        const _SectionHeader(icon: Icons.account_balance_wallet_rounded, titulo: 'Costo, impuestos y utilidad'),
         const SizedBox(height: 12),
         Row(
           children: [
@@ -149,6 +159,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
               child: StatCard(
                 label: 'Costo total',
                 value: Formatters.formatearMoneda(stats.costoTotalGeneral),
+                icon: Icons.inventory_2_rounded,
               ),
             ),
             const SizedBox(width: 12),
@@ -156,6 +167,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
               child: StatCard(
                 label: 'Utilidad',
                 value: Formatters.formatearMoneda(stats.utilidadTotalGeneral),
+                icon: Icons.trending_up_rounded,
                 destacado: true,
               ),
             ),
@@ -168,6 +180,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
               child: StatCard(
                 label: 'IIBB',
                 value: Formatters.formatearMoneda(stats.iibbTotalGeneral),
+                icon: Icons.receipt_rounded,
               ),
             ),
             const SizedBox(width: 12),
@@ -175,27 +188,25 @@ class _ContenidoEstadisticas extends StatelessWidget {
               child: StatCard(
                 label: 'TSH',
                 value: Formatters.formatearMoneda(stats.tshTotalGeneral),
+                icon: Icons.receipt_rounded,
               ),
             ),
           ],
         ),
         const SizedBox(height: 24),
-        Text('Productos', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 4),
-        Text(
-          'Costo, IIBB y TSH calculados automáticamente sobre cada venta.',
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+        const _SectionHeader(
+          icon: Icons.eco_rounded,
+          titulo: 'Productos',
+          subtitulo: 'Costo, IIBB y TSH calculados automáticamente sobre cada venta.',
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         if (stats.resumenPorProducto.isEmpty)
           const EmptyState(icon: Icons.bar_chart_rounded, message: 'Sin datos en este período.')
         else
           ...stats.resumenPorProducto.values.map(
             (r) => Card(
               child: ExpansionTile(
+                leading: Icon(Icons.eco_rounded, color: colorScheme.secondary),
                 title: Text(r.nombreProducto),
                 subtitle: Text(
                   'Cant: ${r.cantidadVendida.toStringAsFixed(0)} · '
@@ -221,7 +232,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 24),
-        Text('Productos más vendidos', style: Theme.of(context).textTheme.titleMedium),
+        const _SectionHeader(icon: Icons.leaderboard_rounded, titulo: 'Productos más vendidos'),
         const SizedBox(height: 12),
         if (masVendidos.isEmpty)
           const EmptyState(
@@ -237,6 +248,19 @@ class _ContenidoEstadisticas extends StatelessWidget {
                 child: BarChart(
                   BarChartData(
                     alignment: BarChartAlignment.spaceAround,
+                    barTouchData: BarTouchData(
+                      touchTooltipData: BarTouchTooltipData(
+                        getTooltipColor: (_) => colorScheme.inverseSurface,
+                        getTooltipItem: (group, groupIndex, rod, rodIndex) => BarTooltipItem(
+                          '${masVendidos[group.x].key}\n${Formatters.formatearCantidad(rod.toY)}',
+                          TextStyle(
+                            color: colorScheme.onInverseSurface,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ),
                     barGroups: [
                       for (int i = 0; i < masVendidos.length; i++)
                         BarChartGroupData(x: i, barRods: [
@@ -244,9 +268,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
                             toY: masVendidos[i].value,
                             width: 24,
                             borderRadius: BorderRadius.circular(6),
-                            color: i == 0
-                                ? Theme.of(context).colorScheme.secondary
-                                : Theme.of(context).colorScheme.primary,
+                            color: i == 0 ? colorScheme.secondary : colorScheme.primary,
                           ),
                         ]),
                     ],
@@ -261,7 +283,10 @@ class _ContenidoEstadisticas extends StatelessWidget {
                             if (i < 0 || i >= masVendidos.length) return const SizedBox.shrink();
                             return Padding(
                               padding: const EdgeInsets.only(top: 4),
-                              child: Text(masVendidos[i].key, style: const TextStyle(fontSize: 10)),
+                              child: Text(
+                                masVendidos[i].key,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
                             );
                           },
                         ),
@@ -271,7 +296,7 @@ class _ContenidoEstadisticas extends StatelessWidget {
                           showTitles: true,
                           getTitlesWidget: (value, meta) => Text(
                             value.toInt().toString(),
-                            style: const TextStyle(fontSize: 10),
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
                       ),
@@ -282,23 +307,125 @@ class _ContenidoEstadisticas extends StatelessWidget {
                 ),
               ),
             ),
-          ),
+          ).animate().fadeIn(duration: 300.ms),
         const SizedBox(height: 24),
-        Text('Ventas por método de pago', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
+        const _SectionHeader(icon: Icons.pie_chart_rounded, titulo: 'Ventas por método de pago'),
+        const SizedBox(height: 12),
         if (stats.facturacionPorMetodoPago.isEmpty)
           const EmptyState(icon: Icons.payments_outlined, message: 'Sin datos en este período.')
         else
-          ...stats.facturacionPorMetodoPago.entries.map(
-            (e) => ListTile(
-              title: Text(_labelMetodoPago(e.key)),
-              trailing: Text(Formatters.formatearMoneda(e.value)),
+          Card(
+            child: Column(
+              children: [
+                for (final e in stats.facturacionPorMetodoPago.entries)
+                  _FilaMetodoPago(
+                    metodo: e.key,
+                    monto: e.value,
+                    proporcion: stats.facturacionTotal > 0 ? e.value / stats.facturacionTotal : 0,
+                  ),
+              ],
             ),
-          ),
+          ).animate().fadeIn(duration: 300.ms),
       ],
     );
   }
 }
+
+/// Encabezado de sección con ícono en caja tintada, mismo lenguaje
+/// visual que usan las tarjetas de módulos del dashboard de admin y
+/// los íconos de listado (productos, proveedores, etc.).
+class _SectionHeader extends StatelessWidget {
+  final IconData icon;
+  final String titulo;
+  final String? subtitulo;
+  const _SectionHeader({required this.icon, required this.titulo, this.subtitulo});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.secondary.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, size: 18, color: theme.colorScheme.secondary),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(titulo, style: theme.textTheme.titleMedium),
+              if (subtitulo != null)
+                Text(
+                  subtitulo!,
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Fila de una tarjeta "Ventas por método de pago": ícono propio del
+/// método, monto, y una barra de proporción sobre el total facturado
+/// (en vez de una lista de ListTiles sueltos sin jerarquía visual).
+class _FilaMetodoPago extends StatelessWidget {
+  final MetodoPago metodo;
+  final double monto;
+  final double proporcion;
+  const _FilaMetodoPago({required this.metodo, required this.monto, required this.proporcion});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(_iconoMetodoPago(metodo), size: 18, color: colorScheme.secondary),
+              const SizedBox(width: 10),
+              Expanded(child: Text(_labelMetodoPago(metodo), style: theme.textTheme.bodyLarge)),
+              Text(
+                Formatters.formatearMoneda(monto),
+                style: theme.textTheme.titleMedium,
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: proporcion.clamp(0, 1),
+              minHeight: 6,
+              backgroundColor: colorScheme.surfaceContainerHighest,
+              valueColor: AlwaysStoppedAnimation(colorScheme.secondary),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+IconData _iconoMetodoPago(MetodoPago m) => switch (m) {
+      MetodoPago.efectivo => Icons.payments_rounded,
+      MetodoPago.transferencia => Icons.swap_horiz_rounded,
+      MetodoPago.debito => Icons.credit_card_rounded,
+      MetodoPago.credito => Icons.credit_card_rounded,
+      MetodoPago.cuentaCorriente => Icons.account_balance_wallet_rounded,
+    };
 
 String _labelMetodoPago(MetodoPago m) => switch (m) {
       MetodoPago.efectivo => 'Efectivo',
