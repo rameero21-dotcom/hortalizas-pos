@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fl_chart/fl_chart.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/formatters.dart';
@@ -230,69 +229,22 @@ class _ContenidoEstadisticas extends StatelessWidget {
         else
           Card(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 16, 16, 8),
-              child: SizedBox(
-                height: 220,
-                child: BarChart(
-                  BarChartData(
-                    alignment: BarChartAlignment.spaceAround,
-                    barTouchData: BarTouchData(
-                      touchTooltipData: BarTouchTooltipData(
-                        getTooltipColor: (_) => colorScheme.inverseSurface,
-                        getTooltipItem: (group, groupIndex, rod, rodIndex) => BarTooltipItem(
-                          '${masVendidos[group.x].key}\n${Formatters.formatearCantidad(rod.toY)}',
-                          TextStyle(
-                            color: colorScheme.onInverseSurface,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
+              padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (int i = 0; i < masVendidos.length; i++)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: i == masVendidos.length - 1 ? 0 : 18),
+                      child: _BarraProductoRanking(
+                        posicion: i + 1,
+                        nombre: masVendidos[i].key,
+                        cantidad: masVendidos[i].value,
+                        proporcion: masVendidos[i].value / masVendidos.first.value,
+                        destacado: i == 0,
                       ),
                     ),
-                    barGroups: [
-                      for (int i = 0; i < masVendidos.length; i++)
-                        BarChartGroupData(x: i, barRods: [
-                          BarChartRodData(
-                            toY: masVendidos[i].value,
-                            width: 24,
-                            borderRadius: BorderRadius.circular(6),
-                            color: i == 0 ? colorScheme.primary : colorScheme.primary.withOpacity(0.35),
-                          ),
-                        ]),
-                    ],
-                    gridData: const FlGridData(show: false),
-                    borderData: FlBorderData(show: false),
-                    titlesData: FlTitlesData(
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          getTitlesWidget: (value, meta) {
-                            final i = value.toInt();
-                            if (i < 0 || i >= masVendidos.length) return const SizedBox.shrink();
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Text(
-                                masVendidos[i].key,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      leftTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          getTitlesWidget: (value, meta) => Text(
-                            value.toInt().toString(),
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
-                      ),
-                      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    ),
-                  ),
-                ),
+                ],
               ),
             ),
           ).animate().fadeIn(duration: 300.ms),
@@ -393,6 +345,95 @@ class _FilaMetodoPago extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Barra de una tarjeta "Productos más vendidos": posición, nombre y
+/// una barra horizontal gruesa (con el valor a la derecha) proporcional
+/// al producto más vendido del período — en vez de un gráfico de
+/// barras vertical, donde nombres largos de producto se solapan entre
+/// sí en el eje horizontal.
+class _BarraProductoRanking extends StatelessWidget {
+  final int posicion;
+  final String nombre;
+  final double cantidad;
+  final double proporcion;
+  final bool destacado;
+  const _BarraProductoRanking({
+    required this.posicion,
+    required this.nombre,
+    required this.cantidad,
+    required this.proporcion,
+    required this.destacado,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 22,
+          child: Text(
+            posicion.toString().padLeft(2, '0'),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              fontFeatures: const [FontFeature.tabularFigures()],
+            ),
+          ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                nombre,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.bodyLarge,
+              ),
+              const SizedBox(height: 8),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  return Stack(
+                    children: [
+                      Container(
+                        height: 22,
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceContainerHighest,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                      FractionallySizedBox(
+                        widthFactor: proporcion.clamp(0.04, 1),
+                        child: Container(
+                          height: 22,
+                          decoration: BoxDecoration(
+                            color: destacado ? colorScheme.primary : colorScheme.primary.withOpacity(0.55),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 8),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              Formatters.formatearCantidad(cantidad),
+                              style: theme.textTheme.labelLarge?.copyWith(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
