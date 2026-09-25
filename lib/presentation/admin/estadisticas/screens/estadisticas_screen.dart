@@ -228,16 +228,24 @@ class _ContenidoEstadisticas extends StatelessWidget {
           )
         else
           Card(
-            child: Column(
-              children: [
-                for (int i = 0; i < masVendidos.length; i++)
-                  _FilaProductoRanking(
-                    nombre: masVendidos[i].key,
-                    cantidad: masVendidos[i].value,
-                    proporcion: masVendidos[i].value / masVendidos.first.value,
-                    destacado: i == 0,
-                  ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (int i = 0; i < masVendidos.length; i++)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: i == masVendidos.length - 1 ? 0 : 18),
+                      child: _BarraProductoRanking(
+                        posicion: i + 1,
+                        nombre: masVendidos[i].key,
+                        cantidad: masVendidos[i].value,
+                        proporcion: masVendidos[i].value / masVendidos.first.value,
+                        destacado: i == 0,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ).animate().fadeIn(duration: 300.ms),
         const SizedBox(height: 24),
@@ -341,16 +349,19 @@ class _FilaMetodoPago extends StatelessWidget {
   }
 }
 
-/// Fila de una tarjeta "Productos más vendidos": nombre, cantidad, y
-/// una barra proporcional al producto más vendido del período — en vez
-/// de un gráfico de barras vertical, donde nombres largos de producto
-/// se solapan entre sí en el eje horizontal.
-class _FilaProductoRanking extends StatelessWidget {
+/// Barra de una tarjeta "Productos más vendidos": posición, nombre y
+/// una barra horizontal gruesa (con el valor a la derecha) proporcional
+/// al producto más vendido del período — en vez de un gráfico de
+/// barras vertical, donde nombres largos de producto se solapan entre
+/// sí en el eje horizontal.
+class _BarraProductoRanking extends StatelessWidget {
+  final int posicion;
   final String nombre;
   final double cantidad;
   final double proporcion;
   final bool destacado;
-  const _FilaProductoRanking({
+  const _BarraProductoRanking({
+    required this.posicion,
     required this.nombre,
     required this.cantidad,
     required this.proporcion,
@@ -361,39 +372,68 @@ class _FilaProductoRanking extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  nombre,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodyLarge,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(Formatters.formatearCantidad(cantidad), style: theme.textTheme.titleMedium),
-            ],
-          ),
-          const SizedBox(height: 6),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: proporcion.clamp(0, 1),
-              minHeight: 6,
-              backgroundColor: colorScheme.surfaceContainerHighest,
-              valueColor: AlwaysStoppedAnimation(
-                destacado ? colorScheme.primary : colorScheme.primary.withOpacity(0.35),
-              ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 22,
+          child: Text(
+            posicion.toString().padLeft(2, '0'),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              fontFeatures: const [FontFeature.tabularFigures()],
             ),
           ),
-        ],
-      ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                nombre,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.bodyLarge,
+              ),
+              const SizedBox(height: 8),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  return Stack(
+                    children: [
+                      Container(
+                        height: 22,
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceContainerHighest,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                      FractionallySizedBox(
+                        widthFactor: proporcion.clamp(0.04, 1),
+                        child: Container(
+                          height: 22,
+                          decoration: BoxDecoration(
+                            color: destacado ? colorScheme.primary : colorScheme.primary.withOpacity(0.55),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 8),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              Formatters.formatearCantidad(cantidad),
+                              style: theme.textTheme.labelLarge?.copyWith(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
