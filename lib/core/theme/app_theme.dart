@@ -186,6 +186,14 @@ class AppTheme {
 
   static final ElevatedButtonThemeData _bigButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
+      // Material 3 no rellena el ElevatedButton con el color primario por
+      // defecto (usa un gris de superficie con texto de color), así que
+      // sin esto el botón principal ("Cobrar", "Confirmar", etc.) queda
+      // prácticamente invisible sobre el fondo.
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.white,
+      disabledBackgroundColor: primaryColor.withOpacity(0.3),
+      disabledForegroundColor: Colors.white.withOpacity(0.6),
       minimumSize: const Size(double.infinity, 56), // botones grandes
       elevation: 0,
       textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
