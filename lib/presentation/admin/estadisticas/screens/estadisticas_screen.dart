@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fl_chart/fl_chart.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/formatters.dart';
@@ -229,71 +228,16 @@ class _ContenidoEstadisticas extends StatelessWidget {
           )
         else
           Card(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 16, 16, 8),
-              child: SizedBox(
-                height: 220,
-                child: BarChart(
-                  BarChartData(
-                    alignment: BarChartAlignment.spaceAround,
-                    barTouchData: BarTouchData(
-                      touchTooltipData: BarTouchTooltipData(
-                        getTooltipColor: (_) => colorScheme.inverseSurface,
-                        getTooltipItem: (group, groupIndex, rod, rodIndex) => BarTooltipItem(
-                          '${masVendidos[group.x].key}\n${Formatters.formatearCantidad(rod.toY)}',
-                          TextStyle(
-                            color: colorScheme.onInverseSurface,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ),
-                    barGroups: [
-                      for (int i = 0; i < masVendidos.length; i++)
-                        BarChartGroupData(x: i, barRods: [
-                          BarChartRodData(
-                            toY: masVendidos[i].value,
-                            width: 24,
-                            borderRadius: BorderRadius.circular(6),
-                            color: i == 0 ? colorScheme.primary : colorScheme.primary.withOpacity(0.35),
-                          ),
-                        ]),
-                    ],
-                    gridData: const FlGridData(show: false),
-                    borderData: FlBorderData(show: false),
-                    titlesData: FlTitlesData(
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          getTitlesWidget: (value, meta) {
-                            final i = value.toInt();
-                            if (i < 0 || i >= masVendidos.length) return const SizedBox.shrink();
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Text(
-                                masVendidos[i].key,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      leftTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          getTitlesWidget: (value, meta) => Text(
-                            value.toInt().toString(),
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
-                      ),
-                      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    ),
+            child: Column(
+              children: [
+                for (int i = 0; i < masVendidos.length; i++)
+                  _FilaProductoRanking(
+                    nombre: masVendidos[i].key,
+                    cantidad: masVendidos[i].value,
+                    proporcion: masVendidos[i].value / masVendidos.first.value,
+                    destacado: i == 0,
                   ),
-                ),
-              ),
+              ],
             ),
           ).animate().fadeIn(duration: 300.ms),
         const SizedBox(height: 24),
@@ -389,6 +333,63 @@ class _FilaMetodoPago extends StatelessWidget {
               minHeight: 6,
               backgroundColor: colorScheme.surfaceContainerHighest,
               valueColor: AlwaysStoppedAnimation(colorScheme.secondary),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Fila de una tarjeta "Productos más vendidos": nombre, cantidad, y
+/// una barra proporcional al producto más vendido del período — en vez
+/// de un gráfico de barras vertical, donde nombres largos de producto
+/// se solapan entre sí en el eje horizontal.
+class _FilaProductoRanking extends StatelessWidget {
+  final String nombre;
+  final double cantidad;
+  final double proporcion;
+  final bool destacado;
+  const _FilaProductoRanking({
+    required this.nombre,
+    required this.cantidad,
+    required this.proporcion,
+    required this.destacado,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  nombre,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyLarge,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(Formatters.formatearCantidad(cantidad), style: theme.textTheme.titleMedium),
+            ],
+          ),
+          const SizedBox(height: 6),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: proporcion.clamp(0, 1),
+              minHeight: 6,
+              backgroundColor: colorScheme.surfaceContainerHighest,
+              valueColor: AlwaysStoppedAnimation(
+                destacado ? colorScheme.primary : colorScheme.primary.withOpacity(0.35),
+              ),
             ),
           ),
         ],
