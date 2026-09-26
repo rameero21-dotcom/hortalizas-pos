@@ -54,20 +54,33 @@ class VentaRemoteDatasource {
     return VentaModel.fromRemoteMap(doc.data() as Map<String, dynamic>);
   }
 
-  /// El número de venta más alto que existe en TODO el negocio (todos
-  /// los dispositivos), no solo en la copia local de este celular.
-  /// Se usa como piso al numerar una venta nueva: la numeración
-  /// puramente local (MAX+1 de la caché del dispositivo) puede
-  /// duplicarse entre dos celulares que vendan casi al mismo tiempo, o
-  /// si uno de los dos no sincronizó hace rato. Con conexión, esto
-  /// reduce mucho ese riesgo (no lo elimina del todo: dos ventas
-  /// simultáneas con conexión, en el instante exacto entre esta
-  /// consulta y la siguiente, todavía podrían coincidir — pero es una
-  /// ventana mucho más chica que confiar solo en lo local).
-  Future<int> obtenerNumeroMaximo() async {
-    final snap = await _firestoreService.ventas.orderBy('numero', descending: true).limit(1).get();
-    if (snap.docs.isEmpty) return 0;
-    final data = snap.docs.first.data() as Map<String, dynamic>;
-    return (data['numero'] as num?)?.toInt() ?? 0;
+  /// El número de venta más alto del día laboral actual (desde
+  /// [desde]) que existe en TODO el negocio (todos los dispositivos),
+  /// no solo en la copia local de este celular. Se usa como piso al
+  /// numerar una venta nueva: la numeración puramente local (MAX+1 de
+  /// la caché del dispositivo) puede duplicarse entre dos celulares
+  /// que vendan casi al mismo tiempo, o si uno de los dos no
+  /// sincronizó hace rato. Con conexión, esto reduce mucho ese riesgo
+  /// (no lo elimina del todo: dos ventas simultáneas con conexión, en
+  /// el instante exacto entre esta consulta y la siguiente, todavía
+  /// podrían coincidir — pero es una ventana mucho más chica que
+  /// confiar solo en lo local).
+  ///
+  /// Se acota a [desde] (el inicio del día laboral) para que el
+  /// correlativo se reinicie cada día en vez de seguir creciendo para
+  /// siempre; el máximo se calcula en el cliente (no con
+  /// `orderBy('numero')`) porque combinar ese orden con el filtro de
+  /// `fecha` pediría un índice compuesto en Firestore, y el volumen de
+  /// ventas de un solo día es chico.
+  Future<int> obtenerNumeroMaximo({required DateTime desde}) async {
+    final snap =
+        await _firestoreService.ventas.where('fecha', isGreaterThanOrEqualTo: desde.toIso8601String()).get();
+    var maximo = 0;
+    for (final doc in snap.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      final numero = (data['numero'] as num?)?.toInt() ?? 0;
+      if (numero > maximo) maximo = numero;
+    }
+    return maximo;
   }
 }

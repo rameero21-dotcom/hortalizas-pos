@@ -12,14 +12,18 @@ class VentaLocalDatasource {
 
   /// Crea la venta dentro de una transacción, asignando el número
   /// correlativo automáticamente (MAX(numero) + 1) para evitar
-  /// depender de conexión a Firebase en esta fase.
-  Future<VentaModel> crear(VentaModel venta, {int pisoNumero = 0}) async {
+  /// depender de conexión a Firebase en esta fase. El correlativo se
+  /// reinicia cada día laboral: solo se mira el MAX(numero) de las
+  /// ventas con fecha >= [inicioDia], así la primera venta del día
+  /// siempre arranca en #1 en vez de seguir sumando indefinidamente.
+  Future<VentaModel> crear(VentaModel venta, {int pisoNumero = 0, required DateTime inicioDia}) async {
     final db = await _dbHelper.database;
     late VentaModel ventaConNumero;
 
     await db.transaction((txn) async {
       final resultado = await txn.rawQuery(
-        'SELECT COALESCE(MAX(numero), 0) + 1 AS proximoNumero FROM ${AppConstants.tablaVentas}',
+        'SELECT COALESCE(MAX(numero), 0) + 1 AS proximoNumero FROM ${AppConstants.tablaVentas} WHERE fecha >= ?',
+        [inicioDia.toIso8601String()],
       );
       final proximoLocal = resultado.first['proximoNumero'] as int;
       // El número final es el mayor entre "lo que dice la copia local"
