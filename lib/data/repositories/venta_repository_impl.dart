@@ -1,4 +1,5 @@
 import '../../core/constants/app_constants.dart';
+import '../../core/services/dia_laboral_service.dart';
 import '../../core/services/qr_service.dart';
 import '../../core/services/sync_service.dart';
 import '../../domain/entities/detalle_venta.dart';
@@ -31,15 +32,23 @@ class VentaRepositoryImpl implements VentaRepository {
       nombreCliente: venta.nombreCliente,
     );
 
+    // Inicio del día laboral actual (misma hora de corte que Arqueo de
+    // Caja y Estadísticas): el correlativo de ventas se reinicia en
+    // #1 en cada día laboral nuevo, en vez de seguir sumando para
+    // siempre.
+    final inicioDia = (await DiaLaboralService.rangoDeHoy()).inicio;
+
     // Piso para la numeración: el número más alto que YA existe en
-    // Firestore (todos los dispositivos), si hay conexión. Sin esto,
-    // dos celulares numerando cada uno "MAX local + 1" pueden terminar
-    // generando el MISMO número de venta si ninguno sincronizó
-    // recientemente. Con timeout corto para no trabar una venta
-    // offline esperando una consulta que nunca va a llegar.
+    // Firestore desde el inicio del día laboral (todos los
+    // dispositivos), si hay conexión. Sin esto, dos celulares
+    // numerando cada uno "MAX local + 1" pueden terminar generando el
+    // MISMO número de venta si ninguno sincronizó recientemente. Con
+    // timeout corto para no trabar una venta offline esperando una
+    // consulta que nunca va a llegar.
     var pisoNumero = 0;
     try {
-      pisoNumero = await _remote.obtenerNumeroMaximo().timeout(const Duration(seconds: 3));
+      pisoNumero =
+          await _remote.obtenerNumeroMaximo(desde: inicioDia).timeout(const Duration(seconds: 3));
     } catch (_) {
       // Sin conexión (o se colgó la consulta): se sigue solo con lo
       // local, como antes. Es el único caso donde el riesgo de
@@ -47,7 +56,8 @@ class VentaRepositoryImpl implements VentaRepository {
       // todo sin dejar de poder vender offline.
     }
 
-    final ventaCreada = await _local.crear(model, pisoNumero: pisoNumero); // asigna el número correlativo real
+    // Asigna el número correlativo real (reiniciado por día laboral).
+    final ventaCreada = await _local.crear(model, pisoNumero: pisoNumero, inicioDia: inicioDia);
 
     final modelConNumero = VentaModel(
       id: ventaCreada.id,
