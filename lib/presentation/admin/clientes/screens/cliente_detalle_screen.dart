@@ -125,30 +125,46 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
     final detalle = detalleCtrl.text.trim().isEmpty ? '(sin detalle)' : detalleCtrl.text.trim();
 
     final usuarioId = ref.read(currentUserIdProvider);
-    await ref.read(clienteRepositoryProvider).registrarMovimientoCuenta(
-          clienteId: widget.cliente.id,
-          tipo: TipoMovimientoCuenta.pago,
-          monto: monto,
-          detalle: detalle,
-          usuarioId: usuarioId,
-          metodoPago: metodoPago,
-        );
-
-    // Si el cliente pagó en EFECTIVO, esa plata entró de verdad a la
-    // caja: se registra como ingreso manual para que el arqueo de caja
-    // lo tenga en cuenta al calcular el efectivo esperado. Si fue por
-    // transferencia, no toca la caja física (no hay billetes de por
-    // medio), pero el pago ya quedó reflejado en la cuenta corriente.
-    if (metodoPago == MetodoPago.efectivo) {
-      await ref.read(cajaRepositoryProvider).registrarMovimiento(
-            tipo: TipoMovimientoCaja.ingreso,
+    try {
+      await ref.read(clienteRepositoryProvider).registrarMovimientoCuenta(
+            clienteId: widget.cliente.id,
+            tipo: TipoMovimientoCuenta.pago,
             monto: monto,
-            detalle: 'Pago cuenta corriente - ${widget.cliente.nombre}: $detalle',
+            detalle: detalle,
             usuarioId: usuarioId,
+            metodoPago: metodoPago,
           );
-    }
 
-    ref.invalidate(_movimientosClienteProvider(widget.cliente.id));
+      // Si el cliente pagó en EFECTIVO, esa plata entró de verdad a la
+      // caja: se registra como ingreso manual para que el arqueo de caja
+      // lo tenga en cuenta al calcular el efectivo esperado. Si fue por
+      // transferencia, no toca la caja física (no hay billetes de por
+      // medio), pero el pago ya quedó reflejado en la cuenta corriente.
+      if (metodoPago == MetodoPago.efectivo) {
+        await ref.read(cajaRepositoryProvider).registrarMovimiento(
+              tipo: TipoMovimientoCaja.ingreso,
+              monto: monto,
+              detalle: 'Pago cuenta corriente - ${widget.cliente.nombre}: $detalle',
+              usuarioId: usuarioId,
+            );
+      }
+
+      ref.invalidate(_movimientosClienteProvider(widget.cliente.id));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Pago de ${Formatters.formatearMoneda(monto)} registrado')),
+        );
+      }
+    } catch (e) {
+      // Antes, si esto fallaba (ej. el cliente no estaba en la copia
+      // local del dispositivo), la pantalla no mostraba nada — parecía
+      // que el pago simplemente no se guardaba. Ahora se avisa.
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No se pudo registrar el pago: $e')),
+        );
+      }
+    }
   }
 
   String _labelMetodo(MetodoPago m) => switch (m) {
