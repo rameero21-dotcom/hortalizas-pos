@@ -108,14 +108,26 @@ class ClienteRepositoryImpl implements ClienteRepository {
     required String usuarioId,
     MetodoPago? metodoPago,
   }) async {
-    final cliente = await obtenerPorId(clienteId);
-    if (cliente == null) throw ArgumentError('Cliente no encontrado: $clienteId');
-
     // Un cargo (venta fiada) AUMENTA la deuda (el saldo se vuelve más
     // negativo); un pago la DISMINUYE (el saldo sube hacia 0 o positivo).
     final signo = tipo == TipoMovimientoCuenta.cargo ? -1 : 1;
-    final nuevoSaldo = cliente.saldoCuentaCorriente + (signo * monto);
-    await _local.actualizarSaldo(clienteId, nuevoSaldo);
+
+    // El cliente puede no estar (todavía) en la copia local de este
+    // dispositivo — por ejemplo, si se creó o se le cargó una boleta
+    // desde otro celular/PC y acá nunca se sincronizó a mano (ver
+    // refrescarDesdeRemoto). Antes, si no aparecía en la caché local,
+    // esto tiraba un error que la pantalla no mostraba: el pago
+    // quedaba sin guardarse y sin ningún aviso, como si no se hubiera
+    // tocado nada. Ahora, si no está local, se sigue igual: el ajuste
+    // en Firestore de más abajo es un INCREMENTO relativo, no necesita
+    // conocer el saldo actual, así que el pago se registra igual (el
+    // saldo local se corrige solo la próxima vez que este dispositivo
+    // sincronice ese cliente).
+    final cliente = await obtenerPorId(clienteId);
+    if (cliente != null) {
+      final nuevoSaldo = cliente.saldoCuentaCorriente + (signo * monto);
+      await _local.actualizarSaldo(clienteId, nuevoSaldo);
+    }
 
     final movimiento = MovimientoCuentaCorrienteModel(
       id: _uuid.v4(),
