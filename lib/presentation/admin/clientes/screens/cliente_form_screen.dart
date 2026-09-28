@@ -3,6 +3,7 @@ import '../../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../core/di/providers.dart';
+import '../../../../core/utils/formatters.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../domain/entities/cliente.dart';
 
@@ -76,7 +77,7 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
     }
     setState(() => _guardando = true);
     try {
-      final montoSaldo = double.tryParse(_saldoCtrl.text.replaceAll(',', '.'))?.abs() ?? 0;
+      final montoSaldo = Formatters.parsearMonto(_saldoCtrl.text)?.abs() ?? 0;
       final cliente = Cliente(
         id: widget.cliente?.id ?? const Uuid().v4(),
         nombre: _nombreCtrl.text.trim(),

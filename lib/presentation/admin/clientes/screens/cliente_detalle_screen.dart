@@ -14,6 +14,22 @@ final _movimientosClienteProvider =
   return ref.watch(clienteRepositoryProvider).observarMovimientosDeCliente(clienteId);
 });
 
+/// Cliente puntual, en tiempo real: antes esta pantalla mostraba el
+/// saldo con el que se navegó a ella (un snapshot fijo pasado por
+/// constructor), así que después de registrar un pago el cartel de
+/// "Saldo cuenta corriente" seguía mostrando la deuda vieja hasta
+/// volver a entrar a la pantalla — daba la impresión de que el pago no
+/// se había guardado, aunque sí había quedado registrado. Se deriva del
+/// mismo stream de Firestore que ya usa el listado de clientes.
+final _clienteActualProvider = StreamProvider.autoDispose.family<Cliente?, String>((ref, clienteId) {
+  return ref.watch(clienteRepositoryProvider).observarTodos().map((clientes) {
+    for (final c in clientes) {
+      if (c.id == clienteId) return c;
+    }
+    return null;
+  });
+});
+
 final _boletasClienteProvider =
     FutureProvider.autoDispose.family<List<Venta>, String>((ref, clienteId) {
   return ref.watch(ventaRepositoryProvider).obtenerPorCliente(clienteId);
@@ -104,7 +120,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
       ),
     );
     if (confirmado != true) return;
-    final monto = double.tryParse(montoCtrl.text.replaceAll(',', '.'));
+    final monto = Formatters.parsearMonto(montoCtrl.text);
     if (monto == null || monto <= 0) return;
     final detalle = detalleCtrl.text.trim().isEmpty ? '(sin detalle)' : detalleCtrl.text.trim();
 
@@ -145,7 +161,11 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
 
   @override
   Widget build(BuildContext context) {
-    final cliente = widget.cliente;
+    // Se parte del cliente con el que se navegó acá (para no mostrar la
+    // pantalla vacía mientras carga) y se reemplaza en cuanto llega el
+    // primer valor del stream en tiempo real, así el saldo reacciona a
+    // los pagos/cargos que se registren sin salir de la pantalla.
+    final cliente = ref.watch(_clienteActualProvider(widget.cliente.id)).valueOrNull ?? widget.cliente;
     final movimientosAsync = ref.watch(_movimientosClienteProvider(cliente.id));
     final boletasAsync = ref.watch(_boletasClienteProvider(cliente.id));
 

@@ -158,7 +158,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
   /// Guarda (o actualiza, si ya había uno hoy) el ingreso especial que
   /// representa la caja inicio del día. Es siempre en efectivo.
   Future<void> _guardarCajaInicio(List<MovimientoCaja> movimientosActuales) async {
-    final monto = double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.'));
+    final monto = Formatters.parsearMonto(_cajaInicioCtrl.text);
     if (monto == null || monto < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Ingresá un monto válido')),
@@ -237,7 +237,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
         return ConteoBillete(denominacion: d, cantidad: sueltos + (fajos * _billetesPorFajo));
       }).where((b) => b.cantidad > 0).toList();
       await ref.read(cajaRepositoryProvider).guardarCierre(
-            cajaInicio: double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.')) ?? 0,
+            cajaInicio: Formatters.parsearMonto(_cajaInicioCtrl.text) ?? 0,
             billetes: billetes,
             usuarioId: usuarioId,
           );
@@ -314,7 +314,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
       ),
     );
     if (confirmado != true) return;
-    final monto = double.tryParse(montoCtrl.text.replaceAll(',', '.'));
+    final monto = Formatters.parsearMonto(montoCtrl.text);
     if (monto == null || monto <= 0) return;
 
     final usuarioId = ref.read(currentUserIdProvider);
@@ -500,7 +500,7 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                 final totalCuentaCorriente =
                     grupos.cuentaCorriente.fold(0.0, (acc, i) => acc + i.monto) + ingresosTransferencia;
                 final egresos = egresosTodos.fold(0.0, (acc, m) => acc + m.monto);
-                final cajaInicio = double.tryParse(_cajaInicioCtrl.text.replaceAll(',', '.')) ?? 0;
+                final cajaInicio = Formatters.parsearMonto(_cajaInicioCtrl.text) ?? 0;
                 // La cuenta corriente (fiado + transferencia) NO suma al
                 // efectivo esperado: esa plata no entró físicamente a la
                 // caja como billetes, se muestra solo a modo informativo.
