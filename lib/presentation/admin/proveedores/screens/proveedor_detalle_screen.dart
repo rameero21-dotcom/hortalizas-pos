@@ -268,7 +268,7 @@ class ProveedorDetalleScreen extends ConsumerWidget {
       ),
     );
     if (confirmado != true) return;
-    final monto = double.tryParse(montoCtrl.text.replaceAll(',', '.'));
+    final monto = Formatters.parsearMonto(montoCtrl.text);
     if (monto == null || monto <= 0) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
