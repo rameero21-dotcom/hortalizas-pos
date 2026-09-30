@@ -80,6 +80,21 @@ String _labelMetodo(MetodoPagoProveedor m) => switch (m) {
       MetodoPagoProveedor.cheque => 'Cheque',
     };
 
+/// Proveedor puntual, en tiempo real: antes esta pantalla mostraba el
+/// saldo con el que se navegó a ella (un snapshot fijo pasado por
+/// constructor), así que después de editar el saldo a mano o registrar
+/// un pago el cartel seguía mostrando el valor viejo hasta volver a
+/// entrar — igual que el bug que tenía la pantalla de cliente. Se
+/// deriva del mismo stream de Firestore que ya usa el listado.
+final _proveedorActualProvider = StreamProvider.autoDispose.family<Proveedor?, String>((ref, proveedorId) {
+  return ref.watch(proveedorRepositoryProvider).observarTodos().map((proveedores) {
+    for (final p in proveedores) {
+      if (p.id == proveedorId) return p;
+    }
+    return null;
+  });
+});
+
 /// Detalle de un proveedor: saldo de cuenta corriente (positivo = le
 /// debemos), historial combinado de pedidos (suman) y pagos (restan).
 /// Cada pedido se puede desplegar para ver el cálculo (cantidad ×
@@ -293,15 +308,19 @@ class ProveedorDetalleScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Se parte del proveedor con el que se navegó acá (para no mostrar
+    // la pantalla vacía mientras carga) y se reemplaza en cuanto llega
+    // el primer valor del stream en tiempo real.
+    final proveedorActual = ref.watch(_proveedorActualProvider(proveedor.id)).valueOrNull ?? proveedor;
     final historialAsync = ref.watch(_historialProveedorProvider(proveedor.id));
 
     // Ojo con el signo: acá POSITIVO significa que le debemos al
     // proveedor (al revés que en clientes, donde negativo es lo que
     // nos deben a nosotros).
-    final leDebemos = proveedor.saldoCuentaCorriente > 0;
+    final leDebemos = proveedorActual.saldoCuentaCorriente > 0;
 
     return Scaffold(
-      appBar: GradientAppBar(title: Text(proveedor.nombre)),
+      appBar: GradientAppBar(title: Text(proveedorActual.nombre)),
       body: Column(
         children: [
           Card(
@@ -318,7 +337,7 @@ class ProveedorDetalleScreen extends ConsumerWidget {
                   Text('Saldo con el proveedor', style: TextStyle(color: Colors.grey.shade400)),
                   const SizedBox(height: 4),
                   Text(
-                    Formatters.formatearMoneda(proveedor.saldoCuentaCorriente.abs()),
+                    Formatters.formatearMoneda(proveedorActual.saldoCuentaCorriente.abs()),
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
