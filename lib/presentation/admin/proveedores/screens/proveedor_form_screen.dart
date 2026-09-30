@@ -6,6 +6,7 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../domain/entities/proveedor.dart';
+import 'proveedor_detalle_screen.dart' show proveedorActualProvider;
 
 /// Formulario de proveedor: nombre, teléfono, y el saldo de cuenta
 /// corriente (cuánto le debemos), editable a mano igual que en
@@ -71,7 +72,13 @@ class _ProveedorFormScreenState extends ConsumerState<ProveedorFormScreen> {
         // el ajuste manual de saldo en Clientes — y para que suba como
         // incremento atómico en vez de pisar cambios hechos desde otro
         // dispositivo.
-        final diferencia = saldoNuevo - widget.proveedor!.saldoCuentaCorriente;
+        // Se usa el saldo más reciente posible como base (no la foto
+        // fija con la que se abrió este formulario): ver el mismo
+        // comentario en ClienteFormScreen._guardar.
+        final saldoBase =
+            ref.read(proveedorActualProvider(widget.proveedor!.id)).valueOrNull?.saldoCuentaCorriente ??
+                widget.proveedor!.saldoCuentaCorriente;
+        final diferencia = saldoNuevo - saldoBase;
         if (diferencia.abs() >= 0.01) {
           final usuarioId = ref.read(currentUserIdProvider);
           if (diferencia > 0) {
@@ -113,6 +120,11 @@ class _ProveedorFormScreenState extends ConsumerState<ProveedorFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Mantiene vivo el stream del proveedor mientras el formulario está
+    // abierto, para que al guardar el ajuste de saldo se calcule contra
+    // el valor más reciente (ver _guardar).
+    if (_esEdicion) ref.watch(proveedorActualProvider(widget.proveedor!.id));
+
     return Scaffold(
       appBar: GradientAppBar(title: Text(_esEdicion ? 'Editar proveedor' : 'Nuevo proveedor')),
       body: Padding(

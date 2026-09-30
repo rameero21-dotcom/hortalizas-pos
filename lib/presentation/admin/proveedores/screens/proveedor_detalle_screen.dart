@@ -86,7 +86,11 @@ String _labelMetodo(MetodoPagoProveedor m) => switch (m) {
 /// un pago el cartel seguía mostrando el valor viejo hasta volver a
 /// entrar — igual que el bug que tenía la pantalla de cliente. Se
 /// deriva del mismo stream de Firestore que ya usa el listado.
-final _proveedorActualProvider = StreamProvider.autoDispose.family<Proveedor?, String>((ref, proveedorId) {
+///
+/// Público (sin guion bajo) porque ProveedorFormScreen también lo usa,
+/// para calcular el ajuste manual de saldo contra el valor más
+/// reciente en vez de la foto fija con la que se abrió el formulario.
+final proveedorActualProvider = StreamProvider.autoDispose.family<Proveedor?, String>((ref, proveedorId) {
   return ref.watch(proveedorRepositoryProvider).observarTodos().map((proveedores) {
     for (final p in proveedores) {
       if (p.id == proveedorId) return p;
@@ -311,7 +315,7 @@ class ProveedorDetalleScreen extends ConsumerWidget {
     // Se parte del proveedor con el que se navegó acá (para no mostrar
     // la pantalla vacía mientras carga) y se reemplaza en cuanto llega
     // el primer valor del stream en tiempo real.
-    final proveedorActual = ref.watch(_proveedorActualProvider(proveedor.id)).valueOrNull ?? proveedor;
+    final proveedorActual = ref.watch(proveedorActualProvider(proveedor.id)).valueOrNull ?? proveedor;
     final historialAsync = ref.watch(_historialProveedorProvider(proveedor.id));
 
     // Ojo con el signo: acá POSITIVO significa que le debemos al
@@ -416,9 +420,11 @@ class ProveedorDetalleScreen extends ConsumerWidget {
                       onDismissed: (_) async {
                         final repo = ref.read(proveedorRepositoryProvider);
                         if (item.esPedido) {
-                          await repo.eliminarPedido(item.idParaBorrar);
+                          await repo.eliminarPedido(item.idParaBorrar,
+                              proveedorId: proveedor.id, monto: item.monto);
                         } else {
-                          await repo.eliminarPago(item.idParaBorrar);
+                          await repo.eliminarPago(item.idParaBorrar,
+                              proveedorId: proveedor.id, monto: item.monto);
                         }
                         ref.invalidate(_historialProveedorProvider(proveedor.id));
                       },

@@ -6,6 +6,7 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../domain/entities/cliente.dart';
+import 'cliente_detalle_screen.dart' show clienteActualProvider;
 
 String _labelCondicion(CondicionFiscal c) => switch (c) {
       CondicionFiscal.monotributista => 'Monotributista',
@@ -95,8 +96,15 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
         // 1) que quede en el historial de "Pagos y cargos" (antes un
         //    ajuste así era invisible), y 2) que suba como incremento
         //    atómico y no pise movimientos hechos desde otro dispositivo.
+        // Se usa el saldo más reciente posible como base de la
+        // diferencia (no la foto fija con la que se abrió este
+        // formulario): si otro dispositivo cambió el saldo mientras
+        // este formulario estaba abierto, restar contra un valor viejo
+        // haría que el ajuste no deje el saldo en el monto que se tipeó.
+        final saldoBase = ref.read(clienteActualProvider(widget.cliente!.id)).valueOrNull?.saldoCuentaCorriente ??
+            widget.cliente!.saldoCuentaCorriente;
         final saldoNuevo = _clienteDebe ? -montoSaldo : montoSaldo;
-        final diferencia = saldoNuevo - widget.cliente!.saldoCuentaCorriente;
+        final diferencia = saldoNuevo - saldoBase;
         if (diferencia.abs() >= 0.01) {
           final usuarioId = ref.read(currentUserIdProvider);
           await ref.read(clienteRepositoryProvider).registrarMovimientoCuenta(
@@ -123,6 +131,13 @@ class _ClienteFormScreenState extends ConsumerState<ClienteFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Mantiene vivo el stream del cliente mientras el formulario está
+    // abierto, para que al guardar el ajuste de saldo se calcule contra
+    // el valor más reciente y no contra la foto fija de cuando se abrió
+    // (ver _guardar). No se usa el valor acá directamente: el campo de
+    // saldo lo sigue editando el usuario, no se le pisa lo que tipeó.
+    if (_esEdicion) ref.watch(clienteActualProvider(widget.cliente!.id));
+
     final nombreCargado = _nombreCtrl.text.trim().isNotEmpty;
     final cuitDniCargado = _cuitDniCtrl.text.trim().isNotEmpty;
 

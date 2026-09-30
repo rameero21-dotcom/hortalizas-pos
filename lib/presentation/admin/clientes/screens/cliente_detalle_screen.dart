@@ -21,7 +21,11 @@ final _movimientosClienteProvider =
 /// volver a entrar a la pantalla — daba la impresión de que el pago no
 /// se había guardado, aunque sí había quedado registrado. Se deriva del
 /// mismo stream de Firestore que ya usa el listado de clientes.
-final _clienteActualProvider = StreamProvider.autoDispose.family<Cliente?, String>((ref, clienteId) {
+///
+/// Público (sin guion bajo) porque ClienteFormScreen también lo usa,
+/// para calcular el ajuste manual de saldo contra el valor más
+/// reciente en vez de la foto fija con la que se abrió el formulario.
+final clienteActualProvider = StreamProvider.autoDispose.family<Cliente?, String>((ref, clienteId) {
   return ref.watch(clienteRepositoryProvider).observarTodos().map((clientes) {
     for (final c in clientes) {
       if (c.id == clienteId) return c;
@@ -181,7 +185,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
     // pantalla vacía mientras carga) y se reemplaza en cuanto llega el
     // primer valor del stream en tiempo real, así el saldo reacciona a
     // los pagos/cargos que se registren sin salir de la pantalla.
-    final cliente = ref.watch(_clienteActualProvider(widget.cliente.id)).valueOrNull ?? widget.cliente;
+    final cliente = ref.watch(clienteActualProvider(widget.cliente.id)).valueOrNull ?? widget.cliente;
     final movimientosAsync = ref.watch(_movimientosClienteProvider(cliente.id));
     final boletasAsync = ref.watch(_boletasClienteProvider(cliente.id));
 
