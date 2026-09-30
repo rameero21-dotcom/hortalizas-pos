@@ -132,7 +132,7 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
   }
 
   @override
-  Future<void> eliminarPedido(String id) async {
+  Future<void> eliminarPedido(String id, {required String proveedorId, required double monto}) async {
     await _local.eliminarPedido(id);
     await _syncQueue.encolar(
       entidad: AppConstants.colPedidosProveedor,
@@ -140,7 +140,34 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
       operacion: 'delete',
       payload: const {},
     );
+
+    // El pedido había SUMADO su monto a lo que le debemos: al borrarlo
+    // hay que devolverlo, si no el saldo queda para siempre más alto de
+    // lo que corresponde (antes esto no se hacía: borrar un pedido mal
+    // cargado sacaba la fila de la lista pero dejaba la deuda intacta).
+    await _ajustarSaldo(proveedorId, -monto);
+
     await _syncService.sincronizarAhora();
+  }
+
+  Future<void> _ajustarSaldo(String proveedorId, double delta) async {
+    final proveedores = await _local.obtenerTodos();
+    Proveedor? proveedor;
+    for (final p in proveedores) {
+      if (p.id == proveedorId) {
+        proveedor = p;
+        break;
+      }
+    }
+    if (proveedor != null) {
+      await _local.actualizarSaldo(proveedorId, proveedor.saldoCuentaCorriente + delta);
+    }
+    await _syncQueue.encolar(
+      entidad: AppConstants.colProveedores,
+      entidadId: proveedorId,
+      operacion: 'incrementar',
+      payload: {'campo': 'saldoCuentaCorriente', 'delta': delta, 'extra': {'id': proveedorId}},
+    );
   }
 
   @override
@@ -242,7 +269,7 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
   }
 
   @override
-  Future<void> eliminarPago(String id) async {
+  Future<void> eliminarPago(String id, {required String proveedorId, required double monto}) async {
     await _local.eliminarPago(id);
     await _syncQueue.encolar(
       entidad: AppConstants.colPagosProveedor,
@@ -250,6 +277,12 @@ class ProveedorRepositoryImpl implements ProveedorRepository {
       operacion: 'delete',
       payload: const {},
     );
+
+    // El pago había RESTADO su monto de lo que le debemos: al borrarlo
+    // hay que devolverlo (si no, queda como si ya lo hubiéramos pagado
+    // aunque el pago se haya cargado mal y se esté corrigiendo).
+    await _ajustarSaldo(proveedorId, monto);
+
     await _syncService.sincronizarAhora();
   }
 

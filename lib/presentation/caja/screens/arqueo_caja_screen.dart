@@ -318,15 +318,25 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
     if (monto == null || monto <= 0) return;
 
     final usuarioId = ref.read(currentUserIdProvider);
-    await ref.read(cajaRepositoryProvider).registrarMovimiento(
-          tipo: tipo,
-          monto: monto,
-          detalle: detalleCtrl.text.trim().isEmpty ? '(sin detalle)' : detalleCtrl.text.trim(),
-          usuarioId: usuarioId,
-          // Los egresos quedan siempre en efectivo, sin preguntar.
-          metodo: tipo == TipoMovimientoCaja.egreso ? MetodoMovimientoCaja.efectivo : metodo,
+    try {
+      await ref.read(cajaRepositoryProvider).registrarMovimiento(
+            tipo: tipo,
+            monto: monto,
+            detalle: detalleCtrl.text.trim().isEmpty ? '(sin detalle)' : detalleCtrl.text.trim(),
+            usuarioId: usuarioId,
+            // Los egresos quedan siempre en efectivo, sin preguntar.
+            metodo: tipo == TipoMovimientoCaja.egreso ? MetodoMovimientoCaja.efectivo : metodo,
+          );
+      ref.invalidate(_movimientosCajaHoyProvider);
+    } catch (e) {
+      // Antes, si esto fallaba, no pasaba nada visible: el diálogo se
+      // cerraba igual y el movimiento se perdía en silencio.
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No se pudo guardar el movimiento: $e')),
         );
-    ref.invalidate(_movimientosCajaHoyProvider);
+      }
+    }
   }
 
   /// Separa cada venta cobrada hoy en ítems por método de pago (una
