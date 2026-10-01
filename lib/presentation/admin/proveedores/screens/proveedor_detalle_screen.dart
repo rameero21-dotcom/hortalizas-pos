@@ -465,8 +465,9 @@ class ProveedorDetalleScreen extends ConsumerWidget {
                                       width: double.infinity,
                                       padding: const EdgeInsets.all(12),
                                       decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.15),
+                                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.15),
                                         borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: Theme.of(context).colorScheme.secondary),
                                       ),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -474,11 +475,13 @@ class ProveedorDetalleScreen extends ConsumerWidget {
                                           Text(
                                             '${Formatters.formatearCantidad(item.pedidoOriginal!.cantidad)} '
                                             '× ${Formatters.formatearMoneda(item.pedidoOriginal!.precioUnitario)}',
-                                            style: TextStyle(color: Colors.grey.shade300),
                                           ),
                                           Text(
                                             '= ${Formatters.formatearMoneda(item.monto)}',
-                                            style: const TextStyle(fontWeight: FontWeight.bold),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Theme.of(context).colorScheme.secondary,
+                                            ),
                                           ),
                                         ],
                                       ),

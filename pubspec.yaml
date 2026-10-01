@@ -98,6 +98,14 @@ dependency_overrides:
   # entorno. La 1.0.0 (version anterior) no tiene ese bloque.
   jni: 1.0.0
 
+  # jni_flutter (quien trae jni como dependencia): su version 1.0.4
+  # regenero sus bindings esperando jni ^1.1.0, y tira un assertion
+  # error en tiempo de compilacion si detecta la 1.0.0 fijada arriba
+  # ("Constant evaluation error... expect package:jni ^1.1.0, but 1.0.x
+  # was imported"). Las versiones 1.0.0 a 1.0.3 todavia piden jni
+  # ^1.0.0 (compatible), asi que se fija la ultima de esas.
+  jni_flutter: 1.0.3
+
   # sqlite3 (dependencia transitiva de sqflite_common_ffi): el codigo
   # INTERNO de sqflite_common_ffi 2.3.3 (lib/src/windows/setup.dart)
   # importa "package:sqlite3/open.dart", un archivo que sqlite3 elimino
