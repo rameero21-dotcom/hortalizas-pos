@@ -14,6 +14,7 @@ import '../../admin/clientes/screens/clientes_screen.dart';
 import '../../shared/utils/cerrar_sesion.dart';
 import '../../shared/widgets/indicador_sincronizacion.dart';
 import '../../shared/widgets/loading_widget.dart';
+import '../../shared/widgets/theme_mode_button.dart';
 
 bool get _tieneCamaraDeQr => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
@@ -124,6 +125,7 @@ class CajaHomeScreen extends ConsumerWidget {
               if (context.mounted) await _procesarQr(context, ref, raw);
             },
           ),
+          const ThemeModeButton(),
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Cambiar de usuario',

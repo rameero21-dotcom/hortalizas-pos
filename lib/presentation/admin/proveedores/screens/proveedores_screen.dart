@@ -5,6 +5,7 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import 'proveedor_form_screen.dart';
 import 'proveedor_detalle_screen.dart';
+import '../../../shared/utils/borrado_con_deshacer.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
@@ -23,11 +24,17 @@ final proveedoresListProvider = StreamProvider.autoDispose((ref) {
 /// Listado de proveedores: de quién se compra mercadería. Cada uno
 /// tiene su propio historial de pedidos (producto, cantidad, forma de
 /// pago) accesible tocando la tarjeta.
-class ProveedoresScreen extends ConsumerWidget {
+class ProveedoresScreen extends ConsumerStatefulWidget {
   const ProveedoresScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProveedoresScreen> createState() => _ProveedoresScreenState();
+}
+
+class _ProveedoresScreenState extends ConsumerState<ProveedoresScreen>
+    with BorradoConDeshacerMixin<ProveedoresScreen> {
+  @override
+  Widget build(BuildContext context) {
     final proveedoresAsync = ref.watch(proveedoresListProvider);
 
     return Scaffold(
@@ -43,7 +50,8 @@ class ProveedoresScreen extends ConsumerWidget {
         child: const Icon(Icons.add),
       ),
       body: proveedoresAsync.when(
-        data: (proveedores) {
+        data: (todos) {
+          final proveedores = todos.where((p) => !idsOcultos.contains(p.id)).toList();
           if (proveedores.isEmpty) {
             return const EmptyState(
               icon: Icons.local_shipping_outlined,
@@ -100,9 +108,8 @@ class ProveedoresScreen extends ConsumerWidget {
                                 content: Text(
                                   p.saldoCuentaCorriente != 0
                                       ? '¿Eliminar a ${p.nombre}? Todavía hay un saldo de '
-                                          '${Formatters.formatearMoneda(p.saldoCuentaCorriente)} en su cuenta. '
-                                          'Esta acción no se puede deshacer.'
-                                      : '¿Eliminar a ${p.nombre}? Esta acción no se puede deshacer.',
+                                          '${Formatters.formatearMoneda(p.saldoCuentaCorriente)} en su cuenta.'
+                                      : '¿Eliminar a ${p.nombre}?',
                                 ),
                                 actions: [
                                   TextButton(
@@ -118,10 +125,12 @@ class ProveedoresScreen extends ConsumerWidget {
                             ) ??
                             false;
                       },
-                      onDismissed: (_) async {
-                        await ref.read(proveedorRepositoryProvider).eliminar(p.id);
-                        ref.invalidate(proveedoresListProvider);
-                      },
+                      onDismissed: (_) => eliminarConDeshacer(
+                        id: p.id,
+                        mensaje: 'Se eliminó a ${p.nombre}',
+                        eliminar: () => ref.read(proveedorRepositoryProvider).eliminar(p.id),
+                        alConfirmar: () => ref.invalidate(proveedoresListProvider),
+                      ),
                       child: Card(
                       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       child: ListTile(

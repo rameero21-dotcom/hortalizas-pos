@@ -4,6 +4,7 @@ import 'package:pdf/widgets.dart' as pw;
 import '../../domain/entities/venta.dart';
 import '../../domain/entities/caja.dart';
 import '../../domain/entities/cliente.dart';
+import '../../domain/entities/proveedor.dart';
 import '../../domain/usecases/estadisticas/obtener_estadisticas_usecase.dart';
 import '../utils/formatters.dart';
 
@@ -176,6 +177,124 @@ class ReportePdfService {
               filas: filasCuentaCorriente,
             ),
           ],
+        ],
+      ),
+    );
+
+    return doc.save();
+  }
+
+  /// Reporte corto pensado para mandar por WhatsApp o mail apenas se
+  /// cierra la caja del día (ver arqueo_caja_screen.dart): el arqueo
+  /// del día, el ranking de productos vendidos hoy, y una foto de los
+  /// saldos de cuenta corriente (quién nos debe, a quién le debemos) —
+  /// a diferencia de [generar], no incluye costo/IIBB/TSH/utilidad
+  /// (eso queda para el reporte completo de Historial, pensado para el
+  /// dueño, no para mandar por WhatsApp).
+  Future<Uint8List> generarCierreDiario({
+    required DateTime fecha,
+    required double cajaInicio,
+    required double totalEfectivo,
+    required double totalCuentaCorriente,
+    required double ingresosEfectivo,
+    required double egresos,
+    required double totalEsperado,
+    required double totalContado,
+    required double diferencia,
+    required List<ResumenProducto> productosVendidos, // ya ordenados de mayor a menor
+    required List<Cliente> clientesConSaldo,
+    required List<Proveedor> proveedoresConSaldo,
+  }) async {
+    final doc = pw.Document();
+
+    final totalQueNosDeben = clientesConSaldo
+        .where((c) => c.saldoCuentaCorriente < 0)
+        .fold(0.0, (acc, c) => acc + c.saldoCuentaCorriente.abs());
+    final totalQueLesDebemos = proveedoresConSaldo
+        .where((p) => p.saldoCuentaCorriente > 0)
+        .fold(0.0, (acc, p) => acc + p.saldoCuentaCorriente);
+
+    doc.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        header: (context) => pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text('Cierre de caja', style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+            pw.Text(
+              Formatters.formatearFecha(fecha),
+              style: const pw.TextStyle(fontSize: 12, color: PdfColors.grey700),
+            ),
+            pw.Divider(),
+          ],
+        ),
+        footer: (context) => pw.Column(
+          children: [
+            pw.Divider(),
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [
+                pw.Text('Generado el ${Formatters.formatearFechaHora(DateTime.now())}',
+                    style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey600)),
+                pw.Text('Página ${context.pageNumber} de ${context.pagesCount}',
+                    style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey600)),
+              ],
+            ),
+          ],
+        ),
+        build: (context) => [
+          _seccion('Resumen de caja'),
+          _tablaResumen([
+            ['Caja inicio', Formatters.formatearMoneda(cajaInicio)],
+            ['Ventas en efectivo', Formatters.formatearMoneda(totalEfectivo)],
+            ['Ventas en cuenta corriente (fiado + transferencia)', Formatters.formatearMoneda(totalCuentaCorriente)],
+            ['Ingresos manuales (efectivo)', Formatters.formatearMoneda(ingresosEfectivo)],
+            ['Egresos manuales', Formatters.formatearMoneda(-egresos)],
+            ['Total esperado en caja', Formatters.formatearMoneda(totalEsperado)],
+            ['Total contado', Formatters.formatearMoneda(totalContado)],
+            ['Diferencia', Formatters.formatearMoneda(diferencia)],
+          ]),
+          pw.SizedBox(height: 16),
+
+          _seccion('Productos vendidos hoy'),
+          _tablaSimple(
+            encabezados: ['Producto', 'Cantidad', 'Facturación'],
+            filas: productosVendidos
+                .map((p) => [
+                      p.nombreProducto,
+                      p.cantidadVendida.toStringAsFixed(0),
+                      Formatters.formatearMoneda(p.facturacion),
+                    ])
+                .toList(),
+          ),
+          pw.SizedBox(height: 16),
+
+          _seccion('Saldos de clientes (nos deben)'),
+          _tablaResumen([
+            ['Total que nos deben', Formatters.formatearMoneda(totalQueNosDeben)],
+          ]),
+          pw.SizedBox(height: 6),
+          _tablaSimple(
+            encabezados: ['Cliente', 'Saldo'],
+            filas: clientesConSaldo
+                .where((c) => c.saldoCuentaCorriente < 0)
+                .map((c) => [c.nombre, Formatters.formatearMoneda(c.saldoCuentaCorriente.abs())])
+                .toList(),
+          ),
+          pw.SizedBox(height: 16),
+
+          _seccion('Saldos de proveedores (les debemos)'),
+          _tablaResumen([
+            ['Total que les debemos', Formatters.formatearMoneda(totalQueLesDebemos)],
+          ]),
+          pw.SizedBox(height: 6),
+          _tablaSimple(
+            encabezados: ['Proveedor', 'Saldo'],
+            filas: proveedoresConSaldo
+                .where((p) => p.saldoCuentaCorriente > 0)
+                .map((p) => [p.nombre, Formatters.formatearMoneda(p.saldoCuentaCorriente)])
+                .toList(),
+          ),
         ],
       ),
     );

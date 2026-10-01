@@ -5,6 +5,7 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import 'cliente_form_screen.dart';
 import 'cliente_detalle_screen.dart';
+import '../../../shared/utils/borrado_con_deshacer.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
@@ -22,11 +23,17 @@ final clientesListProvider = StreamProvider.autoDispose((ref) {
 
 /// Listado de clientes (preparado para el futuro): nombre, teléfono,
 /// dirección, cuenta corriente, saldo.
-class ClientesScreen extends ConsumerWidget {
+class ClientesScreen extends ConsumerStatefulWidget {
   const ClientesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ClientesScreen> createState() => _ClientesScreenState();
+}
+
+class _ClientesScreenState extends ConsumerState<ClientesScreen>
+    with BorradoConDeshacerMixin<ClientesScreen> {
+  @override
+  Widget build(BuildContext context) {
     final clientesAsync = ref.watch(clientesListProvider);
 
     return Scaffold(
@@ -42,7 +49,8 @@ class ClientesScreen extends ConsumerWidget {
         child: const Icon(Icons.add),
       ),
       body: clientesAsync.when(
-        data: (clientes) {
+        data: (todos) {
+          final clientes = todos.where((c) => !idsOcultos.contains(c.id)).toList();
           if (clientes.isEmpty) {
             return const EmptyState(
               icon: Icons.contacts_outlined,
@@ -99,9 +107,8 @@ class ClientesScreen extends ConsumerWidget {
                                 content: Text(
                                   c.saldoCuentaCorriente != 0
                                       ? '¿Eliminar a ${c.nombre}? Todavía tiene un saldo de '
-                                          '${Formatters.formatearMoneda(c.saldoCuentaCorriente)} en cuenta corriente. '
-                                          'Esta acción no se puede deshacer.'
-                                      : '¿Eliminar a ${c.nombre}? Esta acción no se puede deshacer.',
+                                          '${Formatters.formatearMoneda(c.saldoCuentaCorriente)} en cuenta corriente.'
+                                      : '¿Eliminar a ${c.nombre}?',
                                 ),
                                 actions: [
                                   TextButton(
@@ -117,10 +124,12 @@ class ClientesScreen extends ConsumerWidget {
                             ) ??
                             false;
                       },
-                      onDismissed: (_) async {
-                        await ref.read(clienteRepositoryProvider).eliminar(c.id);
-                        ref.invalidate(clientesListProvider);
-                      },
+                      onDismissed: (_) => eliminarConDeshacer(
+                        id: c.id,
+                        mensaje: 'Se eliminó a ${c.nombre}',
+                        eliminar: () => ref.read(clienteRepositoryProvider).eliminar(c.id),
+                        alConfirmar: () => ref.invalidate(clientesListProvider),
+                      ),
                       child: Card(
                         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                         child: ListTile(

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/producto.dart';
+import '../../../shared/utils/borrado_con_deshacer.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
@@ -21,11 +22,17 @@ final productosListProvider = StreamProvider.autoDispose((ref) {
 
 /// Administración de productos: listar, buscar, activar/desactivar,
 /// y navegar a producto_form_screen para crear/editar.
-class ProductosScreen extends ConsumerWidget {
+class ProductosScreen extends ConsumerStatefulWidget {
   const ProductosScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProductosScreen> createState() => _ProductosScreenState();
+}
+
+class _ProductosScreenState extends ConsumerState<ProductosScreen>
+    with BorradoConDeshacerMixin<ProductosScreen> {
+  @override
+  Widget build(BuildContext context) {
     final productosAsync = ref.watch(productosListProvider);
 
     return Scaffold(
@@ -58,7 +65,8 @@ class ProductosScreen extends ConsumerWidget {
           ref.invalidate(productosListProvider);
         },
         child: productosAsync.when(
-          data: (productos) {
+          data: (todos) {
+            final productos = todos.where((p) => !idsOcultos.contains(p.id)).toList();
             if (productos.isEmpty) {
               return ListView(
                 children: const [
@@ -87,7 +95,7 @@ class ProductosScreen extends ConsumerWidget {
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('Eliminar producto'),
-                            content: Text('¿Eliminar "${p.nombre}" del catálogo? Esta acción no se puede deshacer.'),
+                            content: Text('¿Eliminar "${p.nombre}" del catálogo?'),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context, false),
@@ -103,10 +111,12 @@ class ProductosScreen extends ConsumerWidget {
                         ) ??
                         false;
                   },
-                  onDismissed: (_) async {
-                    await ref.read(gestionarProductosUseCaseProvider).eliminar(p.id);
-                    ref.invalidate(productosListProvider);
-                  },
+                  onDismissed: (_) => eliminarConDeshacer(
+                    id: p.id,
+                    mensaje: 'Se eliminó "${p.nombre}"',
+                    eliminar: () => ref.read(gestionarProductosUseCaseProvider).eliminar(p.id),
+                    alConfirmar: () => ref.invalidate(productosListProvider),
+                  ),
                   child: Card(
                     margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     child: ListTile(

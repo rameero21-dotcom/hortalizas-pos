@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../shared/widgets/gradient_app_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:printing/printing.dart';
 import 'dart:convert';
 import '../../../core/di/providers.dart';
 import '../../../core/utils/formatters.dart';
@@ -242,6 +243,13 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
             usuarioId: usuarioId,
           );
       await _borrarBorrador();
+
+      // La caja ya quedó cerrada y guardada arriba; armar y compartir
+      // el PDF es una comodidad extra — si esto falla (sin WhatsApp
+      // instalado, sin conexión para traer clientes/proveedores, etc.)
+      // no tiene que verse como si el cierre en sí hubiese fallado.
+      await _compartirReporteCierre(DateTime.now());
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Caja cerrada y guardada (${Formatters.formatearMoneda(_totalContado)})')),
@@ -254,6 +262,55 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
       }
     } finally {
       if (mounted) setState(() => _guardando = false);
+    }
+  }
+
+  /// Arma el PDF del cierre del día (arqueo + ranking de productos +
+  /// saldos de clientes/proveedores) y abre el selector nativo para
+  /// mandarlo por WhatsApp, mail, o lo que elija el usuario.
+  Future<void> _compartirReporteCierre(DateTime fecha) async {
+    try {
+      final rango = await DiaLaboralService.rangoDeHoy();
+      final ventas = await ref.read(_ventasHoyProvider.future);
+      final movimientos = await ref.read(_movimientosCajaHoyProvider.future);
+      final nombresClientes = await ref.read(_nombresClientesProvider.future);
+      final calculo = _calcularMovimientosDia(ventas, movimientos, nombresClientes);
+      final cajaInicio = Formatters.parsearMonto(_cajaInicioCtrl.text) ?? 0;
+      final totalEsperado = cajaInicio + calculo.totalEfectivo + calculo.ingresosEfectivo - calculo.egresos;
+      final diferencia = _totalContado - totalEsperado;
+
+      final estadisticas = await ref.read(obtenerEstadisticasUseCaseProvider).call(rango.inicio, rango.fin);
+      final productosOrdenados = estadisticas.resumenPorProducto.values.toList()
+        ..sort((a, b) => b.facturacion.compareTo(a.facturacion));
+
+      final clientes = await ref.read(clienteRepositoryProvider).obtenerTodos();
+      final proveedores = await ref.read(proveedorRepositoryProvider).obtenerTodos();
+
+      final bytes = await ref.read(reportePdfServiceProvider).generarCierreDiario(
+            fecha: fecha,
+            cajaInicio: cajaInicio,
+            totalEfectivo: calculo.totalEfectivo,
+            totalCuentaCorriente: calculo.totalCuentaCorriente,
+            ingresosEfectivo: calculo.ingresosEfectivo,
+            egresos: calculo.egresos,
+            totalEsperado: totalEsperado,
+            totalContado: _totalContado,
+            diferencia: diferencia,
+            productosVendidos: productosOrdenados,
+            clientesConSaldo: clientes,
+            proveedoresConSaldo: proveedores,
+          );
+
+      await Printing.sharePdf(
+        bytes: bytes,
+        filename: 'cierre_caja_${Formatters.formatearFecha(fecha).replaceAll('/', '-')}.pdf',
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('La caja se cerró, pero no se pudo armar el reporte para compartir: $e')),
+        );
+      }
     }
   }
 
@@ -337,6 +394,46 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
         );
       }
     }
+  }
+
+  /// Junta ventas + movimientos manuales de un período y calcula todos
+  /// los totales del arqueo — usado tanto por `build()` (para mostrar
+  /// en pantalla) como por `_cerrarCaja()` (para armar el PDF del
+  /// reporte), así la cuenta no vive duplicada en los dos lugares.
+  ({
+    List<MovimientoCaja> ingresosTodos,
+    List<MovimientoCaja> egresosTodos,
+    List<_ItemVentaCaja> efectivo,
+    List<_ItemVentaCaja> cuentaCorriente,
+    double totalEfectivo,
+    double totalCuentaCorriente,
+    double ingresosEfectivo,
+    double egresos,
+  }) _calcularMovimientosDia(
+      List<Venta> ventas, List<MovimientoCaja> movimientos, Map<String, String> nombresClientes) {
+    final movimientosSinCajaInicio = movimientos.where((m) => m.detalle != _detalleCajaInicio).toList();
+    final ingresosTodos = movimientosSinCajaInicio.where((m) => m.tipo == TipoMovimientoCaja.ingreso).toList();
+    final egresosTodos = movimientosSinCajaInicio.where((m) => m.tipo == TipoMovimientoCaja.egreso).toList();
+    final grupos = _agruparVentas(ventas, nombresClientes);
+    final totalEfectivo = grupos.efectivo.fold(0.0, (acc, i) => acc + i.monto);
+    final ingresosEfectivo =
+        ingresosTodos.where((m) => m.metodo == MetodoMovimientoCaja.efectivo).fold(0.0, (acc, m) => acc + m.monto);
+    final ingresosTransferencia = ingresosTodos
+        .where((m) => m.metodo == MetodoMovimientoCaja.transferencia)
+        .fold(0.0, (acc, m) => acc + m.monto);
+    final totalCuentaCorriente =
+        grupos.cuentaCorriente.fold(0.0, (acc, i) => acc + i.monto) + ingresosTransferencia;
+    final egresos = egresosTodos.fold(0.0, (acc, m) => acc + m.monto);
+    return (
+      ingresosTodos: ingresosTodos,
+      egresosTodos: egresosTodos,
+      efectivo: grupos.efectivo,
+      cuentaCorriente: grupos.cuentaCorriente,
+      totalEfectivo: totalEfectivo,
+      totalCuentaCorriente: totalCuentaCorriente,
+      ingresosEfectivo: ingresosEfectivo,
+      egresos: egresos,
+    );
   }
 
   /// Separa cada venta cobrada hoy en ítems por método de pago (una
@@ -491,25 +588,15 @@ class _ArqueoCajaScreenState extends ConsumerState<ArqueoCajaScreen> {
                   _cajaInicioYaCargada = true;
                 }
 
-                final movimientosSinCajaInicio =
-                    movimientos.where((m) => m.detalle != _detalleCajaInicio).toList();
-                final ingresosTodos = movimientosSinCajaInicio.where((m) => m.tipo == TipoMovimientoCaja.ingreso).toList();
-                final egresosTodos = movimientosSinCajaInicio.where((m) => m.tipo == TipoMovimientoCaja.egreso).toList();
                 final nombresClientes = ref.watch(_nombresClientesProvider).valueOrNull ?? {};
-                final grupos = _agruparVentas(ventas, nombresClientes);
-                final totalEfectivo = grupos.efectivo.fold(0.0, (acc, i) => acc + i.monto);
-                final ingresosEfectivo = ingresosTodos
-                    .where((m) => m.metodo == MetodoMovimientoCaja.efectivo)
-                    .fold(0.0, (acc, m) => acc + m.monto);
-                final ingresosTransferencia = ingresosTodos
-                    .where((m) => m.metodo == MetodoMovimientoCaja.transferencia)
-                    .fold(0.0, (acc, m) => acc + m.monto);
-                // Cuenta corriente agrupa: fiado + transferencia (ventas)
-                // + ingresos manuales que llegaron por transferencia —
-                // ninguno de esos casos mete plata física a la caja.
-                final totalCuentaCorriente =
-                    grupos.cuentaCorriente.fold(0.0, (acc, i) => acc + i.monto) + ingresosTransferencia;
-                final egresos = egresosTodos.fold(0.0, (acc, m) => acc + m.monto);
+                final calculo = _calcularMovimientosDia(ventas, movimientos, nombresClientes);
+                final ingresosTodos = calculo.ingresosTodos;
+                final egresosTodos = calculo.egresosTodos;
+                final grupos = (efectivo: calculo.efectivo, cuentaCorriente: calculo.cuentaCorriente);
+                final totalEfectivo = calculo.totalEfectivo;
+                final ingresosEfectivo = calculo.ingresosEfectivo;
+                final totalCuentaCorriente = calculo.totalCuentaCorriente;
+                final egresos = calculo.egresos;
                 final cajaInicio = Formatters.parsearMonto(_cajaInicioCtrl.text) ?? 0;
                 // La cuenta corriente (fiado + transferencia) NO suma al
                 // efectivo esperado: esa plata no entró físicamente a la
