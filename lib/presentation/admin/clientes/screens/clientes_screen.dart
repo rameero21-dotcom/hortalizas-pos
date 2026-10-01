@@ -8,6 +8,7 @@ import 'cliente_detalle_screen.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
+import '../../../shared/widgets/whatsapp_button.dart';
 
 /// Escucha en tiempo real: un cliente creado/editado desde CUALQUIER
 /// dispositivo aparece acá sin necesitar refrescar manualmente.
@@ -137,7 +138,7 @@ class ClientesScreen extends ConsumerWidget {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (c.saldoCuentaCorriente != 0)
+                              if (c.saldoCuentaCorriente != 0) ...[
                                 Text(
                                   Formatters.formatearMoneda(c.saldoCuentaCorriente),
                                   style: TextStyle(
@@ -145,8 +146,19 @@ class ClientesScreen extends ConsumerWidget {
                                     color: c.saldoCuentaCorriente < 0 ? Colors.red : Colors.green,
                                   ),
                                 ),
+                                const SizedBox(width: 8),
+                              ],
+                              WhatsappButton(
+                                telefono: c.telefono,
+                                size: 18,
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                              ),
+                              const SizedBox(width: 8),
                               IconButton(
                                 icon: const Icon(Icons.edit, size: 20),
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
                                 onPressed: () async {
                                   await Navigator.push(
                                     context,
