@@ -122,13 +122,18 @@ dependency_overrides:
   sqlite3: 2.9.4
 
 # Ícono de la app (logo "C&S" recortado del isologo completo, sobre
-# fondo blanco). android/ no está versionado (se regenera en cada
-# build con "flutter create"), así que el ícono por defecto de Flutter
-# se reaplica solo; por eso el workflow de CI corre
-# "dart run flutter_launcher_icons" después de regenerar esa carpeta
-# y antes de compilar, para que el ícono de marca quede siempre.
-flutter_launcher_icons:
-  android: true
-  image_path: assets/icons/app_icon.png
-  adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: assets/icons/app_icon_foreground.png
+# fondo blanco). android/ y windows/ no están versionados (se
+# regeneran en cada build con "flutter create"), así que el ícono por
+# defecto de Flutter se reaplica solo; por eso el workflow de CI corre
+# "dart run flutter_launcher_icons" después de regenerar esas carpetas
+# y antes de compilar, para que el ícono de marca quede siempre (en el
+# .exe, en el instalador y en el acceso directo del escritorio).
+#
+# La config NO va acá adentro: el job de Android solo genera android/
+# (no windows/) y viceversa, y flutter_launcher_icons intenta procesar
+# TODAS las plataformas habilitadas en la config sin importar cuál
+# carpeta exista en el disco — con una sola config combinada, el job
+# que le falta la otra carpeta rompe con un "PathNotFoundException".
+# Por eso cada plataforma tiene su propio archivo de config
+# (icons-android.yaml / icons-windows.yaml) y cada job usa
+# "dart run flutter_launcher_icons -f <ese archivo>".
