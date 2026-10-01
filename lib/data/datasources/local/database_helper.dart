@@ -1,4 +1,7 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';
 import '../../../core/constants/app_constants.dart';
@@ -18,13 +21,36 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDb() async {
-    final path = join(await getDatabasesPath(), 'hortalizas_pos.db');
+    final path = join(await _obtenerDirectorioBaseDeDatos(), 'hortalizas_pos.db');
     return openDatabase(
       path,
       version: 14,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
+  }
+
+  /// En Android/iOS, "getDatabasesPath()" de sqflite ya devuelve una
+  /// carpeta propia de la app lista para escribir. En Windows/Linux/
+  /// macOS (donde main.dart usa sqflite_common_ffi), esa misma llamada
+  /// en cambio devuelve una ruta relativa a ".dart_tool/" del
+  /// directorio desde el que arranca el ejecutable — una carpeta que
+  /// existe en desarrollo (corriendo con `flutter run`) pero no en la
+  /// app ya instalada. Con el instalador de Windows eso además cae
+  /// dentro de "Archivos de Programa", donde un usuario normal no
+  /// tiene permiso de escritura, y la apertura de la base falla con
+  /// "SqliteException(14): unable to open database file" apenas se
+  /// intenta loguear (primer intento real de escribir en el disco).
+  /// Por eso en desktop se arma la ruta a mano con una carpeta propia
+  /// del usuario (path_provider) en vez de confiar en
+  /// "getDatabasesPath()".
+  Future<String> _obtenerDirectorioBaseDeDatos() async {
+    if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+      final directorio = await getApplicationSupportDirectory();
+      await directorio.create(recursive: true);
+      return directorio.path;
+    }
+    return getDatabasesPath();
   }
 
   /// Migra instalaciones existentes: agrega columnas de costo/impuestos a
