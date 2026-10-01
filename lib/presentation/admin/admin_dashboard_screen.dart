@@ -11,151 +11,90 @@ import 'clientes/screens/clientes_screen.dart';
 import 'proveedores/screens/proveedores_screen.dart';
 import 'facturacion/screens/facturacion_screen.dart';
 import '../caja/screens/configuracion_impresora_screen.dart';
-import '../shared/providers/theme_mode_provider.dart';
 import '../shared/utils/cerrar_sesion.dart';
 import '../shared/widgets/gradient_app_bar.dart';
 import '../shared/widgets/indicador_sincronizacion.dart';
+import '../shared/widgets/theme_mode_button.dart';
 
-/// Menú principal del administrador: acceso a todos los módulos de gestión,
-/// agrupados por tema (antes era una sola lista vertical de 9 filas, más
-/// lenta de escanear de un vistazo que una grilla agrupada).
+/// Menú principal del administrador: acceso a todos los módulos de gestión.
 class AdminDashboardScreen extends ConsumerWidget {
   const AdminDashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final secciones = <_SeccionModulos>[
-      _SeccionModulos('VENTAS', [
-        _ModuloAdmin('Historial', Icons.history_outlined, const HistorialScreen()),
-        _ModuloAdmin('Estadísticas', Icons.insights_outlined, const EstadisticasScreen()),
-        _ModuloAdmin('Facturación', Icons.request_quote_outlined, const FacturacionScreen()),
-      ]),
-      _SeccionModulos('CATÁLOGO', [
-        _ModuloAdmin('Productos', Icons.eco_outlined, const ProductosScreen()),
-        _ModuloAdmin('Stock', Icons.balance_outlined, const StockScreen()),
-      ]),
-      _SeccionModulos('PERSONAS', [
-        _ModuloAdmin('Clientes', Icons.contacts_outlined, const ClientesScreen()),
-        _ModuloAdmin('Proveedores', Icons.local_shipping_outlined, const ProveedoresScreen()),
-        _ModuloAdmin('Usuarios', Icons.people_alt_outlined, const UsuariosScreen()),
-      ]),
-      _SeccionModulos('SISTEMA', [
-        _ModuloAdmin('Impresora', Icons.print_outlined, const ConfiguracionImpresoraScreen()),
-      ]),
+    final modulos = <_ModuloAdmin>[
+      _ModuloAdmin('Productos', Icons.eco_outlined, const ProductosScreen()),
+      _ModuloAdmin('Stock', Icons.balance_outlined, const StockScreen()),
+      _ModuloAdmin('Estadísticas', Icons.insights_outlined, const EstadisticasScreen()),
+      _ModuloAdmin('Usuarios', Icons.people_alt_outlined, const UsuariosScreen()),
+      _ModuloAdmin('Historial', Icons.history_outlined, const HistorialScreen()),
+      _ModuloAdmin('Clientes', Icons.contacts_outlined, const ClientesScreen()),
+      _ModuloAdmin('Proveedores', Icons.local_shipping_outlined, const ProveedoresScreen()),
+      _ModuloAdmin('Facturación', Icons.request_quote_outlined, const FacturacionScreen()),
+      _ModuloAdmin('Impresora', Icons.print_outlined, const ConfiguracionImpresoraScreen()),
     ];
-
-    var indice = 0;
 
     return Scaffold(
       appBar: GradientAppBar(
         title: const Text('Panel de administración'),
         actions: [
           const IndicadorSincronizacion(),
-          PopupMenuButton<String>(
-            tooltip: 'Más opciones',
-            onSelected: (valor) {
-              switch (valor) {
-                case 'tema':
-                  ref.read(themeModeProvider.notifier).alternar();
-                  break;
-                case 'salir':
-                  cerrarSesionYVolver(context, ref);
-                  break;
-              }
-            },
-            itemBuilder: (context) {
-              final esOscuro = ref.read(themeModeProvider) == ThemeMode.dark;
-              return [
-                PopupMenuItem(
-                  value: 'tema',
-                  child: ListTile(
-                    leading: Icon(esOscuro ? Icons.light_mode_outlined : Icons.dark_mode_outlined),
-                    title: Text(esOscuro ? 'Modo claro' : 'Modo oscuro'),
-                  ),
-                ),
-                const PopupMenuItem(
-                  value: 'salir',
-                  child: ListTile(leading: Icon(Icons.logout), title: Text('Cambiar de usuario')),
-                ),
-              ];
-            },
+          const ThemeModeButton(),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Cambiar de usuario',
+            onPressed: () => cerrarSesionYVolver(context, ref),
           ),
         ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          for (final seccion in secciones) ...[
-            Text(seccion.titulo, style: AppTheme.eyebrowStyle(context)),
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
+          Text('ACCESOS', style: AppTheme.eyebrowStyle(context)),
+          const SizedBox(height: 12),
+          Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
               children: [
-                for (final modulo in seccion.modulos)
-                  _TileModulo(modulo: modulo)
-                      // Entrada escalonada: cada tile aparece un poco después
-                      // que la anterior, en vez de que salten todas de golpe.
-                      .animate(delay: ((indice++) * 25).ms)
-                      .fadeIn(duration: 220.ms, curve: Curves.easeOut),
+                for (int i = 0; i < modulos.length; i++) ...[
+                  if (i > 0) const Divider(height: 1),
+                  _FilaModulo(modulo: modulos[i])
+                      // Entrada escalonada: cada fila aparece un poco después
+                      // que la anterior, en vez de que las 9 salten de golpe.
+                      .animate()
+                      .fadeIn(delay: (i * 25).ms, duration: 220.ms, curve: Curves.easeOut),
+                ],
               ],
             ),
-            const SizedBox(height: 20),
-          ],
+          ),
         ],
       ),
     );
   }
 }
 
-class _TileModulo extends StatelessWidget {
+class _FilaModulo extends StatelessWidget {
   final _ModuloAdmin modulo;
-  const _TileModulo({required this.modulo});
+  const _FilaModulo({required this.modulo});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return SizedBox(
-      width: 108,
-      height: 100,
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => modulo.pantalla)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: colorScheme.primary.withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(modulo.icono, color: colorScheme.primary, size: 20),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  modulo.titulo,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
-                  maxLines: 2,
-                ),
-              ],
-            ),
-          ),
+    return InkWell(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => modulo.pantalla)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Row(
+          children: [
+            Icon(modulo.icono, size: 20, color: colorScheme.onSurfaceVariant),
+            const SizedBox(width: 16),
+            Expanded(child: Text(modulo.titulo, style: Theme.of(context).textTheme.bodyLarge)),
+            Icon(Icons.chevron_right_rounded, size: 20, color: colorScheme.onSurfaceVariant),
+          ],
         ),
       ),
     );
   }
-}
-
-class _SeccionModulos {
-  final String titulo;
-  final List<_ModuloAdmin> modulos;
-  _SeccionModulos(this.titulo, this.modulos);
 }
 
 class _ModuloAdmin {
