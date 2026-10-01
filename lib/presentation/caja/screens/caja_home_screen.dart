@@ -11,10 +11,10 @@ import 'qr_texto_screen.dart';
 import 'arqueo_caja_screen.dart';
 import '../../admin/historial/screens/historial_screen.dart';
 import '../../admin/clientes/screens/clientes_screen.dart';
+import '../../shared/providers/theme_mode_provider.dart';
 import '../../shared/utils/cerrar_sesion.dart';
 import '../../shared/widgets/indicador_sincronizacion.dart';
 import '../../shared/widgets/loading_widget.dart';
-import '../../shared/widgets/theme_mode_button.dart';
 
 bool get _tieneCamaraDeQr => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
@@ -78,58 +78,103 @@ class CajaHomeScreen extends ConsumerWidget {
         title: const Text('Ventas pendientes'),
         actions: [
           const IndicadorSincronizacion(),
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            tooltip: 'Actualizar',
-            onPressed: () => _actualizar(ref),
-          ),
-          IconButton(
-            icon: const Icon(Icons.point_of_sale),
-            tooltip: 'Arqueo de caja',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const ArqueoCajaScreen()),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.history),
-            tooltip: 'Historial',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const HistorialScreen()),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.contacts),
-            tooltip: 'Clientes (cuenta corriente)',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const ClientesScreen()),
-            ),
-          ),
-          IconButton(
-            icon: Icon(_tieneCamaraDeQr ? Icons.qr_code_scanner : Icons.qr_code),
-            tooltip: _tieneCamaraDeQr
-                ? 'Escanear QR (respaldo sin conexión)'
-                : 'Pegar código QR (respaldo sin conexión)',
-            onPressed: () async {
-              final raw = _tieneCamaraDeQr
-                  ? await Navigator.push<String>(
-                      context,
-                      MaterialPageRoute(builder: (_) => const QrScannerScreen()),
-                    )
-                  : await Navigator.push<String>(
-                      context,
-                      MaterialPageRoute(builder: (_) => const QrTextoScreen()),
-                    );
-              if (context.mounted) await _procesarQr(context, ref, raw);
+          PopupMenuButton<String>(
+            tooltip: 'Más opciones',
+            onSelected: (valor) {
+              switch (valor) {
+                case 'actualizar':
+                  _actualizar(ref);
+                  break;
+                case 'tema':
+                  ref.read(themeModeProvider.notifier).alternar();
+                  break;
+                case 'salir':
+                  cerrarSesionYVolver(context, ref);
+                  break;
+              }
+            },
+            itemBuilder: (context) {
+              final esOscuro = ref.read(themeModeProvider) == ThemeMode.dark;
+              return [
+                const PopupMenuItem(
+                  value: 'actualizar',
+                  child: ListTile(leading: Icon(Icons.refresh), title: Text('Actualizar')),
+                ),
+                PopupMenuItem(
+                  value: 'tema',
+                  child: ListTile(
+                    leading: Icon(esOscuro ? Icons.light_mode_outlined : Icons.dark_mode_outlined),
+                    title: Text(esOscuro ? 'Modo claro' : 'Modo oscuro'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'salir',
+                  child: ListTile(leading: Icon(Icons.logout), title: Text('Cambiar de usuario')),
+                ),
+              ];
             },
           ),
-          const ThemeModeButton(),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Cambiar de usuario',
-            onPressed: () => cerrarSesionYVolver(context, ref),
+        ],
+      ),
+      // El escaneo de QR (respaldo sin conexión) queda como botón flotante:
+      // es la acción que más se usa durante el día, a diferencia de
+      // Historial/Clientes/Arqueo que ahora viven en la barra de abajo.
+      floatingActionButton: FloatingActionButton(
+        tooltip: _tieneCamaraDeQr
+            ? 'Escanear QR (respaldo sin conexión)'
+            : 'Pegar código QR (respaldo sin conexión)',
+        onPressed: () async {
+          final raw = _tieneCamaraDeQr
+              ? await Navigator.push<String>(
+                  context,
+                  MaterialPageRoute(builder: (_) => const QrScannerScreen()),
+                )
+              : await Navigator.push<String>(
+                  context,
+                  MaterialPageRoute(builder: (_) => const QrTextoScreen()),
+                );
+          if (context.mounted) await _procesarQr(context, ref, raw);
+        },
+        child: Icon(_tieneCamaraDeQr ? Icons.qr_code_scanner : Icons.qr_code),
+      ),
+      // Siempre arranca en "Ventas" (índice 0, esta misma pantalla): las
+      // otras tres navegan empujando su pantalla de siempre, así que no
+      // hace falta mantener un índice seleccionado real.
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: 0,
+        onDestinationSelected: (indice) {
+          switch (indice) {
+            case 1:
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const HistorialScreen()));
+              break;
+            case 2:
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const ClientesScreen()));
+              break;
+            case 3:
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const ArqueoCajaScreen()));
+              break;
+          }
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.receipt_long_outlined),
+            selectedIcon: Icon(Icons.receipt_long),
+            label: 'Ventas',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.history_outlined),
+            selectedIcon: Icon(Icons.history),
+            label: 'Historial',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.contacts_outlined),
+            selectedIcon: Icon(Icons.contacts),
+            label: 'Clientes',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.point_of_sale_outlined),
+            selectedIcon: Icon(Icons.point_of_sale),
+            label: 'Arqueo',
           ),
         ],
       ),
