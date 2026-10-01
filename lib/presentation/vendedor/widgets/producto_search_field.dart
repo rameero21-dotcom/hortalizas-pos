@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/entities/detalle_venta.dart';
 import '../../../domain/entities/producto.dart';
 import '../../../core/di/providers.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/formatters.dart';
 import '../providers/carrito_provider.dart';
 
@@ -97,6 +98,23 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
     }
   }
 
+  /// Agrupa el catálogo por "familia" (la primera palabra del nombre):
+  /// "Papa" y "Papa lavada" caen juntas, "Cebolla" y "Cebolla morada"
+  /// también — sin tener que agregar ni cargar ningún campo nuevo en
+  /// el producto. Se muestra como catálogo tocable mientras no se esté
+  /// buscando por texto, para no tener que escribir el nombre de algo
+  /// que ya se puede ver en pantalla.
+  List<MapEntry<String, List<Producto>>> _agruparPorFamilia(List<Producto> productos) {
+    final mapa = <String, List<Producto>>{};
+    for (final p in productos) {
+      final primeraPalabra = p.nombre.trim().split(RegExp(r'\s+')).first;
+      mapa.putIfAbsent(primeraPalabra, () => []).add(p);
+    }
+    final entradas = mapa.entries.toList()
+      ..sort((a, b) => a.key.toLowerCase().compareTo(b.key.toLowerCase()));
+    return entradas;
+  }
+
   void _filtrar(String query) {
     setState(() {
       _filtrados = query.isEmpty
@@ -163,6 +181,54 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
     _precioCtrl.dispose();
     _busquedaFocus.dispose();
     super.dispose();
+  }
+
+  Widget _catalogoPorFamilia() {
+    final familias = _agruparPorFamilia(_productos);
+    if (familias.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('CATÁLOGO', style: AppTheme.eyebrowStyle(context)),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 200,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (final familia in familias) ...[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 6, top: 4),
+                      child: Text(
+                        familia.key.toUpperCase(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelLarge
+                            ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                      ),
+                    ),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        for (final p in familia.value)
+                          ActionChip(
+                            label: Text(p.nombre),
+                            onPressed: () => _seleccionar(p),
+                          ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _stockEnTiempoReal(String productoId) {
@@ -258,6 +324,11 @@ class _ProductoSearchFieldState extends ConsumerState<ProductoSearchField> {
             ),
           ),
         const SizedBox(height: 8),
+        // Catálogo agrupado por familia: solo mientras no se esté
+        // buscando por texto ni haya nada seleccionado todavía — apenas
+        // se elige algo (acá o por el buscador) pasa directo a cantidad/precio.
+        if (_productoSeleccionado == null && !mostrarDropdown && _busquedaCtrl.text.isEmpty && !_cargando)
+          _catalogoPorFamilia(),
         if (_productoSeleccionado != null) _stockEnTiempoReal(_productoSeleccionado!.id),
         Row(
           children: [
