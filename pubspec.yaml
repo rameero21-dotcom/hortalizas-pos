@@ -76,6 +76,7 @@ dev_dependencies:
   build_runner: ^2.4.11
   freezed: ^2.5.2
   json_serializable: ^6.8.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
@@ -119,3 +120,20 @@ dependency_overrides:
   # codigo no compila con ninguna version >=3.0.0). La 2.9.4 es la
   # ultima version de sqlite3 que todavia tiene ese archivo.
   sqlite3: 2.9.4
+
+# Ícono de la app (logo "C&S" recortado del isologo completo, sobre
+# fondo blanco). android/ y windows/ no están versionados (se
+# regeneran en cada build con "flutter create"), así que el ícono por
+# defecto de Flutter se reaplica solo; por eso el workflow de CI corre
+# "dart run flutter_launcher_icons" después de regenerar esas carpetas
+# y antes de compilar, para que el ícono de marca quede siempre (en el
+# .exe, en el instalador y en el acceso directo del escritorio).
+#
+# La config NO va acá adentro: el job de Android solo genera android/
+# (no windows/) y viceversa, y flutter_launcher_icons intenta procesar
+# TODAS las plataformas habilitadas en la config sin importar cuál
+# carpeta exista en el disco — con una sola config combinada, el job
+# que le falta la otra carpeta rompe con un "PathNotFoundException".
+# Por eso cada plataforma tiene su propio archivo de config
+# (icons-android.yaml / icons-windows.yaml) y cada job usa
+# "dart run flutter_launcher_icons -f <ese archivo>".

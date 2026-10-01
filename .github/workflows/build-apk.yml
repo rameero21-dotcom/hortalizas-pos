@@ -75,6 +75,21 @@ jobs:
         if: steps.pub_get_android.outcome == 'failure'
         run: exit 1
 
+      - name: Generar icono de la app (logo C&S, reemplaza el azul por defecto de Flutter)
+        id: launcher_icons
+        run: dart run flutter_launcher_icons -f icons-android.yaml 2>&1 | tee /tmp/launcher_icons.log
+        continue-on-error: true
+
+      - name: Guardar log si fallo la generacion del icono
+        if: steps.launcher_icons.outcome == 'failure'
+        run: python3 .github/scripts/upload_log.py launcher-icons-error.txt /tmp/launcher_icons.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si la generacion del icono fallo
+        if: steps.launcher_icons.outcome == 'failure'
+        run: exit 1
+
       - name: Ajustar minSdk y compileSdk (lo piden varios plugins)
         run: |
           set +e
@@ -208,6 +223,24 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Generar icono de la app (logo C&S, reemplaza el azul por defecto de Flutter)
+        id: launcher_icons
+        run: dart run flutter_launcher_icons -f icons-windows.yaml 2>&1 | Tee-Object -FilePath launcher_icons.log
+        shell: pwsh
+        continue-on-error: true
+
+      - name: Guardar log si fallo la generacion del icono
+        if: steps.launcher_icons.outcome == 'failure'
+        shell: pwsh
+        run: python .github/scripts/upload_log.py launcher-icons-error-windows.txt launcher_icons.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si la generacion del icono fallo
+        if: steps.launcher_icons.outcome == 'failure'
+        shell: pwsh
+        run: exit 1
+
       - name: Compilar programa de Windows
         id: build_windows
         run: flutter build windows --release --verbose 2>&1 | Tee-Object -FilePath build_windows.log
@@ -229,17 +262,31 @@ jobs:
         shell: pwsh
         run: exit 1
 
-      - name: Comprimir el programa compilado en un zip
-        run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath hortalizas-pos-windows.zip
+      - name: Armar el instalador (Inno Setup) - doble clic, instala, deja icono en el escritorio, y sirve para actualizar
+        id: build_installer
+        run: |
+          choco install innosetup -y --no-progress
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" .github\installer\hortalizas_pos.iss
         shell: pwsh
+        continue-on-error: true
 
-      - name: Subir programa de Windows como artefacto descargable
+      - name: Guardar log de error para diagnostico (si fallo el instalador)
+        if: steps.build_installer.outcome == 'failure'
+        shell: pwsh
+        run: echo "Fallo la generacion del instalador con Inno Setup (ver el paso anterior en el log de Actions)."
+
+      - name: Fallar el job si la generacion del instalador fallo
+        if: steps.build_installer.outcome == 'failure'
+        shell: pwsh
+        run: exit 1
+
+      - name: Subir instalador de Windows como artefacto descargable
         uses: actions/upload-artifact@v4
         with:
-          name: hortalizas-pos-windows
-          path: hortalizas-pos-windows.zip
+          name: hortalizas-pos-setup
+          path: installer_output\hortalizas-pos-setup.exe
 
-      - name: Publicar programa de Windows en una Release (link de descarga estable)
-        run: python .github/scripts/publish_release.py ultima-compilacion hortalizas-pos-windows.zip hortalizas-pos-windows.zip
+      - name: Publicar instalador de Windows en una Release (link de descarga estable)
+        run: python .github/scripts/publish_release.py ultima-compilacion installer_output\hortalizas-pos-setup.exe hortalizas-pos-setup.exe
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
