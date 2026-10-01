@@ -75,6 +75,21 @@ jobs:
         if: steps.pub_get_android.outcome == 'failure'
         run: exit 1
 
+      - name: Generar icono de la app (logo C&S, reemplaza el azul por defecto de Flutter)
+        id: launcher_icons
+        run: dart run flutter_launcher_icons 2>&1 | tee /tmp/launcher_icons.log
+        continue-on-error: true
+
+      - name: Guardar log si fallo la generacion del icono
+        if: steps.launcher_icons.outcome == 'failure'
+        run: python3 .github/scripts/upload_log.py launcher-icons-error.txt /tmp/launcher_icons.log
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fallar el job si la generacion del icono fallo
+        if: steps.launcher_icons.outcome == 'failure'
+        run: exit 1
+
       - name: Ajustar minSdk y compileSdk (lo piden varios plugins)
         run: |
           set +e
