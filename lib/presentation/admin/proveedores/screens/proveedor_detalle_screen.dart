@@ -6,6 +6,7 @@ import '../../../../core/di/providers.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/proveedor.dart';
 import '../../../shared/widgets/loading_widget.dart';
+import '../../../shared/widgets/whatsapp_button.dart';
 
 /// Un ítem del historial combinado: puede ser un pedido (suma al saldo)
 /// o un pago (resta del saldo). Para los pedidos se guarda el objeto
@@ -324,7 +325,10 @@ class ProveedorDetalleScreen extends ConsumerWidget {
     final leDebemos = proveedorActual.saldoCuentaCorriente > 0;
 
     return Scaffold(
-      appBar: GradientAppBar(title: Text(proveedorActual.nombre)),
+      appBar: GradientAppBar(
+        title: Text(proveedorActual.nombre),
+        actions: [WhatsappButton(telefono: proveedorActual.telefono)],
+      ),
       body: Column(
         children: [
           Card(

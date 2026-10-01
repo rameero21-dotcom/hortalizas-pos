@@ -8,6 +8,7 @@ import 'proveedor_detalle_screen.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/gradient_app_bar.dart';
 import '../../../shared/widgets/loading_widget.dart';
+import '../../../shared/widgets/whatsapp_button.dart';
 
 /// Escucha en tiempo real: un proveedor creado/editado desde CUALQUIER
 /// dispositivo aparece acá sin necesitar refrescar manualmente.
@@ -139,7 +140,7 @@ class ProveedoresScreen extends ConsumerWidget {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            if (p.saldoCuentaCorriente != 0)
+                            if (p.saldoCuentaCorriente != 0) ...[
                               Text(
                                 Formatters.formatearMoneda(p.saldoCuentaCorriente.abs()),
                                 style: TextStyle(
@@ -147,8 +148,19 @@ class ProveedoresScreen extends ConsumerWidget {
                                   color: p.saldoCuentaCorriente > 0 ? Colors.red : Colors.green,
                                 ),
                               ),
+                              const SizedBox(width: 8),
+                            ],
+                            WhatsappButton(
+                              telefono: p.telefono,
+                              size: 18,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                            const SizedBox(width: 8),
                             IconButton(
                               icon: const Icon(Icons.edit, size: 20),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
                               onPressed: () async {
                                 await Navigator.push(
                                   context,

@@ -63,6 +63,10 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_fonts: ^6.2.1
   flutter_animate: ^4.5.0
+  font_awesome_flutter: ^11.0.0 # icono real de WhatsApp (Material no tiene uno)
+
+  # Contacto directo con clientes/proveedores
+  url_launcher: ^6.3.0
   # vibration: ^2.0.0 # No usado todavia (Fase 5); su propio build.gradle interno pide compileSdk 34+, se agrega cuando se implemente
 
 dev_dependencies:

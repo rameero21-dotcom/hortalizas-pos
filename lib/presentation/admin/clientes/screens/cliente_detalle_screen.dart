@@ -8,6 +8,7 @@ import '../../../../domain/entities/venta.dart';
 import '../../../../domain/entities/caja.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/loading_widget.dart';
+import '../../../shared/widgets/whatsapp_button.dart';
 
 final _movimientosClienteProvider =
     StreamProvider.autoDispose.family<List<MovimientoCuentaCorriente>, String>((ref, clienteId) {
@@ -192,6 +193,7 @@ class _ClienteDetalleScreenState extends ConsumerState<ClienteDetalleScreen>
     return Scaffold(
       appBar: GradientAppBar(
         title: Text(cliente.nombre),
+        actions: [WhatsappButton(telefono: cliente.telefono)],
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
