@@ -236,8 +236,7 @@ class FacturacionScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('${items.length} movimiento(s) por transferencia',
-                                style: TextStyle(color: Colors.grey.shade300)),
+                            Text('${items.length} movimiento(s) por transferencia'),
                             const SizedBox(height: 8),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
