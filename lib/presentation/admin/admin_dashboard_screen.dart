@@ -14,6 +14,7 @@ import '../caja/screens/configuracion_impresora_screen.dart';
 import '../shared/utils/cerrar_sesion.dart';
 import '../shared/widgets/gradient_app_bar.dart';
 import '../shared/widgets/indicador_sincronizacion.dart';
+import '../shared/widgets/theme_mode_button.dart';
 
 /// Menú principal del administrador: acceso a todos los módulos de gestión.
 class AdminDashboardScreen extends ConsumerWidget {
@@ -38,6 +39,7 @@ class AdminDashboardScreen extends ConsumerWidget {
         title: const Text('Panel de administración'),
         actions: [
           const IndicadorSincronizacion(),
+          const ThemeModeButton(),
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Cambiar de usuario',

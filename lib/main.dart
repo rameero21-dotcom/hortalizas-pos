@@ -9,6 +9,7 @@ import 'firebase_options.dart';
 import 'core/theme/app_theme.dart';
 import 'core/di/providers.dart';
 import 'presentation/auth/screens/auth_gate.dart';
+import 'presentation/shared/providers/theme_mode_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -83,27 +84,23 @@ class _ErrorInicioApp extends StatelessWidget {
   }
 }
 
-class HortalizasPosApp extends StatelessWidget {
+class HortalizasPosApp extends ConsumerWidget {
   const HortalizasPosApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // El modo (claro/oscuro) lo elige el usuario con el botón de sol/
+    // luna en el panel de admin y en caja, y se guarda entre aperturas
+    // de la app (ver theme_mode_provider.dart). Por defecto arranca en
+    // claro: es el tema "premium" (marfil, tinta, Fraunces) pensado
+    // como principal.
+    final themeMode = ref.watch(themeModeProvider);
     return MaterialApp(
       title: 'Hortalizas POS',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      // Se fuerza claro siempre (sin seguir el tema del sistema): el
-      // rediseño "premium" (marfil, tinta, Fraunces en los montos) es
-      // pensado para tema claro, igual que las apps de punto de venta
-      // que se tomaron de referencia (Square, Stripe). Se auditaron
-      // los ~25 usos de `color: Colors.white` del código (spinners
-      // dentro de botones sólidos, íconos sobre el rojo del swipe-to-
-      // delete, overlays sobre la cámara) y ninguno depende del tema
-      // de fondo, así que no hay riesgo de texto invisible al fijar
-      // claro. AppTheme.dark queda disponible por si se retoma más
-      // adelante, pero hoy no se usa.
-      themeMode: ThemeMode.light,
+      themeMode: themeMode,
       home: const AuthGate(),
     );
   }
