@@ -365,6 +365,12 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                               ),
                             onTap: () => showModalBottomSheet(
                               context: context,
+                              // Sin esto, una venta con muchos productos no
+                              // entraba en el alto por defecto de la hoja y
+                              // los botones de abajo (Reimprimir/Editar/
+                              // Anular) quedaban fuera de la pantalla, sin
+                              // forma de hacer scroll para llegar a ellos.
+                              isScrollControlled: true,
                               builder: (_) => _DetalleVentaHistorial(venta: venta),
                             ),
                           ),
@@ -545,7 +551,7 @@ class _DetalleVentaHistorial extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
