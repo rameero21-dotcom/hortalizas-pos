@@ -6,6 +6,9 @@ import '../../../../core/utils/formatters.dart';
 import '../../../../domain/entities/venta.dart';
 import '../../../../domain/entities/detalle_venta.dart';
 import '../../../../domain/entities/producto.dart';
+import '../../../../domain/entities/cliente.dart';
+import '../../../caja/widgets/metodo_pago_selector.dart';
+import '../../../shared/widgets/loading_widget.dart';
 
 /// Pantalla para editar el detalle de una venta ya realizada (agregar
 /// un producto, sacar uno, cambiar cantidad/precio). Si la venta ya
@@ -21,12 +24,99 @@ class EditarVentaScreen extends ConsumerStatefulWidget {
 
 class _EditarVentaScreenState extends ConsumerState<EditarVentaScreen> {
   late List<DetalleVenta> _items;
+  late MetodoPago? _metodo;
+  Cliente? _clienteSeleccionado;
   bool _guardando = false;
 
   @override
   void initState() {
     super.initState();
     _items = List.of(widget.venta.detalle);
+    _metodo = widget.venta.pagos.isNotEmpty ? widget.venta.pagos.first.metodo : widget.venta.metodoPago;
+    _cargarClienteActual();
+  }
+
+  /// Si la venta ya tenía un cliente fiado asignado, lo trae para
+  /// mostrar su nombre (y poder reasignar a otro desde el mismo botón)
+  /// en vez de solo mostrar el id.
+  Future<void> _cargarClienteActual() async {
+    final clienteId = widget.venta.clienteId;
+    if (clienteId == null) return;
+    final cliente = await ref.read(clienteRepositoryProvider).obtenerPorId(clienteId);
+    if (mounted && cliente != null) setState(() => _clienteSeleccionado = cliente);
+  }
+
+  Future<void> _elegirCliente() async {
+    showDialog(context: context, barrierDismissible: false, builder: (context) => const LoadingWidget());
+    try {
+      await ref.read(clienteRepositoryProvider).refrescarDesdeRemoto();
+    } catch (_) {
+      // Sin conexión: seguimos con la caché local que haya.
+    }
+    if (mounted) Navigator.pop(context); // cierra el indicador de carga
+
+    final clientes = await ref.read(clienteRepositoryProvider).obtenerTodos();
+    if (!mounted) return;
+    if (clientes.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No hay clientes cargados. Creá uno primero en Admin > Clientes.')),
+      );
+      return;
+    }
+    clientes.sort((a, b) => a.nombre.toLowerCase().compareTo(b.nombre.toLowerCase()));
+
+    final elegido = await showModalBottomSheet<Cliente>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        String busqueda = '';
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            final filtrados = busqueda.isEmpty
+                ? clientes
+                : clientes.where((c) => c.nombre.toLowerCase().contains(busqueda.toLowerCase())).toList();
+            return SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                        child: TextField(
+                          autofocus: true,
+                          decoration: const InputDecoration(
+                            hintText: 'Buscar cliente...',
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (v) => setSheetState(() => busqueda = v),
+                        ),
+                      ),
+                      Expanded(
+                        child: filtrados.isEmpty
+                            ? const Center(child: Text('Ningún cliente coincide con la búsqueda.'))
+                            : ListView(
+                                children: filtrados
+                                    .map((c) => ListTile(
+                                          title: Text(c.nombre),
+                                          subtitle: Text(Formatters.formatearMoneda(c.saldoCuentaCorriente)),
+                                          onTap: () => Navigator.pop(context, c),
+                                        ))
+                                    .toList(),
+                              ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+    if (elegido != null) setState(() => _clienteSeleccionado = elegido);
   }
 
   double get _total => _items.fold(0, (acc, d) => acc + d.precioTotal);
@@ -153,10 +243,22 @@ class _EditarVentaScreenState extends ConsumerState<EditarVentaScreen> {
       );
       return;
     }
+    if (_metodo == MetodoPago.cuentaCorriente && _clienteSeleccionado == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Elegí a qué cliente cargarle la venta fiada')),
+      );
+      return;
+    }
     setState(() => _guardando = true);
     try {
       final usuarioId = ref.read(currentUserIdProvider);
-      await ref.read(editarVentaUseCaseProvider).call(widget.venta, _items, usuarioId);
+      await ref.read(editarVentaUseCaseProvider).call(
+            widget.venta,
+            _items,
+            usuarioId,
+            nuevoMetodoPago: _metodo,
+            nuevoClienteId: _clienteSeleccionado?.id,
+          );
       if (mounted) {
         Navigator.pop(context, true);
       }
@@ -193,6 +295,29 @@ class _EditarVentaScreenState extends ConsumerState<EditarVentaScreen> {
                 'Esta venta ya está cobrada: el stock y la cuenta corriente (si era fiada) '
                 'se van a ajustar automáticamente por la diferencia.',
                 style: TextStyle(fontSize: 12, color: Colors.orange.shade300),
+              ),
+            ),
+          if (widget.venta.estado == EstadoVenta.cobrada && widget.venta.pagos.length <= 1)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Forma de pago', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  MetodoPagoSelector(
+                    seleccionado: _metodo,
+                    onChanged: (m) => setState(() => _metodo = m),
+                  ),
+                  if (_metodo == MetodoPago.cuentaCorriente) ...[
+                    const SizedBox(height: 10),
+                    OutlinedButton.icon(
+                      onPressed: _elegirCliente,
+                      icon: const Icon(Icons.person),
+                      label: Text(_clienteSeleccionado?.nombre ?? 'Elegir cliente para la parte fiada'),
+                    ),
+                  ],
+                ],
               ),
             ),
           Expanded(

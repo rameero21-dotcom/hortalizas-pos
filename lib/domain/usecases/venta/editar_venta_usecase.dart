@@ -6,7 +6,9 @@ import '../../repositories/stock_repository.dart';
 import '../../repositories/cliente_repository.dart';
 
 /// Caso de uso: editar el detalle de una venta ya creada (por ejemplo,
-/// el cliente decide agregar un producto más, o sacar uno).
+/// el cliente decide agregar un producto más, o sacar uno), y/o su
+/// forma de pago (ej: se cobró como "Efectivo" por error y en realidad
+/// era "Cuenta corriente").
 ///
 /// - Si la venta todavía está PENDIENTE (el vendedor la mandó pero caja
 ///   todavía no la cobró): simplemente se actualiza el detalle y el
@@ -16,9 +18,11 @@ import '../../repositories/cliente_repository.dart';
 ///   - El STOCK: por cada producto, si ahora se pide más cantidad que
 ///     antes, se descuenta la diferencia; si se pide menos (o se sacó
 ///     el producto), se devuelve la diferencia.
-///   - La CUENTA CORRIENTE: si se había pagado fiado, la deuda del
-///     cliente se ajusta por la diferencia entre el total viejo y el
-///     nuevo (no se vuelve a cargar el total entero).
+///   - La CUENTA CORRIENTE: si la forma de pago sigue siendo fiado, la
+///     deuda del cliente se ajusta por la diferencia entre el total
+///     viejo y el nuevo. Si CAMBIA de/hacia fiado (o cambia el cliente
+///     fiado), se cancela lo que había cargado la venta original y se
+///     carga de nuevo según corresponda — nunca se mezcla.
 ///
 /// No soporta editar una venta con el pago DIVIDIDO entre varios
 /// métodos (ej: parte efectivo + parte fiado) — para ese caso hay que
@@ -31,7 +35,13 @@ class EditarVentaUseCase {
 
   EditarVentaUseCase(this._ventaRepository, this._stockRepository, this._clienteRepository);
 
-  Future<void> call(Venta ventaOriginal, List<DetalleVenta> nuevoDetalle, String usuarioId) async {
+  Future<void> call(
+    Venta ventaOriginal,
+    List<DetalleVenta> nuevoDetalle,
+    String usuarioId, {
+    MetodoPago? nuevoMetodoPago,
+    String? nuevoClienteId,
+  }) async {
     // Se confirma contra el estado REAL del servidor antes de tocar nada
     // — el objeto que llega acá puede venir de una pantalla que se abrió
     // hace un rato (por ejemplo, Historial), y mientras tanto otro admin
@@ -51,19 +61,35 @@ class EditarVentaUseCase {
       throw ArgumentError('La venta tiene que tener al menos un producto.');
     }
 
+    final metodoActual =
+        ventaOriginal.pagos.isNotEmpty ? ventaOriginal.pagos.first.metodo : ventaOriginal.metodoPago;
+    final metodoFinal = nuevoMetodoPago ?? metodoActual;
+    final clienteIdFinal = nuevoClienteId ?? ventaOriginal.clienteId;
+
+    if (metodoFinal == MetodoPago.cuentaCorriente && clienteIdFinal == null) {
+      throw ArgumentError('Para cobrar a cuenta corriente hace falta elegir un cliente.');
+    }
+
     final nuevoTotal = nuevoDetalle.fold<double>(0, (acc, d) => acc + d.precioTotal);
 
     if (ventaOriginal.estado == EstadoVenta.cobrada) {
       await _reconciliarStock(ventaOriginal.detalle, nuevoDetalle, usuarioId, ventaOriginal.numero);
-      await _reconciliarCuentaCorriente(ventaOriginal, nuevoTotal, usuarioId);
+      await _reconciliarCuentaCorriente(
+        ventaOriginal,
+        nuevoTotal,
+        metodoActual,
+        metodoFinal,
+        clienteIdFinal,
+        usuarioId,
+      );
     }
 
-    final metodoUnico =
-        ventaOriginal.pagos.isNotEmpty ? ventaOriginal.pagos.first.metodo : ventaOriginal.metodoPago;
     final ventaActualizada = ventaOriginal.copyWith(
       detalle: nuevoDetalle,
       total: nuevoTotal,
-      pagos: ventaOriginal.pagos.isNotEmpty ? [DetallePago(metodo: metodoUnico!, monto: nuevoTotal)] : null,
+      metodoPago: metodoFinal,
+      clienteId: clienteIdFinal,
+      pagos: ventaOriginal.pagos.isNotEmpty ? [DetallePago(metodo: metodoFinal!, monto: nuevoTotal)] : null,
     );
     await _ventaRepository.finalizarCobro(ventaActualizada);
   }
@@ -103,19 +129,76 @@ class EditarVentaUseCase {
     }
   }
 
-  Future<void> _reconciliarCuentaCorriente(Venta ventaOriginal, double nuevoTotal, String usuarioId) async {
-    final eraFiado = ventaOriginal.pagos.isNotEmpty
-        ? ventaOriginal.pagos.first.metodo == MetodoPago.cuentaCorriente
-        : ventaOriginal.metodoPago == MetodoPago.cuentaCorriente;
-    if (!eraFiado || ventaOriginal.clienteId == null) return;
+  /// Reconcilia el impacto en cuenta corriente, contemplando los 4 casos
+  /// posibles entre la forma de pago/cliente VIEJOS y los NUEVOS:
+  /// - No era fiado y sigue sin serlo: no hay nada que tocar.
+  /// - Era fiado y deja de serlo: se cancela (se registra un pago por) el
+  ///   total viejo completo en la cuenta del cliente original.
+  /// - No era fiado y pasa a serlo: se carga el total nuevo completo en
+  ///   la cuenta del cliente elegido.
+  /// - Seguía fiado con el MISMO cliente: se ajusta solo por la
+  ///   diferencia entre el total viejo y el nuevo (como antes).
+  /// - Seguía fiado pero se reasignó a OTRO cliente: se cancela el total
+  ///   viejo en el cliente original y se carga el total nuevo en el
+  ///   nuevo, nunca se mezclan las dos cuentas.
+  Future<void> _reconciliarCuentaCorriente(
+    Venta ventaOriginal,
+    double nuevoTotal,
+    MetodoPago? metodoAnterior,
+    MetodoPago? metodoFinal,
+    String? clienteIdFinal,
+    String usuarioId,
+  ) async {
+    final eraFiado = metodoAnterior == MetodoPago.cuentaCorriente && ventaOriginal.clienteId != null;
+    final esFiadoAhora = metodoFinal == MetodoPago.cuentaCorriente && clienteIdFinal != null;
+
+    if (!eraFiado && !esFiadoAhora) return;
+
+    if (eraFiado && !esFiadoAhora) {
+      await _clienteRepository.registrarMovimientoCuenta(
+        clienteId: ventaOriginal.clienteId!,
+        tipo: TipoMovimientoCuenta.pago,
+        monto: ventaOriginal.total,
+        detalle: 'Edición de venta #${ventaOriginal.numero} (cambio de forma de pago)',
+        usuarioId: usuarioId,
+      );
+      return;
+    }
+
+    if (!eraFiado && esFiadoAhora) {
+      await _clienteRepository.registrarMovimientoCuenta(
+        clienteId: clienteIdFinal,
+        tipo: TipoMovimientoCuenta.cargo,
+        monto: nuevoTotal,
+        detalle: 'Edición de venta #${ventaOriginal.numero} (cambio de forma de pago)',
+        usuarioId: usuarioId,
+      );
+      return;
+    }
+
+    // eraFiado && esFiadoAhora:
+    if (clienteIdFinal != ventaOriginal.clienteId) {
+      await _clienteRepository.registrarMovimientoCuenta(
+        clienteId: ventaOriginal.clienteId!,
+        tipo: TipoMovimientoCuenta.pago,
+        monto: ventaOriginal.total,
+        detalle: 'Edición de venta #${ventaOriginal.numero} (cambio de cliente)',
+        usuarioId: usuarioId,
+      );
+      await _clienteRepository.registrarMovimientoCuenta(
+        clienteId: clienteIdFinal!,
+        tipo: TipoMovimientoCuenta.cargo,
+        monto: nuevoTotal,
+        detalle: 'Edición de venta #${ventaOriginal.numero} (cambio de cliente)',
+        usuarioId: usuarioId,
+      );
+      return;
+    }
 
     final diferencia = nuevoTotal - ventaOriginal.total;
     if (diferencia == 0) return;
-
-    // Si el total subió, se le carga la diferencia como un cargo nuevo
-    // (más deuda); si bajó, se le registra como un pago (menos deuda).
     await _clienteRepository.registrarMovimientoCuenta(
-      clienteId: ventaOriginal.clienteId!,
+      clienteId: clienteIdFinal!,
       tipo: diferencia > 0 ? TipoMovimientoCuenta.cargo : TipoMovimientoCuenta.pago,
       monto: diferencia.abs(),
       detalle: 'Edición de venta #${ventaOriginal.numero}',
