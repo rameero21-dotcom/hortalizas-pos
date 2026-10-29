@@ -96,20 +96,26 @@ dependency_overrides:
   # usamos esta implementacion en ningun target real, es seguro fijarla.
   path_provider_foundation: 2.4.1
 
-  # jni (dependencia transitiva, probablemente via algun plugin que usa
-  # interop nativo Android): la version 1.0.1 agrego un bloque "kotlin {}"
-  # en su build.gradle que requiere el plugin de Kotlin explicitamente
-  # aplicado a ese subproyecto, cosa que rompe la compilacion en este
-  # entorno. La 1.0.0 (version anterior) no tiene ese bloque.
-  jni: 1.0.0
+  # jni (dependencia transitiva, via varios plugins con interop nativo
+  # Android, entre ellos shared_preferences_android y
+  # path_provider_android): las versiones 1.0.1 a 1.0.3 agregaron un
+  # bloque "kotlin {}" en su build.gradle que requiere el plugin de
+  # Kotlin explicitamente aplicado a ese subproyecto, cosa que rompia
+  # la compilacion en este entorno — por eso antes se fijaba en 1.0.0,
+  # la ultima version sin ese bloque.
+  #
+  # Ese fijado quedo obsoleto el 2026-10-29: shared_preferences_android
+  # subio a su version 2.5.4, que regenero sus bindings esperando jni
+  # ^1.1.0 (assertion en tiempo de compilacion: "The generated bindings
+  # expect package:jni ^1.1.0, but 1.0.x was imported"). La version
+  # 1.1.1 (la mas nueva) ya no tiene el bloque "kotlin {}" problematico
+  # (se sacó en algun punto entre la 1.0.3 y la 1.1.0), asi que resuelve
+  # ambos problemas a la vez.
+  jni: 1.1.1
 
-  # jni_flutter (quien trae jni como dependencia): su version 1.0.4
-  # regenero sus bindings esperando jni ^1.1.0, y tira un assertion
-  # error en tiempo de compilacion si detecta la 1.0.0 fijada arriba
-  # ("Constant evaluation error... expect package:jni ^1.1.0, but 1.0.x
-  # was imported"). Las versiones 1.0.0 a 1.0.3 todavia piden jni
-  # ^1.0.0 (compatible), asi que se fija la ultima de esas.
-  jni_flutter: 1.0.3
+  # jni_flutter (quien trae jni como dependencia): la 1.0.4+1 (la mas
+  # nueva) ya pide jni ^1.1.0, coherente con el fijado de arriba.
+  jni_flutter: 1.0.4+1
 
   # sqlite3 (dependencia transitiva de sqflite_common_ffi): el codigo
   # INTERNO de sqflite_common_ffi 2.3.3 (lib/src/windows/setup.dart)
