@@ -39,11 +39,16 @@ final _ventasHistorialProvider = FutureProvider.autoDispose<List<Venta>>((ref) a
   final filtros = ref.watch(_filtrosProvider);
   final repo = ref.watch(ventaRepositoryProvider);
   final todas = await repo.obtenerPorRangoFechaGlobal(filtros.desde, filtros.hasta);
-  final cobradas = todas.where((v) => v.estado == EstadoVenta.cobrada).toList();
-  if (filtros.busqueda.trim().isEmpty) return cobradas;
+  // Incluye también las pendientes (todavía no cobradas): así se puede
+  // entrar a "Editar venta" para una venta pendiente y cobrarla desde
+  // ahí mismo, con la forma de pago que corresponda. Las anuladas no
+  // se muestran acá.
+  final visibles =
+      todas.where((v) => v.estado == EstadoVenta.cobrada || v.estado == EstadoVenta.pendiente).toList();
+  if (filtros.busqueda.trim().isEmpty) return visibles;
 
   final q = filtros.busqueda.trim().toLowerCase();
-  return cobradas.where((v) {
+  return visibles.where((v) {
     final matchNumero = v.numero.toString().contains(q);
     final matchProducto = v.detalle.any((d) => d.nombreProducto.toLowerCase().contains(q));
     final matchVendedor = v.vendedorId.toLowerCase().contains(q);
@@ -296,7 +301,7 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                     if (ventas.isEmpty) {
                       return const EmptyState(
                         icon: Icons.receipt_long_outlined,
-                        message: 'No hay ventas cobradas en este rango.',
+                        message: 'No hay ventas en este rango.',
                       );
                     }
                     return ListView.builder(
@@ -346,13 +351,40 @@ class _HistorialScreenState extends ConsumerState<HistorialScreen> with SingleTi
                                 width: 40,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.primary.withOpacity(0.18),
+                                  color: (venta.estado == EstadoVenta.pendiente
+                                          ? Colors.orange
+                                          : Theme.of(context).colorScheme.primary)
+                                      .withOpacity(0.18),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Icon(Icons.receipt_long_rounded,
-                                    size: 20, color: Theme.of(context).colorScheme.primary),
+                                child: Icon(
+                                  venta.estado == EstadoVenta.pendiente
+                                      ? Icons.pending_actions_rounded
+                                      : Icons.receipt_long_rounded,
+                                  size: 20,
+                                  color: venta.estado == EstadoVenta.pendiente
+                                      ? Colors.orange
+                                      : Theme.of(context).colorScheme.primary,
+                                ),
                               ),
-                              title: Text(_tituloVenta(venta, nombresClientes)),
+                              title: Row(
+                                children: [
+                                  Expanded(child: Text(_tituloVenta(venta, nombresClientes))),
+                                  if (venta.estado == EstadoVenta.pendiente)
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: Colors.orange.withOpacity(0.18),
+                                        borderRadius: BorderRadius.circular(999),
+                                      ),
+                                      child: const Text(
+                                        'PENDIENTE',
+                                        style: TextStyle(
+                                            fontSize: 10, fontWeight: FontWeight.bold, color: Colors.orange),
+                                      ),
+                                    ),
+                                ],
+                              ),
                               subtitle: Text(
                                   '${Formatters.formatearFechaHora(venta.fecha)} · ${venta.detalle.length} producto(s)'
                                   '${venta.vendedorNombre != null ? ' · Vend: ${venta.vendedorNombre}' : ''}'),
@@ -498,14 +530,17 @@ class _DetalleVentaHistorial extends ConsumerWidget {
   }
 
   Future<void> _editarVenta(BuildContext context, WidgetRef ref) async {
+    final eraPendiente = venta.estado == EstadoVenta.pendiente;
     final cambio = await Navigator.push<bool>(
       context,
       MaterialPageRoute(builder: (_) => EditarVentaScreen(venta: venta)),
     );
     if (cambio == true && context.mounted) {
+      ref.invalidate(_ventasHistorialProvider);
+      ref.invalidate(_movimientosCajaHistorialProvider);
       Navigator.pop(context); // cerrar el detalle, ya no refleja los datos viejos
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Venta actualizada.')),
+        SnackBar(content: Text(eraPendiente ? 'Venta #${venta.numero} cobrada.' : 'Venta actualizada.')),
       );
     }
   }
@@ -585,21 +620,22 @@ class _DetalleVentaHistorial extends ConsumerWidget {
                 width: double.infinity,
                 child: OutlinedButton.icon(
                   onPressed: () => _editarVenta(context, ref),
-                  icon: const Icon(Icons.edit),
-                  label: const Text('Editar venta'),
+                  icon: Icon(venta.estado == EstadoVenta.pendiente ? Icons.point_of_sale : Icons.edit),
+                  label: Text(venta.estado == EstadoVenta.pendiente ? 'Editar y cobrar' : 'Editar venta'),
                 ),
               ),
               const SizedBox(height: 8),
             ],
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () => _anularVenta(context, ref),
-                style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
-                icon: const Icon(Icons.undo),
-                label: const Text('Anular venta'),
+            if (venta.estado == EstadoVenta.cobrada)
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => _anularVenta(context, ref),
+                  style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
+                  icon: const Icon(Icons.undo),
+                  label: const Text('Anular venta'),
+                ),
               ),
-            ),
           ],
         ),
       ),
