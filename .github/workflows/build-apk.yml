@@ -262,6 +262,12 @@ jobs:
         shell: pwsh
         run: exit 1
 
+      - name: Descargar el Visual C++ Redistributable (lo necesita el .exe para arrancar en una PC sin eso instalado)
+        run: |
+          New-Item -ItemType Directory -Force -Path installer_output | Out-Null
+          Invoke-WebRequest -Uri "https://aka.ms/vs/17/release/vc_redist.x64.exe" -OutFile "installer_output\vc_redist.x64.exe"
+        shell: pwsh
+
       - name: Armar el instalador (Inno Setup) - doble clic, instala, deja icono en el escritorio, y sirve para actualizar
         id: build_installer
         run: |

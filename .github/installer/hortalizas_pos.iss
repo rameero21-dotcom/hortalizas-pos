@@ -46,10 +46,20 @@ Name: "desktopicon"; Description: "Crear un acceso directo en el Escritorio"; Gr
 
 [Files]
 Source: "..\..\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+; El ejecutable de Flutter para Windows necesita el Visual C++
+; Redistributable de Microsoft instalado en la PC (trae las DLL
+; MSVCP140.dll / VCRUNTIME140.dll / VCRUNTIME140_1.dll) — sin eso, la
+; app no arranca y tira "no se encontro [...].dll". No viene con
+; Windows por defecto en muchas PCs, asi que lo bajamos en CI (ver el
+; workflow) y lo instalamos en silencio acá, antes de abrir la app.
+Source: "..\..\installer_output\vc_redist.x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
+; Se ejecuta siempre: si ya esta instalado, el propio instalador de
+; Microsoft lo detecta y termina enseguida sin hacer nada.
+Filename: "{tmp}\vc_redist.x64.exe"; Parameters: "/install /quiet /norestart"; StatusMsg: "Instalando componentes de Windows necesarios..."; Flags: waituntilterminated
 Filename: "{app}\{#MyAppExeName}"; Description: "Abrir Hortalizas POS"; Flags: nowait postinstall skipifsilent
