@@ -13,7 +13,7 @@ import '../../../shared/widgets/loading_widget.dart';
 import '../../../shared/widgets/stat_card.dart';
 import 'configuracion_impuestos_screen.dart';
 
-enum _Periodo { dia, semana, mes }
+enum _Periodo { dia, semana, mes, personalizado }
 
 class _RangoFechas {
   final DateTime desde;
@@ -39,14 +39,30 @@ Future<_RangoFechas> _rangoParaPeriodo(_Periodo periodo) async {
       final inicioMes = DateTime(rangoHoy.inicio.year, rangoHoy.inicio.month, 1, horaCorte);
       final inicioProximoMes = DateTime(rangoHoy.inicio.year, rangoHoy.inicio.month + 1, 1, horaCorte);
       return _RangoFechas(inicioMes, inicioProximoMes);
+    case _Periodo.personalizado:
+      // El rango personalizado no se calcula acá: lo elige el usuario
+      // con el selector de fechas y queda guardado en
+      // _rangoPersonalizadoProvider (ver _estadisticasProvider).
+      throw UnsupportedError('El rango personalizado no se calcula con _rangoParaPeriodo');
   }
 }
 
 final _periodoSeleccionadoProvider = StateProvider<_Periodo>((ref) => _Periodo.dia);
 
+/// Rango elegido a mano por el usuario (botón "Elegir fecha"), para ver
+/// estadísticas de cualquier período pasado, no solo día/semana/mes
+/// relativos a hoy. Se guarda el último elegido aunque se cambie a otro
+/// período, para que al volver a "Elegir fecha" arranque desde ahí.
+final _rangoPersonalizadoProvider = StateProvider<_RangoFechas?>((ref) => null);
+
 final _estadisticasProvider = FutureProvider.autoDispose<EstadisticasResumen>((ref) async {
   final periodo = ref.watch(_periodoSeleccionadoProvider);
-  final rango = await _rangoParaPeriodo(periodo);
+  final _RangoFechas rango;
+  if (periodo == _Periodo.personalizado) {
+    rango = ref.watch(_rangoPersonalizadoProvider) ?? await _rangoParaPeriodo(_Periodo.dia);
+  } else {
+    rango = await _rangoParaPeriodo(periodo);
+  }
   return ref.watch(obtenerEstadisticasUseCaseProvider).call(rango.desde, rango.hasta);
 });
 
@@ -80,18 +96,41 @@ class EstadisticasScreen extends ConsumerWidget {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: SegmentedButton<_Periodo>(
               segments: const [
                 ButtonSegment(value: _Periodo.dia, label: Text('Día')),
                 ButtonSegment(value: _Periodo.semana, label: Text('Semana')),
                 ButtonSegment(value: _Periodo.mes, label: Text('Mes')),
+                ButtonSegment(
+                  value: _Periodo.personalizado,
+                  icon: Icon(Icons.calendar_month_rounded, size: 18),
+                  label: Text('Elegir'),
+                ),
               ],
               selected: {periodo},
-              onSelectionChanged: (nuevo) =>
-                  ref.read(_periodoSeleccionadoProvider.notifier).state = nuevo.first,
+              onSelectionChanged: (nuevo) async {
+                final elegido = nuevo.first;
+                if (elegido == _Periodo.personalizado) {
+                  final seEligio = await _elegirRangoPersonalizado(context, ref);
+                  if (!seEligio) return; // canceló el selector: no cambiamos de período
+                }
+                ref.read(_periodoSeleccionadoProvider.notifier).state = elegido;
+              },
             ),
           ),
+          if (periodo == _Periodo.personalizado)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  onPressed: () => _elegirRangoPersonalizado(context, ref),
+                  icon: const Icon(Icons.edit_calendar_rounded, size: 18),
+                  label: Text(_labelRangoPersonalizado(ref.watch(_rangoPersonalizadoProvider))),
+                ),
+              ),
+            ),
           Expanded(
             child: estadisticasAsync.when(
               data: (stats) => _ContenidoEstadisticas(stats: stats, periodo: periodo),
@@ -111,20 +150,21 @@ class EstadisticasScreen extends ConsumerWidget {
   }
 }
 
-class _ContenidoEstadisticas extends StatelessWidget {
+class _ContenidoEstadisticas extends ConsumerWidget {
   final EstadisticasResumen stats;
   final _Periodo periodo;
   const _ContenidoEstadisticas({required this.stats, required this.periodo});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final masVendidos = stats.productosMasVendidos();
     final colorScheme = Theme.of(context).colorScheme;
+    final rangoPersonalizado = ref.watch(_rangoPersonalizadoProvider);
 
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Text(_eyebrowPeriodo(periodo), style: AppTheme.eyebrowStyle(context)),
+        Text(_eyebrowPeriodo(periodo, rangoPersonalizado), style: AppTheme.eyebrowStyle(context)),
         const SizedBox(height: 6),
         Text(
           Formatters.formatearMoneda(stats.facturacionTotal),
@@ -271,11 +311,49 @@ class _ContenidoEstadisticas extends StatelessWidget {
   }
 }
 
-String _eyebrowPeriodo(_Periodo periodo) => switch (periodo) {
+String _eyebrowPeriodo(_Periodo periodo, _RangoFechas? rangoPersonalizado) => switch (periodo) {
       _Periodo.dia => 'HOY',
       _Periodo.semana => 'ESTA SEMANA',
       _Periodo.mes => 'ESTE MES',
+      _Periodo.personalizado => _labelRangoPersonalizado(rangoPersonalizado).toUpperCase(),
     };
+
+/// Texto del rango elegido a mano, ej. "12/03/2026 - 18/03/2026" (o un
+/// solo día si eligió desde y hasta el mismo día). "hasta" se guarda
+/// exclusivo (medianoche del día siguiente), por eso se le resta un día
+/// antes de mostrarlo.
+String _labelRangoPersonalizado(_RangoFechas? rango) {
+  if (rango == null) return 'Elegir fecha';
+  final ultimoDiaIncluido = rango.hasta.subtract(const Duration(days: 1));
+  if (Formatters.formatearFecha(rango.desde) == Formatters.formatearFecha(ultimoDiaIncluido)) {
+    return Formatters.formatearFecha(rango.desde);
+  }
+  return '${Formatters.formatearFecha(rango.desde)} - ${Formatters.formatearFecha(ultimoDiaIncluido)}';
+}
+
+/// Abre el selector de rango de fechas y, si el usuario elige uno,
+/// lo guarda en _rangoPersonalizadoProvider. Devuelve true si se eligió
+/// un rango (false si se canceló el selector).
+Future<bool> _elegirRangoPersonalizado(BuildContext context, WidgetRef ref) async {
+  final actual = ref.read(_rangoPersonalizadoProvider);
+  final hoy = DateTime.now();
+  final rango = await showDateRangePicker(
+    context: context,
+    firstDate: DateTime(2024),
+    lastDate: hoy.add(const Duration(days: 1)),
+    initialDateRange: actual != null
+        ? DateTimeRange(start: actual.desde, end: actual.hasta.subtract(const Duration(days: 1)))
+        : DateTimeRange(start: DateTime(hoy.year, hoy.month, hoy.day).subtract(const Duration(days: 6)),
+            end: DateTime(hoy.year, hoy.month, hoy.day)),
+    helpText: 'Elegí el período a ver',
+  );
+  if (rango == null) return false;
+  ref.read(_rangoPersonalizadoProvider.notifier).state = _RangoFechas(
+    DateTime(rango.start.year, rango.start.month, rango.start.day),
+    DateTime(rango.end.year, rango.end.month, rango.end.day).add(const Duration(days: 1)),
+  );
+  return true;
+}
 
 /// Encabezado de sección: solo tipografía (etiqueta en versalitas +
 /// título), sin ícono en caja tintada — el acento de color de la marca
