@@ -79,7 +79,7 @@ class TicketPrintOrchestrator {
     // copias extra sin QR como esté configurado (0 a 2).
     for (var copia = 0; copia < 1 + copiasExtra; copia++) {
       final bytes = await TicketGeneratorService.generarTicketVenta(venta, incluirQr: copia == 0);
-      final ok = ImpresoraTicketService.imprimirRaw(nombreImpresora, bytes);
+      final ok = await ImpresoraTicketService.imprimirRaw(nombreImpresora, bytes);
       huboExito = huboExito && ok;
     }
     return huboExito;

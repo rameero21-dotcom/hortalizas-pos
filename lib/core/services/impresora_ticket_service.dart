@@ -1,5 +1,6 @@
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 import 'package:win32/win32.dart';
 
@@ -69,11 +70,21 @@ class ImpresoraTicketService {
   /// Devuelve true si el trabajo se mandó bien a la cola de impresión
   /// (no garantiza que haya salido papel físicamente: eso depende del
   /// hardware, si tiene papel, si está prendida, etc).
-  static bool imprimirRaw(String nombreImpresora, List<int> bytes) {
+  ///
+  /// Corre en un isolate aparte (no en el hilo principal de la interfaz):
+  /// a veces, la primera vez que el proceso le manda un trabajo a un
+  /// driver de impresora genérico, el driver hace cosas raras en ese
+  /// hilo (reintenta cargar módulos, bombea mensajes de Windows) que
+  /// pueden interferir con el hilo de la UI de Flutter y tirar abajo
+  /// toda la app — en un hilo aparte, eso queda aislado.
+  static Future<bool> imprimirRaw(String nombreImpresora, List<int> bytes) {
     if (!Platform.isWindows) {
       throw UnsupportedError('La impresión térmica solo está disponible en Windows por ahora.');
     }
+    return Isolate.run(() => _imprimirRawSync(nombreImpresora, bytes));
+  }
 
+  static bool _imprimirRawSync(String nombreImpresora, List<int> bytes) {
     final phPrinter = calloc<HANDLE>();
     final pPrinterName = nombreImpresora.toNativeUtf16();
     Pointer<Utf16>? pDocName;

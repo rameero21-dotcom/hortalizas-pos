@@ -103,7 +103,7 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
         ...'Prueba de impresora\n'.codeUnits,
         ...'Si ves esto, anda bien!\n\n\n\n'.codeUnits,
       ];
-      final ok = ImpresoraTicketService.imprimirRaw(_impresoraSeleccionada!, bytes);
+      final ok = await ImpresoraTicketService.imprimirRaw(_impresoraSeleccionada!, bytes);
       setState(() => _resultadoPrueba = ok ? 'ok' : 'error');
     } catch (e) {
       setState(() => _resultadoPrueba = 'error: $e');
