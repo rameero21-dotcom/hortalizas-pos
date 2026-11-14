@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
+import '../../../core/services/log_service.dart';
 import '../../../core/services/sesion_prefs.dart';
 import '../../../domain/entities/usuario.dart';
 import '../../admin/admin_dashboard_screen.dart';
@@ -30,12 +31,15 @@ class _AuthGateState extends ConsumerState<AuthGate> {
   }
 
   Future<void> _decidirPantallaInicial() async {
+    LogService.registrar('AuthGate: decidiendo pantalla inicial');
     final mantenerSesion = await SesionPrefs.obtenerMantenerSesion();
+    LogService.registrar('AuthGate: mantenerSesion=$mantenerSesion');
 
     if (!mantenerSesion) {
       // El usuario eligió no mantener la sesión: se cierra explícitamente
       // para que la próxima vez siempre pida usuario y contraseña.
       await ref.read(authServiceProvider).logout();
+      LogService.registrar('AuthGate: destino = LoginScreen (sesion no mantenida)');
       if (mounted) setState(() {
         _destino = const LoginScreen();
         _cargando = false;
@@ -44,7 +48,9 @@ class _AuthGateState extends ConsumerState<AuthGate> {
     }
 
     final usuario = await ref.read(usuarioRepositoryProvider).usuarioActual();
+    LogService.registrar('AuthGate: usuarioActual=${usuario?.rol}');
     if (usuario == null) {
+      LogService.registrar('AuthGate: destino = LoginScreen (sin usuario)');
       if (mounted) setState(() {
         _destino = const LoginScreen();
         _cargando = false;
@@ -57,6 +63,7 @@ class _AuthGateState extends ConsumerState<AuthGate> {
       RolUsuario.vendedor => const NuevaVentaScreen(),
       RolUsuario.cajero => const CajaHomeScreen(),
     };
+    LogService.registrar('AuthGate: destino = ${usuario.rol}');
     if (mounted) setState(() {
       _destino = pantalla;
       _cargando = false;

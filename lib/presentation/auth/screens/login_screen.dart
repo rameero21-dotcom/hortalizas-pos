@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/errors/failures.dart';
+import '../../../core/services/log_service.dart';
 import '../../../core/services/sesion_prefs.dart';
 import '../../../core/services/cuentas_recientes.dart';
 import '../../../domain/entities/usuario.dart';
@@ -11,6 +12,7 @@ import '../../admin/admin_dashboard_screen.dart';
 import '../../caja/screens/caja_home_screen.dart';
 import '../../vendedor/screens/nueva_venta_screen.dart';
 import '../../shared/widgets/loading_widget.dart';
+import '../../shared/screens/diagnostico_screen.dart';
 
 /// Pantalla de login. Según el rol del usuario autenticado (Firebase Auth
 /// + Firestore), navega a NuevaVentaScreen (vendedor), CajaHomeScreen
@@ -42,6 +44,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    LogService.registrar('LoginScreen: initState');
     SesionPrefs.obtenerMantenerSesion().then((valor) {
       if (mounted) setState(() => _mantenerSesion = valor);
     });
@@ -50,6 +53,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Future<void> _cargarCuentasRecientes() async {
     final cuentas = await CuentasRecientes.obtener();
+    LogService.registrar('LoginScreen: cuentas recientes cargadas (${cuentas.length})');
     if (mounted) setState(() => _cuentasRecientes = cuentas);
   }
 
@@ -158,7 +162,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: const GradientAppBar(),
+      appBar: GradientAppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.bug_report_outlined),
+            tooltip: 'Diagnóstico',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const DiagnosticoScreen()),
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: ListView(

@@ -11,6 +11,7 @@ import 'clientes/screens/clientes_screen.dart';
 import 'proveedores/screens/proveedores_screen.dart';
 import 'facturacion/screens/facturacion_screen.dart';
 import '../caja/screens/configuracion_impresora_screen.dart';
+import '../shared/screens/diagnostico_screen.dart';
 import '../shared/utils/cerrar_sesion.dart';
 import '../shared/widgets/gradient_app_bar.dart';
 import '../shared/widgets/indicador_sincronizacion.dart';
@@ -32,6 +33,7 @@ class AdminDashboardScreen extends ConsumerWidget {
       _ModuloAdmin('Proveedores', Icons.local_shipping_outlined, const ProveedoresScreen()),
       _ModuloAdmin('Facturación', Icons.request_quote_outlined, const FacturacionScreen()),
       _ModuloAdmin('Impresora', Icons.print_outlined, const ConfiguracionImpresoraScreen()),
+      _ModuloAdmin('Diagnóstico', Icons.bug_report_outlined, const DiagnosticoScreen()),
     ];
 
     return Scaffold(
