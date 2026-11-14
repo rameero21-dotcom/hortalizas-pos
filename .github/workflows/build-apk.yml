@@ -189,6 +189,10 @@ jobs:
         shell: pwsh
         run: exit 1
 
+      - name: Agregar generacion de mapa de simbolos (.map), para poder ubicar crashes reportados por Windows
+        run: python .github/scripts/agregar_mapa_simbolos_windows.py
+        shell: pwsh
+
       - name: Instalar dependencias (con reintentos por si falla la red)
         run: |
           $exito = $false
@@ -261,6 +265,13 @@ jobs:
         if: steps.build_windows.outcome == 'failure'
         shell: pwsh
         run: exit 1
+
+      - name: Subir el mapa de simbolos (.map) como artefacto, para poder ubicar crashes reportados por Windows en esta compilacion exacta
+        uses: actions/upload-artifact@v4
+        with:
+          name: hortalizas-pos-mapa-simbolos
+          path: build\windows\x64\runner\Release\*.map
+          if-no-files-found: warn
 
       - name: Descargar el Visual C++ Redistributable (lo necesita el .exe para arrancar en una PC sin eso instalado)
         run: |
