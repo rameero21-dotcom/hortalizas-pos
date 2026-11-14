@@ -1,9 +1,4 @@
-e-mergeJavaRes
-build/cloud_firestore/intermediates/incremental/lintVitalAnalyzeRelease
-build/cloud_firestore/intermediates/navigation_json_for_aar
-build/cloud_firestore/intermediates/navigation_json_for_aar/release
-build/cloud_firestore/intermediates/compiled_local_resources
-build/cloud_firestore/intermediates/compiled_local_resources/release
+estore/intermediates/compiled_local_resources/release
 build/cloud_firestore/intermediates/aapt_friendly_merged_manifests
 build/cloud_firestore/intermediates/aapt_friendly_merged_manifests/release
 build/cloud_firestore/intermediates/merged_res_blame_folder
@@ -155,6 +150,8 @@ build/jni/intermediates/data_binding_layout_info_type_merge
 build/jni/intermediates/data_binding_layout_info_type_merge/release
 build/jni/intermediates/lint-cache
 build/jni/intermediates/lint-cache/lintVitalAnalyzeRelease
+build/jni/intermediates/merged_native_libs_blame
+build/jni/intermediates/merged_native_libs_blame/release
 build/jni/intermediates/annotation_processor_list
 build/jni/intermediates/annotation_processor_list/release
 build/jni/intermediates/packaged_res
@@ -900,6 +897,8 @@ build/app/generated/res
 build/app/generated/res/pngs
 build/app/generated/updated_navigation_xml
 build/app/generated/updated_navigation_xml/release
+build/app/generated/assets
+build/app/generated/assets/copyFlutterAssetsRelease
 build/app/generated/ap_generated_sources
 build/app/generated/ap_generated_sources/release
 build/app/generated/jniLibs
@@ -1049,6 +1048,8 @@ build/app/intermediates/lint-cache/lintVitalReportRelease
 build/app/intermediates/lint-cache/lintVitalAnalyzeRelease
 build/app/intermediates/linked_resources_proto_format
 build/app/intermediates/linked_resources_proto_format/release
+build/app/intermediates/merged_native_libs_blame
+build/app/intermediates/merged_native_libs_blame/release
 build/app/intermediates/annotation_processor_list
 build/app/intermediates/annotation_processor_list/release
 build/app/intermediates/compressed_assets
