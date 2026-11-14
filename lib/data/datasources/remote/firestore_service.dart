@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/constants/app_constants.dart';
 
@@ -99,9 +100,28 @@ class FirestoreService {
   /// esta protección, esa subida tardía pisaría el estado "cobrada" de
   /// vuelta a "pendiente" con un set/merge común. La transacción lee el
   /// estado actual en el servidor antes de decidir si escribir.
-  Future<void> crearVentaSiNoCobrada(String id, Map<String, dynamic> data) {
+  Future<void> crearVentaSiNoCobrada(String id, Map<String, dynamic> data) async {
     final doc = ventas.doc(id);
-    return _firestore.runTransaction((transaction) async {
+
+    // En Windows se evita runTransaction: un usuario reportó que la app
+    // se cerraba sola (crash nativo, access violation) poco después de
+    // arrancar, y el mapa de símbolos del build ubicó la dirección del
+    // crash dentro del código nativo del plugin de Firestore para
+    // Windows, justo en la función que maneja el resultado de una
+    // transacción — esta es la única transacción que usa la app. Sin
+    // una transacción real, queda una ventana de carrera chiquita entre
+    // leer y escribir (si justo en el medio otro dispositivo cobra la
+    // misma venta), pero es preferible a que la app entera se cierre.
+    if (Platform.isWindows) {
+      final snapshot = await doc.get();
+      if (snapshot.exists && (snapshot.data() as Map<String, dynamic>?)?['estado'] == 'cobrada') {
+        return; // ya la cobraron por otro camino; no tocar nada.
+      }
+      await doc.set(data, SetOptions(merge: true));
+      return;
+    }
+
+    await _firestore.runTransaction((transaction) async {
       final snapshot = await transaction.get(doc);
       if (snapshot.exists && (snapshot.data() as Map<String, dynamic>?)?['estado'] == 'cobrada') {
         return; // ya la cobraron por otro camino; no tocar nada.
