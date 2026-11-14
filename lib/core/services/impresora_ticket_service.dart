@@ -22,9 +22,20 @@ class ImpresoraTicketService {
   /// Lista los nombres de las impresoras instaladas en Windows, para
   /// que el usuario elija cuál es la térmica (ver pantalla de
   /// configuración de impresora en Admin).
-  static List<String> listarImpresoras() {
-    if (!Platform.isWindows) return [];
+  ///
+  /// Corre en un isolate aparte por la misma razón que imprimirRaw: si
+  /// el spooler de Windows tiene algún problema (una impresora de red
+  /// colgada, un driver viejo, una cola de impresión corrupta),
+  /// EnumPrinters puede quedarse esperando un buen rato — en el hilo
+  /// principal, eso congela toda la interfaz (y puede terminar
+  /// cerrando la app); en un isolate aparte, como mucho esa pantalla
+  /// tarda en cargar, sin trabar el resto.
+  static Future<List<String>> listarImpresoras() {
+    if (!Platform.isWindows) return Future.value([]);
+    return Isolate.run(_listarImpresorasSync);
+  }
 
+  static List<String> _listarImpresorasSync() {
     final pcbNeeded = calloc<DWORD>();
     final pcReturned = calloc<DWORD>();
     try {
