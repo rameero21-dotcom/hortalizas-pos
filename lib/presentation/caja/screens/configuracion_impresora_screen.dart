@@ -52,7 +52,7 @@ class _ConfiguracionImpresoraScreenState extends State<ConfiguracionImpresoraScr
       if (Platform.isWindows) {
         final guardada = await ConfigImpresora.obtenerNombreGuardado();
         if (!mounted) return;
-        final lista = ImpresoraTicketService.listarImpresoras();
+        final lista = await ImpresoraTicketService.listarImpresoras();
         setState(() {
           _impresorasWindows = lista;
           _impresoraSeleccionada = guardada != null && lista.contains(guardada) ? guardada : null;
